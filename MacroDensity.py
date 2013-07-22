@@ -8,6 +8,31 @@ def distance(a, b):
     # distance between points
     return numpy.sqrt(numpy.sum((a - b)**2))
 
+def calc_sphere_field(NGX,NGY,NGZ,lattice,Potential,centre_sphere,radius,cutoff_field,f):
+    """Calculate the electric field across the sphere in a number of directions"""
+    x_resolution = lattice[0,0]/NGX
+    y_resolution = lattice[0,0]/NGY
+    z_resolution = lattice[0,0]/NGZ
+    centre =  np.zeros(shape=(3))
+    rho_a =  np.zeros(shape=(3))
+    rho_a_prime =  np.zeros(shape=(3))
+    centre[0] = int(round(centroid[0]*NGX))
+    centre[1] = int(round(centroid[1]*NGY))
+    centre[2] = int(round(centroid[2]*NGZ))
+
+    for x in range (0,int(round(radius/x_resolution))):
+        for y in range (0, int(round((radius - (x*x_resolution)**3)/y_resolution))):
+            z = int(round((radius - x*(x_resolution)**3 - (y*y_resolution)**3)/z_resolution))
+	    rho_a = Potential[centre[0]+x-int((centre[0]+x)/NGX)*NGX,centre[1]+y-int((centre[1]+y)/NGY)*NGY,centre[2]+z-int((centre[2]+z)/NGZ)*NGZ]
+	    rho_a_prime = Potential[centre[0]-x+int((centre[0]-x)/NGX)*NGX,centre[1]-y+int((centre[1]-y)/NGY)*NGY,centre[2]-z+int((centre[2]-z)/NGZ)*NGZ]
+	    Field = linalg.norm(rho_a - rho_a_prime)/(2*radius)
+
+	    if Field > cutoff_field:
+ 	        f.write("Warning, field across sphere exceeds cutoff :")
+	        f.write(str(Field))
+		f.write('\n')
+	        print("Warning, field across sphere exceeds cutoff :", Field)
+
 def macro_av(NGX,NGY,NGZ,Plane_Potential_New):
     # Macroscopic Averaging
     #
@@ -89,9 +114,10 @@ def spher_av(NGX,NGY,NGZ,Potential,axis,centroid,lattice):
      spherical_average[z,1] = numpy.var(sphere_pot_list)
     return spherical_average
 
-def point_sphere(NGX,NGY,NGZ,Potential,axis,centroid,lattice):
+def point_sphere(NGX,NGY,NGZ,Potential,axis,centroid,lattice,f):
     """Calculates the spherical average, only at given points""" 
     radius = float(raw_input("What radius would you like for spherical averaging? "))
+    cutoff_field = float(raw_input("What is the cutoff value for electric field across the sphere? (V/A) "))
     centre_sphere = numpy.zeros(shape=(3))
     point = numpy.zeros(shape=(3))
     dpoint = numpy.zeros(shape=(3))
@@ -131,6 +157,7 @@ def point_sphere(NGX,NGY,NGZ,Potential,axis,centroid,lattice):
          if separation <= radius:
           sphere_pot_list.append(Potential[i,j,k])
 
+    field = calc_sphere_field(NGX,NGY,NGZ,lattice,Potential,centre_sphere,radius,cutoff_field,f)
     spherical_average[0] = numpy.mean(sphere_pot_list)
     spherical_average[1] = numpy.var(sphere_pot_list)
 
@@ -149,6 +176,7 @@ def list_2_matrix(Potential,NGX,NGY,NGZ):
        Potential_grid[k,j,i] = Potential[k+(j)*NGX+(i)*NGY*NGX]
 
     return Potential_grid
+
 def planar_av(NGX,NGY,NGZ,Potential):
     # Planar average potential
     i = 0
@@ -273,28 +301,44 @@ if average_type != "Po":
 if average_type != "P":
  Potential_grid = list_2_matrix(Potential,NGX,NGY,NGZ)
 
-# Section for re-centering the plot, so they can be consistent
-Centre = float(raw_input('Where do you want the plot centred?  '))
-# How many bins do we need to shift by?
-bin_shift =int((lattice[2,2]/2 - Centre) / (lattice[2,2] / NGZ))
 if average_type == 'P':
+ f = open('Planar_Av.dat','w')
+ f.write('Planar Average of Potential \n')
  Plane_Potential = planar_av(NGX,NGY,NGZ,Potential)
+ # Section for re-centering the plot, so they can be consistent
+ Centre = float(raw_input('Where do you want the plot centred?  '))
+ # How many bins do we need to shift by?
+ bin_shift =int((lattice[2,2]/2 - Centre) / (lattice[2,2] / NGZ))
  # Now move the potentials by the required shift
  Plane_Potential_New = shift_plot(Plane_Potential,NGZ,bin_shift)
+ np.savetxt(f,Plane_Potential_New)
  # Now get the macroscopic average
+ f.write('Macroscopic Average of Potential \n')
  Macro_Potential = macro_av(NGX,NGY,NGZ,Plane_Potential_New)
+ np.savetxt(f,Macro_Potential)
  Vacuum_potential = Macro_Potential[0]
  Centre_potential = Macro_Potential[NGZ/2]
+ f.write("Average bulk potential at centre of slab: ")
+ f.write(Centre_potential)
+ f.write('\n')
+ f.write("Average potential of vacuum : vacuum_potential: ")
+ f.write(Vacuum_potential)
+ f.write('\n')
 elif average_type == 'S':
+ f = open('Spherical_Av.dat','w')
+ f.write('Spherical Average of Potential \n')
  spherical_average=numpy.zeros(shape=(NGZ,2))
  spherical_av_potential=numpy.zeros(shape=(NGZ))
  centroid = numpy.zeros(shape=(2))
  centroid[0] = raw_input("a value on the plane to centre the sphere (0 - 1) ")
  centroid[1] = raw_input("b value on the plane to centre the sphere (0 - 1) ")
  spherical_average = spher_av(NGX,NGY,NGZ,Potential_grid,axis,centroid,lattice)
+ np.savetxt(f,spher_av)
  for i in range (0,NGZ):
   spherical_av_potential[i] = spherical_average[i,0]
 elif average_type == 'Po':
+ f = open('Spherical_Av.dat','w')
+ f.write('Spherical Average of Potential \n')
  number_points = raw_input("How many points would you like to consider? ")
  for i in range (0,int(number_points)):
   spherical_average=numpy.zeros(shape=(NGZ,2))
@@ -303,7 +347,12 @@ elif average_type == 'Po':
   centroid[0] = raw_input("a lattice value to centre the sphere (0 - 1) ")
   centroid[1] = raw_input("b lattice value to centre the sphere (0 - 1) ")
   centroid[2] = raw_input("c lattice value to centre the sphere (0 - 1) ")
-  spherical_average = point_sphere(NGX,NGY,NGZ,Potential_grid,axis,centroid,lattice)
+  f.write('Spherical Average of Potential at point \n')
+  np.savetxt(f,centroid)
+  f.write('\n')
+  spherical_average = point_sphere(NGX,NGY,NGZ,Potential_grid,axis,centroid,lattice,f)
+  f.write("   Average    Variance \n")
+  np.savetxt(f,spherical_average)
   print("   Average    Variance")
   print(spherical_average)
   i = i + 1
