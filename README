@@ -1,6 +1,11 @@
 Code : MacroDensity.py
 Author : Keith Butler
 Description :
-Reads in a VASP LOCPOT file and plots the density in a number of ways. It can plot Planar average, macroscopic average or spherical average for any of the x,y or z axes.
+Reads in a VASP LOCPOT file and plots the density in a number of ways. It can plot Planar average, macroscopic average or spherical average for any of the x,y or z axes. Can do the spehrical averaging either along a line (S) or at specified points (Po). 
+
 Execution
 pyhton python MacroDensity.py
+
+TODO
+Add in feature to calculate the Field across the sphere.
+Write the output to actual files

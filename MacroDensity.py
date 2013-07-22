@@ -88,6 +88,55 @@ def spher_av(NGX,NGY,NGZ,Potential,axis,centroid,lattice):
      spherical_average[z,0] = numpy.mean(sphere_pot_list)
      spherical_average[z,1] = numpy.var(sphere_pot_list)
     return spherical_average
+
+def point_sphere(NGX,NGY,NGZ,Potential,axis,centroid,lattice):
+    """Calculates the spherical average, only at given points""" 
+    radius = float(raw_input("What radius would you like for spherical averaging? "))
+    centre_sphere = numpy.zeros(shape=(3))
+    point = numpy.zeros(shape=(3))
+    dpoint = numpy.zeros(shape=(3))
+    sphere_pot = numpy.zeros(shape=(NGZ))
+    spherical_average=numpy.zeros(shape=(2))
+    sphere_pot_list = []
+    centre_sphere[0] = lattice[0,0] * centroid[0]
+    centre_sphere[1] = lattice[1,1] * centroid[1]
+    centre_sphere[2] = lattice[2,2] * centroid[2]
+# If the centre is more than radius away from the edge, restrict the search
+    if centre_sphere[2] > radius and centre_sphere[2] < lattice[2,2] - radius:
+     for i in range (0, NGX):
+      for j in range (0, NGY):
+       for k in range (int((centre_sphere[2]-radius)*NGZ/lattice[2,2]), int((centre_sphere[2]+radius)*NGZ/lattice[2,2])):
+        point[0] = lattice[0,0]/NGX * i
+        point[1] = lattice[1,1]/NGY * j
+        point[2] = lattice[2,2]/NGZ * k
+        separation = distance(point,centre_sphere)
+        if separation <= radius:
+         sphere_pot_list.append(Potential[i,j,k])
+
+    else:
+     for i in range (0, NGX):
+      for j in range (0, NGY):
+       for k in range (0, NGZ):
+         point[0] = lattice[0,0]/NGX * i
+         point[1] = lattice[1,1]/NGY * j
+         point[2] = lattice[2,2]/NGZ * k
+# Minimum image convention
+         dpoint[0] = point[0] - centre_sphere[0]
+         dpoint[0] = dpoint[0] - round(dpoint[0]/lattice[0,0])*lattice[0,0]
+         dpoint[1] = point[1] - centre_sphere[1]
+         dpoint[1] = dpoint[1] - round(dpoint[1]/lattice[1,1])*lattice[1,1]
+         dpoint[2] = point[2] - centre_sphere[2]
+         dpoint[2] = dpoint[2] - round(dpoint[2]/lattice[2,2])*lattice[2,2]
+         separation = numpy.sqrt(dpoint[0]**2 + dpoint[1]**2 + dpoint[2]**2)
+         if separation <= radius:
+          sphere_pot_list.append(Potential[i,j,k])
+
+    spherical_average[0] = numpy.mean(sphere_pot_list)
+    spherical_average[1] = numpy.var(sphere_pot_list)
+
+    return spherical_average
+
+
 def list_2_matrix(Potential,NGX,NGY,NGZ):
     # Convert the linear list of numbers to "cartesinan" grid
     i = 0
@@ -203,23 +252,26 @@ for line in lines:
    print "Reading potetial, at point", k
 
 # Start processing the data
-average_type=raw_input("Which kind of average would you like? (P)lanar/(S)pherical ")
-axis = raw_input("Which axis do you want to plot along? (X/Y/Z)")
+average_type=raw_input("Which kind of average would you like? (P)lanar/(S)pherical/(Po)int spherical average ")
+if average_type != "Po":
+ axis = raw_input("Which axis do you want to plot along? (X/Y/Z)")
 
 # Default axis is set to Z, if X or Y are required we need to re-jig things.
 #Since the code was all written for Z I just rename the different parameters.
 #Its a dirty little fix, and I like it!
-if axis == 'Y':
- tmp = NGZ ; NGZ = NGY ; NGY = NGX ; NGX = tmp
- tmp = lattice[2,2] ; lattice[2,2] = lattice[1,1] ; lattice[1,1] = lattice[0,0]
- lattice[0,0] = tmp
-elif axis == 'X':
- tmp = NGZ ; NGZ = NGX ; NGX = NGY ; NGY = tmp
- tmp = lattice[2,2] ; lattice[2,2] = lattice[0,0] ; lattice[0,0] = lattice[1,1]
- lattice[1,1] = tmp
+ if axis == 'Y':
+  tmp = NGZ ; NGZ = NGY ; NGY = NGX ; NGX = tmp
+  tmp = lattice[2,2] ; lattice[2,2] = lattice[1,1] ; lattice[1,1] = lattice[0,0]
+  lattice[0,0] = tmp
+ elif axis == 'X':
+  tmp = NGZ ; NGZ = NGX ; NGX = NGY ; NGY = tmp
+  tmp = lattice[2,2] ; lattice[2,2] = lattice[0,0] ; lattice[0,0] = lattice[1,1]
+  lattice[1,1] = tmp
 
 #3 Convert the data to a more friendly format
-Potential_grid = list_2_matrix(Potential,NGX,NGY,NGZ)
+
+if average_type != "P":
+ Potential_grid = list_2_matrix(Potential,NGX,NGY,NGZ)
 
 # Section for re-centering the plot, so they can be consistent
 Centre = float(raw_input('Where do you want the plot centred?  '))
@@ -242,7 +294,19 @@ elif average_type == 'S':
  spherical_average = spher_av(NGX,NGY,NGZ,Potential_grid,axis,centroid,lattice)
  for i in range (0,NGZ):
   spherical_av_potential[i] = spherical_average[i,0]
-
+elif average_type == 'Po':
+ number_points = raw_input("How many points would you like to consider? ")
+ for i in range (0,int(number_points)):
+  spherical_average=numpy.zeros(shape=(NGZ,2))
+  spherical_av_potential=numpy.zeros(shape=(NGZ))
+  centroid = numpy.zeros(shape=(3))
+  centroid[0] = raw_input("a lattice value to centre the sphere (0 - 1) ")
+  centroid[1] = raw_input("b lattice value to centre the sphere (0 - 1) ")
+  centroid[2] = raw_input("c lattice value to centre the sphere (0 - 1) ")
+  spherical_average = point_sphere(NGX,NGY,NGZ,Potential_grid,axis,centroid,lattice)
+  print("   Average    Variance")
+  print(spherical_average)
+  i = i + 1
 # Z axis values
 ZAxis = numpy.zeros(shape=(NGZ))
 i = 0
@@ -255,32 +319,33 @@ while (i < NGZ):
 #
 #
 # MATLAB style
-xticklines = getp(gca(), 'xticklines')
-yticklines = getp(gca(), 'yticklines')
-xgridlines = getp(gca(), 'xgridlines')
-ygridlines = getp(gca(), 'ygridlines')
-xticklabels = getp(gca(), 'xticklabels')
-ygridlines = getp(gca(), 'ygridlines')
-xticklabels = getp(gca(), 'xticklabels')
-yticklabels = getp(gca(), 'yticklabels')
-
-setp(xticklines, 'linewidth', 3)
-setp(yticklines, 'linewidth', 3)
+if average_type != "Po":
+ xticklines = getp(gca(), 'xticklines')
+ yticklines = getp(gca(), 'yticklines')
+ xgridlines = getp(gca(), 'xgridlines')
+ ygridlines = getp(gca(), 'ygridlines')
+ xticklabels = getp(gca(), 'xticklabels')
+ ygridlines = getp(gca(), 'ygridlines')
+ xticklabels = getp(gca(), 'xticklabels')
+ yticklabels = getp(gca(), 'yticklabels')
+ 
+ setp(xticklines, 'linewidth', 3)
+ setp(yticklines, 'linewidth', 3)
 #setp(xgridlines, 'linestyle', '-')
 #setp(ygridlines, 'linestyle', '-')
-setp(yticklabels, 'color', 'Black', fontsize='medium')
-setp(xticklabels, 'color', 'Black', fontsize='medium')
+ setp(yticklabels, 'color', 'Black', fontsize='medium')
+ setp(xticklabels, 'color', 'Black', fontsize='medium')
 
 
-plt.xlabel('$z \AA$ ',fontsize='large')
-plt.grid(True)
-if average_type == 'P':
- plt.ylabel('$V_{planar}(z)$  $eV \AA^{-2} $',fontsize='large')
- plt.plot(ZAxis,Macro_Potential,ZAxis, Plane_Potential_New)
-elif average_type == 'S':
- plt.ylabel('$V_{spherical}(z)$  $eV \AA^{-2} $',fontsize='large')
- plt.plot(ZAxis,spherical_av_potential)
+ plt.xlabel('$z \AA$ ',fontsize='large')
+ plt.grid(True)
+ if average_type == 'P':
+  plt.ylabel('$V_{planar}(z)$  $eV \AA^{-2} $',fontsize='large')
+  plt.plot(ZAxis,Macro_Potential,ZAxis, Plane_Potential_New)
+ elif average_type == 'S':
+  plt.ylabel('$V_{spherical}(z)$  $eV \AA^{-2} $',fontsize='large')
+  plt.plot(ZAxis,spherical_av_potential)
 
-plt.show()
-print("Central bulk potential: ",Centre_potential)
-print("Vacuum potential: ",Vacuum_potential)
+ plt.show()
+ print("Central bulk potential: ",Centre_potential)
+ print("Vacuum potential: ",Vacuum_potential)
