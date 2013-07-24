@@ -8,30 +8,53 @@ def distance(a, b):
     # distance between points
     return numpy.sqrt(numpy.sum((a - b)**2))
 
-def calc_sphere_field(NGX,NGY,NGZ,lattice,Potential,centre_sphere,radius,cutoff_field,f):
+def cent_potential(NGX,NGY,NGZ,P,centroid,latt):
+    """Calculate the potential at the sphere centre"""
+    centre = 0
+    lat_a = np.sqrt(sum(latt[0,:]**2))
+    lat_b = np.sqrt(sum(latt[1,:]**2))
+    lat_c = np.sqrt(sum(latt[2,:]**2))
+    x_res = lat_a/NGX
+    y_res = lat_b/NGY
+    z_res = lat_c/NGZ
+    centre = float(P[centroid[0]/x_res*NGY*NGZ+centroid[1]/y_res*NGZ+centroid[2]/z_res,3]) 
+    return centre
+
+def calc_sphere_field(NGX,NGY,NGZ,latt,P,centre,r,cutoff_field,f):
     """Calculate the electric field across the sphere in a number of directions"""
-    x_resolution = lattice[0,0]/NGX
-    y_resolution = lattice[0,0]/NGY
-    z_resolution = lattice[0,0]/NGZ
-    centre =  np.zeros(shape=(3))
-    rho_a =  np.zeros(shape=(3))
-    rho_a_prime =  np.zeros(shape=(3))
-    centre[0] = int(round(centroid[0]*NGX))
-    centre[1] = int(round(centroid[1]*NGY))
-    centre[2] = int(round(centroid[2]*NGZ))
+    lat_a = np.sqrt(sum(latt[0,:]**2))
+    lat_b = np.sqrt(sum(latt[1,:]**2))
+    lat_c = np.sqrt(sum(latt[2,:]**2))
+    x_res = lat_a/NGX
+    y_res = lat_b/NGY
+    z_res = lat_c/NGZ
+    for xa in range (0,int(r/x_res)):
+       x = xa*x_res
+       for ya in range (0,int(np.sqrt(r**2 - x**2)/y_res)):
+             x1 = xa*x_res
+	     y1 = ya*y_res
+	     za = np.sqrt(r**2 - x1**2 - y1**2)
+  	     z1 = za*z_res
+             x = centre[0] + x1; y = centre[1] + y1;z = centre[2] + z1
+             xp = centre[0] - x1; yp = centre[1] - y1; zp = centre[2] - z1
 
-    for x in range (0,int(round(radius/x_resolution))):
-        for y in range (0, int(round((radius - (x*x_resolution)**3)/y_resolution))):
-            z = int(round((radius - x*(x_resolution)**3 - (y*y_resolution)**3)/z_resolution))
-	    rho_a = Potential[centre[0]+x-int((centre[0]+x)/NGX)*NGX,centre[1]+y-int((centre[1]+y)/NGY)*NGY,centre[2]+z-int((centre[2]+z)/NGZ)*NGZ]
-	    rho_a_prime = Potential[centre[0]-x+int((centre[0]-x)/NGX)*NGX,centre[1]-y+int((centre[1]-y)/NGY)*NGY,centre[2]-z+int((centre[2]-z)/NGZ)*NGZ]
-	    Field = linalg.norm(rho_a - rho_a_prime)/(2*radius)
-
-	    if Field > cutoff_field:
- 	        f.write("Warning, field across sphere exceeds cutoff :")
-	        f.write(str(Field))
-		f.write('\n')
-	        print("Warning, field across sphere exceeds cutoff :", Field)
+       	     x = x - int(x/lat_a)*lat_a - np.round(min(x, 0.5)-0.5)*lat_a
+       	     y = y - int(y/lat_b)*lat_b - np.round(min(y, 0.5)-0.5)*lat_b
+       	     z = z - int(z/lat_c)*lat_c - np.round(min(z, 0.5)-0.5)*lat_c
+       	     xp = xp - int(xp/lat_a)*lat_a - np.round(min(xp, 0.5)-0.5)*lat_a
+       	     yp = yp - int(yp/lat_b)*lat_b - np.round(min(yp, 0.5)-0.5)*lat_b
+       	     zp = zp - int(zp/lat_c)*lat_c - np.round(min(zp, 0.5)-0.5)*lat_c
+	  
+	      
+	     V1=np.zeros(shape=(3));V2=np.zeros(shape=(3))
+             x = int(x/x_res); y = int(y/y_res); z = int(z/z_res)
+             xp = int(round(xp/x_res)); yp = int(round(yp/y_res)); zp = int(round(zp/z_res))
+	     rho = P[x*NGY*NGZ+y*NGZ+z-int((xp*NGY*NGZ+yp*NGZ/len(P))),3]
+	     rhop = P[xp*NGY*NGZ+yp*NGZ-int((xp*NGY*NGZ+yp*NGZ/len(P)))+zp,3]
+             Field = (rho - rhop)/(2*r)
+	     print("Field Calculation")
+             print rho, rhop
+	     print(Field)
 
 def macro_av(NGX,NGY,NGZ,Plane_Potential_New):
     # Macroscopic Averaging
@@ -67,97 +90,59 @@ def macro_av(NGX,NGY,NGZ,Plane_Potential_New):
     return Macro_Potential_B
 
 # Sphere_Potential = spher_av(NGX,NGY,NGZ,Potential_grid,axis,centroid,lattice)
-def spher_av(NGX,NGY,NGZ,Potential,axis,centroid,lattice):
-    # Spherical averaging
+def spher_av(P,centroid,latt,NGZ):
+
     radius = float(raw_input("What radius would you like for spherical averaging? "))
     centre_sphere = numpy.zeros(shape=(3))
     point = numpy.zeros(shape=(3))
     dpoint = numpy.zeros(shape=(3))
     sphere_pot = numpy.zeros(shape=(NGZ))
     spherical_average=numpy.zeros(shape=(NGZ,2))
-    for z in range (0, NGZ):
+    lat_a = sum(latt[0,:]**2)
+    lat_b = sum(latt[1,:]**2)
+    lat_c = sum(latt[2,:]**2)
+    for z in range (NGZ):
      sphere_pot_list = []
-     centre_sphere[0] = lattice[0,0] * centroid[0]
-     centre_sphere[1] = lattice[1,1] * centroid[1]
-     centre_sphere[2] = lattice[2,2]/NGZ * z
-# If the centre is more than radius away from the edge, restrict the search
-     if z*lattice[2,2]/NGZ > radius and z*lattice[2,2]/NGZ < lattice[2,2] - radius:
-      for i in range (0, NGX):
-       for j in range (0, NGY):
-        for k in range (z-int(radius*NGZ/lattice[2,2]), z+int(radius*NGZ/lattice[2,2])):
-         point[0] = lattice[0,0]/NGX * i
-         point[1] = lattice[1,1]/NGY * j
-         point[2] = lattice[2,2]/NGZ * k 
-         separation = distance(point,centre_sphere) 
-         if separation <= radius:
-          sphere_pot_list.append(Potential[i,j,k])
-     else:
-      for i in range (0, NGX):
-       for j in range (0, NGY):
-        for k in range (0, NGZ):
-	 point[0] = lattice[0,0]/NGX * i
-	 point[1] = lattice[1,1]/NGY * j
-	 point[2] = lattice[2,2]/NGZ * k
-# Minimum image convention
-         dpoint[0] = point[0] - centre_sphere[0]
-         dpoint[0] = dpoint[0] - round(dpoint[0]/lattice[0,0])*lattice[0,0]
-         dpoint[1] = point[1] - centre_sphere[1]
-         dpoint[1] = dpoint[1] - round(dpoint[1]/lattice[1,1])*lattice[1,1]
-         dpoint[2] = point[2] - centre_sphere[2]
-         dpoint[2] = dpoint[2] - round(dpoint[2]/lattice[2,2])*lattice[2,2]
- 	 separation = numpy.sqrt(dpoint[0]**2 + dpoint[1]**2 + dpoint[2]**2)
-         if separation <= radius:
-          sphere_pot_list.append(Potential[i,j,k])
-    
-     print(z, numpy.mean(sphere_pot_list), numpy.var(sphere_pot_list))
+     centre_sphere[0] = centroid[0]
+     centre_sphere[1] = centroid[1]
+     centre_sphere[2] = latt[2,2]/NGZ * z
+     for i in range (len(P)):
+      point[0] = float(P[i,0]) - int((P[i,0]-centroid[0])/lat_a)*lat_a
+      point[1] = float(P[i,1]) - int((P[i,1]-centroid[1])/lat_b)*lat_b
+      point[2] = float(P[i,2]) - int((P[i,2]-centre_sphere[2])/lat_c)*lat_c
+      separation = distance(point,centre_sphere)
+      if separation <= radius:
+#	  print(separation,radius,P[i,3])
+          sphere_pot_list.append(P[i,3])
+
+
+#     print(z, numpy.mean(sphere_pot_list), numpy.var(sphere_pot_list))
      spherical_average[z,0] = numpy.mean(sphere_pot_list)
      spherical_average[z,1] = numpy.var(sphere_pot_list)
+
     return spherical_average
 
-def point_sphere(NGX,NGY,NGZ,Potential,axis,centroid,lattice,f):
+def point_sphere(NGX,NGY,NGZ,P,axis,centroid,latt,f):
     """Calculates the spherical average, only at given points""" 
+    lat_a = sum(latt[0,:]**2)
+    lat_b = sum(latt[1,:]**2)
+    lat_c = sum(latt[2,:]**2)
     radius = float(raw_input("What radius would you like for spherical averaging? "))
     cutoff_field = float(raw_input("What is the cutoff value for electric field across the sphere? (V/A) "))
-    centre_sphere = numpy.zeros(shape=(3))
-    point = numpy.zeros(shape=(3))
-    dpoint = numpy.zeros(shape=(3))
-    sphere_pot = numpy.zeros(shape=(NGZ))
     spherical_average=numpy.zeros(shape=(2))
     sphere_pot_list = []
-    centre_sphere[0] = lattice[0,0] * centroid[0]
-    centre_sphere[1] = lattice[1,1] * centroid[1]
-    centre_sphere[2] = lattice[2,2] * centroid[2]
+    point = np.zeros(shape=(3))
 # If the centre is more than radius away from the edge, restrict the search
-    if centre_sphere[2] > radius and centre_sphere[2] < lattice[2,2] - radius:
-     for i in range (0, NGX):
-      for j in range (0, NGY):
-       for k in range (int((centre_sphere[2]-radius)*NGZ/lattice[2,2]), int((centre_sphere[2]+radius)*NGZ/lattice[2,2])):
-        point[0] = lattice[0,0]/NGX * i
-        point[1] = lattice[1,1]/NGY * j
-        point[2] = lattice[2,2]/NGZ * k
-        separation = distance(point,centre_sphere)
-        if separation <= radius:
-         sphere_pot_list.append(Potential[i,j,k])
+    for i in range (len(P)):
+     point[0] = float(P[i,0]) - int((P[i,0]-centroid[0])/lat_a)*lat_a
+     point[1] = float(P[i,1]) - int((P[i,1]-centroid[1])/lat_b)*lat_b
+     point[2] = float(P[i,2]) - int((P[i,2]-centroid[2])/lat_c)*lat_c
+     separation = distance(point,centroid)
+     if separation <= radius:
+         sphere_pot_list.append(P[i,3])
+    
 
-    else:
-     for i in range (0, NGX):
-      for j in range (0, NGY):
-       for k in range (0, NGZ):
-         point[0] = lattice[0,0]/NGX * i
-         point[1] = lattice[1,1]/NGY * j
-         point[2] = lattice[2,2]/NGZ * k
-# Minimum image convention
-         dpoint[0] = point[0] - centre_sphere[0]
-         dpoint[0] = dpoint[0] - round(dpoint[0]/lattice[0,0])*lattice[0,0]
-         dpoint[1] = point[1] - centre_sphere[1]
-         dpoint[1] = dpoint[1] - round(dpoint[1]/lattice[1,1])*lattice[1,1]
-         dpoint[2] = point[2] - centre_sphere[2]
-         dpoint[2] = dpoint[2] - round(dpoint[2]/lattice[2,2])*lattice[2,2]
-         separation = numpy.sqrt(dpoint[0]**2 + dpoint[1]**2 + dpoint[2]**2)
-         if separation <= radius:
-          sphere_pot_list.append(Potential[i,j,k])
-
-    field = calc_sphere_field(NGX,NGY,NGZ,lattice,Potential,centre_sphere,radius,cutoff_field,f)
+    field = calc_sphere_field(NGX,NGY,NGZ,latt,P,centroid,radius,cutoff_field,f)
     spherical_average[0] = numpy.mean(sphere_pot_list)
     spherical_average[1] = numpy.var(sphere_pot_list)
 
@@ -165,7 +150,7 @@ def point_sphere(NGX,NGY,NGZ,Potential,axis,centroid,lattice,f):
 
 
 def list_2_matrix(Potential,NGX,NGY,NGZ):
-    # Convert the linear list of numbers to "cartesinan" grid
+    # Convert the linear list of numbers to a grid
     i = 0
     j = 0
     k = 0
@@ -176,6 +161,24 @@ def list_2_matrix(Potential,NGX,NGY,NGZ):
        Potential_grid[k,j,i] = Potential[k+(j)*NGX+(i)*NGY*NGX]
 
     return Potential_grid
+
+def grid_2_xyz(P,lattice):
+    """Convert the cell shaped grid to pure cartesian"""
+    P_xyz = np.zeros(shape=(P.shape[0]*P.shape[1]*P.shape[2],4))
+    fa=sqrt(sum(lattice[0,:]**2))/P.shape[0]
+    fb=sqrt(sum(lattice[1,:]**2))/P.shape[1]
+    fc=sqrt(sum(lattice[2,:]**2))/P.shape[2]
+
+    for i in range (P.shape[0]):
+        for j in range (P.shape[1]):
+            for k in range (P.shape[2]):
+                index = k+j*P.shape[2]+i*P.shape[2]*P.shape[1]
+ 		P_xyz[index,0] = float(i*fa)
+ 		P_xyz[index,1] = float(j*fb)
+ 		P_xyz[index,2] = float(k*fc)
+		P_xyz[index,3] = float(P[i,j,k])
+
+    return P_xyz
 
 def planar_av(NGX,NGY,NGZ,Potential):
     # Planar average potential
@@ -229,6 +232,8 @@ for line in lines:
   continue
  if len(inp) > 0:
   i = i+1
+ if i == 2:
+  scale_factor = float(inp[0])
  if i >= 3 and i < 6:
   lattice[i-3,:]=inp[:]
  if i == 6:
@@ -243,7 +248,11 @@ for line in lines:
   num_atoms=sum(num_type)
  if i == 8:
   coord_type = inp
- 
+
+for i in range(2):
+ for j in range(2):
+  lattice[i,j] = lattice[i,j]*scale_factor
+  
 Surface = sum(numpy.cross(lattice[0,:],lattice[1,:]))
 # Restart reading to get the coordinates...it's just easier this way!
 i=0
@@ -269,7 +278,7 @@ for line in lines:
   k = 0
   Potential = numpy.zeros(shape=(NGX*NGY*NGZ))
 # Read in the potential data
- if i > num_atoms + 9 and i < num_atoms + 9 + NGX*NGY*NGZ/5:
+ if i > num_atoms + 9 and i < num_atoms + 10 + NGX*NGY*NGZ/5:
   Potential[k]   = inp[0]
   Potential[k+1] = inp[1]
   Potential[k+2] = inp[2]
@@ -278,9 +287,16 @@ for line in lines:
   k = k + 5
   if math.fmod(k,100000) == 0:
    print "Reading potetial, at point", k
+  
 
 # Start processing the data
 average_type=raw_input("Which kind of average would you like? (P)lanar/(S)pherical/(Po)int spherical average ")
+
+#3 Convert the data to a more friendly format
+
+if average_type != "P":
+ Potential_grid = list_2_matrix(Potential,NGX,NGY,NGZ)
+ Potential_grid = grid_2_xyz(Potential_grid,lattice)
 if average_type != "Po":
  axis = raw_input("Which axis do you want to plot along? (X/Y/Z)")
 
@@ -296,10 +312,6 @@ if average_type != "Po":
   tmp = lattice[2,2] ; lattice[2,2] = lattice[0,0] ; lattice[0,0] = lattice[1,1]
   lattice[1,1] = tmp
 
-#3 Convert the data to a more friendly format
-
-if average_type != "P":
- Potential_grid = list_2_matrix(Potential,NGX,NGY,NGZ)
 
 if average_type == 'P':
  f = open('Planar_Av.dat','w')
@@ -330,9 +342,9 @@ elif average_type == 'S':
  spherical_average=numpy.zeros(shape=(NGZ,2))
  spherical_av_potential=numpy.zeros(shape=(NGZ))
  centroid = numpy.zeros(shape=(2))
- centroid[0] = raw_input("a value on the plane to centre the sphere (0 - 1) ")
- centroid[1] = raw_input("b value on the plane to centre the sphere (0 - 1) ")
- spherical_average = spher_av(NGX,NGY,NGZ,Potential_grid,axis,centroid,lattice)
+ centroid[0] = raw_input("a value on the plane to centre the sphere (Cartesian) ")
+ centroid[1] = raw_input("b value on the plane to centre the sphere (Cartesian) ")
+ spherical_average = spher_av(Potential_grid,centroid,lattice,NGZ)
  np.savetxt(f,spher_av)
  for i in range (0,NGZ):
   spherical_av_potential[i] = spherical_average[i,0]
@@ -344,17 +356,18 @@ elif average_type == 'Po':
   spherical_average=numpy.zeros(shape=(NGZ,2))
   spherical_av_potential=numpy.zeros(shape=(NGZ))
   centroid = numpy.zeros(shape=(3))
-  centroid[0] = raw_input("a lattice value to centre the sphere (0 - 1) ")
-  centroid[1] = raw_input("b lattice value to centre the sphere (0 - 1) ")
-  centroid[2] = raw_input("c lattice value to centre the sphere (0 - 1) ")
+  centroid[0] = raw_input("a lattice value to centre the sphere (Cartesian) ")
+  centroid[1] = raw_input("b lattice value to centre the sphere (Cartesian) ")
+  centroid[2] = raw_input("c lattice value to centre the sphere (Cartesian) ")
   f.write('Spherical Average of Potential at point \n')
   np.savetxt(f,centroid)
   f.write('\n')
   spherical_average = point_sphere(NGX,NGY,NGZ,Potential_grid,axis,centroid,lattice,f)
+  central_potential = cent_potential(NGX,NGY,NGZ,Potential_grid,centroid,lattice)
   f.write("   Average    Variance \n")
   np.savetxt(f,spherical_average)
-  print("   Average    Variance")
-  print(spherical_average)
+  print(" Centre   Average    Variance")
+  print(central_potential, spherical_average)
   i = i + 1
 # Z axis values
 ZAxis = numpy.zeros(shape=(NGZ))
