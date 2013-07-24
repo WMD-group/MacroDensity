@@ -46,7 +46,6 @@ def calc_sphere_field(NGX,NGY,NGZ,latt,P,centre,r,cutoff_field,f):
        	     zp = zp - int(zp/lat_c)*lat_c - np.round(min(zp, 0.5)-0.5)*lat_c
 	  
 	      
-	     V1=np.zeros(shape=(3));V2=np.zeros(shape=(3))
              x = int(x/x_res); y = int(y/y_res); z = int(z/z_res)
              xp = int(round(xp/x_res)); yp = int(round(yp/y_res)); zp = int(round(zp/z_res))
 	     rho = P[x*NGY*NGZ+y*NGZ+z-int((xp*NGY*NGZ+yp*NGZ/len(P))),3]
@@ -55,6 +54,10 @@ def calc_sphere_field(NGX,NGY,NGZ,latt,P,centre,r,cutoff_field,f):
 	     print("Field Calculation")
              print rho, rhop
 	     print(Field)
+	     if Field >= cutoff_field:
+	      f.write("Caution, field exceeds cutoff: ")
+	      f.write(str(Field))
+	      f.write("\n")
 
 def macro_av(NGX,NGY,NGZ,Plane_Potential_New):
     # Macroscopic Averaging
