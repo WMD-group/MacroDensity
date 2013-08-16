@@ -121,12 +121,12 @@ def spher_av(P,centroid,latt,NGZ):
 
     return spherical_average
 
-def point_sphere(NGX,NGY,NGZ,P,axis,centroid,latt,f):
+def point_sphere(NGX,NGY,NGZ,P,axis,centroid,latt,f,r):
     """Calculates the spherical average, only at given points""" 
     lat = lattice_vectors(latt)
+    print centroid
     Field=np.zeros(shape=(3))
-    r = float(raw_input("What radius would you like for spherical averaging? "))
-    cutoff_field = float(raw_input("What is the cutoff value for electric field across the sphere? (V/A) "))
+#    cutoff_field = float(raw_input("What is the cutoff value for electric field across the sphere? (V/A) "))
 # Set the limits of the box for searching, the +1 ensures that the sphere is totally enclosed
     xr = int(NGX*r/lat[0]) + 1; yr = int(NGY*r/lat[1]) + 1; zr = int(NGZ*r/lat[2]) + 1
     spherical_average=numpy.zeros(shape=(3))
@@ -316,7 +316,7 @@ for line in lines:
   if math.fmod(k,100000) == 0:
    print "Reading potetial, at point", k
   
-
+print ("Average of the potential = ",numpy.average(Potential))
 # Start processing the data
 average_type=raw_input("Which kind of average would you like? (P)lanar/(S)pherical/(Po)int spherical average ")
 
@@ -367,21 +367,29 @@ if average_type == 'P':
 elif average_type == 'S':
  f = open('Spherical_Av.dat','w')
  f.write('Spherical Average of Potential \n')
- spherical_average=numpy.zeros(shape=(NGZ,2))
- spherical_av_potential=numpy.zeros(shape=(NGZ))
- centroid = numpy.zeros(shape=(2))
+ spherical_average=numpy.zeros(shape=(3))
+ spherical_av_potential=numpy.zeros(shape=(NGZ,4))
+ centroid = numpy.zeros(shape=(3))
  centroid[0] = raw_input("a value on the plane to centre the sphere (Cartesian) ")
  centroid[1] = raw_input("b value on the plane to centre the sphere (Cartesian) ")
- spherical_average = spher_av(Potential_grid,centroid,lattice,NGZ)
- np.savetxt(f,spher_av)
- for i in range (0,NGZ):
-  spherical_av_potential[i] = spherical_average[i,0]
+ radius = float(raw_input("What radius would you like for spherical averaging? "))
+ for i in range (NGZ):
+  latt = lattice_vectors(lattice)
+  centroid[2] = i*latt[2]/NGZ
+  spherical_average = point_sphere(NGX,NGY,NGZ,Potential_grid,axis,centroid,lattice,f,radius)
+  print(spherical_average)
+  spherical_av_potential[i,0] = i*latt[2]/NGZ
+  spherical_av_potential[i,1] = spherical_average[1]
+  spherical_av_potential[i,2] = spherical_average[2]
+#  spherical_av_potential[i,3] = spherical_average[2]
+#  np.savetxt(f,spher_av)
+ #print spherical_av_potential
 elif average_type == 'Po':
  f = open('Spherical_Av.dat','w')
  f.write('Spherical Average of Potential \n')
  number_points = raw_input("How many points would you like to consider? ")
  for i in range (0,int(number_points)):
-  spherical_average=numpy.zeros(shape=(NGZ,2))
+  spherical_average=numpy.zeros(shape=(3))
   spherical_av_potential=numpy.zeros(shape=(NGZ))
   centroid = numpy.zeros(shape=(3))
   centroid[0] = raw_input("a lattice value to centre the sphere (Cartesian) ")
@@ -390,7 +398,8 @@ elif average_type == 'Po':
   f.write('Spherical Average of Potential at point \n')
   np.savetxt(f,centroid)
   f.write('\n')
-  spherical_average = point_sphere(NGX,NGY,NGZ,Potential_grid,axis,centroid,lattice,f)
+  radius = float(raw_input("What radius would you like for spherical averaging? "))
+  spherical_average = point_sphere(NGX,NGY,NGZ,Potential_grid,axis,centroid,lattice,f,radius)
   central_potential = cent_potential(NGX,NGY,NGZ,Potential_grid,centroid,lattice)
   f.write("Centre   Average    Variance \n")
   np.savetxt(f,spherical_average)
@@ -425,17 +434,30 @@ if average_type != "Po":
 #setp(ygridlines, 'linestyle', '-')
  setp(yticklabels, 'color', 'Black', fontsize='medium')
  setp(xticklabels, 'color', 'Black', fontsize='medium')
+ plt.rc('axes', color_cycle=['FF8000', 'CCCC00', '3399FF', '99004C'])
 
 
- plt.xlabel('$z \AA$ ',fontsize='large')
- plt.grid(True)
+ plt.xlabel('$z / \AA$ ',fontsize=22)
+# plt.grid(True)
  if average_type == 'P':
-  plt.ylabel('$V_{planar}(z)$  $eV \AA^{-2} $',fontsize='large')
-  plt.plot(ZAxis,Macro_Potential,ZAxis, Plane_Potential_New)
+  plt.ylabel('$V_{planar}(z)$ /  $eV$ $\AA^{-1} $',fontsize=22)
+  plt.rc('lines', linewidth=2.5)
+  plt.plot(ZAxis,Macro_Potential,'#FF9900')
+  plt.plot(ZAxis, Plane_Potential_New,'#660000')
+  plt.savefig('Planar.eps')
+  plt.show()
+  print("Central bulk potential: ",Centre_potential)
+  print("Vacuum potential: ",Vacuum_potential)
  elif average_type == 'S':
-  plt.ylabel('$V_{spherical}(z)$  $eV \AA^{-2} $',fontsize='large')
-  plt.plot(ZAxis,spherical_av_potential)
+  yerr=spherical_av_potential[:,2]
+  plt.axhline(ls = '--',linewidth = 1.5, c = 'black')
+  #plt.text(max(spherical_av_potential[:,0]/2),'Cell average potential')
+  plt.ylabel('$\Phi_{av}(z)$ / $eV \AA^{-3} $',fontsize=22)
+  plt.xlim((min(spherical_av_potential[:,0]),max(spherical_av_potential[:,0])))
+  plt.errorbar(spherical_av_potential[:,0],spherical_av_potential[:,1],yerr=spherical_av_potential[:,2],lw=1.5,elinewidth=0.5,capsize=3)
+  plt.savefig('Error.eps')
+  plt.show()
+  plt.plot(spherical_av_potential[:,0],spherical_av_potential[:,1],lw=1.5)
+  plt.savefig('Normal.eps')
+  plt.show()
 
- plt.show()
- print("Central bulk potential: ",Centre_potential)
- print("Vacuum potential: ",Vacuum_potential)
