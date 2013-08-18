@@ -1,11 +1,21 @@
-Code : MacroDensity.py
-Author : Keith Butler
-Description :
-Reads in a VASP LOCPOT file and plots the density in a number of ways. It can plot Planar average, macroscopic average or spherical average for any of the x,y or z axes. Can do the spehrical averaging either along a line (S) or at specified points (Po). 
+MacroDensity
+====================
+A python script to read in a VASP LOCPOT file and plots the electrostatic potential in a number of ways. It can plot planar average, macroscopic average or spherical average for any of the x, y or z axes. Can do the spherical averaging either along a line (S) or at specified points (Po). 
 
-Execution
+Requirements
+------------
+Python
+
+To-do
+------------
+- Allows fractional as well as cartesian coordinates
+
+Execution 
+------------
 python MacroDensity.py
 
-TODO
+Disclaimer
+----------
+This file is not affiliated with *VASP*. Feel free to use and modify, but do so at your own risk.
 
-Allows fractional as well as Cartesian
+
