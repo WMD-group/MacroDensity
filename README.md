@@ -8,7 +8,7 @@ Python
 
 To-do
 ------------
-- Allows fractional as well as cartesian coordinates
+- Allow fractional as well as cartesian coordinates
 
 Execution 
 ------------
