@@ -1,4 +1,5 @@
-#!/bin/bash
+#! /usr/bin/env python
+
 import numpy
 import matplotlib.pyplot as plt
 from pylab import *
