@@ -47,7 +47,7 @@ def plot_gradients(Potential_grid_mgrid,NGX,NGY,NGZ):
     """Perform the gradient plotting"""
 
 #   Get thegradients
-    grad_x_1,grad_y_1,grad_z_1 = gradient(Potential_grid_mgrid[:,:,:],100)
+    grad_x_1,grad_y_1,grad_z_1 = gradient(Potential_grid_mgrid[:,:,:],10)
 #   Initialise the plotting grid
     mg_x,mg_y = numpy.mgrid[0:NGX,0:NGY]
 #   Get the data in the correct plane
@@ -64,17 +64,18 @@ def plot_gradients(Potential_grid_mgrid,NGX,NGY,NGZ):
 #    show()
 
 #   Define sub plots
-    f, (ax1,ax2,ax3) = plt.subplots(1,3) 
-    ax1.contourf(mg_x,mg_y,grad_x,cmap=cm.bone)
-    ax1.contour(mg_x,mg_y,grad_x)
+    f, (ax1,ax2) = plt.subplots(1,2) 
+#    ax1.contourf(mg_x,mg_y,grad_x,cmap=cm.bone)
+    ax1.contour(mg_x,mg_y,grad_x,1)
+    ax1.pcolormesh(mg_x,mg_y,grad_x,cmap=cm.bone)
     ax1.set_title("$\epsilon_{xx}$",fontsize='22')
 #    plt.pcolormesh(mg_x,mg_y,grad_x,cmap=cm.bone)
-    ax2.contourf(mg_x,mg_y,grad_y,cmap=cm.bone)
-    ax2.contour(mg_x,mg_y,grad_y)
+    cs = ax2.contourf(mg_x,mg_y,grad_y,1,cmap=cm.bone)
+    ax2.contour(mg_x,mg_y,grad_y,1)
     ax2.set_title("$\epsilon_{yy}$",fontsize='22')
-    cs = ax3.contourf(mg_x,mg_y,grad_z,cmap=cm.bone)
-    ax3.contour(mg_x,mg_y,grad_z)
-    ax3.set_title("$\epsilon_{zz}$",fontsize='22')
+#    ax3.contourf(mg_x,mg_y,grad_z,cmap=cm.bone)
+#    ax3.contour(mg_x,mg_y,grad_z)
+#    ax3.set_title("$\epsilon_{zz}$",fontsize='22')
     f.colorbar(cs)
     show()
 def Planar_Plotting(NGX,NGY,NGZ,Potential,Lattice):
