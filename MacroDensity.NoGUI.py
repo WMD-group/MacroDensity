@@ -1,4 +1,5 @@
-#!/bin/bash
+#! /usr/bin/env python
+
 import numpy
 import matplotlib.pyplot as plt
 from pylab import *
@@ -190,6 +191,21 @@ def list_2_matrix(Potential,NGX,NGY,NGZ):
 
     return Potential_grid
 
+def grid_2_scaled(P,lattice):
+    """Convert the cell shaped grid to a scaled lattice"""
+    P_scaled = np.zeros(shape=(P.shape[0]*P.shape[1]*P.shape[2],4))
+
+    for i in range (P.shape[0]):
+        for j in range (P.shape[1]):
+            for k in range (P.shape[2]):
+                index = k+j*P.shape[2]+i*P.shape[2]*P.shape[1]
+                P_scaled[index,0] = float(i)
+                P_scaled[index,1] = float(j)
+                P_scaled[index,2] = float(k)
+                P_scaled[index,3] = float(P[i,j,k])
+
+    return P_scaled
+
 def grid_2_xyz(P,lattice):
     """Convert the cell shaped grid to pure cartesian"""
     P_xyz = np.zeros(shape=(P.shape[0]*P.shape[1]*P.shape[2],4))
@@ -324,7 +340,7 @@ average_type=raw_input("Which kind of average would you like? (P)lanar/(S)pheric
 
 if average_type != "P":
  Potential_grid = list_2_matrix(Potential,NGX,NGY,NGZ)
- Potential_grid = grid_2_xyz(Potential_grid,lattice)
+ Potential_grid = grid_2_scaled(Potential_grid,lattice)
 if average_type != "Po":
  axis = raw_input("Which axis do you want to plot along? (X/Y/Z)")
 
@@ -370,8 +386,8 @@ elif average_type == 'S':
  spherical_average=numpy.zeros(shape=(3))
  spherical_av_potential=numpy.zeros(shape=(NGZ,4))
  centroid = numpy.zeros(shape=(3))
- centroid[0] = raw_input("a value on the plane to centre the sphere (Cartesian) ")
- centroid[1] = raw_input("b value on the plane to centre the sphere (Cartesian) ")
+ centroid[0] = raw_input("a value on the plane to centre the sphere (Direct) ")
+ centroid[1] = raw_input("b value on the plane to centre the sphere (Direct) ")
  radius = float(raw_input("What radius would you like for spherical averaging? "))
  for i in range (NGZ):
   latt = lattice_vectors(lattice)
@@ -412,55 +428,4 @@ i = 0
 while (i < NGZ):
  ZAxis[i] = i*lattice[2,2]/NGZ
  i = i + 1
-
-
-# Plot the planar average
-#
-#
-# MATLAB style
-if average_type != "Po":
- xticklines = getp(gca(), 'xticklines')
- yticklines = getp(gca(), 'yticklines')
- xgridlines = getp(gca(), 'xgridlines')
- ygridlines = getp(gca(), 'ygridlines')
- xticklabels = getp(gca(), 'xticklabels')
- ygridlines = getp(gca(), 'ygridlines')
- xticklabels = getp(gca(), 'xticklabels')
- yticklabels = getp(gca(), 'yticklabels')
- 
- setp(xticklines, 'linewidth', 3)
- setp(yticklines, 'linewidth', 3)
-#setp(xgridlines, 'linestyle', '-')
-#setp(ygridlines, 'linestyle', '-')
- setp(yticklabels, 'color', 'Black', fontsize='medium')
- setp(xticklabels, 'color', 'Black', fontsize='medium')
- plt.rc('axes', color_cycle=['FF8000', 'CCCC00', '3399FF', '99004C'])
-
-
- plt.xlabel('$z / \AA$ ',fontsize=22)
-# plt.grid(True)
- if average_type == 'P':
-  plt.ylabel('$V_{planar}(z)$ /  $eV$ $\AA^{-1} $',fontsize=22)
-  #plt.rc('lines', linewidth=1.5)
-  plt.plot(ZAxis,Macro_Potential,'#CC6600')
-  plt.plot(ZAxis, Plane_Potential_New,'#0000FF')
-  fig = plt.gcf()
-  fig.set_size_inches(5,5)
-  plt.savefig('Planar.eps',dpi=300)
-  plt.savefig('Planar.tif',dpi=450)
-  #plt.show()
-  print("Central bulk potential: ",Centre_potential)
-  print("Vacuum potential: ",Vacuum_potential)
- elif average_type == 'S':
-  yerr=spherical_av_potential[:,2]
-  plt.axhline(ls = '--',linewidth = 1.5, c = 'black')
-  #plt.text(max(spherical_av_potential[:,0]/2),'Cell average potential')
-  plt.ylabel('$\Phi_{av}(z)$ / $eV \AA^{-3} $',fontsize=22)
-  plt.xlim((min(spherical_av_potential[:,0]),max(spherical_av_potential[:,0])))
-  plt.errorbar(spherical_av_potential[:,0],spherical_av_potential[:,1],yerr=spherical_av_potential[:,2],lw=1.5,elinewidth=0.5,capsize=3)
-  plt.savefig('Error.eps')
-#  plt.show()
-  plt.plot(spherical_av_potential[:,0],spherical_av_potential[:,1],lw=1.5)
-  plt.savefig('Normal.eps')
-#  plt.show()
 

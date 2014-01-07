@@ -191,6 +191,21 @@ def list_2_matrix(Potential,NGX,NGY,NGZ):
 
     return Potential_grid
 
+def grid_2_scaled(P,lattice):
+    """Convert the cell shaped grid to a scaled lattice"""
+    P_scaled = np.zeros(shape=(P.shape[0]*P.shape[1]*P.shape[2],4))
+
+    for i in range (P.shape[0]):
+        for j in range (P.shape[1]):
+            for k in range (P.shape[2]):
+                index = k+j*P.shape[2]+i*P.shape[2]*P.shape[1]
+                P_scaled[index,0] = float(i)
+                P_scaled[index,1] = float(j)
+                P_scaled[index,2] = float(k)
+                P_scaled[index,3] = float(P[i,j,k])
+
+    return P_scaled
+
 def grid_2_xyz(P,lattice):
     """Convert the cell shaped grid to pure cartesian"""
     P_xyz = np.zeros(shape=(P.shape[0]*P.shape[1]*P.shape[2],4))
@@ -325,7 +340,7 @@ average_type=raw_input("Which kind of average would you like? (P)lanar/(S)pheric
 
 if average_type != "P":
  Potential_grid = list_2_matrix(Potential,NGX,NGY,NGZ)
- Potential_grid = grid_2_xyz(Potential_grid,lattice)
+ Potential_grid = grid_2_scaled(Potential_grid,lattice)
 if average_type != "Po":
  axis = raw_input("Which axis do you want to plot along? (X/Y/Z)")
 
@@ -371,8 +386,8 @@ elif average_type == 'S':
  spherical_average=numpy.zeros(shape=(3))
  spherical_av_potential=numpy.zeros(shape=(NGZ,4))
  centroid = numpy.zeros(shape=(3))
- centroid[0] = raw_input("a value on the plane to centre the sphere (Cartesian) ")
- centroid[1] = raw_input("b value on the plane to centre the sphere (Cartesian) ")
+ centroid[0] = raw_input("a value on the plane to centre the sphere (Direct) ")
+ centroid[1] = raw_input("b value on the plane to centre the sphere (Direct) ")
  radius = float(raw_input("What radius would you like for spherical averaging? "))
  for i in range (NGZ):
   latt = lattice_vectors(lattice)
