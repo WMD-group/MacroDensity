@@ -362,7 +362,7 @@ if average_type == 'P':
  f.write('Planar Average of Potential \n')
  Plane_Potential = planar_av(NGX,NGY,NGZ,Potential)
  # Section for re-centering the plot, so they can be consistent
- Centre = float(raw_input('Where do you want the plot centred?  '))
+ Centre = float(raw_input('What z-value do you want placed at the centre of the plot? '))
  # How many bins do we need to shift by?
  bin_shift =int((lattice[2,2]/2 - Centre) / (lattice[2,2] / NGZ))
  # Now move the potentials by the required shift
