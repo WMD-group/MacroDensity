@@ -62,7 +62,7 @@ def macro_av(NGX,NGY,NGZ,Plane_Potential_New):
     #
     Macro_Potential = numpy.zeros(shape=(NGZ))
     Macro_Potential_B = numpy.zeros(shape=(NGZ))
-    Period = float(raw_input('What periodicity do you want for macroscopic averaging?  '))
+    Period = float(raw_input('What length do you want for macroscopic averaging? (Angstrom) '))
     Period_Points = int(Period/(lattice[2,2]/NGZ))
     for i in range (0, NGZ):
      k = 0
