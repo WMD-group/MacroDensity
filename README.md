@@ -1,5 +1,10 @@
 MacroDensity
 ====================
+IMPORTANT NOTE::
+Please use only the NewPotentialModule.py and NewInput.py files from now on. If you use older files you will probably get what you deserve. 
+
+
+
 A python script to read in a VASP LOCPOT file and plots the electrostatic potential in a number of ways. It can plot planar average, macroscopic average or spherical average for any of the x, y or z axes. Can do the spherical averaging either along a line (S) or at specified points (Po).
 
 Author
@@ -13,11 +18,11 @@ Python
 
 To-do
 ------------
-- Allows fractional as well as cartesian coordinates
+- Add a full description of the input file format.
 
 Execution
 ------------
-python MacroDensity.py
+python NewInput.py
 
 Disclaimer
 ----------
