@@ -6,6 +6,7 @@ from pylab import *
 import math
 from matplotlib.patches import Polygon
 
+
 def distance(a, b):
     # distance between points
     return numpy.sqrt(numpy.sum((a - b)**2))
