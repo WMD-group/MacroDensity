@@ -24,9 +24,10 @@ import matplotlib.pyplot as plt
 #------------------------------------------------------------------
 vasp_pot, NGX, NGY, NGZ, Lattice = pot.read_vasp_density('LOCPOT')
 vector_a,vector_b,vector_c = pot.matrix_2_abc(Lattice)
-resolution_x = NGX/vector_a
-resolution_y = NGX/vector_b
-resolution_z = NGX/vector_c
+resolution_x = vector_a/NGX
+resolution_y = vector_b/NGY
+resolution_z = vector_c/NGZ
+print resolution_x,resolution_y,resolution_z
 grid_pot = pot.density_2_grid(vasp_pot,NGX,NGY,NGZ)
 ## Get the gradiens (Field), if required.
 ## Comment out if not required, due to compuational expense.
@@ -60,7 +61,7 @@ grid_pot = pot.density_2_grid(vasp_pot,NGX,NGY,NGZ)
 ##------------------------------------------------------------------
 #planar = pot.planar_average(grad_x,NGX,NGY,NGZ)
 planar = pot.planar_average(grid_pot,NGX,NGY,NGZ)
-macro  = pot.macroscopic_average(planar,4.2,resolution_z)
+macro  = pot.macroscopic_average(planar,4.8,resolution_z)
 plt.plot(planar)
 plt.plot(macro)
 plt.show()
