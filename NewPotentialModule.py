@@ -14,9 +14,11 @@ def macroscopic_average(potential,periodicity,resolution):
 	 macro_average : array with the macroscopically averaged values"""
 
     macro_average = np.zeros(shape=(len(potential)))
-    period_points = int(math.ceil(periodicity/resolution))
+    period_points = int((periodicity/resolution))
+    print periodicity, resolution, period_points*periodicity
+# Re-arrange so that period points divides evenly by resolution
     for i in range(len(potential)):
-	for j in range(i-period_points/2,i+period_points/2):
+	for j in range(i-int(period_points/2),i+int(period_points/2)):
 	    if j < 0:
 	    	macro_average[i] = macro_average[i]+potential[j+len(potential)]
 	    elif j >= len(potential):
