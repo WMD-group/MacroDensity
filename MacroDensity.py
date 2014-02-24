@@ -63,7 +63,7 @@ def macro_av(NGX,NGY,NGZ,Plane_Potential_New):
     #
     Macro_Potential = numpy.zeros(shape=(NGZ))
     Macro_Potential_B = numpy.zeros(shape=(NGZ))
-    Period = float(raw_input('What length do you want for macroscopic averaging? (Angstrom) '))
+    Period = float(raw_input('What length for macroscopic averaging? (Angstrom)'))
     Period_Points = int(Period/(lattice[2,2]/NGZ))
     for i in range (0, NGZ):
      k = 0
@@ -93,7 +93,7 @@ def macro_av(NGX,NGY,NGZ,Plane_Potential_New):
 # Sphere_Potential = spher_av(NGX,NGY,NGZ,Potential_grid,axis,centroid,lattice)
 def spher_av(P,centroid,latt,NGZ):
 
-    radius = float(raw_input("What radius would you like for spherical averaging? "))
+    radius = float(raw_input("What radius for spherical averaging? (Angstrom)"))
     centre_sphere = numpy.zeros(shape=(3))
     point = numpy.zeros(shape=(3))
     dpoint = numpy.zeros(shape=(3))
@@ -335,7 +335,7 @@ for line in lines:
   
 print ("Average of the potential = ",numpy.average(Potential))
 # Start processing the data
-average_type=raw_input("Which kind of average would you like? (P)lanar/(S)pherical/(Po)int spherical average ")
+average_type=raw_input("Which kind of average? (P)lanar/(S)pherical/(Po)int spherical")
 
 #3 Convert the data to a more friendly format
 
@@ -363,7 +363,7 @@ if average_type == 'P':
  f.write('Planar Average of Potential \n')
  Plane_Potential = planar_av(NGX,NGY,NGZ,Potential)
  # Section for re-centering the plot, so they can be consistent
- Centre = float(raw_input('What z-value do you want placed at the centre of the plot? '))
+ Centre = float(raw_input('What coordinate do you want placed at the centre of the plot? '))
  # How many bins do we need to shift by?
  bin_shift =int((lattice[2,2]/2 - Centre) / (lattice[2,2] / NGZ))
  # Now move the potentials by the required shift
@@ -415,7 +415,7 @@ elif average_type == 'Po':
   f.write('Spherical Average of Potential at point \n')
   np.savetxt(f,centroid)
   f.write('\n')
-  radius = float(raw_input("What radius would you like for spherical averaging? "))
+  radius = float(raw_input("What radius would you like for spherical averaging? (Angstrom) "))
   spherical_average = point_sphere(NGX,NGY,NGZ,Potential_grid,axis,centroid,lattice,f,radius)
   central_potential = cent_potential(NGX,NGY,NGZ,Potential_grid,centroid,lattice)
   f.write("Centre   Average    Variance \n")
