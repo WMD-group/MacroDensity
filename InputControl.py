@@ -114,3 +114,39 @@ grid_pot = pot.density_2_grid(vasp_pot,NGX,NGY,NGZ)
 
 ##------------------------------------------------------------------
 ##------------------------------------------------------------------
+
+##------------------------------------------------------------------
+## Getting the potentials for a group of atoms, in this case the Os
+## NOTE THIS REQUIRES ASE to be available https://wiki.fysik.dtu.dk/ase/index.html
+##------------------------------------------------------------------
+##------------------------------------------------------------------
+# import ase                # Only add this if want to read in coordinates
+# from ase.io import write  # Only add this if want to read in coordinates
+# from ase.io import vasp   # Only add this if want to read in coordinates
+
+#coords = ase.io.vasp.read_vasp('POSCAR')
+#scaled_coords = coords.get_scaled_positions()
+#ox_coords = []
+#i = -1
+#for atom in coords:
+    #i = i + 1
+    #if atom.get_symbol() == "O":
+        #ox_coords.append(scaled_coords[i])
+#grid_position = np.zeros(shape=(3))
+#potentials_list = []
+#i = 0
+#num_bins = 20
+#for coord in ox_coords:
+    #i = i + 1
+    #grid_position[0] = int(coord[0]*NGX)
+    #grid_position[1] = int(coord[1]*NGY)
+    #grid_position[2] = int(coord[2]*NGZ)
+    #cube = [5,5,3]    # The size of the cube x,y,z in units of grid resolution.
+    #origin = [grid_position[0]-2,grid_position[1]-2,grid_position[2]-1]
+    #travelled = [0,0,0] # Should be left as it is.
+    #cube_potential, cube_var = pot.cube_potential(origin,travelled,cube,grid_pot,NGX,NGY,NGZ)
+#n, bins, patches = plt.hist(Potentials, num_bins,normed=100, facecolor='#6400E1', alpha=0.5)
+#plt.xlabel('Hartree potential (V)',fontsize = 22)
+#plt.ylabel('% of O centres',fontsize = 22)
+#plt.savefig('Potentials.png',dpi=300)
+#plt.show()
