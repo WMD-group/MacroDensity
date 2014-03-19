@@ -49,14 +49,19 @@ def macroscopic_average(potential,periodicity,resolution):
 def cube_potential(origin,travelled,cube,Grid,nx,ny,nz):
     """Populates the sampling cube with the potential required"""
 
+# Recalc the origin as grid point coordinates
+    n_origin = np.zeros(shape=(3))
+    n_origin[0] = int(origin[0]*nx)
+    n_origin[1] = int(origin[1]*ny)
+    n_origin[2] = int(origin[2]*nz)
     potential_cube = np.zeros(shape=(cube[0],cube[1],cube[2]))
     for x in range(0,cube[0]):
         for y in range(0,cube[1]):
     	    for z in range(0,cube[2]):
 # Assign the values of coordinates in the original grid
-		xv = origin[0]+travelled[0]+x
-		yv = origin[1]+travelled[1]+y
-		zv = origin[2]+travelled[2]+z
+		xv = n_origin[0]+travelled[0]+x
+		yv = n_origin[1]+travelled[1]+y
+		zv = n_origin[2]+travelled[2]+z
 # Minimum image convention
 	    	zv = zv - nz*round(zv/nz)
 	    	yv = yv - ny*round(yv/ny)
