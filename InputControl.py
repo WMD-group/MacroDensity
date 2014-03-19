@@ -2,7 +2,7 @@ import NewPotentialModule as pot
 import math
 import numpy as np
 import matplotlib.pyplot as plt
-
+import tester as test
 
 
 
@@ -60,9 +60,10 @@ grid_pot = pot.density_2_grid(vasp_pot,NGX,NGY,NGZ)
 ## POTENTIAL
 #planar = pot.planar_average(grid_pot,NGX,NGY,NGZ)
 ## MACROSCOPIC AVERAGE
-#macro  = pot.macroscopic_average(planar,4.8,resolution_z)
+#macro  = pot.macroscopic_average(planar,4.80,resolution_z)
 #plt.plot(planar)
 #plt.plot(macro)
+#plt.savefig('Planar.eps')
 #plt.show()
 ##------------------------------------------------------------------
 ##------------------------------------------------------------------
@@ -72,8 +73,8 @@ grid_pot = pot.density_2_grid(vasp_pot,NGX,NGY,NGZ)
 ##------------------------------------------------------------------
 ## cube defines the size of the cube in units of mesh points (NGX/Y/Z)
 #cube = [2,2,2]
-## origin defines the bottom left point of the cube the "0,0,0" point
-#origin = [1,1,1]
+## origin defines the bottom left point of the cube the "0,0,0" point in fractional coordinates
+#origin = [0,0,0]
 ## travelled; do not alter this variable
 #travelled = [0,0,0]
 ## Uncomment the lines below to do the business
@@ -92,7 +93,7 @@ grid_pot = pot.density_2_grid(vasp_pot,NGX,NGY,NGZ)
 ## vector is the vector you wish to travel along
 #vector = [1,1,0]
 ## cube defines the origin of the line in units of mesh points (NGX/Y/Z)
-#origin = [140,0,140]
+#origin = [0.5,0,0.5]
 ## magnitude defines the length of the line, in units of mesh points (NGX/Y/Z)
 #magnitude = 280
 ## IF YOU WANT TO PLOT THE POTENTIAL:
@@ -120,32 +121,33 @@ grid_pot = pot.density_2_grid(vasp_pot,NGX,NGY,NGZ)
 ## NOTE THIS REQUIRES ASE to be available https://wiki.fysik.dtu.dk/ase/index.html
 ##------------------------------------------------------------------
 ##------------------------------------------------------------------
-# import ase                # Only add this if want to read in coordinates
-# from ase.io import write  # Only add this if want to read in coordinates
-# from ase.io import vasp   # Only add this if want to read in coordinates
+#import ase                # Only add this if want to read in coordinates
+#from ase.io import write  # Only add this if want to read in coordinates
+#from ase.io import vasp   # Only add this if want to read in coordinates
 
 #coords = ase.io.vasp.read_vasp('POSCAR')
 #scaled_coords = coords.get_scaled_positions()
 #ox_coords = []
 #i = -1
 #for atom in coords:
-    #i = i + 1
-    #if atom.get_symbol() == "O":
-        #ox_coords.append(scaled_coords[i])
+#    i = i + 1
+#    if atom.get_symbol() == "O":
+#        ox_coords.append(scaled_coords[i])
 #grid_position = np.zeros(shape=(3))
 #potentials_list = []
 #i = 0
 #num_bins = 20
 #for coord in ox_coords:
-    #i = i + 1
-    #grid_position[0] = int(coord[0]*NGX)
-    #grid_position[1] = int(coord[1]*NGY)
-    #grid_position[2] = int(coord[2]*NGZ)
-    #cube = [5,5,3]    # The size of the cube x,y,z in units of grid resolution.
-    #origin = [grid_position[0]-2,grid_position[1]-2,grid_position[2]-1]
-    #travelled = [0,0,0] # Should be left as it is.
-    #cube_potential, cube_var = pot.cube_potential(origin,travelled,cube,grid_pot,NGX,NGY,NGZ)
-#n, bins, patches = plt.hist(Potentials, num_bins,normed=100, facecolor='#6400E1', alpha=0.5)
+#    i = i + 1
+#    grid_position[0] = int(coord[0]*NGX)
+#    grid_position[1] = int(coord[1]*NGY)
+#    grid_position[2] = int(coord[2]*NGZ)
+#    cube = [5,5,3]    # The size of the cube x,y,z in units of grid resolution.
+#    origin = [grid_position[0]-2,grid_position[1]-2,grid_position[2]-1]
+#    travelled = [0,0,0] # Should be left as it is.
+#    cube_potential, cube_var = pot.cube_potential(origin,travelled,cube,grid_pot,NGX,NGY,NGZ)
+#    potentials_list.append(cube_potential)
+#n, bins, patches = plt.hist(potentials_list, num_bins,normed=100, facecolor='#6400E1', alpha=0.5)
 #plt.xlabel('Hartree potential (V)',fontsize = 22)
 #plt.ylabel('% of O centres',fontsize = 22)
 #plt.savefig('Potentials.png',dpi=300)
