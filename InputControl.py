@@ -2,7 +2,6 @@ import NewPotentialModule as pot
 import math
 import numpy as np
 import matplotlib.pyplot as plt
-import tester as test
 
 
 
