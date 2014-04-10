@@ -11,15 +11,18 @@ import matplotlib.pyplot as plt
 # Get the potential
 # This section should not be altered
 #------------------------------------------------------------------
-vasp_pot, NGX, NGY, NGZ, Lattice = pot.read_vasp_density('LOCPOT')
+vasp_pot, NGX, NGY, NGZ, Lattice = pot.read_vasp_density('LOCPOT.slab')
 vector_a,vector_b,vector_c = pot.matrix_2_abc(Lattice)
 resolution_x = vector_a/NGX
 resolution_y = vector_b/NGY
 resolution_z = vector_c/NGZ
+print vector_a,vector_b,vector_c
+print NGX, NGY, NGZ
+print resolution_x,resolution_y,resolution_z
 grid_pot = pot.density_2_grid(vasp_pot,NGX,NGY,NGZ)
 ## Get the gradiens (Field), if required.
 ## Comment out if not required, due to compuational expense.
-#grad_x,grad_y,grad_z = np.gradient(grid_pot[:,:,:],resolution_x,resolution_y,resolution_z)
+grad_x,grad_y,grad_z = np.gradient(grid_pot[:,:,:],resolution_x,resolution_y,resolution_z)
 #------------------------------------------------------------------
 
 
@@ -88,17 +91,20 @@ grid_pot = pot.density_2_grid(vasp_pot,NGX,NGY,NGZ)
 ## Plotting the average in a moving cube along a vector
 ##------------------------------------------------------------------
 ## cube defines the size of the cube in units of mesh points (NGX/Y/Z)
-#cube = [2,2,2]
+cube = [2,2,2]
 ## vector is the vector you wish to travel along
-#vector = [1,1,0]
+vector = [1,1,0]
 ## cube defines the origin of the line in units of mesh points (NGX/Y/Z)
-#origin = [0.5,0,0.5]
+origin = [0.5,0,0.5]
 ## magnitude defines the length of the line, in units of mesh points (NGX/Y/Z)
-#magnitude = 280
+magnitude = 280
 ## IF YOU WANT TO PLOT THE POTENTIAL:
-#cubes_potential = pot.cuboid_average(grid_pot,cube,origin,vector,NGX,NGY,NGZ,magnitude)
-#plt.plot(cubes_potential)
-#plt.show()
+cubes_potential = pot.cuboid_average(grid_pot,cube,origin,vector,NGX,NGY,NGZ,magnitude)
+abscissa = pot.vector_2_abscissa(vector,magnitude,resolution_x,resolution_y,resolution_z)
+plt.plot(abscissa, cubes_potential)
+plt.xlabel("$z (\AA)$")
+plt.ylabel("Potential (eV)")
+plt.show()
 #fp = open('ElectricPotential.dat','w')
 #np.savetxt(fp,cubes_potential)
 
@@ -107,7 +113,10 @@ grid_pot = pot.density_2_grid(vasp_pot,NGX,NGY,NGZ)
 #XY = np.multiply(grad_x,grad_y)
 #grad_mag = np.multiply(XY,grad_z)
 #cubes_field = pot.cuboid_average(grad_mag,cube,origin,vector,NGX,NGY,NGZ,magnitude)
-#plt.plot(cubes_field)
+#abscissa = pot.vector_2_abscissa(vector,magnitude,resolution_x,resolution_y,resolution_z)
+#plt.plot(abscissa, cubes_field)
+#plt.xlabel("$z (\AA)$")
+#plt.ylabel("Field $(eV/\AA)$")
 #plt.show()
 #ff = open('ElectricField.dat','w')
 #np.savetxt(ff,cubes_field)
