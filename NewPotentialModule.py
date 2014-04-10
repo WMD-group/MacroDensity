@@ -77,8 +77,15 @@ def cuboid_average(Grid,cube,origin,vector,nx,ny,nz,magnitude):
 
    plotting_average = np.zeros(shape=(magnitude))
    i = 0
+# Work out the relative number of steps in each direction
+   grid_resolutions = [nx,ny,nz]
+   max_resolution = max(grid_resolutions)
    while i < magnitude:
+# create a weighting vector, this means that if the grid is uneven in different directions steps
+# will be weighted appropriately
+        weighting = [int(i*nx/max_resolution),int(i*ny/max_resolution),int(i*nz/max_resolution)]
  	travelled = np.multiply(i, vector) 
+	
     	plotting_average[i], varience = cube_potential(origin,travelled,cube,Grid,nx,ny,nz)
 	i = i + 1
 
