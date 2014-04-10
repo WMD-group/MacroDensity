@@ -20,6 +20,21 @@ import numpy as np
 import math
 
 #------------------------------------------------------------------------------------------
+def gradient_magnitude(gx,gy,gz):
+    """Converts the separate gradient magnitudes to a single magnitude
+    Args:
+	gx/y/z : fields in x y and z directions 2D array
+    Returns:
+	grad_mag : gradient of fields at each point"""
+
+    grad_mag = gx
+    for i in range(gx.shape[0]):
+	for j in range(gy.shape[1]):
+	    for k in range(gz.shape[2]):
+		grad_mag[i,j,k] = np.sqrt(gx[i,j,k]**2+gy[i,j,k]**2+gz[i,j,k]**2)
+
+    return grad_mag 
+#------------------------------------------------------------------------------------------
 def vector_2_abscissa(vector,magnitude,dx,dy,dz):
     """Converts a vactor with a magnitude given in units of grid density (NGX/Y/Z) to
     AA for plotting
@@ -50,7 +65,6 @@ def macroscopic_average(potential,periodicity,resolution):
 
     macro_average = np.zeros(shape=(len(potential)))
     period_points = int((periodicity/resolution))
-    print periodicity, resolution, period_points*periodicity
 # Re-arrange so that period points divides evenly by resolution
     for i in range(len(potential)):
 	for j in range(i-int(period_points/2),i+int(period_points/2)):
