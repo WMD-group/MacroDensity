@@ -16,9 +16,6 @@ vector_a,vector_b,vector_c = pot.matrix_2_abc(Lattice)
 resolution_x = vector_a/NGX
 resolution_y = vector_b/NGY
 resolution_z = vector_c/NGZ
-print vector_a,vector_b,vector_c
-print NGX, NGY, NGZ
-print resolution_x,resolution_y,resolution_z
 grid_pot = pot.density_2_grid(vasp_pot,NGX,NGY,NGZ)
 ## Get the gradiens (Field), if required.
 ## Comment out if not required, due to compuational expense.
@@ -110,14 +107,13 @@ plt.show()
 
 ## IF YOU WANT TO PLOT THE FIELD MAGNITUDE ALSO:
 ## Get the gradients (of the field, if required)
-#XY = np.multiply(grad_x,grad_y)
-#grad_mag = np.multiply(XY,grad_z)
-#cubes_field = pot.cuboid_average(grad_mag,cube,origin,vector,NGX,NGY,NGZ,magnitude)
-#abscissa = pot.vector_2_abscissa(vector,magnitude,resolution_x,resolution_y,resolution_z)
-#plt.plot(abscissa, cubes_field)
-#plt.xlabel("$z (\AA)$")
-#plt.ylabel("Field $(eV/\AA)$")
-#plt.show()
+grad_mag = pot.gradient_magnitude(grad_x,grad_y,grad_z)
+cubes_field = pot.cuboid_average(grad_mag,cube,origin,vector,NGX,NGY,NGZ,magnitude)
+abscissa = pot.vector_2_abscissa(vector,magnitude,resolution_x,resolution_y,resolution_z)
+plt.plot(abscissa, cubes_field)
+plt.xlabel("$z (\AA)$")
+plt.ylabel("Field $(eV/\AA)$")
+plt.show()
 #ff = open('ElectricField.dat','w')
 #np.savetxt(ff,cubes_field)
 
