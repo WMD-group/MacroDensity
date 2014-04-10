@@ -19,7 +19,26 @@ import numpy
 import numpy as np
 import math
 
+#------------------------------------------------------------------------------------------
+def vector_2_abscissa(vector,magnitude,dx,dy,dz):
+    """Converts a vactor with a magnitude given in units of grid density (NGX/Y/Z) to
+    AA for plotting
+    Args:
+	vector : the vector along which the line is being plotted [(3x1) array]
+	magnitude : the number of steps that were taken along that vector [Integer]
+	dx/y/z: the resolution of the density grid in AA-1 [Real]
+    Returns:
+	abscissa : the values for plotting on the abscissa in AA [1D array]
+    """
+    vec_angs = [vector[0]*dx, vector[1]*dy, vector[2]*dz]
+    vec_mag = np.linalg.norm(vec_angs)
+    abscissa = np.zeros(shape=(magnitude))
+    for i in range(magnitude):
+ 	abscissa[i] = i*vec_mag
 
+    return abscissa
+
+#------------------------------------------------------------------------------------------
 def macroscopic_average(potential,periodicity,resolution):
     """Getting the macroscopic average of potential
     Args:
@@ -45,6 +64,7 @@ def macroscopic_average(potential,periodicity,resolution):
 
     print ("Average of the average = ",numpy.average(macro_average))
     return macro_average
+#------------------------------------------------------------------------------------------
 
 def cube_potential(origin,travelled,cube,Grid,nx,ny,nz):
     """Populates the sampling cube with the potential required"""
