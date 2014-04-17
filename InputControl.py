@@ -2,7 +2,8 @@ import NewPotentialModule as pot
 import math
 import numpy as np
 import matplotlib.pyplot as plt
-
+import csv
+from itertools import izip
 
 
 
@@ -101,7 +102,7 @@ abscissa = pot.vector_2_abscissa(vector,magnitude,resolution_x,resolution_y,reso
 plt.plot(abscissa, cubes_potential)
 plt.xlabel("$z (\AA)$")
 plt.ylabel("Potential (eV)")
-plt.show()
+#plt.show()
 #fp = open('ElectricPotential.dat','w')
 #np.savetxt(fp,cubes_potential)
 
@@ -113,7 +114,10 @@ abscissa = pot.vector_2_abscissa(vector,magnitude,resolution_x,resolution_y,reso
 plt.plot(abscissa, cubes_field)
 plt.xlabel("$z (\AA)$")
 plt.ylabel("Field $(eV/\AA)$")
-plt.show()
+#plt.show()
+with open('ElectricField.dat','wb')as f:
+    writer = csv.writer(f)
+    writer.writerows(izip(abscissa, cubes_field))
 #ff = open('ElectricField.dat','w')
 #np.savetxt(ff,cubes_field)
 
