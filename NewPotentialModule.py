@@ -20,7 +20,40 @@ import numpy as np
 import math
 from scipy import interpolate
 
+#------------------------------------------------------------------------------------------
+def vector_2_abscissa(vector,magnitude,dx,dy,dz):
+    """Converts a vactor with a magnitude given in units of grid density (NGX/Y/Z) to
+    AA for plotting
+    Args:
+        vector : the vector along which the line is being plotted [(3x1) array]
+        magnitude : the number of steps that were taken along that vector [Integer]
+        dx/y/z: the resolution of the density grid in AA-1 [Real]
+    Returns:
+        abscissa : the values for plotting on the abscissa in AA [1D array]
+    """
+    vec_angs = [vector[0]*dx, vector[1]*dy, vector[2]*dz]
+    vec_mag = np.linalg.norm(vec_angs)
+    abscissa = np.zeros(shape=(magnitude))
+    for i in range(magnitude):
+        abscissa[i] = i*vec_mag
 
+    return abscissa
+
+#------------------------------------------------------------------------------------------
+def gradient_magnitude(gx,gy,gz):
+    """Converts the separate gradient magnitudes to a single magnitude
+    Args:
+        gx/y/z : fields in x y and z directions 2D array
+    Returns:
+        grad_mag : gradient of fields at each point"""
+
+    grad_mag = gx
+    for i in range(gx.shape[0]):
+        for j in range(gy.shape[1]):
+            for k in range(gz.shape[2]):
+                grad_mag[i,j,k] = np.sqrt(gx[i,j,k]**2+gy[i,j,k]**2+gz[i,j,k]**2)
+
+    return grad_mag
 #------------------------------------------------------------------------------------------
 def element_vol(vol,nx,ny,nz):
     """Calculates the volume of each of the elements on the grid.
