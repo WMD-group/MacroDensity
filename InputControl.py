@@ -17,7 +17,7 @@ vector_a,vector_b,vector_c,av,bv,cv = pot.matrix_2_abc(Lattice)
 resolution_x = vector_a/NGX
 resolution_y = vector_b/NGY
 resolution_z = vector_c/NGZ
-grid_pot = pot.density_2_grid(vasp_pot,NGX,NGY,NGZ)
+grid_pot, electrons = pot.density_2_grid(vasp_pot,NGX,NGY,NGZ)
 ## Get the gradiens (Field), if required.
 ## Comment out if not required, due to compuational expense.
 grad_x,grad_y,grad_z = np.gradient(grid_pot[:,:,:],resolution_x,resolution_y,resolution_z)
