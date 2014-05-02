@@ -1,5 +1,5 @@
 #!/bin/bash
-################################################################################
+
 # Copyright Keith Butler(2014) #
 # #
 # This file NewPotentialModule.py is free software: you can #
@@ -21,6 +21,21 @@ import math
 from scipy import interpolate
 
 #------------------------------------------------------------------------------------------
+def gradient_magnitude(gx,gy,gz):
+    """Converts the separate gradient magnitudes to a single magnitude
+    Args:
+        gx/y/z : fields in x y and z directions 2D array
+    Returns:
+        grad_mag : gradient of fields at each point"""
+
+    grad_mag = gx
+    for i in range(gx.shape[0]):
+        for j in range(gy.shape[1]):
+            for k in range(gz.shape[2]):
+                grad_mag[i,j,k] = np.sqrt(gx[i,j,k]**2+gy[i,j,k]**2+gz[i,j,k]**2)
+
+    return grad_mag
+#------------------------------------------------------------------------------------------
 def vector_2_abscissa(vector,magnitude,dx,dy,dz):
     """Converts a vactor with a magnitude given in units of grid density (NGX/Y/Z) to
     AA for plotting
@@ -38,22 +53,21 @@ def vector_2_abscissa(vector,magnitude,dx,dy,dz):
         abscissa[i] = i*vec_mag
 
     return abscissa
-
 #------------------------------------------------------------------------------------------
-def gradient_magnitude(gx,gy,gz):
-    """Converts the separate gradient magnitudes to a single magnitude
+def number_in_field(gradients,cutoff):
+    """Get the number of grid elements with a field magnitude greater than cutoff
     Args:
-        gx/y/z : fields in x y and z directions 2D array
+	gradients: the grid of field gradients (Real(ngx,ngy,ngz))
+	cutoff: the value above which tocout them (Real)
     Returns:
-        grad_mag : gradient of fields at each point"""
-
-    grad_mag = gx
-    for i in range(gx.shape[0]):
-        for j in range(gy.shape[1]):
-            for k in range(gz.shape[2]):
-                grad_mag[i,j,k] = np.sqrt(gx[i,j,k]**2+gy[i,j,k]**2+gz[i,j,k]**2)
-
-    return grad_mag
+	number_of_elements: the number satisfying the condition (Integer)
+    """  
+    number_of_elements = 0
+    for element in np.nditer(gradients):	
+	if element >= cutoff:
+	    number_of_elements += 1
+    
+    return number_of_elements
 #------------------------------------------------------------------------------------------
 def element_vol(vol,nx,ny,nz):
     """Calculates the volume of each of the elements on the grid.
@@ -62,7 +76,8 @@ def element_vol(vol,nx,ny,nz):
         x : the number of grid points in each direction (real)
     Returns:
 	ele_vol : the volume (real)
-	"""
+    """
+
     number_of_elements = nx*ny*nz
     ele_vol = vol/number_of_elements
 
