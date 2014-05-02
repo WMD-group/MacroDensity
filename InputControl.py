@@ -13,7 +13,7 @@ from itertools import izip
 # This section should not be altered
 #------------------------------------------------------------------
 vasp_pot, NGX, NGY, NGZ, Lattice = pot.read_vasp_density('LOCPOT.slab')
-vector_a,vector_b,vector_c = pot.matrix_2_abc(Lattice)
+vector_a,vector_b,vector_c,av,bv,cv = pot.matrix_2_abc(Lattice)
 resolution_x = vector_a/NGX
 resolution_y = vector_b/NGY
 resolution_z = vector_c/NGZ
