@@ -22,6 +22,20 @@ from scipy import interpolate
 
 
 #------------------------------------------------------------------------------------------
+def element_vol(vol,nx,ny,nz):
+    """Calculates the volume of each of the elements on the grid.
+    Args:
+	vol: the cell volume (real)
+        x : the number of grid points in each direction (real)
+    Returns:
+	ele_vol : the volume (real)
+	"""
+    number_of_elements = nx*ny*nz
+    ele_vol = vol/number_of_elements
+
+    return ele_vol
+
+#------------------------------------------------------------------------------------------
 def subs_potentials(A,B,tol=0.05):
     """Difference between two sets of data of the same length
     Args:
@@ -541,6 +555,7 @@ def density_2_grid(Density,nx,ny,nz,Charge=False,Volume=1):
 	Volume : The lattice vectors, only required for normalising charge.
      Returns:
 	Potential_grid: the (normalised) quantity on a mesh
+	total_electrons : the number of electrons in the system
 	"""
     l = 0   
     Potential_grid = np.zeros(shape=(nx,ny,nz))
