@@ -84,7 +84,7 @@ def element_vol(vol,nx,ny,nz):
     return ele_vol
 
 #------------------------------------------------------------------------------------------
-def subs_potentials(A,B,tol=0.05):
+def subs_potentials(A,B,tol):
     """Difference between two sets of data of the same length
     Args:
 	A/B: the arrays (2D)
@@ -96,7 +96,7 @@ def subs_potentials(A,B,tol=0.05):
     C = A
     for i in range(len(A)):
     	C[i,0] = A[i,0]
-    	if abs(A[i,1] - B[i,1]) <= 0.05:
+    	if abs(A[i,1] - B[i,1]) <= tol:
             C[i,1] = 0
     	else:
             C[i,1] = A[i,1] - B[i,1]
@@ -157,7 +157,7 @@ def match_resolution(A,B):
     np.append(B,B[0,:])
     resolution_a = (max(A[:,0])-min(A[:,0]))/len(A)
     resolution_b = (max(B[:,0])-min(B[:,0]))/len(B)
-    new_resolution = min(resolution_a,resolution_b)/3
+    new_resolution = min(resolution_a,resolution_b)/5
 # Generate the function f for each spline
     f_a = interpolate.interp1d(A[:,0],A[:,1],kind='cubic')
     f_b = interpolate.interp1d(B[:,0],B[:,1],kind='cubic')
