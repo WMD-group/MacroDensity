@@ -175,21 +175,22 @@ def match_resolution(A,B):
     return A_new,B_new
 
 #------------------------------------------------------------------------------------------
-def spline_generate(A):
+def spline_generate(A,new_res_factor):
     """Generate a spline of the data in a 2D array
     Args:
 	A: 2D array
+	new_res_factor: the factor by which to scale the resolution
     Returns:
 	B: A spline of the data
     """
-    array_a = np.arange(min(A[:,0]),max(A[:,0]),0.01)
-    f_a = interpolate.interp1d(A[:,0],A[:,1],kind='slinear')
+    resolution = (A[len(A)-1,0]-A[0,0])*new_res_factor/len(A)
+    array_a = np.arange(min(A[:,0]),max(A[:,0]),resolution)
+    f_a = interpolate.interp1d(A[:,0],A[:,1],kind='cubic')
     #ius = interpolate.InterpolatedUnivariateSpline(A[:,0],A[:,1])
     S = f_a(array_a)
-    resolution = (A[0,0]-A[len(A)-1,0])/len(array_a)
-    B = np.zeros(shape=(len(array_a),2))
-    for i in range(len(array_a)):
-    	B[i,0] = i*resolution
+    B = np.zeros(shape=(len(A)/new_res_factor,2))
+    for i in range(len(B)):
+    	B[i,0] = i*resolution+A[0,0]
     	B[i,1] = S[i]
 
     return B
@@ -614,13 +615,14 @@ def density_2_grid(Density,nx,ny,nz,Charge=False,Volume=1):
 	for j in range(ny):
 	    for i in range(nx):
 		Potential_grid[i,j,k] = Density[l]/Volume
- 		if is_CHGCAR == True:
+ 		if Charge == True:
 # Convert the charge density to a number of electrons
 		    point_volume = Volume/(nx*ny*nz)
 		    Potential_grid[i,j,k] = Potential_grid[i,j,k]*point_volume
 		total_electrons = total_electrons + Density[l]
 		l = l + 1
-    print "Total electrons: ", total_electrons/(nx*ny*nz)
+    if Charge == True:
+    	print "Total electrons: ", total_electrons/(nx*ny*nz)
     total_electrons = total_electrons/(nx*ny*nz)
     return Potential_grid,total_electrons
 #------------------------------------------------------------------------------------------
