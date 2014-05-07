@@ -157,7 +157,7 @@ def match_resolution(A,B):
     np.append(B,B[0,:])
     resolution_a = (max(A[:,0])-min(A[:,0]))/len(A)
     resolution_b = (max(B[:,0])-min(B[:,0]))/len(B)
-    new_resolution = min(resolution_a,resolution_b)/5
+    new_resolution = min(resolution_a,resolution_b)/3
 # Generate the function f for each spline
     f_a = interpolate.interp1d(A[:,0],A[:,1],kind='cubic')
     f_b = interpolate.interp1d(B[:,0],B[:,1],kind='cubic')
@@ -264,6 +264,7 @@ def extend_potential(potential,extension,vector):
     extended_potential = np.zeros(shape=(int(extension*len(potential)),2))
     idx = 0
     diff = np.sqrt(vector.dot(vector))
+    increment = diff/len(potential[:,0])
     for i in range(int(extension)):
 	for j in range(len(potential)):
     	    extended_potential[idx,0]=potential[j,0]+i*diff
@@ -274,7 +275,7 @@ def extend_potential(potential,extension,vector):
 	i = i + 1
 	over_shoot = extension - int(extension) 
 	for j in range(int(len(potential)*over_shoot)):
-   	    extended_potential[idx,0]=potential[j,0]+i*(max(potential[:,0])-min(potential[:,0]))
+   	    extended_potential[idx,0]=potential[j,0]+i*(max(potential[:,0])-min(potential[:,0]))+increment*i
 	    extended_potential[idx,1] = potential[j,1]
             idx = idx + 1
 
@@ -608,10 +609,15 @@ def density_2_grid(Density,nx,ny,nz,Charge=False,Volume=1):
     l = 0   
     Potential_grid = np.zeros(shape=(nx,ny,nz))
     total_electrons = 0
+    is_CHGCAR = True
     for k in range(nz):
 	for j in range(ny):
 	    for i in range(nx):
 		Potential_grid[i,j,k] = Density[l]/Volume
+ 		if is_CHGCAR == True:
+# Convert the charge density to a number of electrons
+		    point_volume = Volume/(nx*ny*nz)
+		    Potential_grid[i,j,k] = Potential_grid[i,j,k]*point_volume
 		total_electrons = total_electrons + Density[l]
 		l = l + 1
     print "Total electrons: ", total_electrons/(nx*ny*nz)
