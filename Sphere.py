@@ -1,3 +1,4 @@
+#! /usr/bin/env python
 import NewPotentialModule as pot
 import math
 import numpy as np
