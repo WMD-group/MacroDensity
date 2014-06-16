@@ -1,4 +1,4 @@
-#!/bin/bash
+#! /usr/bin/env python
 
 # Copyright Keith Butler(2014) #
 # #
