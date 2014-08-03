@@ -63,18 +63,28 @@ python SphericalAverage.py
 ```
 This results in some outpus telling you the average potential in the volume and the variance of the potential. If the variance is too high it means that you are not sampling  a well converged plateau in the potential; typically values below 10e-4 are acceptable.
 
-
-Description
+PlaneField.py
 ------------
+This plots the countour lines of the iso-surface of an electric field in an arbitrary plane as defined in the preamble part of the file.
+```
+a_point = [0, 0, 0]
+b_point = [1, 0, 1]
+c_point = [0, 1, 0]
+
+input_file = 'LOCPOT.slab'
+```
+The execution is simply:
+```
+python PlaneField.py
+```
+This creates a contour plot of the field lines.
 
 
 To-do
 ------------
-- Add a full description of the input file format.
+- * Add a full description of the input file format.
+- * Create input modules for other electronic structure codes.
 
-Execution
-------------
-python InputControl.py
 
 Disclaimer
 ----------
