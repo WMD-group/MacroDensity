@@ -34,6 +34,9 @@ input_file = 'LOCPOT.slab'
 lattice_vector = 4.75
 output_file = 'planar.dat'
 ```
+
+The variable lattice vector refers to the lattice vector of the bulk crystal structure in the direction of the plotting. It is used to get the macroscopic average, as defined in [Jackson's book](https://archive.org/details/ClassicalElectrodynamics).
+
 The code is then simply executed as:
 ```
 python PlanarAverage.py
@@ -44,6 +47,21 @@ SphericalAverage.py
 ------------
 
 This example is for plotting the average potential inside a sphere of given radius. This is the method used in or J.A.C.S. paper http://pubs.acs.org/doi/abs/10.1021/ja4110073
+
+A full tutorial of the methods applie in the paper is available here: http://people.bath.ac.uk/chh34/
+
+The lines which need to be edited for this are:
+```
+input_file = 'LOCPOT.MiL'
+cube_size = [2,2,2]    # This size is in units of mesh points
+## origin defines the bottom left point of the cube the "0,0,0" point in fractional coordinates
+cube_origin = [0,0,0]
+```
+To run the code simply type:
+```
+python PlanarAverage.py
+```
+This results in some outpus telling you the average potential in the volume and the variance of the potential. If the variance is too high it means that you are not sampling  a well converged plateau in the potential; typically values below 10e-4 are acceptable.
 
 
 Description
