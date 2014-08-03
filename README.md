@@ -28,6 +28,17 @@ There are several example files included with the package, they are documented b
 PlanarAverage.py
 ------------
 This example is for plotting the planar average of a potential along a vector. In the example we plot along the z vector.
+The only variables which need to be set are in the first three lines.
+```
+input_file = 'LOCPOT.slab'
+lattice_vector = 4.75
+output_file = 'planar.dat'
+```
+The code is then simply executed as:
+```
+python PlanarAverage.py
+```
+This results in a plot of the planar average and an output of the potential called planar.dat.
 
 
 Description
