@@ -9,7 +9,7 @@ Atom centred averages (requires Atomistic Simulations Environment)
 
 Author
 ------------
-Keith Butler
+Keith Butler, Aron Walsh, Chris Hendon.
 
 
 Requirements
