@@ -40,6 +40,11 @@ python PlanarAverage.py
 ```
 This results in a plot of the planar average and an output of the potential called planar.dat.
 
+SphericalAverage.py
+------------
+
+This example is for plotting the average potential inside a sphere of given radius. This is the method used in or J.A.C.S. paper http://pubs.acs.org/doi/abs/10.1021/ja4110073
+
 
 Description
 ------------
