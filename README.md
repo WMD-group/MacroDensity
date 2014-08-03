@@ -59,7 +59,7 @@ cube_origin = [0,0,0]
 ```
 To run the code simply type:
 ```
-python PlanarAverage.py
+python SphericalAverage.py
 ```
 This results in some outpus telling you the average potential in the volume and the variance of the potential. If the variance is too high it means that you are not sampling  a well converged plateau in the potential; typically values below 10e-4 are acceptable.
 
