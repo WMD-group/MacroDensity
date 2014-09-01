@@ -503,6 +503,19 @@ def matrix_2_abc(Lattice):
     return a,b,c,a_vec,b_vec,c_vec
 #------------------------------------------------------------------------------------------
 
+def read_cube_density(FILE):
+    f = open(FILE,"r")
+    lines = f.readlines()
+    f.close()
+    lattice = np.zeros(shape=(3,3))
+    for line in lines:
+	inp = line.split()
+	if inp == []:
+	    continue
+	if len(inp) == 4:
+	    natms = inp[0]
+	    
+#------------------------------------------------------------------------------------------
 def read_vasp_density(FILE):
     """Generic reading of CHGCAR LOCPOT etc files from VASP"""
     f = open(FILE,"r")
