@@ -63,6 +63,27 @@ python SphericalAverage.py
 ```
 This results in some outpus telling you the average potential in the volume and the variance of the potential. If the variance is too high it means that you are not sampling  a well converged plateau in the potential; typically values below 10e-4 are acceptable.
 
+OnSitePotential.py
+------------
+
+This is for calculating the potentials at the sites of a certain atomic nucleus, for example the O nucleii in an oxide. This on site potential calculated this way is equivalent to a Madelung potential and can be useful fo predicting electron energy levels (see http://pubs.acs.org/doi/abs/10.1021/ar400115x for details).
+
+The input lines to edit are :
+```
+potential_file = 'LOCPOT' # The file with VASP output for potential
+coordinate_file = 'POSCAR' # The coordinates file NOTE NOTE This must be in vasp 4 format 
+species = "O"  # The species whose on-site potential you are interested in 
+sample_cube = [5,5,5] # The size of the sampling cube in units of mesh points (NGX/Y/Z)
+```
+
+The sample cube parameter determines the size of the sample area, the units are mesh points, the magnitude of the mesh point is calculated by dividing the appropriate lattice vector by the number of points (NGX/Y/Z in OUTCAR).
+
+To run the code simply type:
+```
+python OnSitePotentail.py
+```
+The result is a histogram plot using Matplotlib. If you prefer data ouput simply edit the final lines of the script.
+
 PlaneField.py
 ------------
 This plots the countour lines of the iso-surface of an electric field in an arbitrary plane as defined in the preamble part of the file.
