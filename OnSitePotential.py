@@ -51,9 +51,9 @@ i = 0
 num_bins = 20
 for coord in ox_coords:
     i = i + 1
-    grid_position[0] = int(coord[0]*NGX)
-    grid_position[1] = int(coord[1]*NGY)
-    grid_position[2] = int(coord[2]*NGZ)
+    grid_position[0] = coord[0]
+    grid_position[1] = coord[1]
+    grid_position[2] = coord[2]
     cube = sample_cube    # The size of the cube x,y,z in units of grid resolution.
     origin = [grid_position[0]-2,grid_position[1]-2,grid_position[2]-1]
     travelled = [0,0,0] # Should be left as it is.
