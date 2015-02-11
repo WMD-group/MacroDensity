@@ -15,6 +15,7 @@ Keith Butler, Aron Walsh, Chris Hendon.
 Requirements
 ------------
 Python
+
 ASE (for atom centred functionality)
 
 
