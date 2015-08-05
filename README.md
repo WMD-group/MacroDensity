@@ -28,7 +28,21 @@ Download the file NewPotentialModule.py. Include this file in your pyhtonpath, o
 
 There are several example files included with the package, they are documented below.
 
-### Mac Installation
+#### Mac Installation
+- Download by clicking the Download zip on the right of this page.
+- Place it in your preferred installation directory, let's say $home/src
+'''
+mv ~/Downloads/MacroDensity-master.zip .
+'''
+- Unzip the package
+'''
+unzip MacroDensity-master.zip
+'''
+- Add the directory to your PYTHON PATH
+'''
+PYTHONPATH = $HOME/src/MacroDensity-master/:$PYTHONPATH
+'''
+- That's it, ready to use the example files listed below
 
 PlanarAverage.py
 ------------
