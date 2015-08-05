@@ -61,6 +61,6 @@ for coord in ox_coords:
     potentials_list.append(cube_potential)
 n, bins, patches = plt.hist(potentials_list, num_bins,normed=100, facecolor='#6400E1', alpha=0.5)
 plt.xlabel('Hartree potential (V)',fontsize = 22)
-plt.ylabel('% of O centres',fontsize = 22)
+plt.ylabel('% of centres',fontsize = 22)
 plt.savefig('Potentials.png',dpi=300)
 plt.show()
