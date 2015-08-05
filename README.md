@@ -124,7 +124,8 @@ This creates a contour plot of the field lines.
 To-do
 ------------
 - * Add a full description of the input file format.
-- * Create input modules for other electronic structure codes.
+- * Command line argparse.
+- * Fix percentage to fraction.
 
 
 Disclaimer
