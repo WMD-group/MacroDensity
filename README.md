@@ -15,6 +15,7 @@ Keith Butler, Aron Walsh, Chris Hendon.
 Requirements
 ------------
 Python
+
 ASE (for atom centred functionality)
 
 
@@ -46,7 +47,7 @@ This results in a plot of the planar average and an output of the potential call
 SphericalAverage.py
 ------------
 
-This example is for plotting the average potential inside a sphere of given radius. This is the method used in or J.A.C.S. paper http://pubs.acs.org/doi/abs/10.1021/ja4110073
+This example is for plotting the average potential inside a sphere of given radius. This is the method used in our J.A.C.S. paper http://pubs.acs.org/doi/abs/10.1021/ja4110073
 
 A full tutorial of the methods applie in the paper is available here: http://people.bath.ac.uk/chh34/
 
