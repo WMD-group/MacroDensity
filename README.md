@@ -16,6 +16,8 @@ Requirements
 ------------
 Python
 
+Matplotlib (if you want to plot results on the fly)
+
 ASE (for atom centred functionality)
 
 
@@ -25,6 +27,8 @@ Installation
 Download the file NewPotentialModule.py. Include this file in your pyhtonpath, or in the directory where you are performing the analysis.
 
 There are several example files included with the package, they are documented below.
+
+### Mac Installation
 
 PlanarAverage.py
 ------------
