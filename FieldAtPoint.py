@@ -31,6 +31,7 @@ resolution_z = vector_c/NGZ
 grid_pot, electrons = pot.density_2_grid(vasp_pot,NGX,NGY,NGZ)
 ## Get the gradiens (Field), if required.
 ## Comment out if not required, due to compuational expense.
+print("Calculating gradients (Electic field, E=-Grad.V )...")
 grad_x,grad_y,grad_z = np.gradient(grid_pot[:,:,:],resolution_x,resolution_y,resolution_z)
 #------------------------------------------------------------------
 
@@ -55,6 +56,13 @@ grad_mag = np.multiply(XY,grad_z)
 xx,yy,grd =  pot.create_plotting_mesh(NGX,NGY,NGZ,plane_coeff,grad_y)
 ## Plot the surface
 plt.contour(xx,yy,grd,20)
+
+plt.quiver(xx,yy,grad_x[:,:,NGZ/2],grad_y[:,:,NGZ/2] ,
+        color='blue'
+        ) #,
+#        units='xy', scale=10., zorder=3, color='blue',
+#        width=0.007, headwidth=3., headlength=4.)
+
 plt.show()
 ##------------------------------------------------------------------
 ##------------------------------------------------------------------
