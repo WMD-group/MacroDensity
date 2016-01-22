@@ -65,16 +65,27 @@ grad_mag = np.sqrt(np.add(X2,Y2,Z2))
 
 # Here we construct the same xx,yy,grd variables with a SLICE, forming a plane in XY at particular ZSLICE
 xx, yy = np.mgrid[0:NGX,0:NGY]
-ZSLICE=0# NGZ/2
+ZSLICE= NGZ/2 # Chosses where in the Z axis the XY slice is cut through
+# Slice of magnitude of electric field, for contour plotting
 grd=grad_mag[:,:,ZSLICE]
+# Slices of x and y components for arrow plotting
+grad_x_slice=grad_x[:,:,ZSLICE]
+grad_y_slice=grad_y[:,:,ZSLICE]
 # OK, that's all our data
+
+# This code tiles the data to (2,2) to re-expand unit cell to a 2x2 supercell in XY
+xx,yy=np.mgrid[0:2*NGX,0:2*NGY]
+grd=np.tile(grd, (2,2))
+grad_x_slice=np.tile(grad_x_slice, (2,2))
+grad_y_slice=np.tile(grad_y_slice, (2,2))
+# End of tiling code
 
 ## Contours of the above sliced data
 plt.contour(xx,yy,grd,6,cmap=cm.cubehelix)
 
 # Also generate a set of Efield arrows ('quiver') for this data.
 # Specifying the drawing parameters is quite frustrating - they are very brittle + poorly documented.
-plt.quiver(xx,yy,grad_x[:,:,ZSLICE],grad_y[:,:,ZSLICE] ,
+plt.quiver(xx,yy, grad_x_slice, grad_y_slice,
         color='grey',
         units='dots', width=1, headwidth=3, headlength=4
         ) #,
@@ -83,6 +94,8 @@ plt.quiver(xx,yy,grad_x[:,:,ZSLICE],grad_y[:,:,ZSLICE] ,
 
 plt.axis('equal') #force square aspect ratio; this assuming X and Y are equal.
 plt.show()
+
+
 ##------------------------------------------------------------------
 ##------------------------------------------------------------------
 
