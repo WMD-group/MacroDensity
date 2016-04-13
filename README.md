@@ -48,7 +48,7 @@ PYTHONPATH = $HOME/src/MacroDensity-master/:$PYTHONPATH
 PlanarAverage.py
 ------------
 This example is for plotting the planar average of a potential along a vector. In the example we plot along the z vector.
-The only variables which need to be set are in the first three lines.
+The only variables which need to be set are in the first three lines. Note the LOCPOT.slab file is just a regular LOCPOT file; LOCPOT.slab is just what I happend to rename it to.
 ```
 input_file = 'LOCPOT.slab'
 lattice_vector = 4.75
@@ -70,7 +70,7 @@ This example is for plotting the average potential inside a sphere of given radi
 
 A full tutorial of the methods applie in the paper is available here: http://people.bath.ac.uk/chh34/
 
-The lines which need to be edited for this are:
+The lines which need to be edited for this are below.  Note the LOCPOT.MiL file is just a regular LOCPOT file; LOCPOT.MiL is just what I happend to rename it to.
 ```
 input_file = 'LOCPOT.MiL'
 cube_size = [2,2,2]    # This size is in units of mesh points
