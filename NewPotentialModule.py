@@ -20,6 +20,42 @@ import numpy as np
 import math
 from scipy import interpolate
 
+
+def write_cube(data, lattice, ngx, ngy, ngz, name='default.cube'):
+    """
+    Writes an xyz format file
+    Args:
+        data : the data to put in the cube file
+        lattice : the lattice matrix
+        ngx,y,z : the number of voxels in x,y,z
+        name : the file name to write to
+    Returns:
+    """
+
+    origin = [0.,0.,0.]
+    f = open(name ,'w')
+    f.write("Cube file from MacroDensity \n")
+    f.write("Created by chance \n")
+    length = len(data)
+    f.write('{:d} {:.3f} {:.3f} {:.3f}\n'.format(1, origin[0], origin[1], origin[2]))
+    for i in range(3):
+        lattice[0,i] = lattice[0,i]/ngx
+        lattice[1,i] = lattice[1,i]/ngy
+        lattice[2,i] = lattice[2,i]/ngz
+
+    f.write('{:d} {:.3f} {:.3f} {:.3f}\n'.format(ngx, lattice[0,0], lattice[0,1], lattice[0,2]))
+    f.write('{:d} {:.3f} {:.3f} {:.3f}\n'.format(ngy, lattice[1,0], lattice[1,1], lattice[1,2]))
+    f.write('{:d} {:.3f} {:.3f} {:.3f}\n'.format(ngz, lattice[2,0], lattice[2,1], lattice[2,2]))
+    f.write('{:d} {:.3f} {:.3f} {:.3f}\n'.format(1, 0, 0, 0))
+
+    for i in range(ngx):
+        for j in range(ngy):
+            for k in range(ngz):
+                f.write(' {:.2f} '.format(data[i,j,k]))
+                if k % 6 == 5:
+                    f.write('\n')
+
+
 #------------------------------------------------------------------------------------------
 def gradient_magnitude(gx,gy,gz):
     """Converts the separate gradient magnitudes to a single magnitude
@@ -392,6 +428,7 @@ def cube_potential(origin,travelled,cube,Grid,nx,ny,nz):
     n_origin[0] = int(origin[0]*nx)
     n_origin[1] = int(origin[1]*ny)
     n_origin[2] = int(origin[2]*nz)
+    #print "ORIGIN:", n_origin
     potential_cube = np.zeros(shape=(cube[0],cube[1],cube[2]))
     for x in range(0,cube[0]):
         for y in range(0,cube[1]):
