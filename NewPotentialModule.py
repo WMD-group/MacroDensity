@@ -21,6 +21,18 @@ import math
 from scipy import interpolate
 
 
+def system_volume(lattice):
+    """
+    Calculates the volume of the system
+    Args: lattice a 3x3 matrix with the lattice constants
+    Returns: vol the system volume
+    """
+
+    vol = abs(np.dot(np.cross(lattice[0],lattice[1]),lattice[2]))
+
+    return vol
+
+    
 def write_cube(data, lattice, ngx, ngy, ngz, name='default.cube'):
     """
     Writes an xyz format file
