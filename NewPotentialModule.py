@@ -619,7 +619,7 @@ def read_vasp_density(FILE):
       Potential[k+4] = inp[4]
       k = k + 5
       if math.fmod(k,100000) == 0:
-       print "Reading potetial, at point", k
+       print "Reading potential at point", k
 
     print	"BBBB		OOOO		OOOO		MMMMM	"
     print	"BBBB		OOOO		OOOO		MMMMM	"
