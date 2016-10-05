@@ -102,6 +102,30 @@ def vector_2_abscissa(vector,magnitude,dx,dy,dz):
 
     return abscissa
 #------------------------------------------------------------------------------------------
+def active_elements(gradients,densities,grad_cut,dens_cut):
+    """
+    Returns the number of elements that can be *active* for gas adsorption.
+    i.e. they have a large enough field to adsorb, and a small enough density not to repel.
+    Args:
+	gradients : a grid with the electric field at each voxel
+	densities : a grid with the charge density at each voxel
+	grad_cut : cutoff gradient for effective adsorption
+	dens_cut : cutoff density to allow access (estimated at 1.35 from calculations of Ar radius)
+    Returns:
+	active : the number of *active* voxels
+    """
+    number_of_elements = 0
+    lens = densities.shape
+    for i in np.arange(lens[0]):	
+        for j in np.arange(lens[1]):	
+            for k in np.arange(lens[2]):	
+                grad = gradients[i,j,k]
+	        dens = densities[i,j,k]
+	        if grad >= grad_cut and dens <= dens_cut:
+	            number_of_elements += 1
+    
+    return number_of_elements
+#------------------------------------------------------------------------------------------
 def number_in_field(gradients,cutoff):
     """Get the number of grid elements with a field magnitude greater than cutoff
     Args:
@@ -617,6 +641,7 @@ def read_vasp_density(FILE):
      if len(inp) > 0:
       i = i + 1
      if i == num_atoms + 9:
+      print "NUM", inp
       NGX = int(inp[0])
       NGY = int(inp[1])
       NGZ = int(inp[2])
