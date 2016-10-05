@@ -4,7 +4,7 @@ import math
 import numpy as np
 import matplotlib.pyplot as plt
 
-input_file = 'LOCPOT.slab'
+input_file = 'LOCPOT'
 lattice_vector = 4.75
 output_file = 'planar.dat'
 # No need to alter anything after here
