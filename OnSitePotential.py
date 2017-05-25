@@ -39,11 +39,11 @@ from ase.io import vasp   # Only add this if want to read in coordinates
 
 coords = ase.io.vasp.read_vasp(coordinate_file)
 scaled_coords = coords.get_scaled_positions()
+symbols = coords.get_chemical_symbols()
 ox_coords = []
-i = -1
-for atom in coords:
-    i = i + 1
-    if atom.get_symbol() == species:
+
+for i, atom in enumerate(coords):
+    if symbols[i] == species:
         ox_coords.append(scaled_coords[i])
 grid_position = np.zeros(shape=(3))
 potentials_list = []
