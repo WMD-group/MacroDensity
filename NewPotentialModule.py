@@ -451,6 +451,7 @@ def planar_average(Grid,nx,ny,nz):
 
 def create_plotting_mesh(NGX,NGY,NGZ,plane_coeff,grad):
     """Create the mesh of points for a contour plot"""
+    print plane_coeff
     xx, yy = np.mgrid[0:NGX,0:NGY]
     x = 0
     grd = np.zeros(shape=(NGX,NGY))
@@ -462,6 +463,8 @@ def create_plotting_mesh(NGX,NGY,NGZ,plane_coeff,grad):
                 z_value = (plane_coeff[3]-plane_coeff[0]*x-plane_coeff[1]*y)/plane_coeff[2]
 		while z_value >= NGZ-1:
 		    z_value = z_value - NGZ
+		print x,y,z_value
+
                 grd[x,y] = grad[x,y,z_value]
                 z = z + 1
             y = y + 1
@@ -639,6 +642,22 @@ def density_2_grid(Density,nx,ny,nz,Charge=False,Volume=1):
     total_electrons = total_electrons/(nx*ny*nz)
     return Potential_grid,total_electrons
 #------------------------------------------------------------------------------------------
+def GCD(a,b):
+	""" The Euclidean Algorithm """
+	a = abs(a)
+	b = abs(b)
+        while a:
+                a, b = b%a, a
+        return b
+#------------------------------------------------------------------------------------------
+def GCD_List(list):
+	""" Finds the GCD of numbers in a list.
+	Input: List of numbers you want to find the GCD of
+		E.g. [8, 24, 12]
+	Returns: GCD of all numbers
+	"""
+	return reduce(GCD, list)
+#------------------------------------------------------------------------------------------
 
 def points_2_plane(a,b,c):
     """define a plane based on 3 points
@@ -654,6 +673,8 @@ def points_2_plane(a,b,c):
     for i in 0, 1, 2:
 	coefficients[i] = normal[i]
     coefficients[3] = d
+    GCD_coeff = GCD_List(coefficients)
+    coefficients = [a / GCD_coeff for a in coefficients]
     return coefficients 
 
 #------------------------------------------------------------------------------------------
