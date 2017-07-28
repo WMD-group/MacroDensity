@@ -449,27 +449,19 @@ def planar_average(Grid,nx,ny,nz):
     return Average
 #------------------------------------------------------------------------------------------
 
-def create_plotting_mesh(NGX,NGY,NGZ,plane_coeff,grad):
-    """Create the mesh of points for a contour plot"""
-    print plane_coeff
-    xx, yy = np.mgrid[0:NGX,0:NGY]
-    x = 0
-    grd = np.zeros(shape=(NGX,NGY))
-    while x < NGX:
-        y = 0
-        while y < NGY:
-            z = 0
-            while z < NGZ:
-                z_value = (plane_coeff[3]-plane_coeff[0]*x-plane_coeff[1]*y)/plane_coeff[2]
-		while z_value >= NGZ-1:
-		    z_value = z_value - NGZ
-		print x,y,z_value
-
-                grd[x,y] = grad[x,y,z_value]
-                z = z + 1
-            y = y + 1
-        x = x + 1
-    return xx,yy,grd
+def create_plotting_mesh(NGX,NGY,NGZ,pc,grad):
+    """Create the mesh of points for a contour plot
+    pc: coefficients of the plane equation.
+    """
+    print NGX,NGY,NGZ, pc
+    plane = []
+    for x in range(NGX):
+        for y in range(NGY):
+            for z in range(NGZ):
+		s = pc[0] * x + pc[1] * y + pc[2] * z - pc[3]
+                if s == 0:
+		    plane.append(grad[x,y,z])
+    return plane
 #------------------------------------------------------------------------------------------
 def get_volume(a,b,c):
     """Calculate the volume of the cell from lattice vectors
@@ -668,13 +660,13 @@ def points_2_plane(a,b,c):
 
     ca = c - a
     ba = b - a
-    normal = np.cross(ca,ba)
+    normal = np.cross(ba,ca)
+    #GCD_coeff = GCD_List(normal)
+    #normal = [x / GCD_coeff for x in normal]
     d = normal[0]*a[0] + normal[1]*a[1] + normal[2]*a[2]
     for i in 0, 1, 2:
 	coefficients[i] = normal[i]
     coefficients[3] = d
-    GCD_coeff = GCD_List(coefficients)
-    coefficients = [a / GCD_coeff for a in coefficients]
     return coefficients 
 
 #------------------------------------------------------------------------------------------
