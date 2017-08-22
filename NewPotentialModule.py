@@ -370,6 +370,8 @@ def macroscopic_average(potential,periodicity,resolution):
 
     macro_average = np.zeros(shape=(len(potential)))
     period_points = int((periodicity/resolution))
+    print periodicity, resolution
+    print period_points
 # Re-arrange so that period points divides evenly by resolution
     for i in range(len(potential)):
 	for j in range(i-int(period_points/2),i+int(period_points/2)):
@@ -388,10 +390,10 @@ def cube_potential(origin,travelled,cube,Grid,nx,ny,nz):
     """Populates the sampling cube with the potential required"""
 
 # Recalc the origin as grid point coordinates
-    n_origin = np.zeros(shape=(3))
-    n_origin[0] = int(origin[0]*nx)
-    n_origin[1] = int(origin[1]*ny)
-    n_origin[2] = int(origin[2]*nz)
+    n_origin = []
+    n_origin.append(int(origin[0]*nx))
+    n_origin.append(int(origin[1]*ny))
+    n_origin.append(int(origin[2]*nz))
     potential_cube = np.zeros(shape=(cube[0],cube[1],cube[2]))
     for x in range(0,cube[0]):
         for y in range(0,cube[1]):
@@ -401,9 +403,9 @@ def cube_potential(origin,travelled,cube,Grid,nx,ny,nz):
 		yv = n_origin[1]+travelled[1]+y
 		zv = n_origin[2]+travelled[2]+z
 # Minimum image convention
-	    	zv = zv - nz*round(zv/nz)
-	    	yv = yv - ny*round(yv/ny)
-	    	xv = xv - nx*round(xv/nx)
+	    	zv = int(zv - nz*round(zv/nz))
+	    	yv = int(yv - ny*round(yv/ny))
+	    	xv = int(xv - nx*round(xv/nx))
         	potential_cube[x,y,z] = Grid[xv,yv,zv]
 
     return potential_cube.mean(), np.var(potential_cube)
