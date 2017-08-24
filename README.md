@@ -19,26 +19,10 @@ Requirements
 Installation
 ------------
 
-Download `NewPotentialModule.py`. 
-Include this file in your pythonpath or in the directory where you are performing the analysis.
+```
+pip install git+git://github.com/WMD-group/MacroDensity.git
+```
 
-There are several example files included with the package, they are documented below.
-
-#### Mac Installation
-- Download by clicking [Download zip](https://github.com/WMD-group/MacroDensity/archive/master.zip)
-- Place it in your preferred installation directory, let's say `$home/src`
-```
-mv ~/Downloads/MacroDensity-master.zip .
-```
-- Unzip the package
-
-```
-unzip MacroDensity-master.zip
-```
-- Add the directory to your PYTHON PATH
-```
-PYTHONPATH = $HOME/src/MacroDensity-master/:$PYTHONPATH
-```
 - You are now ready to run the examples listed below
 
 PlanarAverage.py
