@@ -25,8 +25,8 @@ Include this file in your pythonpath or in the directory where you are performin
 There are several example files included with the package, they are documented below.
 
 #### Mac Installation
-- Download by clicking the `Download ZIP` on the right of this page.
-- Place it in your preferred installation directory, let's say $home/src
+- Download by clicking [Download zip](https://github.com/WMD-group/MacroDensity/archive/master.zip)
+- Place it in your preferred installation directory, let's say `$home/src`
 ```
 mv ~/Downloads/MacroDensity-master.zip .
 ```
@@ -44,7 +44,7 @@ PYTHONPATH = $HOME/src/MacroDensity-master/:$PYTHONPATH
 PlanarAverage.py
 ------------
 This example is for plotting the planar average of a potential along a vector (here it is z).
-The only variables which need to be set are in the first three lines. Note `LOCPOT.slab` file is just a regular `LOCPOT`.
+The only variables which need to be set are in the first three lines. Note `LOCPOT.slab` file is just a regular `LOCPOT` grid file.
 
 ```
 input_file = 'LOCPOT.slab'
@@ -53,23 +53,22 @@ output_file = 'planar.dat'
 ```
 
 The variable lattice vector refers to the lattice vector of the bulk crystal structure in the direction of the plotting. 
-It is used to get the macroscopic average, as defined in [Jackson](https://archive.org/details/ClassicalElectrodynamics).
+It is used to get the macroscopic average, as defined in [Jackson's Electrodynamics](https://archive.org/details/ClassicalElectrodynamics).
 
 The code is executed as:
 
 ```
 python PlanarAverage.py
 ```
-This results in a plot of the planar average and an output of the potential called planar.dat.
+This results in a plot of the planar average and an output of the potential called `planar.dat`.
 
 SphericalAverage.py
 ------------
 
 This example is for plotting the average potential inside a sphere of given radius. 
-It is the method used in our 2014 [JACS](http://pubs.acs.org/doi/abs/10.1021/ja4110073).
+It is the method used in our 2014 study of metal-organic frameworks in [JACS](http://pubs.acs.org/doi/abs/10.1021/ja4110073).
 
-The lines which need to be edited for this are below.  
-Note `LOCPOT.MiL` is just a regular `LOCPOT` file.
+The lines which need to be edited for this are given below.  Note `LOCPOT.MiL` is just a regular `LOCPOT` file that has been renamed.
 
 ```
 input_file = 'LOCPOT.MiL'
@@ -83,12 +82,12 @@ To run the code simply type:
 ```
 python SphericalAverage.py
 ```
-This results in some outpus telling you the average potential in the volume and the variance of the potential. If the variance is too high it means that you are not sampling a plateau in the potential; typically values below 10e-4 are acceptable.
+This results in an output of the average potential in the volume, and the variance of the potential. If the variance is too high it means that you are not sampling a plateau in the potential; typically values below 10e-4 are acceptable.
 
 OnSitePotential.py
 ------------
 
-This is for calculating the potentials at the sites of a certain atomic nucleus, for example the O nucleii in an oxide. This on site potential calculated this way is equivalent to a Madelung potential and can be useful for predicting electron energy levels (see http://pubs.acs.org/doi/abs/10.1021/ar400115x for details).
+This example is for calculating the potential at the sites of a certain atomic nucleus, for example the O nuclei in an oxide. This on-site potential calculated this way is equivalent to a Madelung potential and can be useful for predicting electron energy levels (see http://pubs.acs.org/doi/abs/10.1021/ar400115x for details).
 
 The input lines to edit are :
 
