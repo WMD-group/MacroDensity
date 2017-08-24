@@ -1,5 +1,5 @@
 #! /usr/bin/env python
-import NewPotentialModule as pot
+import macrodensity as md
 import math
 import numpy as np
 import matplotlib.pyplot as plt
@@ -13,12 +13,12 @@ from itertools import izip
 # Get the potential
 # This section should not be altered
 #------------------------------------------------------------------
-vasp_pot, NGX, NGY, NGZ, Lattice = pot.read_vasp_density('LOCPOT')
-vector_a,vector_b,vector_c,av,bv,cv = pot.matrix_2_abc(Lattice)
+vasp_pot, NGX, NGY, NGZ, Lattice = md.read_vasp_density('LOCPOT')
+vector_a,vector_b,vector_c,av,bv,cv = md.matrix_2_abc(Lattice)
 resolution_x = vector_a/NGX
 resolution_y = vector_b/NGY
 resolution_z = vector_c/NGZ
-grid_pot, electrons = pot.density_2_grid(vasp_pot,NGX,NGY,NGZ)
+grid_pot, electrons = md.density_2_grid(vasp_pot,NGX,NGY,NGZ)
 cutoff_varience = 1E-4
 hanksConstant = 4.89E-7
 ## Get the gradiens (Field), if required.
@@ -92,7 +92,7 @@ for i in range(0,NGX,cube[0]):
     for j in range(0,NGY,cube[1]):
 	for k in range(0,NGZ,cube[2]):
 	    origin = [float(i)/NGX,float(j)/NGY,float(k)/NGZ]
-            cube_potential, cube_var = pot.cube_potential(origin,travelled,cube,grid_pot,NGX,NGY,NGZ)
+            cube_potential, cube_var = md.cube_potential(origin,travelled,cube,grid_pot,NGX,NGY,NGZ)
 	    if cube_var <= cutoff_varience:
 		vacuum.append(origin)
 	    else:

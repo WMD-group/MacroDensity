@@ -1,5 +1,5 @@
 #! /usr/bin/env python
-import NewPotentialModule as pot
+import macrodensity as md
 import math
 import numpy as np
 import matplotlib.pyplot as plt
@@ -32,9 +32,9 @@ resolution_z = vector_c/NGZ
 print NGX,NGY,NGZ
 #------------------------------------------------------------------
 ## POTENTIAL
-planar = pot.planar_average(potential,NGX,NGY,NGZ)
+planar = md.planar_average(potential,NGX,NGY,NGZ)
 ## MACROSCOPIC AVERAGE
-macro  = pot.macroscopic_average(planar,lattice_vector,resolution_z)
+macro  = md.macroscopic_average(planar,lattice_vector,resolution_z)
 plt.plot(planar)
 plt.plot(macro)
 plt.savefig('Planar.eps')

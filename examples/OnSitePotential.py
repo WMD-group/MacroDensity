@@ -1,5 +1,5 @@
 #! /usr/bin/env python
-import NewPotentialModule as pot
+import macrodensity as md
 import math
 import numpy as np
 import matplotlib.pyplot as plt
@@ -17,12 +17,12 @@ sample_cube = [5,5,5] # The size of the sampling cube in units of mesh points (N
 # Get the potential
 # This section should not be altered
 #------------------------------------------------------------------
-vasp_pot, NGX, NGY, NGZ, Lattice = pot.read_vasp_density(potential_file)
-vector_a,vector_b,vector_c,av,bv,cv = pot.matrix_2_abc(Lattice)
+vasp_pot, NGX, NGY, NGZ, Lattice = md.read_vasp_density(potential_file)
+vector_a,vector_b,vector_c,av,bv,cv = md.matrix_2_abc(Lattice)
 resolution_x = vector_a/NGX
 resolution_y = vector_b/NGY
 resolution_z = vector_c/NGZ
-grid_pot, electrons = pot.density_2_grid(vasp_pot,NGX,NGY,NGZ)
+grid_pot, electrons = md.density_2_grid(vasp_pot,NGX,NGY,NGZ)
 ## Get the gradiens (Field), if required.
 ## Comment out if not required, due to compuational expense.
 grad_x,grad_y,grad_z = np.gradient(grid_pot[:,:,:],resolution_x,resolution_y,resolution_z)
@@ -57,7 +57,7 @@ for coord in ox_coords:
     cube = sample_cube    # The size of the cube x,y,z in units of grid resolution.
     origin = [grid_position[0]-2,grid_position[1]-2,grid_position[2]-1]
     travelled = [0,0,0] # Should be left as it is.
-    cube_potential, cube_var = pot.cube_potential(origin,travelled,cube,grid_pot,NGX,NGY,NGZ)
+    cube_potential, cube_var = md.cube_potential(origin,travelled,cube,grid_pot,NGX,NGY,NGZ)
     potentials_list.append(cube_potential)
 n, bins, patches = plt.hist(potentials_list, num_bins,normed=100, facecolor='#6400E1', alpha=0.5)
 plt.xlabel('Hartree potential (V)',fontsize = 22)
