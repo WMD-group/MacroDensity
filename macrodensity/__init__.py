@@ -397,13 +397,13 @@ def cube_potential(origin,travelled,cube,Grid,nx,ny,nz):
         for y in range(0,cube[1]):
     	    for z in range(0,cube[2]):
 # Assign the values of coordinates in the original grid
-		xv = n_origin[0]+travelled[0]+x
-		yv = n_origin[1]+travelled[1]+y
-		zv = n_origin[2]+travelled[2]+z
+		xv = int(n_origin[0]+travelled[0]+x)
+		yv = int(n_origin[1]+travelled[1]+y)
+		zv = int(n_origin[2]+travelled[2]+z)
 # Minimum image convention
-	    	zv = zv - nz*round(zv/nz)
-	    	yv = yv - ny*round(yv/ny)
-	    	xv = xv - nx*round(xv/nx)
+	    	zv = int(zv - nz*round(zv/nz))
+	    	yv = int(yv - ny*round(yv/ny))
+	    	xv = int(xv - nx*round(xv/nx))
         	potential_cube[x,y,z] = Grid[xv,yv,zv]
 
     return potential_cube.mean(), np.var(potential_cube)
@@ -453,14 +453,16 @@ def create_plotting_mesh(NGX,NGY,NGZ,pc,grad):
     """Create the mesh of points for a contour plot
     pc: coefficients of the plane equation.
     """
-    print NGX,NGY,NGZ, pc
-    plane = []
-    for x in range(NGX):
-        for y in range(NGY):
-            for z in range(NGZ):
-		s = pc[0] * x + pc[1] * y + pc[2] * z - pc[3]
-                if s == 0:
-		    plane.append(grad[x,y,z])
+
+    if pc[0] == 0 and pc[1] == 0: a = NGX; b = NGY; p = 'zzo'; c = int(pc[3] / pc[2]) - 1
+    if pc[0] == 0 and pc[2] == 0: a = NGX; b = NGZ; p = 'zoz'; c = int(pc[3] / pc[1]) - 1
+    if pc[1] == 0 and pc[2] == 0: a = NGY; b = NGZ; p = 'ozz'; c = int(pc[3] / pc[0]) - 1
+    plane = np.zeros(shape=(a,b))
+    for x in range(a):
+        for y in range(b):
+	    if p == 'zzo':
+	        plane[x,y] = grad[x,y,c]
+
     return plane
 #------------------------------------------------------------------------------------------
 def get_volume(a,b,c):
