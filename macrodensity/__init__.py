@@ -19,6 +19,7 @@ import numpy
 import numpy as np
 import math
 from scipy import interpolate
+import vasp_tools
 
 #------------------------------------------------------------------------------------------
 def gradient_magnitude(gx,gy,gz):
