@@ -83,6 +83,8 @@ def energy_band_alignment_diagram(energies,materials,limit=8.,width=1.,cols=['#7
         ax1.text(len(energies)-0.45,-ref[1]-0.1,ref[0],fontsize=textsize,color='r')
 
     fig.savefig('%s.eps'%outfile,bbox_inches='tight')
-    print "Figure saved as %s.eps"%(outfile)
+    fig.savefig('%s.png'%outfile,bbox_inches='tight')
+    print "Figure saved as %s.eps and %s.png"%(outfile, outfile)
+    plt.close(fig)
 
 
