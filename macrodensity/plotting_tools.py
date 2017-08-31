@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 
-def energy_band_alignment_diagram(energies,materials,limit=8.,width=1.,cols=['#74356C','#efce19'],textsize=22,arrowhead=0.7, outfile='BandAlignment'):
+def energy_band_alignment_diagram(energies,materials,limit=8.,width=1.,cols=['#74356C','#efce19'],textsize=22,arrowhead=0.7, outfile='BandAlignment', references=[]):
     '''
     Function for plotting the classic energy band alignment diagram
     Args:
@@ -14,6 +14,7 @@ def energy_band_alignment_diagram(energies,materials,limit=8.,width=1.,cols=['#7
 	textsize: size of the font for the figure. Default = 22.
 	arrowhead: arrow head length. Default = 0.7.
 	outfile: name of the ouput. Default = 'BandAlignment'
+        references: any reference levels you want to add to the plot. [['Name of reference',value_of_reference], ...]. Note that value_of_reference is a positive value on the same scale as IP/EA. Default = [].
     Returns:
         Nothing, but draws an eps plot.
     '''
@@ -52,6 +53,7 @@ def energy_band_alignment_diagram(energies,materials,limit=8.,width=1.,cols=['#7
     ax1.set_xticklabels(materials,size=textsize)
     ran = [ str(k) for k in np.arange(0,limit+2,2)]
     ax1.set_yticklabels(ran[::-1],size=textsize)
+    ran = [ '' for k in np.arange(0,limit+2,2)]
     ran[0] = 'Vacuum Level'
     ax2.set_yticklabels(ran[::-1],size=textsize)
     ax1.set_ylabel('Energy (eV)', size=textsize)
@@ -75,6 +77,10 @@ def energy_band_alignment_diagram(energies,materials,limit=8.,width=1.,cols=['#7
         ax1.minorticks_on()
         ax1.tick_params(axis='x',which='minor',bottom='off') # Don't show minor ticks on x-axis
         ax2.minorticks_on()
+
+    for ref in references:
+        ax1.hlines(-ref[1],-0.5,len(energies)-0.5,linestyles='--',colors='r')
+        ax1.text(len(energies)-0.45,-ref[1]-0.1,ref[0],fontsize=textsize,color='r')
 
     fig.savefig('%s.eps'%outfile,bbox_inches='tight')
     print "Figure saved as %s.eps"%(outfile)
