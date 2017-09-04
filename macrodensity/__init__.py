@@ -15,13 +15,13 @@
 # #
 ################################################################################
 
+from __future__ import print_function
 import numpy
 import numpy as np
 import math
 from scipy import interpolate
 import vasp_tools
 import plotting_tools
-from __future__ import print_function
 from six.moves import input
 #------------------------------------------------------------------------------------------
 def gradient_magnitude(gx,gy,gz):
