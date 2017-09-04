@@ -21,7 +21,7 @@ import math
 from scipy import interpolate
 import vasp_tools
 import plotting_tools
-
+from __future__ import print_function
 #------------------------------------------------------------------------------------------
 def gradient_magnitude(gx,gy,gz):
     """Converts the separate gradient magnitudes to a single magnitude
@@ -59,25 +59,25 @@ def vector_2_abscissa(vector,magnitude,dx,dy,dz):
 def number_in_field(gradients,cutoff):
     """Get the number of grid elements with a field magnitude greater than cutoff
     Args:
-	gradients: the grid of field gradients (Real(ngx,ngy,ngz))
-	cutoff: the value above which tocout them (Real)
+    gradients: the grid of field gradients (Real(ngx,ngy,ngz))
+    cutoff: the value above which tocout them (Real)
     Returns:
-	number_of_elements: the number satisfying the condition (Integer)
+    number_of_elements: the number satisfying the condition (Integer)
     """  
     number_of_elements = 0
     for element in np.nditer(gradients):	
-	if element >= cutoff:
-	    number_of_elements += 1
+        if element >= cutoff:
+            number_of_elements += 1
     
     return number_of_elements
 #------------------------------------------------------------------------------------------
 def element_vol(vol,nx,ny,nz):
     """Calculates the volume of each of the elements on the grid.
     Args:
-	vol: the cell volume (real)
+    vol: the cell volume (real)
         x : the number of grid points in each direction (real)
     Returns:
-	ele_vol : the volume (real)
+    ele_vol : the volume (real)
     """
 
     number_of_elements = nx*ny*nz
@@ -89,18 +89,18 @@ def element_vol(vol,nx,ny,nz):
 def subs_potentials(A,B,tol):
     """Difference between two sets of data of the same length
     Args:
-	A/B: the arrays (2D)
-  	tol: the tolerence of the difference
+    A/B: the arrays (2D)
+    tol: the tolerence of the difference
     Returns:
-	C: a new aaray (2D)
+    C: a new aaray (2D)
     """
 
     C = A
     for i in range(len(A)):
-    	C[i,0] = A[i,0]
-    	if abs(A[i,1] - B[i,1]) <= tol:
+        C[i,0] = A[i,0]
+        if abs(A[i,1] - B[i,1]) <= tol:
             C[i,1] = 0
-    	else:
+        else:
             C[i,1] = A[i,1] - B[i,1]
 
     return C
@@ -109,40 +109,40 @@ def subs_potentials(A,B,tol):
 def bulk_vac(bulk, slab):
     """ This sets the electron density to zero in the regions of the projected 'bulk' which correspond to the vacuum region of the slab calculation.
     Args:
-	bulk : 2D array.
-	vacuum : 2D array.
+    bulk : 2D array.
+    vacuum : 2D array.
     Returns:
-	new_bulk : 2D array with vacuum zeros included.""" 
+    new_bulk : 2D array with vacuum zeros included."""
     new_bulk = np.zeros(shape=(len(slab),2))
     i = -1
     for s_pot in slab:
-	i = i + 1
-	found = False
-	for j in range(len(bulk)):
-	    if s_pot[0] <= bulk[j,0] and s_pot[0] > bulk[j-1,0]:
-		new_bulk[i,:] = bulk[j,:]
-		found = True
-     	if found == False:
-	    new_bulk[i,0] = s_pot[0]
-	    new_bulk[i,1] = 0
+        i = i + 1
+        found = False
+        for j in range(len(bulk)):
+            if s_pot[0] <= bulk[j,0] and s_pot[0] > bulk[j-1,0]:
+                new_bulk[i,:] = bulk[j,:]
+                found = True
+        if found == False:
+            new_bulk[i,0] = s_pot[0]
+            new_bulk[i,1] = 0
 
     return new_bulk
 #------------------------------------------------------------------------------------------
 def one_2_2d(Array,resolution,vector):
     """Converts the 1d potential array to 2D with angstroms in A[0]
     Args:
-    	Array: 1D array
-	resolution: density of sampling of distance (1/AA)
-	vector: The vector of the direction of sampling
+        Array: 1D array
+    resolution: density of sampling of distance (1/AA)
+    vector: The vector of the direction of sampling
     Returns
-	New_array: 2D array
+    New_array: 2D array
     """
     length = np.sqrt(vector.dot(vector))
     New_array = np.zeros(shape=(len(Array)-1,2))
     resolution = length/len(Array)
     for i in range(len(Array)-1):
-	New_array[i,0] = i*resolution
-	New_array[i,1] = Array[i]
+        New_array[i,0] = i*resolution
+        New_array[i,1] = Array[i]
     
     return New_array
 #------------------------------------------------------------------------------------------
@@ -150,9 +150,9 @@ def one_2_2d(Array,resolution,vector):
 def match_resolution(A,B):
     """Match the resolutions of two data-sets, given their range
     Args:
-	A/B: two 2D arrays
+    A/B: two 2D arrays
     Returns:
-	A_new/B_new : two new 2D arrays
+    A_new/B_new : two new 2D arrays
     """
 
     np.append(A,A[0,:])
@@ -180,10 +180,10 @@ def match_resolution(A,B):
 def spline_generate(A,new_res_factor):
     """Generate a spline of the data in a 2D array
     Args:
-	A: 2D array
-	new_res_factor: the factor by which to scale the resolution
+    A: 2D array
+    new_res_factor: the factor by which to scale the resolution
     Returns:
-	B: A spline of the data
+    B: A spline of the data
     """
     resolution = (A[len(A)-1,0]-A[0,0])*new_res_factor/len(A)
     array_a = np.arange(min(A[:,0]),max(A[:,0]),resolution)
@@ -192,8 +192,8 @@ def spline_generate(A,new_res_factor):
     S = f_a(array_a)
     B = np.zeros(shape=(len(A)/new_res_factor,2))
     for i in range(len(B)):
-    	B[i,0] = i*resolution+A[0,0]
-    	B[i,1] = S[i]
+        B[i,0] = i*resolution+A[0,0]
+        B[i,1] = S[i]
 
     return B
 #------------------------------------------------------------------------------------------
@@ -201,10 +201,10 @@ def spline_generate(A,new_res_factor):
 def matched_spline_generate(A,B, V_A, V_B):
     """Create 2D splines of 2 datasets, with an x-axis of units AA
     Args:
-	A/B: The two datasets to match up 1-D arrays.
-	V_A/B: The vectors of the direction of plotting.
+    A/B: The two datasets to match up 1-D arrays.
+    V_A/B: The vectors of the direction of plotting.
     Returns:
-	A/B_new : the new 2D Splined datasets.
+    A/B_new : the new 2D Splined datasets.
     """
 
 # Convert vectors to magnitude
@@ -232,26 +232,26 @@ def matched_spline_generate(A,B, V_A, V_B):
     res_a = length_A/float(len(A_new))
     res_b = length_B/float(len(B_new))
     for i in range(len(A_new)):
-	TD_A[i,1] = A[i]
-	TD_A[i,0] = i*res_a
+        TD_A[i,1] = A[i]
+        TD_A[i,0] = i*res_a
     for i in range(len(B_new)):
-	TD_B[i,1] = B[i]
-	TD_B[i,0] = i*res_b
+        TD_B[i,1] = B[i]
+        TD_B[i,0] = i*res_b
     return TD_A, TD_B
 
 #------------------------------------------------------------------------------------------
 def scissors_shift(potential,delta):
     """Scissors shifts a full potential by delta
     Args:
-	potential: a 2D array
-	delta: a real number
+    potential: a 2D array
+    delta: a real number
     Returns:
-	shifted_potential: a 2D array
+    shifted_potential: a 2D array
     """
     shifted_potential = potential
     for i in range(len(potential)):
-	shifted_potential[i,0] = potential[i,0]
-	shifted_potential[i,1] = potential[i,1] - delta
+        shifted_potential[i,0] = potential[i,0]
+        shifted_potential[i,1] = potential[i,1] - delta
 
     return shifted_potential
 
@@ -259,27 +259,27 @@ def scissors_shift(potential,delta):
 def extend_potential(potential,extension,vector):
     """Takes a potential and expands it.
     Args:
-   	potential: 2D array, the potential to be expanded.
-	extension: integer, the number of times to extend the potential.
- 	vector: 1D array, the vector along which you re epanding.
+    potential: 2D array, the potential to be expanded.
+    extension: integer, the number of times to extend the potential.
+    vector: 1D array, the vector along which you re epanding.
     Returns:
-	extended_potential: the 2D array, extended n times"""
+    extended_potential: the 2D array, extended n times"""
     extended_potential = np.zeros(shape=(int(extension*len(potential)),2))
     idx = 0
     diff = np.sqrt(vector.dot(vector))
     increment = diff/len(potential[:,0])
     for i in range(int(extension)):
-	for j in range(len(potential)):
-    	    extended_potential[idx,0]=potential[j,0]+i*diff
-	    extended_potential[idx,1] = potential[j,1]
-	    idx = idx + 1
+        for j in range(len(potential)):
+            extended_potential[idx,0]=potential[j,0]+i*diff
+            extended_potential[idx,1] = potential[j,1]
+            idx = idx + 1
 
     if int(extension) != extension:            # For non-integer extensions
-	i = i + 1
-	over_shoot = extension - int(extension) 
-	for j in range(int(len(potential)*over_shoot)):
-   	    extended_potential[idx,0]=potential[j,0]+i*(max(potential[:,0])-min(potential[:,0]))+increment*i
-	    extended_potential[idx,1] = potential[j,1]
+        i = i + 1
+        over_shoot = extension - int(extension)
+        for j in range(int(len(potential)*over_shoot)):
+            extended_potential[idx,0]=potential[j,0]+i*(max(potential[:,0])-min(potential[:,0]))+increment*i
+            extended_potential[idx,1] = potential[j,1]
             idx = idx + 1
 
     return extended_potential
@@ -287,9 +287,9 @@ def extend_potential(potential,extension,vector):
 def sort_potential(potential):
     """I had to write my own method to sort a 2D arry by the first row...I don't know why
     Args:
- 	potential: 2-D array.
+    potential: 2-D array.
     Returns:
-	sorted_potential the same array sorted by the first column.
+    sorted_potential the same array sorted by the first column.
     """
 
     idx = sorted(potential[:,0])
@@ -305,22 +305,22 @@ def sort_potential(potential):
 def diff_potentials(potential_a, potential_b,start,end,tol=0.04):
     """ Gets the difference betweeen two potentials, returns a 1D array
     Args:
-   	potential_a/b: 2D arrays
-	start/end : the start and finish coordinates 
-	tol : the tolerence for the coordinated being the same for subtraction
+    potential_a/b: 2D arrays
+    start/end : the start and finish coordinates
+    tol : the tolerence for the coordinated being the same for subtraction
     Returns:
-	new_potential: 2D array
+    new_potential: 2D array
     """
     resolution = potential_a[0,0] - potential_b[0,1]
     new_potential = np.zeros(shape=((start-end)/resolution,2))
     
     for i in range(len(potential_a)):
-	if potential_a[i,0] >= start and potential_a[i,0] <= end:
-	    for j in range(len(potential_b)):
-		if abs(potential_b[j,0] - potential_a[i,0]) <= tol:
-	    	    new_potential[i,1] = potential_a[i,1] - potential_b[i,1]
-	    	    new_potential[i,0] = potential_a[i,0]	
-	    
+        if potential_a[i,0] >= start and potential_a[i,0] <= end:
+            for j in range(len(potential_b)):
+                if abs(potential_b[j,0] - potential_a[i,0]) <= tol:
+                    new_potential[i,1] = potential_a[i,1] - potential_b[i,1]
+                    new_potential[i,0] = potential_a[i,0]
+
 
     return new_potential
 #------------------------------------------------------------------------------------------
@@ -330,13 +330,13 @@ def translate_grid(potential, translation, periodic=False, vector=[0,0,0],bounda
 
     The new index in the potential arrays [:,0] gives a coordinate in grid points.
     Args:
-	potential : 2D array containig the electrostaticpotential/charge density
-	translation : the distance to move it
-	periodic : boolean, perform wrapping of coordinates
-	vector: the vector along which you are transorming only required for periodic = True
-	boundary_shift : real, number of AA to shift the location of the periodic boundary
+    potential : 2D array containig the electrostaticpotential/charge density
+    translation : the distance to move it
+    periodic : boolean, perform wrapping of coordinates
+    vector: the vector along which you are transorming only required for periodic = True
+    boundary_shift : real, number of AA to shift the location of the periodic boundary
     Returns:
-	new_potential_trans : 2D array containig the translated electrostaticpotential/charge density 
+    new_potential_trans : 2D array containig the translated electrostaticpotential/charge density
     """
     new_potential_trans = np.zeros((len(potential),2))
     new_potential_orig = np.zeros((len(potential),2))
@@ -344,16 +344,16 @@ def translate_grid(potential, translation, periodic=False, vector=[0,0,0],bounda
 
 
     for i in range(len(potential)):
-    	new_potential_trans[i,0] = potential[i,0] + translation
-	new_potential_trans[i,1] = potential[i,1]
+        new_potential_trans[i,0] = potential[i,0] + translation
+        new_potential_trans[i,1] = potential[i,1]
         if periodic == True:
-	    new_potential_trans[i,0] = new_potential_trans[i,0] - length*int((new_potential_trans[i,0]+boundary_shift)/length)
+            new_potential_trans[i,0] = new_potential_trans[i,0] - length*int((new_potential_trans[i,0]+boundary_shift)/length)
 
     if periodic == True:
 # Sort the numbers out if you have done periodic wrapping
-    	sorted_potential_trans = sort_potential(new_potential_trans)
+        sorted_potential_trans = sort_potential(new_potential_trans)
     else:
-	sorted_potential_trans = new_potential_trans
+        sorted_potential_trans = new_potential_trans
 
     #print sorted_potential_trans
 
@@ -365,23 +365,23 @@ def macroscopic_average(potential,periodicity,resolution):
     """Getting the macroscopic average of potential
     Args:
          potential : array containig the electrostaticpotential/charge density
-	 periodicity : real number; the period over which to average
-	 resolution : the grid resolution in the direction of averaging
+     periodicity : real number; the period over which to average
+     resolution : the grid resolution in the direction of averaging
     Returns:
-	 macro_average : array with the macroscopically averaged values"""
+     macro_average : array with the macroscopically averaged values"""
 
     macro_average = np.zeros(shape=(len(potential)))
     period_points = int((periodicity/resolution))
 # Re-arrange so that period points divides evenly by resolution
     for i in range(len(potential)):
-	for j in range(i-int(period_points/2),i+int(period_points/2)):
-	    if j < 0:
-	    	macro_average[i] = macro_average[i]+potential[j+len(potential)]
-	    elif j >= len(potential):
-	    	macro_average[i] = macro_average[i]+potential[j-len(potential)]
-	    else:
-	    	macro_average[i] = macro_average[i]+potential[j]
-	macro_average[i] = macro_average[i]/period_points
+        for j in range(i-int(period_points/2),i+int(period_points/2)):
+            if j < 0:
+                macro_average[i] = macro_average[i]+potential[j+len(potential)]
+            elif j >= len(potential):
+                macro_average[i] = macro_average[i]+potential[j-len(potential)]
+            else:
+                macro_average[i] = macro_average[i]+potential[j]
+        macro_average[i] = macro_average[i]/period_points
 
     print ("Average of the average = ",numpy.average(macro_average))
     return macro_average
@@ -397,16 +397,16 @@ def cube_potential(origin,travelled,cube,Grid,nx,ny,nz):
     potential_cube = np.zeros(shape=(cube[0],cube[1],cube[2]))
     for x in range(0,cube[0]):
         for y in range(0,cube[1]):
-    	    for z in range(0,cube[2]):
+            for z in range(0,cube[2]):
 # Assign the values of coordinates in the original grid
-		xv = int(n_origin[0]+travelled[0]+x)
-		yv = int(n_origin[1]+travelled[1]+y)
-		zv = int(n_origin[2]+travelled[2]+z)
+                xv = int(n_origin[0]+travelled[0]+x)
+                yv = int(n_origin[1]+travelled[1]+y)
+                zv = int(n_origin[2]+travelled[2]+z)
 # Minimum image convention
-	    	zv = int(zv - nz*round(zv/nz))
-	    	yv = int(yv - ny*round(yv/ny))
-	    	xv = int(xv - nx*round(xv/nx))
-        	potential_cube[x,y,z] = Grid[xv,yv,zv]
+                zv = int(zv - nz*round(zv/nz))
+                yv = int(yv - ny*round(yv/ny))
+                xv = int(xv - nx*round(xv/nx))
+                potential_cube[x,y,z] = Grid[xv,yv,zv]
 
     return potential_cube.mean(), np.var(potential_cube)
 #------------------------------------------------------------------------------------------
@@ -418,9 +418,9 @@ def cuboid_average(Grid,cube,origin,vector,nx,ny,nz,magnitude):
    plotting_average = np.zeros(shape=(magnitude))
    i = 0
    while i < magnitude:
- 	travelled = np.multiply(i, vector) 
-    	plotting_average[i], varience = cube_potential(origin,travelled,cube,Grid,nx,ny,nz)
-	i = i + 1
+       travelled = np.multiply(i, vector)
+       plotting_average[i], varience = cube_potential(origin,travelled,cube,Grid,nx,ny,nz)
+       i = i + 1
 
    return plotting_average 
 #------------------------------------------------------------------------------------------
@@ -430,22 +430,22 @@ def planar_average(Grid,nx,ny,nz):
     e.g. the full length of z in the xy plane."""
     axis = raw_input("Which axis do you wish to plot along?(x,y,z)LOWER CASE!! ")
     if axis == 'x':
-	x_plane = np.zeros(shape=(ny,nz))
-	Average = np.zeros(shape=(nx))
+        x_plane = np.zeros(shape=(ny,nz))
+        Average = np.zeros(shape=(nx))
         for x_value in range(nx):
-	    x_plane[:,:] = Grid[x_value,:,:]
+            x_plane[:,:] = Grid[x_value,:,:]
             Average[x_value] = x_plane.mean()
     if axis == 'y':
-	Average = np.zeros(shape=(ny))
-	y_plane = np.zeros(shape=(nx,nz))
+        Average = np.zeros(shape=(ny))
+        y_plane = np.zeros(shape=(nx,nz))
         for y_value in range(ny):
-	    y_plane[:,:] = Grid[:,y_value,:]
+            y_plane[:,:] = Grid[:,y_value,:]
             Average[y_value] = y_plane.mean()
     if axis == 'z':
-	Average = np.zeros(shape=(nz))
-	z_plane = np.zeros(shape=(nx,ny))
+        Average = np.zeros(shape=(nz))
+        z_plane = np.zeros(shape=(nx,ny))
         for z_value in range(nz):
-	    z_plane[:,:] = Grid[:,:,z_value]
+            z_plane[:,:] = Grid[:,:,z_value]
             Average[z_value] = z_plane.mean()
 
     return Average
@@ -462,15 +462,15 @@ def create_plotting_mesh(NGX,NGY,NGZ,pc,grad):
     plane = np.zeros(shape=(a,b))
     for x in range(a):
         for y in range(b):
-	    if p == 'zzo':
-	        plane[x,y] = grad[x,y,c]
+            if p == 'zzo':
+                plane[x,y] = grad[x,y,c]
 
     return plane
 #------------------------------------------------------------------------------------------
 def get_volume(a,b,c):
     """Calculate the volume of the cell from lattice vectors
     Args:
-	a/b/c: vectors of the lattice edges
+    a/b/c: vectors of the lattice edges
     """
     volume = np.dot(a,np.cross(b,c))
 
@@ -508,12 +508,12 @@ def read_cube_density(FILE):
     f.close()
     lattice = np.zeros(shape=(3,3))
     for line in lines:
-	inp = line.split()
-	if inp == []:
-	    continue
-	if len(inp) == 4:
-	    natms = inp[0]
-	    
+        inp = line.split()
+        if inp == []:
+            continue
+        if len(inp) == 4:
+            natms = inp[0]
+
 #------------------------------------------------------------------------------------------
 def read_vasp_density(FILE):
     """Generic reading of CHGCAR LOCPOT etc files from VASP"""
@@ -574,34 +574,34 @@ def read_vasp_density(FILE):
       Potential = numpy.zeros(shape=(NGX*NGY*NGZ))
 # Read in the potential data
      if i > num_atoms + 9 and i < num_atoms + 10 + NGX*NGY*NGZ/5:
-      Potential[k]   = inp[0]
-      Potential[k+1] = inp[1]
-      Potential[k+2] = inp[2]
-      Potential[k+3] = inp[3]
-      Potential[k+4] = inp[4]
-      k = k + 5
-      if math.fmod(k,100000) == 0:
-       print "Reading potential at point", k
+         Potential[k]   = inp[0]
+         Potential[k+1] = inp[1]
+         Potential[k+2] = inp[2]
+         Potential[k+3] = inp[3]
+         Potential[k+4] = inp[4]
+         k = k + 5
+         if math.fmod(k,100000) == 0:
+             print("Reading potential at point", k)
 
-    print	"BBBB		OOOO		OOOO		MMMMM	"
-    print	"BBBB		OOOO		OOOO		MMMMM	"
-    print	"BBBB		OOOO		OOOO		MMMMM	"
-    print	"B  B	        OOOO		OOOO		MMMMM	"
-    print	"B  B	        O  O		O  O		MMMMM	"
-    print	"B  B	        O  O		O  O		MMMMM	"
-    print	"B  B	        O  O		O  O		MMMMM	"
-    print	"B  B	        O  O		O  O		MMMMM	"
-    print	"BBBB	        O  O            O  O		M M M	"
-    print	"BBBB	        O  O		O  O		M M M	"
-    print	"BBBB	        O  O		O  O		M M M	"
-    print	"B  B	        O  O		O  O		M M M	"
-    print	"B  B	        O  O		O  O		M M M	"
-    print	"B  B	        O  O		O  O		M M M	"
-    print	"B  B	        O  O		O  O		M M M	"
-    print	"B  B	        OOOO    	OOOO		M M M	"
-    print	"BBBB            OOOO	        OOOO		M M M	"
-    print	"BBBB            OOOO	        OOOO		M M M	"
-    print	"BBBB            OOOO	        OOOO		M M M	"
+    print("BBBB		OOOO		OOOO		MMMMM	")
+    print("BBBB		OOOO		OOOO		MMMMM	")
+    print("BBBB		OOOO		OOOO		MMMMM	")
+    print("B  B	        OOOO		OOOO		MMMMM	")
+    print("B  B	        O  O		O  O		MMMMM	")
+    print("B  B	        O  O		O  O		MMMMM	")
+    print("B  B	        O  O		O  O		MMMMM	")
+    print("B  B	        O  O		O  O		MMMMM	")
+    print("BBBB	        O  O        O  O		M M M	")
+    print("BBBB	        O  O		O  O		M M M	")
+    print("BBBB	        O  O		O  O		M M M	")
+    print("B  B	        O  O		O  O		M M M	")
+    print("B  B	        O  O		O  O		M M M	")
+    print("B  B	        O  O		O  O		M M M	")
+    print("B  B	        O  O		O  O		M M M	")
+    print("B  B	        OOOO    	OOOO		M M M	")
+    print("BBBB            OOOO	        OOOO		M M M	")
+    print("BBBB            OOOO	        OOOO		M M M	")
+    print("BBBB            OOOO	        OOOO		M M M	")
  
 
     print ("Average of the potential = ",numpy.average(Potential))
@@ -611,48 +611,48 @@ def read_vasp_density(FILE):
 def density_2_grid(Density,nx,ny,nz,Charge=False,Volume=1):
     """Convert the Potetnial list to a grid for ease of manipulation
     Args:
-   	Density: Array of the output from a VAsp calulation charge/potential
-	nx,y,z : Number of mesh points in x/y/z
-	Charge : Boolean, is it charge or potential (charge needs ot be normalised by vol)
-	Volume : The lattice vectors, only required for normalising charge.
+    Density: Array of the output from a VAsp calulation charge/potential
+    nx,y,z : Number of mesh points in x/y/z
+    Charge : Boolean, is it charge or potential (charge needs ot be normalised by vol)
+    Volume : The lattice vectors, only required for normalising charge.
      Returns:
-	Potential_grid: the (normalised) quantity on a mesh
-	total_electrons : the number of electrons in the system
-	"""
+    Potential_grid: the (normalised) quantity on a mesh
+    total_electrons : the number of electrons in the system
+    """
     l = 0   
     Potential_grid = np.zeros(shape=(nx,ny,nz))
     total_electrons = 0
     is_CHGCAR = True
     for k in range(nz):
-	for j in range(ny):
-	    for i in range(nx):
-		Potential_grid[i,j,k] = Density[l]/Volume
- 		if Charge == True:
+        for j in range(ny):
+            for i in range(nx):
+                Potential_grid[i,j,k] = Density[l]/Volume
+                if Charge == True:
 # Convert the charge density to a number of electrons
-		    point_volume = Volume/(nx*ny*nz)
-		    Potential_grid[i,j,k] = Potential_grid[i,j,k]*point_volume
-		total_electrons = total_electrons + Density[l]
-		l = l + 1
+                    point_volume = Volume/(nx*ny*nz)
+                    Potential_grid[i,j,k] = Potential_grid[i,j,k]*point_volume
+                total_electrons = total_electrons + Density[l]
+                l = l + 1
     if Charge == True:
-    	print "Total electrons: ", total_electrons/(nx*ny*nz)
+        print("Total electrons: ", total_electrons/(nx*ny*nz))
     total_electrons = total_electrons/(nx*ny*nz)
     return Potential_grid,total_electrons
 #------------------------------------------------------------------------------------------
 def GCD(a,b):
-	""" The Euclidean Algorithm """
-	a = abs(a)
-	b = abs(b)
-        while a:
-                a, b = b%a, a
-        return b
+    """ The Euclidean Algorithm """
+    a = abs(a)
+    b = abs(b)
+    while a:
+        a, b = b%a, a
+    return b
 #------------------------------------------------------------------------------------------
 def GCD_List(list):
-	""" Finds the GCD of numbers in a list.
-	Input: List of numbers you want to find the GCD of
-		E.g. [8, 24, 12]
-	Returns: GCD of all numbers
-	"""
-	return reduce(GCD, list)
+    """ Finds the GCD of numbers in a list.
+    Input: List of numbers you want to find the GCD of
+        E.g. [8, 24, 12]
+    Returns: GCD of all numbers
+    """
+    return reduce(GCD, list)
 #------------------------------------------------------------------------------------------
 
 def points_2_plane(a,b,c):
@@ -669,8 +669,8 @@ def points_2_plane(a,b,c):
     #normal = [x / GCD_coeff for x in normal]
     d = normal[0]*a[0] + normal[1]*a[1] + normal[2]*a[2]
     for i in 0, 1, 2:
-	coefficients[i] = normal[i]
-    coefficients[3] = d
+        coefficients[i] = normal[i]
+        coefficients[3] = d
     return coefficients 
 
 #------------------------------------------------------------------------------------------
@@ -681,15 +681,15 @@ def get_third_coordinate(plane_coeff,NGX,NGY):
     zz = []
     i = j = 0
     while i <= NGX:
-	i = i + 1
-	j = 0
-	while j <= NGY:
-	    j = j + 1
-	    rounded = round(((plane_coeff[0]*j+plane_coeff[1]*i) / plane_coeff[2]))
-	    standard = ((plane_coeff[0]*j+plane_coeff[1]*i)/plane_coeff[2])
- 	    if rounded == standard:   # Is it a whole number?
-		zz.append(-(plane_coeff[0]*i+plane_coeff[1]*j)/plane_coeff[2])
+        i = i + 1
+        j = 0
+        while j <= NGY:
+            j = j + 1
+            rounded = round(((plane_coeff[0]*j+plane_coeff[1]*i) / plane_coeff[2]))
+            standard = ((plane_coeff[0]*j+plane_coeff[1]*i)/plane_coeff[2])
+            if rounded == standard:   # Is it a whole number?
+                zz.append(-(plane_coeff[0]*i+plane_coeff[1]*j)/plane_coeff[2])
 
     return zz
-	 
+
 #------------------------------------------------------------------------------------------

@@ -1,3 +1,4 @@
+from __future__ import print_function
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl
@@ -84,7 +85,8 @@ def energy_band_alignment_diagram(energies,materials,limit=8.,width=1.,cols=['#7
 
     fig.savefig('%s.eps'%outfile,bbox_inches='tight')
     fig.savefig('%s.png'%outfile,bbox_inches='tight')
-    print "Figure saved as %s.eps and %s.png"%(outfile, outfile)
+    plt.show()
+    print("Figure saved as %s.eps and %s.png"%(outfile, outfile))
     plt.close(fig)
 
 

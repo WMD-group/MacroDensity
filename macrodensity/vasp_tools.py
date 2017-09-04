@@ -1,3 +1,4 @@
+from __future__ import print_function
 
 def get_band_extrema(input_file):
     '''
@@ -28,6 +29,6 @@ def get_band_extrema(input_file):
             vbm.append(lines[i + top_band].split()[1])
             cbm.append(lines[i + top_band + 1].split()[1])
             if float(lines[i + top_band].split()[2]) != 1.00 and float(lines[i + top_band].split()[2]) != 2.000:
-                print 'Partial occupancy, be aware!', lines[i + top_band].split()[2]
+                print('Partial occupancy, be aware!', lines[i + top_band].split()[2])
                 
     return [float(max(vbm)),float(min(cbm))]
