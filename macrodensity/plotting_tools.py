@@ -65,16 +65,14 @@ def energy_band_alignment_diagram(energies,materials,limit=8.,width=1.,cols=['#7
     os2 = 0.2    # Offset of the text 'EA' in the plot
 
     for i, en in enumerate(energies):
-        ax1.arrow(i,-en[0],0, en[0]-arrowhead, width=0.005, head_length=arrowhead,head_width=0.07, fc='black',ec='None')
-        ax1.arrow(i,0,0, -en[1]+arrowhead, width=0.005, head_length=arrowhead,head_width=0.07, fc='black',ec='None')
-        ax1.arrow(i,0,0, -en[0]+arrowhead, width=0.005, head_length=arrowhead,head_width=0.07, fc='black',ec='None')
+        ax1.arrow(i-0.25,-en[0],0, en[0]-arrowhead, width=0.005, head_length=arrowhead,head_width=0.07, fc='black',ec='None')
+        ax1.arrow(i-0.25,0,0, -en[1]+arrowhead, width=0.005, head_length=arrowhead,head_width=0.07, fc='black',ec='None')
+        ax1.arrow(i-0.25,0,0, -en[0]+arrowhead, width=0.005, head_length=arrowhead,head_width=0.07, fc='black',ec='None')
         loc_ip = -(en[0] + en[1]) / 2
-        ax1.text(i+os1*0.1,loc_ip,en[1],fontsize=textsize)
-        ax1.text(i-os1,loc_ip,'IP',fontsize=textsize)
+        ax1.text(i-os1,loc_ip,"IP  %3.1f"%en[1],fontsize=textsize)
     
         loc_ea = -en[0] / 2
-        ax1.text(i+os1*0.1,loc_ea,en[0],fontsize=textsize)
-        ax1.text(i-os2,loc_ea,'EA',fontsize=textsize)
+        ax1.text(i-os2,loc_ea,"EA %3.1f"%en[0],fontsize=textsize)
     
         ax1.minorticks_on()
         ax1.tick_params(axis='x',which='minor',bottom='off') # Don't show minor ticks on x-axis
