@@ -111,13 +111,3 @@ python PlaneField.py
 This creates a contour plot of the field lines.
 
 
-To-do
-------------
-
-* Add a full description of the input file format.
-* Command line argparse.
-* Fix percentage to fraction.
-
-Disclaimer
-----------
-This file is not affiliated with *VASP*. Feel free to use and modify, but do so at your own risk.
