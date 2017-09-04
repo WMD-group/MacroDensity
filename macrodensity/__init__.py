@@ -574,15 +574,12 @@ def read_vasp_density(FILE):
       k = 0
       Potential = numpy.zeros(shape=(NGX*NGY*NGZ))
 # Read in the potential data
-     if i > num_atoms + 9 and i < num_atoms + 10 + NGX*NGY*NGZ/5:
-         Potential[k]   = inp[0]
-         Potential[k+1] = inp[1]
-         Potential[k+2] = inp[2]
-         Potential[k+3] = inp[3]
-         Potential[k+4] = inp[4]
-         k = k + 5
-         if math.fmod(k,100000) == 0:
-             print("Reading potential at point", k)
+    if i > num_atoms + 9 and i < num_atoms + 10 + NGX*NGY*NGZ/5:
+        for l in range(len(inp)):
+            Potential[k+l]   = inp[l]
+        k = k + 5
+        if math.fmod(k,100000) == 0:
+            print("Reading potential at point", k)
 
     print("BBBB		OOOO		OOOO		MMMMM	")
     print("BBBB		OOOO		OOOO		MMMMM	")
@@ -592,7 +589,7 @@ def read_vasp_density(FILE):
     print("B  B	        O  O		O  O		MMMMM	")
     print("B  B	        O  O		O  O		MMMMM	")
     print("B  B	        O  O		O  O		MMMMM	")
-    print("BBBB	        O  O        O  O		M M M	")
+    print("BBBB	        O  O            O  O		M M M	")
     print("BBBB	        O  O		O  O		M M M	")
     print("BBBB	        O  O		O  O		M M M	")
     print("B  B	        O  O		O  O		M M M	")
