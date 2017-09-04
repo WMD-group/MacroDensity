@@ -3,7 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 
-def energy_band_alignment_diagram(energies,materials,limit=8.,width=1.,cols=['#74356C','#efce19'],textsize=22,arrowhead=0.7, outfile='BandAlignment', references=[]):
+def energy_band_alignment_diagram(energies,materials,limit=8.,width=1.,cols=['#74356C','#efce19'],textsize=22, \
+                                  arrowhead=0.7, outfile='BandAlignment', references=[]):
     '''
     Function for plotting the classic energy band alignment diagram
     Args:
