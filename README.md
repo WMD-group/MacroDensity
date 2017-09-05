@@ -1,7 +1,8 @@
 MacroDensity
 ====================
+![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.884521.svg)
 
-A set of python scripts to read in a VASP `LOCPOT` and plot the electrostatic potential in a number of ways, including:
+A set of python scripts to read in a electrostatic potentials and electron densities from electronic structure calculations and plot in a number of ways, including:
 
 * Planar average
 * Spherical average
