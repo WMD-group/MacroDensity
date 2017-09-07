@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 
 def energy_band_alignment_diagram(energies,materials,limit=8.,width=1.,cols=['#74356C','#efce19'],textsize=22, \
-                                  arrowhead=0.7, outfile='BandAlignment', references=[]):
+                                  arrowhead=0.7, outfile='BandAlignment', references=[], edge=None):
     '''
     Function for plotting the classic energy band alignment diagram
     Args:
@@ -17,6 +17,7 @@ def energy_band_alignment_diagram(energies,materials,limit=8.,width=1.,cols=['#7
 	arrowhead: arrow head length. Default = 0.7.
 	outfile: name of the ouput. Default = 'BandAlignment'
         references: any reference levels you want to add to the plot. [['Name of reference',value_of_reference], ...]. Note that value_of_reference is a positive value on the same scale as IP/EA. Default = [].
+        edge: the colour of the edge box of each material bar chart. Default None.
     Returns:
         Nothing, but draws an eps plot.
     '''
@@ -37,13 +38,13 @@ def energy_band_alignment_diagram(energies,materials,limit=8.,width=1.,cols=['#7
 
 ## Bars for the IP and background colour
     for i in ind:
-        ax1.bar(i,-limit, width, edgecolor='black')
-        ax1.bar(i,-energies[i][1], width, color='w', edgecolor='black')
+        ax1.bar(i,-limit, width, edgecolor=None)
+        ax1.bar(i,-energies[i][1], width, color='w', edgecolor=None)
     
 ## Reset the colours back to the start and plot the EA
     ax1.set_color_cycle(cols)
     for i in ind:
-        ax1.bar(i,-energies[i][0], width, edgecolor='black',alpha=0.8)
+        ax1.bar(i,-energies[i][0], width, edgecolor=None,alpha=0.8)
 
 ## Set the limits of the axes
     ax1.set_ylim(-limit,0)
