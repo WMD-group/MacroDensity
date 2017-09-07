@@ -1,7 +1,8 @@
 MacroDensity
 ====================
+![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.884521.svg)
 
-A set of python scripts to read in a VASP `LOCPOT` and plot the electrostatic potential in a number of ways, including:
+A set of python scripts to read in a electrostatic potentials and electron densities from electronic structure calculations and plot in a number of ways, including:
 
 * Planar average
 * Spherical average
@@ -19,32 +20,16 @@ Requirements
 Installation
 ------------
 
-Download `NewPotentialModule.py`. 
-Include this file in your pythonpath or in the directory where you are performing the analysis.
+```
+pip install git+git://github.com/WMD-group/MacroDensity.git
+```
 
-There are several example files included with the package, they are documented below.
-
-#### Mac Installation
-- Download by clicking the `Download ZIP` on the right of this page.
-- Place it in your preferred installation directory, let's say $home/src
-```
-mv ~/Downloads/MacroDensity-master.zip .
-```
-- Unzip the package
-
-```
-unzip MacroDensity-master.zip
-```
-- Add the directory to your PYTHON PATH
-```
-PYTHONPATH = $HOME/src/MacroDensity-master/:$PYTHONPATH
-```
 - You are now ready to run the examples listed below
 
 PlanarAverage.py
 ------------
 This example is for plotting the planar average of a potential along a vector (here it is z).
-The only variables which need to be set are in the first three lines. Note `LOCPOT.slab` file is just a regular `LOCPOT`.
+The only variables which need to be set are in the first three lines. Note `LOCPOT.slab` file is just a regular `LOCPOT` grid file.
 
 ```
 input_file = 'LOCPOT.slab'
@@ -53,23 +38,22 @@ output_file = 'planar.dat'
 ```
 
 The variable lattice vector refers to the lattice vector of the bulk crystal structure in the direction of the plotting. 
-It is used to get the macroscopic average, as defined in [Jackson](https://archive.org/details/ClassicalElectrodynamics).
+It is used to get the macroscopic average, as defined in [Jackson's Electrodynamics](https://archive.org/details/ClassicalElectrodynamics).
 
 The code is executed as:
 
 ```
 python PlanarAverage.py
 ```
-This results in a plot of the planar average and an output of the potential called planar.dat.
+This results in a plot of the planar average and an output of the potential called `planar.dat`.
 
 SphericalAverage.py
 ------------
 
 This example is for plotting the average potential inside a sphere of given radius. 
-It is the method used in our 2014 [JACS](http://pubs.acs.org/doi/abs/10.1021/ja4110073).
+It is the method used in our 2014 study of metal-organic frameworks in [JACS](http://pubs.acs.org/doi/abs/10.1021/ja4110073).
 
-The lines which need to be edited for this are below.  
-Note `LOCPOT.MiL` is just a regular `LOCPOT` file.
+The lines which need to be edited for this are given below.  Note `LOCPOT.MiL` is just a regular `LOCPOT` file that has been renamed.
 
 ```
 input_file = 'LOCPOT.MiL'
@@ -83,12 +67,12 @@ To run the code simply type:
 ```
 python SphericalAverage.py
 ```
-This results in some outpus telling you the average potential in the volume and the variance of the potential. If the variance is too high it means that you are not sampling a plateau in the potential; typically values below 10e-4 are acceptable.
+This results in an output of the average potential in the volume, and the variance of the potential. If the variance is too high it means that you are not sampling a plateau in the potential; typically values below 10e-4 are acceptable.
 
 OnSitePotential.py
 ------------
 
-This is for calculating the potentials at the sites of a certain atomic nucleus, for example the O nucleii in an oxide. This on site potential calculated this way is equivalent to a Madelung potential and can be useful for predicting electron energy levels (see http://pubs.acs.org/doi/abs/10.1021/ar400115x for details).
+This example is for calculating the potential at the sites of a certain atomic nucleus, for example the O nuclei in an oxide. This on-site potential calculated this way is equivalent to a Madelung potential and can be useful for predicting electron energy levels (see http://pubs.acs.org/doi/abs/10.1021/ar400115x for details).
 
 The input lines to edit are :
 
@@ -128,13 +112,3 @@ python PlaneField.py
 This creates a contour plot of the field lines.
 
 
-To-do
-------------
-
-* Add a full description of the input file format.
-* Command line argparse.
-* Fix percentage to fraction.
-
-Disclaimer
-----------
-This file is not affiliated with *VASP*. Feel free to use and modify, but do so at your own risk.
