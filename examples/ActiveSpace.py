@@ -13,7 +13,7 @@ from itertools import izip
 # Get the potential
 # This section should not be altered
 #------------------------------------------------------------------
-vasp_pot, NGX, NGY, NGZ, Lattice = md.read_vasp_density('LOCPOT')
+vasp_pot, NGX, NGY, NGZ, Lattice = md.read_vasp_density('LOCPOT.slab')
 vector_a,vector_b,vector_c,av,bv,cv = md.matrix_2_abc(Lattice)
 resolution_x = vector_a/NGX
 resolution_y = vector_b/NGY
