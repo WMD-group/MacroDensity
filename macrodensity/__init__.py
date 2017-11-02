@@ -546,8 +546,8 @@ def read_vasp_density(FILE):
         if i == 8:
             coord_type = inp
     
-    for i in range(2):
-       for j in range(2):
+    for i in range(3):
+       for j in range(3):
            lattice[i,j] = lattice[i,j]*scale_factor
 # Restart reading to get the coordinates...it's just easier this way!
     i=0
@@ -580,8 +580,8 @@ def read_vasp_density(FILE):
             Potential[k+3] = inp[3]
             Potential[k+4] = inp[4]
             k = k + 5
-        if math.fmod(k,100000) == 0:
-            print "Reading potential at point", k
+            if math.fmod(k,100000) == 0:
+                print "Reading potential at point", k
 
     print	"BBBB		OOOO		OOOO		MMMMM	"
     print	"BBBB		OOOO		OOOO		MMMMM	"
