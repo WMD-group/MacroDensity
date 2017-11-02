@@ -524,64 +524,64 @@ def read_vasp_density(FILE):
     i = 0
     lattice = np.zeros(shape=(3,3))
     for line in lines:
-     inp = line.split()
-     if inp == []:
-      continue
-     if len(inp) > 0:
-      i = i+1
-     if i == 2:
-      scale_factor = float(inp[0])
-     if i >= 3 and i < 6:
-      lattice[i-3,:]=inp[:]
-     if i == 6:
-      num_species=len(inp)
-      species=inp
-     if i == 7:
-      num_type=inp
-      j = 0
-      while (j < num_species):
-       num_type[j-1] = int(num_type[j-1])
-       j = j + 1
-      num_atoms=sum(num_type)
-     if i == 8:
-      coord_type = inp
+        inp = line.split()
+        if inp == []:
+            continue
+        if len(inp) > 0:
+            i = i+1
+        if i == 2:
+            scale_factor = float(inp[0])
+        if i >= 3 and i < 6:
+            lattice[i-3,:]=inp[:]
+        if i == 6:
+            num_species=len(inp)
+            species=inp
+        if i == 7:
+            num_type=inp
+            j = 0
+            while (j < num_species):
+                num_type[j-1] = int(num_type[j-1])
+                j = j + 1
+            num_atoms=sum(num_type)
+        if i == 8:
+            coord_type = inp
     
     for i in range(2):
-     for j in range(2):
-      lattice[i,j] = lattice[i,j]*scale_factor
+       for j in range(2):
+           lattice[i,j] = lattice[i,j]*scale_factor
 # Restart reading to get the coordinates...it's just easier this way!
     i=0
     Coordinates = numpy.zeros(shape=(num_atoms,3))
     for line in lines:
-     inp = line.split()
-     if len(inp) > 0:
-      i = i + 1
-     if i >= 9 and i <= num_atoms+8 and len(inp) > 0:
-      Coordinates[i-9,0] = float(inp[0])
-      Coordinates[i-9,1] = float(inp[1])
-      Coordinates[i-9,2] = float(inp[2])
+         inp = line.split()
+         if len(inp) > 0:
+             i = i + 1
+         if i >= 9 and i <= num_atoms+8 and len(inp) > 0:
+             Coordinates[i-9,0] = float(inp[0])
+             Coordinates[i-9,1] = float(inp[1])
+             Coordinates[i-9,2] = float(inp[2])
 # Now get the info about the charge grid
     i = 0
     for line in lines:
-     inp = line.split()
-     if len(inp) > 0:
-      i = i + 1
-     if i == num_atoms + 9:
-      NGX = int(inp[0])
-      NGY = int(inp[1])
-      NGZ = int(inp[2])
-      k = 0
-      Potential = numpy.zeros(shape=(NGX*NGY*NGZ))
+        inp = line.split()
+        if len(inp) > 0:
+            i = i + 1
+        if i == num_atoms + 9:
+            NGX = int(inp[0])
+            NGY = int(inp[1])
+            NGZ = int(inp[2])
+            k = 0
+            Potential = numpy.zeros(shape=(NGX*NGY*NGZ))
 # Read in the potential data
-     if i > num_atoms + 9 and i < num_atoms + 10 + NGX*NGY*NGZ/5:
-      Potential[k]   = inp[0]
-      Potential[k+1] = inp[1]
-      Potential[k+2] = inp[2]
-      Potential[k+3] = inp[3]
-      Potential[k+4] = inp[4]
-      k = k + 5
-      if math.fmod(k,100000) == 0:
-       print "Reading potential at point", k
+        if i > num_atoms + 9 and i < num_atoms + 10 + NGX*NGY*NGZ/5:
+            Potential[k]   = inp[0]
+            Potential[k+1] = inp[1]
+            Potential[k+2] = inp[2]
+            Potential[k+3] = inp[3]
+            Potential[k+4] = inp[4]
+            k = k + 5
+        if math.fmod(k,100000) == 0:
+            print "Reading potential at point", k
 
     print	"BBBB		OOOO		OOOO		MMMMM	"
     print	"BBBB		OOOO		OOOO		MMMMM	"
