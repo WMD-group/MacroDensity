@@ -425,10 +425,9 @@ def cuboid_average(Grid,cube,origin,vector,nx,ny,nz,magnitude):
    return plotting_average 
 #------------------------------------------------------------------------------------------
 
-def planar_average(Grid,nx,ny,nz):
+def planar_average(Grid,nx,ny,nz,axis='z'):
     """Calculate the average in a given plane for the full length of the normal;
     e.g. the full length of z in the xy plane."""
-    axis = raw_input("Which axis do you wish to plot along?(x,y,z)LOWER CASE!! ")
     if axis == 'x':
 	x_plane = np.zeros(shape=(ny,nz))
 	Average = np.zeros(shape=(nx))
