@@ -4,7 +4,7 @@ import sys
 import os
 import numpy as np
 
-sys.path.insert(1, '/Users/keith/SCRIPTS/MacroDensity/MacroDensity')
+sys.path.insert(1, '../')
 import macrodensity as md
 
 test_dir = os.path.abspath(os.path.dirname(__file__))
