@@ -360,22 +360,3 @@ def GCD_List(list):
 	"""
 	return reduce(GCD, list)
 #------------------------------------------------------------------------------------------
-def get_third_coordinate(plane_coeff,NGX,NGY):
-    """Given the two sides of a plane, calculate the values of the 'plane' based on the
-       equation eariler """
-
-    zz = []
-    i = j = 0
-    while i <= NGX:
-	i = i + 1
-	j = 0
-	while j <= NGY:
-	    j = j + 1
-	    rounded = round(((plane_coeff[0]*j+plane_coeff[1]*i) / plane_coeff[2]))
-	    standard = ((plane_coeff[0]*j+plane_coeff[1]*i)/plane_coeff[2])
- 	    if rounded == standard:   # Is it a whole number?
-		zz.append(-(plane_coeff[0]*i+plane_coeff[1]*j)/plane_coeff[2])
-
-    return zz
-	 
-#------------------------------------------------------------------------------------------
