@@ -18,7 +18,7 @@ class TestReadingFunctions(unittest.TestCase):
         charge, ngx, ngy, ngz, lattice = md.read_vasp_density('CHGCAR.test')
         self.assertEqual(charge[0], -.76010173913E+01)
         self.assertEqual(charge[56 * 56 * 56 -1], -4.4496715627)
-        self.assertEqual(lattice[0,0], 2.7150000)
+        self.assertEqual(lattice[0, 0], 2.7150000)
         self.assertEqual(ngx, 56)
 
     def test_matrix_2_abc(self):
@@ -43,7 +43,7 @@ class TestAveragingFunctions(unittest.TestCase):
 
     def test_planar_average(self):
         ''' Test the code for averaging the density'''
-        test_grid = np.zeros(shape=(3,3,3))
+        test_grid = np.zeros(shape=(3, 3, 3))
         for i in range(3):
             test_grid[i, :, 0] = float(i)
         planar = md.planar_average(test_grid, 3, 3, 3)
@@ -90,6 +90,51 @@ class TestGeometryFunctions(unittest.TestCase):
         potential = [np.sin(2 * np.pi * f * (i/float(fs))) for i in np.arange(fs)]
         macro = md.macroscopic_average(potential, 50, 1)
         self.assertAlmostEqual(macro[20], 0.)
+
+    def test_vector_2_abscissa(self):
+        ''' Test the vector_2_abscissa function'''
+        abscissa = md.vector_2_abscissa([5, 6, 7], 10, 0.2, 0.2, 0.2)
+        self.assertEqual(abscissa[5], 10.488088481701517)
+
+    def test_number_in_field(self):
+        '''Test the number_in_field function'''
+        test_field = np.zeros(shape=(5, 5, 5))
+        test_field[0, 0, 0] = 1.
+        test_field[4, 4, 4] = 1.
+        test_field[2, 3, 2] = 0.5
+        test_field[1, 4, 2] = 0.3
+        self.assertEqual(md.number_in_field(test_field, 0.3), 4)
+        self.assertEqual(md.number_in_field(test_field, 0.5), 3)
+        self.assertEqual(md.number_in_field(test_field, 1.0), 2)
+        self.assertEqual(md.number_in_field(test_field, 1.1), 0)
+
+    def test_element_vol(self):
+        '''Test the element_vol function'''
+        self.assertEqual(md.element_vol(3000.,10, 20, 30), 0.5)
+
+    def test_get_volume(self):
+        '''Test the get_volume function'''
+        a = [5.43 * 0.5, 0., 5.43 * 0.5]
+        b = [5.43 * 0.5, 5.43 * 0.5, 0.]
+        c = [0., 5.43 * 0.5, 5.43 * 0.5]
+        self.assertAlmostEqual(md.get_volume(a, b, c), 40.03, places=2)
+
+    def test_numbers_2_grid(self):
+        '''Tests the numbers_2_grid function'''
+        a = md.numbers_2_grid([0.5, 0.5, 0.5], 10, 10, 10)
+        b = [5, 5, 5]
+        self.assertSequenceEqual(a.tolist(), b)
+
+    def test_GCD(self):
+        '''Test the GCD function'''
+        self.assertEqual(md.GCD(100,12), 4)
+
+    def test_GCD_List(self):
+        '''Tests the GCD_List function'''
+        self.assertEqual(md.GCD_List([15,100,45]), 5)
+
+
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -37,7 +37,7 @@ def gradient_magnitude(gx,gy,gz):
     return grad_mag
 #------------------------------------------------------------------------------------------
 def vector_2_abscissa(vector,magnitude,dx,dy,dz):
-    """Converts a vactor with a magnitude given in units of grid density (NGX/Y/Z) to
+    """Converts a vector with a magnitude given in units of grid density (NGX/Y/Z) to
     AA for plotting
     Args:
         vector : the vector along which the line is being plotted [(3x1) array]
@@ -46,13 +46,10 @@ def vector_2_abscissa(vector,magnitude,dx,dy,dz):
     Returns:
         abscissa : the values for plotting on the abscissa in AA [1D array]
     """
-    vec_angs = [vector[0]*dx, vector[1]*dy, vector[2]*dz]
-    vec_mag = np.linalg.norm(vec_angs)
-    abscissa = np.zeros(shape=(magnitude))
-    for i in range(magnitude):
-        abscissa[i] = i*vec_mag
+    vec_mag = np.linalg.norm([vector[0] * dx, vector[1] * dy, vector[2] * dz])
+    abscissa = [ i * vec_mag for i in range(magnitude) ]
 
-    return abscissa
+    return np.asarray(abscissa)
 #------------------------------------------------------------------------------------------
 def number_in_field(gradients,cutoff):
     """Get the number of grid elements with a field magnitude greater than cutoff
@@ -156,7 +153,7 @@ def cube_potential(origin,travelled,cube,Grid,nx,ny,nz):
 
 def cuboid_average(Grid,cube,origin,vector,nx,ny,nz,magnitude):
    """Calculates the average in a cube defined by size cube(a,b,c), beginning at origin and 
-    reavelling as far as magnitude."""
+    travelling as far as magnitude."""
 
    plotting_average = np.zeros(shape=(magnitude))
    i = 0
