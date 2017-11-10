@@ -41,6 +41,8 @@ output_file = 'planar.dat'
 The variable lattice vector refers to the lattice vector of the bulk crystal structure in the direction of the plotting. 
 It is used to get the macroscopic average, as defined in [Jackson's Electrodynamics](https://archive.org/details/ClassicalElectrodynamics).
 
+For the best overview of what the lattice_parameter setting should be, and how macroscopic averaging in general works, this paper from Baldereschi and the crew can't be beaten. [http://iopscience.iop.org/article/10.1088/0022-3727/31/11/002/meta](http://iopscience.iop.org/article/10.1088/0022-3727/31/11/002/meta)
+
 The code is executed as:
 
 ```
