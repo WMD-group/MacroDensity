@@ -3,8 +3,6 @@ import unittest
 import sys
 import os
 import numpy as np
-
-sys.path.insert(1, '../')
 import macrodensity as md
 
 test_dir = os.path.abspath(os.path.dirname(__file__))
