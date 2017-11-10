@@ -1,7 +1,7 @@
 MacroDensity
 ====================
 ![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.884521.svg)
-![Build Status](https://travis-ci.org/WMD-group/MacroDensity.svg?branch=master)](https://travis-ci.org/WMD-group/MacroDensity)
+![Build Status](https://travis-ci.org/WMD-group/MacroDensity.svg?branch=master)
 
 A set of python scripts to read in a electrostatic potentials and electron densities from electronic structure calculations and plot in a number of ways, including:
 
