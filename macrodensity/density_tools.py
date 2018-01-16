@@ -163,17 +163,17 @@ def cuboid_average(Grid, cube, origin, vector, nx, ny, nz, magnitude):
    i = 0
    while i < magnitude:
          travelled = np.multiply(i, vector)
-            plotting_average[i], varience = cube_potential(origin, travelled,
-                                                           cube, Grid,
-                                                           nx, ny, nz)
-        i = i + 1
+         plotting_average[i], varience = cube_potential(origin, travelled,
+                                                        cube, Grid,
+                                                        nx, ny, nz)
+         i = i + 1
 
    return plotting_average
-#------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 def planar_average(Grid, nx, ny, nz, axis='z'):
-    """Calculate the average in a given plane for the full length of the normal;
-    e.g. the full length of z in the xy plane."""
+    """Calculate the average in a given plane for the full length of the
+    normal; e.g. the full length of z in the xy plane."""
     if axis == 'x':
         x_plane = np.zeros(shape=(ny, nz))
         Average = np.zeros(shape=(nx))
