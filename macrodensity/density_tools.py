@@ -14,9 +14,12 @@
 #                                                                             #
 ################################################################################
 
+from __future__ import print_function
+from functools import reduce
+import math
+
 import numpy
 import numpy as np
-import math
 from scipy import interpolate
 
 #------------------------------------------------------------------------------
@@ -126,7 +129,7 @@ def macroscopic_average(potential, periodicity, resolution):
                 macro_average[i] = macro_average[i] + potential[j]
         macro_average[i] = macro_average[i] / period_points
 
-    print ("Average of the average = ", numpy.average(macro_average))
+    print("Average of the average = ", numpy.average(macro_average))
     return macro_average
 #------------------------------------------------------------------------------
 
@@ -274,7 +277,7 @@ def read_vasp_density(FILE):
              Coordinates[i-9,0] = float(inp[0])
              Coordinates[i-9,1] = float(inp[1])
              Coordinates[i-9,2] = float(inp[2])
-# Now get the info about the charge grid
+    # Now get the info about the charge grid
     i = 0
     for line in lines:
         inp = line.split()
@@ -286,34 +289,35 @@ def read_vasp_density(FILE):
             NGZ = int(inp[2])
             k = 0
             Potential = numpy.zeros(shape=(NGX * NGY * NGZ))
-# Read in the potential data
-            upper_limit = NGX * NGY * NGZ / 5 + np.mod(NGX * NGY * NGZ, 5)
+            # Read in the potential data
+            upper_limit =  (int(NGX * NGY * NGZ / 5) +
+                            np.mod(NGX * NGY * NGZ, 5))
         if i > (num_atoms + 9) and i < (num_atoms + 10 + upper_limit):
             for m in range(len(inp)):
                 Potential[k + m] = inp[m]
             k = k + 5
             if math.fmod(k, 100000) == 0:
-                print "Reading potential at point", k
+                print("Reading potential at point", k)
 
-    print    "BBBB       OOOO        OOOO        MMMMM   "
-    print    "BBBB       OOOO        OOOO        MMMMM   "
-    print    "BBBB       OOOO        OOOO        MMMMM   "
-    print    "B  B       OOOO        OOOO        MMMMM   "
-    print    "B  B       O  O        O  O        MMMMM   "
-    print    "B  B       O  O        O  O        MMMMM   "
-    print    "B  B       O  O        O  O        MMMMM   "
-    print    "B  B       O  O        O  O        MMMMM   "
-    print    "BBBB       O  O        O  O        M M M   "
-    print    "BBBB       O  O        O  O        M M M   "
-    print    "BBBB       O  O        O  O        M M M   "
-    print    "B  B       O  O        O  O        M M M   "
-    print    "B  B       O  O        O  O        M M M   "
-    print    "B  B       O  O        O  O        M M M   "
-    print    "B  B       O  O        O  O        M M M   "
-    print    "B  B       OOOO        OOOO        M M M   "
-    print    "BBBB       OOOO        OOOO        M M M   "
-    print    "BBBB       OOOO        OOOO        M M M   "
-    print    "BBBB       OOOO        OOOO        M M M   "
+    print("BBBB       OOOO        OOOO        MMMMM   ")
+    print("BBBB       OOOO        OOOO        MMMMM   ")
+    print("BBBB       OOOO        OOOO        MMMMM   ")
+    print("B  B       OOOO        OOOO        MMMMM   ")
+    print("B  B       O  O        O  O        MMMMM   ")
+    print("B  B       O  O        O  O        MMMMM   ")
+    print("B  B       O  O        O  O        MMMMM   ")
+    print("B  B       O  O        O  O        MMMMM   ")
+    print("BBBB       O  O        O  O        M M M   ")
+    print("BBBB       O  O        O  O        M M M   ")
+    print("BBBB       O  O        O  O        M M M   ")
+    print("B  B       O  O        O  O        M M M   ")
+    print("B  B       O  O        O  O        M M M   ")
+    print("B  B       O  O        O  O        M M M   ")
+    print("B  B       O  O        O  O        M M M   ")
+    print("B  B       OOOO        OOOO        M M M   ")
+    print("BBBB       OOOO        OOOO        M M M   ")
+    print("BBBB       OOOO        OOOO        M M M   ")
+    print("BBBB       OOOO        OOOO        M M M   ")
 
     print("Average of the potential = ", numpy.average(Potential))
     f.close()
@@ -346,7 +350,7 @@ def density_2_grid(Density, nx, ny, nz, Charge=False, Volume=1):
                 total_electrons = total_electrons + Density[l]
                 l = l + 1
     if Charge == True:
-        print "Total electrons: ", total_electrons / (nx * ny * nz)
+        print("Total electrons: ", total_electrons / (nx * ny * nz))
     total_electrons = total_electrons / (nx * ny * nz)
     return Potential_grid, total_electrons
 #------------------------------------------------------------------------------
