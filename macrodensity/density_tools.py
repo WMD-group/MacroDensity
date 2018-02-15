@@ -146,7 +146,7 @@ def cube_potential(origin,travelled,cube,Grid,nx,ny,nz):
 	    	zv = int(zv - nz*round(zv/nz))
 	    	yv = int(yv - ny*round(yv/ny))
 	    	xv = int(xv - nx*round(xv/nx))
-        	potential_cube[x,y,z] = Grid[xv,yv,zv]
+        	potential_cube[x,y,z] = Grid[int(xv), int(yv), int(zv)]
 
     return potential_cube.mean(), np.var(potential_cube)
 #------------------------------------------------------------------------------------------
