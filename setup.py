@@ -10,8 +10,14 @@ __date__ = "Aug 24 2017"
 
 from setuptools import setup
 import os
+import unittest
 
 module_dir = os.path.dirname(os.path.abspath(__file__))
+
+def unit_tests():
+    test_loader = unittest.TestLoader()
+    test_suite = test_loader.discover('tests', pattern='unit_tests.py')
+    return test_suite
 
 if __name__ == "__main__":
     setup(
@@ -30,5 +36,6 @@ if __name__ == "__main__":
                      'Development Status :: 5 - Production/Stable',
                      'Intended Audience :: Science/Research',
                      'Operating System :: OS Independent',
-                     'Topic :: Scientific/Engineering']
+                     'Topic :: Scientific/Engineering'],
+        test_suite='setup.unit_tests'
     )
