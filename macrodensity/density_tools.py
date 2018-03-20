@@ -12,9 +12,9 @@
 # You should have received a copy of the GNU General Public License along with#
 # this program. If not, see <http://www.gnu.org/licenses/>.                   #
 #                                                                             #
-################################################################################
+###############################################################################
 
-from __future__ import print_function
+from __future__ import print_function, division
 from functools import reduce
 import math
 
@@ -40,6 +40,7 @@ def gradient_magnitude(gx, gy, gz):
 
     return grad_mag
 #------------------------------------------------------------------------------
+
 def vector_2_abscissa(vector, magnitude, dx, dy, dz):
     """Converts a vector with a magnitude given in units of grid density
     (NGX/Y/Z) to AA for plotting
@@ -56,6 +57,7 @@ def vector_2_abscissa(vector, magnitude, dx, dy, dz):
 
     return np.asarray(abscissa)
 #------------------------------------------------------------------------------
+
 def number_in_field(gradients, cutoff):
     """Get number of grid elements with a field magnitude greater than cutoff
     Args:
@@ -71,6 +73,7 @@ def number_in_field(gradients, cutoff):
 
     return number_of_elements
 #------------------------------------------------------------------------------
+
 def element_vol(vol, nx, ny, nz):
     """Calculates the volume of each of the elements on the grid.
     Args:
@@ -85,6 +88,7 @@ def element_vol(vol, nx, ny, nz):
     return ele_vol
 
 #------------------------------------------------------------------------------
+
 def one_2_2d(Array, resolution, vector):
     """Converts the 1d potential array to 2D with angstroms in A[0]
     Args:
@@ -198,6 +202,7 @@ def planar_average(Grid, nx, ny, nz, axis='z'):
 
     return Average
 #------------------------------------------------------------------------------
+
 def get_volume(a,b,c):
     """Calculate the volume of the cell from lattice vectors
     Args:
@@ -232,6 +237,7 @@ def matrix_2_abc(Lattice):
 
     return a,b,c,a_vec,b_vec,c_vec
 #------------------------------------------------------------------------------
+
 def read_vasp_density(FILE):
     """Generic reading of CHGCAR LOCPOT etc files from VASP"""
     f = open(FILE,"r")
@@ -323,6 +329,7 @@ def read_vasp_density(FILE):
     f.close()
     return Potential, NGX, NGY, NGZ, lattice
 #------------------------------------------------------------------------------
+
 def density_2_grid(Density, nx, ny, nz, Charge=False, Volume=1):
     """Convert the Potetnial list to a grid for ease of manipulation
     Args:
@@ -354,6 +361,7 @@ def density_2_grid(Density, nx, ny, nz, Charge=False, Volume=1):
     total_electrons = total_electrons / (nx * ny * nz)
     return Potential_grid, total_electrons
 #------------------------------------------------------------------------------
+
 def GCD(a,b):
     """ The Euclidean Algorithm """
     a = abs(a)
@@ -362,6 +370,7 @@ def GCD(a,b):
         a, b = (b % a), a
     return b
 #------------------------------------------------------------------------------
+
 def GCD_List(list):
     """ Finds the GCD of numbers in a list.
     Input: List of numbers you want to find the GCD of
