@@ -26,6 +26,8 @@ pip install git+git://github.com/WMD-group/MacroDensity.git
 ```
 
 - You are now ready to run the examples listed below
+- If you have modified the source code, please run the unit tests with
+  ``python setup.py test``.
 
 PlanarAverage.py
 ------------
