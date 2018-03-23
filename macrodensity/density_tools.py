@@ -334,44 +334,6 @@ def read_vasp_density_legacy(FILE):
     return Potential, NGX, NGY, NGZ, lattice
 #------------------------------------------------------------------------------
 
-
-def read_vasp_density_numpy(FILE):
-    """Generic reading of CHGCAR LOCPOT etc files from VASP"""
-    # Get Header information by reading a line at a time
-
-    with open(FILE, "r") as f:
-        _ = f.readline()
-        scale_factor = float(f.readline())
-
-        lattice = np.zeros(shape=(3,3))
-        for row in range(3):
-            lattice[row] = [float(x) for x in f.readline().split()]
-        lattice = lattice * scale_factor
-
-        num_species = len(f.readline().split())
-        num_type = [int(x) for x in f.readline().split()]
-        num_atoms = sum(num_type)
-        coord_type = f.readline().strip()
-
-        coordinates = numpy.zeros(shape=(num_atoms, 3))
-        for atom_i in range(num_atoms):
-            coordinates[atom_i] = [float(x) for x in f.readline().split()]
-
-        # Skip blank line
-        _ = f.readline()
-
-        NGX, NGY, NGZ = [int(x) for x in f.readline().split()]
-
-    # Get remaining data with numpy import features
-    skiplines = 10 + num_atoms
-    Potential = numpy.loadtxt(FILE, skiprows=skiplines)
-    Potential = Potential.flatten()
-
-    print("Average of the potential = ", numpy.average(Potential))
-    f.close()
-    return Potential, NGX, NGY, NGZ, lattice
-#------------------------------------------------------------------------------
-
 def read_vasp_density(FILE):
     """Generic reading of CHGCAR LOCPOT etc files from VASP"""
     # Get Header information by reading a line at a time
