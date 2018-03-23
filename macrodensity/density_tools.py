@@ -17,6 +17,7 @@
 from __future__ import print_function, division
 from functools import reduce
 import math
+from itertools import chain
 
 import numpy
 import numpy as np
@@ -238,8 +239,11 @@ def matrix_2_abc(Lattice):
     return a,b,c,a_vec,b_vec,c_vec
 #------------------------------------------------------------------------------
 
-def read_vasp_density(FILE):
-    """Generic reading of CHGCAR LOCPOT etc files from VASP"""
+def read_vasp_density_legacy(FILE):
+    """Generic reading of CHGCAR LOCPOT etc files from VASP
+
+    This is the deprecated slow version, but perhaps it is more robust
+    """
     f = open(FILE,"r")
     lines = f.readlines()
     f.close()
@@ -329,6 +333,196 @@ def read_vasp_density(FILE):
     f.close()
     return Potential, NGX, NGY, NGZ, lattice
 #------------------------------------------------------------------------------
+
+
+def read_vasp_density_numpy(FILE):
+    """Generic reading of CHGCAR LOCPOT etc files from VASP"""
+    # Get Header information by reading a line at a time
+
+    with open(FILE, "r") as f:
+        _ = f.readline()
+        scale_factor = float(f.readline())
+
+        lattice = np.zeros(shape=(3,3))
+        for row in range(3):
+            lattice[row] = [float(x) for x in f.readline().split()]
+        lattice = lattice * scale_factor
+
+        num_species = len(f.readline().split())
+        num_type = [int(x) for x in f.readline().split()]
+        num_atoms = sum(num_type)
+        coord_type = f.readline().strip()
+
+        coordinates = numpy.zeros(shape=(num_atoms, 3))
+        for atom_i in range(num_atoms):
+            coordinates[atom_i] = [float(x) for x in f.readline().split()]
+
+        # Skip blank line
+        _ = f.readline()
+
+        NGX, NGY, NGZ = [int(x) for x in f.readline().split()]
+
+    # Get remaining data with numpy import features
+    skiplines = 10 + num_atoms
+    Potential = numpy.loadtxt(FILE, skiprows=skiplines)
+    Potential = Potential.flatten()
+
+    print("Average of the potential = ", numpy.average(Potential))
+    f.close()
+    return Potential, NGX, NGY, NGZ, lattice
+#------------------------------------------------------------------------------
+
+def read_vasp_density(FILE):
+    """Generic reading of CHGCAR LOCPOT etc files from VASP"""
+    # Get Header information by reading a line at a time
+
+    print("Reading header information...")
+    with open(FILE, "r") as f:
+        _ = f.readline()
+        scale_factor = float(f.readline())
+
+        lattice = np.zeros(shape=(3,3))
+        for row in range(3):
+            lattice[row] = [float(x) for x in f.readline().split()]
+        lattice = lattice * scale_factor
+
+        num_species = len(f.readline().split())
+        num_type = [int(x) for x in f.readline().split()]
+        num_atoms = sum(num_type)
+        coord_type = f.readline().strip()
+
+        coordinates = numpy.zeros(shape=(num_atoms, 3))
+        for atom_i in range(num_atoms):
+            coordinates[atom_i] = [float(x) for x in f.readline().split()]
+
+        # Skip blank line
+        _ = f.readline()
+
+        NGX, NGY, NGZ = [int(x) for x in f.readline().split()]
+
+
+        print("Reading 3D data...")
+        Potential = (f.readline().split()
+                         for i in range(int(math.ceil(NGX * NGY * NGZ / 5))))
+        Potential = numpy.fromiter(chain.from_iterable(Potential), float)
+
+    print("\n")
+    print("BBBB       OOOO        OOOO        MMMMM   ")
+    print("BBBB       OOOO        OOOO        MMMMM   ")
+    print("BBBB       OOOO        OOOO        MMMMM   ")
+    print("B  B       OOOO        OOOO        MMMMM   ")
+    print("B  B       O  O        O  O        MMMMM   ")
+    print("B  B       O  O        O  O        MMMMM   ")
+    print("B  B       O  O        O  O        MMMMM   ")
+    print("B  B       O  O        O  O        MMMMM   ")
+    print("BBBB       O  O        O  O        M M M   ")
+    print("BBBB       O  O        O  O        M M M   ")
+    print("BBBB       O  O        O  O        M M M   ")
+    print("B  B       O  O        O  O        M M M   ")
+    print("B  B       O  O        O  O        M M M   ")
+    print("B  B       O  O        O  O        M M M   ")
+    print("B  B       O  O        O  O        M M M   ")
+    print("B  B       OOOO        OOOO        M M M   ")
+    print("BBBB       OOOO        OOOO        M M M   ")
+    print("BBBB       OOOO        OOOO        M M M   ")
+    print("BBBB       OOOO        OOOO        M M M   ")
+
+    print("Average of the potential = ", numpy.average(Potential))
+    f.close()
+    return Potential, NGX, NGY, NGZ, lattice
+#------------------------------------------------------------------------------
+
+def read_vasp_density_classic(FILE):
+    """Alternative implementation of the legacy 3D data importer
+
+    This is a little faster than the `read_vasp_density_legacy` and should be
+    equally robust.
+    """
+    with open(FILE, "r") as f:
+        lines = f.readlines()
+    return _read_vasp_density_fromlines(lines)
+
+def _read_vasp_density_fromlines(lines):
+    """Generic reading of CHGCAR LOCPOT etc files from VASP"""
+
+    i, j, k = 0, 0, 0
+    NGX, NGY, NGZ = 0, 0, 0
+
+    lattice = np.zeros(shape=(3,3))
+    upper_limit, num_species, scale_factor = 0, 0, 0
+    num_atoms = 1 # First test needs to fail until headers have been read
+    Potential, Coordinates = np.zeros(1), np.zeros(1)
+
+    for line in lines:
+        inp = line.split()
+
+        if inp == []:
+            continue
+        else:
+            i += 1
+        if i > (num_atoms + 9) and i < (num_atoms + 10 + upper_limit):
+            for m, val in enumerate(inp):
+                Potential[k + m] = val
+            k = k + 5
+            # if math.fmod(k, 100000) == 0:
+            #     print("Reading potential at point", k)
+        elif i == 2:
+            scale_factor = float(inp[0])
+        elif i >= 3 and i < 6:
+            lattice[i-3,:]=inp[:]
+        elif i == 6:
+            num_species = len(inp)
+            species = inp
+        elif i == 7:
+            num_type = inp
+            while (j < num_species):
+                num_type[j-1] = int(num_type[j-1])
+                j = j + 1
+            num_atoms = sum(num_type)
+        elif i == 8:
+            coord_type = inp
+            Coordinates = numpy.zeros(shape=(num_atoms,3))
+        elif i >= 9 and i <= num_atoms + 8:
+            Coordinates[i-9,0] = float(inp[0])
+            Coordinates[i-9,1] = float(inp[1])
+            Coordinates[i-9,2] = float(inp[2])
+
+        elif i == num_atoms + 9:
+            NGX = int(inp[0])
+            NGY = int(inp[1])
+            NGZ = int(inp[2])
+            Potential = numpy.zeros(shape=(NGX * NGY * NGZ))
+            # Read in the potential data
+            upper_limit =  (int(NGX * NGY * NGZ / 5) +
+                            np.mod(NGX * NGY * NGZ, 5))
+
+    print("BBBB       OOOO        OOOO        MMMMM   ")
+    print("BBBB       OOOO        OOOO        MMMMM   ")
+    print("BBBB       OOOO        OOOO        MMMMM   ")
+    print("B  B       OOOO        OOOO        MMMMM   ")
+    print("B  B       O  O        O  O        MMMMM   ")
+    print("B  B       O  O        O  O        MMMMM   ")
+    print("B  B       O  O        O  O        MMMMM   ")
+    print("B  B       O  O        O  O        MMMMM   ")
+    print("BBBB       O  O        O  O        M M M   ")
+    print("BBBB       O  O        O  O        M M M   ")
+    print("BBBB       O  O        O  O        M M M   ")
+    print("B  B       O  O        O  O        M M M   ")
+    print("B  B       O  O        O  O        M M M   ")
+    print("B  B       O  O        O  O        M M M   ")
+    print("B  B       O  O        O  O        M M M   ")
+    print("B  B       OOOO        OOOO        M M M   ")
+    print("BBBB       OOOO        OOOO        M M M   ")
+    print("BBBB       OOOO        OOOO        M M M   ")
+    print("BBBB       OOOO        OOOO        M M M   ")
+
+    print("Average of the potential = ", numpy.average(Potential))
+
+    lattice = lattice * scale_factor
+
+    return Potential, NGX, NGY, NGZ, lattice
+#------------------------------------------------------------------------------
+
 
 def density_2_grid(Density, nx, ny, nz, Charge=False, Volume=1):
     """Convert the Potetnial list to a grid for ease of manipulation
