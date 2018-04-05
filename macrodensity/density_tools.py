@@ -309,34 +309,61 @@ def read_vasp_density_legacy(FILE):
             if math.fmod(k, 100000) == 0:
                 print("Reading potential at point", k)
 
-    print("BBBB       OOOO        OOOO        MMMMM   ")
-    print("BBBB       OOOO        OOOO        MMMMM   ")
-    print("BBBB       OOOO        OOOO        MMMMM   ")
-    print("B  B       OOOO        OOOO        MMMMM   ")
-    print("B  B       O  O        O  O        MMMMM   ")
-    print("B  B       O  O        O  O        MMMMM   ")
-    print("B  B       O  O        O  O        MMMMM   ")
-    print("B  B       O  O        O  O        MMMMM   ")
-    print("BBBB       O  O        O  O        M M M   ")
-    print("BBBB       O  O        O  O        M M M   ")
-    print("BBBB       O  O        O  O        M M M   ")
-    print("B  B       O  O        O  O        M M M   ")
-    print("B  B       O  O        O  O        M M M   ")
-    print("B  B       O  O        O  O        M M M   ")
-    print("B  B       O  O        O  O        M M M   ")
-    print("B  B       OOOO        OOOO        M M M   ")
-    print("BBBB       OOOO        OOOO        M M M   ")
-    print("BBBB       OOOO        OOOO        M M M   ")
-    print("BBBB       OOOO        OOOO        M M M   ")
-
+    _print_boom()
     print("Average of the potential = ", numpy.average(Potential))
     f.close()
     return Potential, NGX, NGY, NGZ, lattice
+
+
+def _print_boom(quiet=False):
+    if not quiet:
+        print("\n")
+        print("BBBB       OOOO        OOOO        MMMMM   ")
+        print("BBBB       OOOO        OOOO        MMMMM   ")
+        print("BBBB       OOOO        OOOO        MMMMM   ")
+        print("B  B       OOOO        OOOO        MMMMM   ")
+        print("B  B       O  O        O  O        MMMMM   ")
+        print("B  B       O  O        O  O        MMMMM   ")
+        print("B  B       O  O        O  O        MMMMM   ")
+        print("B  B       O  O        O  O        MMMMM   ")
+        print("BBBB       O  O        O  O        M M M   ")
+        print("BBBB       O  O        O  O        M M M   ")
+        print("BBBB       O  O        O  O        M M M   ")
+        print("B  B       O  O        O  O        M M M   ")
+        print("B  B       O  O        O  O        M M M   ")
+        print("B  B       O  O        O  O        M M M   ")
+        print("B  B       O  O        O  O        M M M   ")
+        print("B  B       OOOO        OOOO        M M M   ")
+        print("BBBB       OOOO        OOOO        M M M   ")
+        print("BBBB       OOOO        OOOO        M M M   ")
+        print("BBBB       OOOO        OOOO        M M M   ")
 #------------------------------------------------------------------------------
 
-def read_vasp_density(FILE):
-    """Generic reading of CHGCAR LOCPOT etc files from VASP"""
+def read_vasp_density(FILE, use_pandas=None, quiet=False):
+    """Generic reading of CHGCAR LOCPOT etc files from VASP
+
+    Args:
+        FILE (str): Path to density file
+        use_pandas (bool): Use Pandas library for faster file reading. If set
+            to None, Pandas will be used when available.
+
+    Returns:
+        Potential (array), NGX (int), NGY (int), NGZ (int), lattice (array)
+
+        where Potential is a 1-D flattened array of density data with original
+        dimensions NGX x NGY x NGZ and lattice is the 3x3 unit-cell matrix.
+
+    """
     # Get Header information by reading a line at a time
+
+    if use_pandas:
+        from pandas import read_table as pandas_read_table
+    elif use_pandas is None:
+        try:
+            from pandas import read_table as pandas_read_table
+            use_pandas = True
+        except ImportError:
+            use_pandas = False
 
     print("Reading header information...")
     with open(FILE, "r") as f:
@@ -362,99 +389,29 @@ def read_vasp_density(FILE):
 
         NGX, NGY, NGZ = [int(x) for x in f.readline().split()]
 
+        if use_pandas:
+            print("Reading 3D data using Pandas...")
+            skiprows = 10 + num_atoms
+            readrows = int(math.ceil(NGX * NGY * NGZ / 5))
 
-        print("Reading 3D data...")
-        Potential = (f.readline().split()
-                         for i in range(int(math.ceil(NGX * NGY * NGZ / 5))))
-        Potential = numpy.fromiter(chain.from_iterable(Potential), float)
+            dat = pandas_read_table(FILE, delim_whitespace=True,
+                                    skiprows=skiprows, header=None,
+                                    nrows=readrows)
+            Potential = dat.iloc[:readrows, :5].values.flatten()
+            remainder = (NGX * NGY * NGZ) % 5
+            if remainder > 0:
+                Potential = Potential[:(-5 + remainder)]
 
-    print("\n")
-    print("BBBB       OOOO        OOOO        MMMMM   ")
-    print("BBBB       OOOO        OOOO        MMMMM   ")
-    print("BBBB       OOOO        OOOO        MMMMM   ")
-    print("B  B       OOOO        OOOO        MMMMM   ")
-    print("B  B       O  O        O  O        MMMMM   ")
-    print("B  B       O  O        O  O        MMMMM   ")
-    print("B  B       O  O        O  O        MMMMM   ")
-    print("B  B       O  O        O  O        MMMMM   ")
-    print("BBBB       O  O        O  O        M M M   ")
-    print("BBBB       O  O        O  O        M M M   ")
-    print("BBBB       O  O        O  O        M M M   ")
-    print("B  B       O  O        O  O        M M M   ")
-    print("B  B       O  O        O  O        M M M   ")
-    print("B  B       O  O        O  O        M M M   ")
-    print("B  B       O  O        O  O        M M M   ")
-    print("B  B       OOOO        OOOO        M M M   ")
-    print("BBBB       OOOO        OOOO        M M M   ")
-    print("BBBB       OOOO        OOOO        M M M   ")
-    print("BBBB       OOOO        OOOO        M M M   ")
+        else:
+            print("Reading 3D data...")
+            Potential = (f.readline().split()
+                             for i in range(int(math.ceil(NGX * NGY * NGZ / 5))))
+            Potential = numpy.fromiter(chain.from_iterable(Potential), float)
 
-    print("Average of the potential = ", numpy.average(Potential))
-    f.close()
-    return Potential, NGX, NGY, NGZ, lattice
-#------------------------------------------------------------------------------
+    _print_boom(quiet=quiet)
+    if not quiet:
+        print("Average of the potential = ", numpy.average(Potential))
 
-def read_vasp_density_pandas(FILE):
-    """Generic reading of CHGCAR LOCPOT etc files from VASP"""
-    # Get Header information by reading a line at a time
-
-    from pandas import read_table as pandas_read_table
-
-    print("Reading header information...")
-    with open(FILE, "r") as f:
-        _ = f.readline()
-        scale_factor = float(f.readline())
-
-        lattice = np.zeros(shape=(3,3))
-        for row in range(3):
-            lattice[row] = [float(x) for x in f.readline().split()]
-        lattice = lattice * scale_factor
-
-        num_species = len(f.readline().split())
-        num_type = [int(x) for x in f.readline().split()]
-        num_atoms = sum(num_type)
-        coord_type = f.readline().strip()
-
-        coordinates = numpy.zeros(shape=(num_atoms, 3))
-        for atom_i in range(num_atoms):
-            coordinates[atom_i] = [float(x) for x in f.readline().split()]
-
-        # Skip blank line
-        _ = f.readline()
-
-        NGX, NGY, NGZ = [int(x) for x in f.readline().split()]
-
-    print("Reading 3D data...")
-    skiprows = 10 + num_atoms
-    readrows = int(math.ceil(NGX * NGY * NGZ / 5))
-
-    dat = pandas_read_table(FILE, delim_whitespace=True, skiprows=skiprows, header=None)
-
-    Potential = dat.iloc[:readrows, :5].values.flatten()
-
-    print("\n")
-    print("BBBB       OOOO        OOOO        MMMMM   ")
-    print("BBBB       OOOO        OOOO        MMMMM   ")
-    print("BBBB       OOOO        OOOO        MMMMM   ")
-    print("B  B       OOOO        OOOO        MMMMM   ")
-    print("B  B       O  O        O  O        MMMMM   ")
-    print("B  B       O  O        O  O        MMMMM   ")
-    print("B  B       O  O        O  O        MMMMM   ")
-    print("B  B       O  O        O  O        MMMMM   ")
-    print("BBBB       O  O        O  O        M M M   ")
-    print("BBBB       O  O        O  O        M M M   ")
-    print("BBBB       O  O        O  O        M M M   ")
-    print("B  B       O  O        O  O        M M M   ")
-    print("B  B       O  O        O  O        M M M   ")
-    print("B  B       O  O        O  O        M M M   ")
-    print("B  B       O  O        O  O        M M M   ")
-    print("B  B       OOOO        OOOO        M M M   ")
-    print("BBBB       OOOO        OOOO        M M M   ")
-    print("BBBB       OOOO        OOOO        M M M   ")
-    print("BBBB       OOOO        OOOO        M M M   ")
-
-    print("Average of the potential = ", numpy.average(Potential))
-    f.close()
     return Potential, NGX, NGY, NGZ, lattice
 #------------------------------------------------------------------------------
 
@@ -522,26 +479,7 @@ def _read_vasp_density_fromlines(lines):
             upper_limit =  (int(NGX * NGY * NGZ / 5) +
                             np.mod(NGX * NGY * NGZ, 5))
 
-    print("BBBB       OOOO        OOOO        MMMMM   ")
-    print("BBBB       OOOO        OOOO        MMMMM   ")
-    print("BBBB       OOOO        OOOO        MMMMM   ")
-    print("B  B       OOOO        OOOO        MMMMM   ")
-    print("B  B       O  O        O  O        MMMMM   ")
-    print("B  B       O  O        O  O        MMMMM   ")
-    print("B  B       O  O        O  O        MMMMM   ")
-    print("B  B       O  O        O  O        MMMMM   ")
-    print("BBBB       O  O        O  O        M M M   ")
-    print("BBBB       O  O        O  O        M M M   ")
-    print("BBBB       O  O        O  O        M M M   ")
-    print("B  B       O  O        O  O        M M M   ")
-    print("B  B       O  O        O  O        M M M   ")
-    print("B  B       O  O        O  O        M M M   ")
-    print("B  B       O  O        O  O        M M M   ")
-    print("B  B       OOOO        OOOO        M M M   ")
-    print("BBBB       OOOO        OOOO        M M M   ")
-    print("BBBB       OOOO        OOOO        M M M   ")
-    print("BBBB       OOOO        OOOO        M M M   ")
-
+    _print_boom()
     print("Average of the potential = ", numpy.average(Potential))
 
     lattice = lattice * scale_factor
@@ -549,9 +487,8 @@ def _read_vasp_density_fromlines(lines):
     return Potential, NGX, NGY, NGZ, lattice
 #------------------------------------------------------------------------------
 
-
 def density_2_grid(Density, nx, ny, nz, Charge=False, Volume=1):
-    """Convert the Potetnial list to a grid for ease of manipulation
+    """Convert the Potential list to a grid for ease of manipulation
     Args:
         Density: Array of the output from a VAsp calulation charge/potential
         nx,y,z : Number of mesh points in x/y/z
