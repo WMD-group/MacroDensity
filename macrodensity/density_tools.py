@@ -239,82 +239,6 @@ def matrix_2_abc(Lattice):
     return a,b,c,a_vec,b_vec,c_vec
 #------------------------------------------------------------------------------
 
-def read_vasp_density_legacy(FILE):
-    """Generic reading of CHGCAR LOCPOT etc files from VASP
-
-    This is the deprecated slow version, but perhaps it is more robust
-    """
-    f = open(FILE,"r")
-    lines = f.readlines()
-    f.close()
-    # Get Header information
-    i = 0
-    lattice = np.zeros(shape=(3,3))
-    for line in lines:
-        inp = line.split()
-        if inp == []:
-            continue
-        if len(inp) > 0:
-            i = i+1
-        if i == 2:
-            scale_factor = float(inp[0])
-        if i >= 3 and i < 6:
-            lattice[i-3,:]=inp[:]
-        if i == 6:
-            num_species=len(inp)
-            species=inp
-        if i == 7:
-            num_type=inp
-            j = 0
-            while (j < num_species):
-                num_type[j-1] = int(num_type[j-1])
-                j = j + 1
-            num_atoms=sum(num_type)
-        if i == 8:
-            coord_type = inp
-
-    for i in range(3):
-       for j in range(3):
-           lattice[i,j] = lattice[i,j] * scale_factor
-    # Restart reading to get the coordinates...it's just easier this way!
-    i = 0
-    Coordinates = numpy.zeros(shape=(num_atoms,3))
-    for line in lines:
-         inp = line.split()
-         if len(inp) > 0:
-             i = i + 1
-         if i >= 9 and i <= num_atoms+8 and len(inp) > 0:
-             Coordinates[i-9,0] = float(inp[0])
-             Coordinates[i-9,1] = float(inp[1])
-             Coordinates[i-9,2] = float(inp[2])
-    # Now get the info about the charge grid
-    i = 0
-    for line in lines:
-        inp = line.split()
-        if len(inp) > 0:
-            i = i + 1
-        if i == num_atoms + 9:
-            NGX = int(inp[0])
-            NGY = int(inp[1])
-            NGZ = int(inp[2])
-            k = 0
-            Potential = numpy.zeros(shape=(NGX * NGY * NGZ))
-            # Read in the potential data
-            upper_limit =  (int(NGX * NGY * NGZ / 5) +
-                            np.mod(NGX * NGY * NGZ, 5))
-        if i > (num_atoms + 9) and i < (num_atoms + 10 + upper_limit):
-            for m in range(len(inp)):
-                Potential[k + m] = inp[m]
-            k = k + 5
-            if math.fmod(k, 100000) == 0:
-                print("Reading potential at point", k)
-
-    _print_boom()
-    print("Average of the potential = ", numpy.average(Potential))
-    f.close()
-    return Potential, NGX, NGY, NGZ, lattice
-
-
 def _print_boom(quiet=False):
     if not quiet:
         print("\n")
@@ -337,7 +261,6 @@ def _print_boom(quiet=False):
         print("BBBB       OOOO        OOOO        M M M   ")
         print("BBBB       OOOO        OOOO        M M M   ")
         print("BBBB       OOOO        OOOO        M M M   ")
-#------------------------------------------------------------------------------
 
 def read_vasp_density(FILE, use_pandas=None, quiet=False):
     """Generic reading of CHGCAR LOCPOT etc files from VASP
@@ -416,10 +339,12 @@ def read_vasp_density(FILE, use_pandas=None, quiet=False):
 #------------------------------------------------------------------------------
 
 def read_vasp_density_classic(FILE):
-    """Alternative implementation of the legacy 3D data importer
+    """Reimplementation of the legacy 3D data importer
 
-    This is a little faster than the `read_vasp_density_legacy` and should be
-    equally robust.
+    This is still quite a bit slower than the new ``read_vasp_density`` but it
+    makes less assumptions about where newlines will appear in the file. It
+    also prints the progress reading through the file; this definitely makes it
+    slower but might _feel_ faster!
     """
     with open(FILE, "r") as f:
         lines = f.readlines()
@@ -447,8 +372,8 @@ def _read_vasp_density_fromlines(lines):
             for m, val in enumerate(inp):
                 Potential[k + m] = val
             k = k + 5
-            # if math.fmod(k, 100000) == 0:
-            #     print("Reading potential at point", k)
+            if math.fmod(k, 100000) == 0:
+                print("Reading potential at point", k)
         elif i == 2:
             scale_factor = float(inp[0])
         elif i >= 3 and i < 6:
@@ -469,15 +394,14 @@ def _read_vasp_density_fromlines(lines):
             Coordinates[i-9,0] = float(inp[0])
             Coordinates[i-9,1] = float(inp[1])
             Coordinates[i-9,2] = float(inp[2])
-
         elif i == num_atoms + 9:
             NGX = int(inp[0])
             NGY = int(inp[1])
             NGZ = int(inp[2])
             Potential = numpy.zeros(shape=(NGX * NGY * NGZ))
             # Read in the potential data
-            upper_limit =  (int(NGX * NGY * NGZ / 5) +
-                            np.mod(NGX * NGY * NGZ, 5))
+            upper_limit = (int(NGX * NGY * NGZ / 5) +
+                           np.mod(NGX * NGY * NGZ, 5))
 
     _print_boom()
     print("Average of the potential = ", numpy.average(Potential))
