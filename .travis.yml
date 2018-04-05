@@ -1,9 +1,10 @@
 language: python
 python:
   - "2.7"
+  - "3.5"
 # command to install dependencies
 install:
-  - pip install git+git://github.com/WMD-group/MacroDensity.git
+  - pip install .
 # command to run tests
 script:
-  - py.test tests/unit_tests.py # or py.test for Python versions 3.5 and below
+  - python setup.py test
