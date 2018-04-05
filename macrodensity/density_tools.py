@@ -383,10 +383,7 @@ def _read_vasp_density_fromlines(lines):
             species = inp
         elif i == 7:
             num_type = inp
-            while (j < num_species):
-                num_type[j-1] = int(num_type[j-1])
-                j = j + 1
-            num_atoms = sum(num_type)
+            num_atoms = sum(int(x) for x in num_type)
         elif i == 8:
             coord_type = inp
             Coordinates = numpy.zeros(shape=(num_atoms,3))

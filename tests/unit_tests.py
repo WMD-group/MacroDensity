@@ -13,7 +13,7 @@ except ImportError:
 
 test_dir = os.path.abspath(os.path.dirname(__file__))
 
-class TestReadingFunctions(unittest.TestCase):
+class TestDensityReadingFunctions(unittest.TestCase):
     ''' Test the code for reading in charge and density files'''
 
     def test_read_vasp(self):
@@ -31,16 +31,6 @@ class TestReadingFunctions(unittest.TestCase):
         self.assertEqual(lattice[0, 0], 2.7150000)
         self.assertEqual(ngx, 56)
 
-    def test_matrix_2_abc(self):
-        '''Test the function for converting the lattice to abc, alpha,beta, gamma format'''
-        lattice = np.asarray([[2.715, 2.715, 0.],
-                              [0., 2.715, 2.715],
-                              [2.715, 0., 2.715]])
-        a, b, c, a_vec, b_vec, c_vec = md.matrix_2_abc(lattice)
-        self.assertAlmostEqual(a, 3.8395898218429529)
-        self.assertAlmostEqual(b, 3.8395898218429529)
-        self.assertAlmostEqual(c, 3.8395898218429529)
-
     def test_density_2_grid(self):
         '''Test the function for projecting the potential onto a grid'''
         charge, ngx, ngy, ngz, lattice = md.read_vasp_density('CHGCAR.test',
@@ -51,13 +41,40 @@ class TestReadingFunctions(unittest.TestCase):
         self.assertAlmostEqual(electrons, 8.00000, places=4)
 
 @unittest.skipIf(not has_pandas, "Already using pandas-free reader")
-class TestReadingFunctionsNoPandas(TestReadingFunctions):
+class TestDensityReadingFunctionsNoPandas(TestDensityReadingFunctions):
     """Disable Pandas and test code for reading charge and density files"""
     def setUp(self):
         self._pandas = sys.modules['pandas']
         sys.modules['pandas'] = None
     def tearDown(self):
         sys.modules['pandas'] = self._pandas
+
+class TestOtherReadingFunctions(unittest.TestCase):
+    def test_read_vasp_classic(self):
+        '''Test the function for reading CHGCAR/LOCPOT'''
+        (charge, ngx,
+         ngy, ngz, lattice) = md.read_vasp_density_classic('CHGCAR.test')
+        for v, t in ((charge, np.ndarray),
+                     (ngx, int),
+                     (ngy, int),
+                     (ngz, int),
+                     (lattice, np.ndarray)):
+            self.assertIsInstance(v, t)
+        self.assertEqual(charge[0], -.76010173913E+01)
+        self.assertEqual(charge[56 * 56 * 56 -1], -4.4496715627)
+        self.assertEqual(lattice[0, 0], 2.7150000)
+        self.assertEqual(ngx, 56)
+
+    def test_matrix_2_abc(self):
+        '''Test conversion of lattice to abc, alpha, beta, gamma format'''
+        lattice = np.asarray([[2.715, 2.715, 0.],
+                              [0., 2.715, 2.715],
+                              [2.715, 0., 2.715]])
+        a, b, c, a_vec, b_vec, c_vec = md.matrix_2_abc(lattice)
+        self.assertAlmostEqual(a, 3.8395898218429529)
+        self.assertAlmostEqual(b, 3.8395898218429529)
+        self.assertAlmostEqual(c, 3.8395898218429529)
+    
 
 class TestAveragingFunctions(unittest.TestCase):
     '''Test various functions for manipulating and measuring the density'''
