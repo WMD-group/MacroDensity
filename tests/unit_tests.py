@@ -1,4 +1,8 @@
 from __future__ import print_function
+import sys
+# Prepend local dir to pypath, this means system versions of md are not used by accident
+old_path = sys.path
+sys.path = ['../'] + old_path
 import unittest
 import sys
 import os
@@ -18,7 +22,7 @@ class TestDensityReadingFunctions(unittest.TestCase):
 
     def test_read_vasp(self):
         '''Test the function for reading CHGCAR/LOCPOT'''
-        charge, ngx, ngy, ngz, lattice = md.read_vasp_density('CHGCAR.test',
+        charge, ngx, ngy, ngz, lattice = md.read_vasp_density('../CHGCAR.test',
                                                               quiet=True)
         for v, t in ((charge, np.ndarray),
                      (ngx, int),
@@ -33,7 +37,7 @@ class TestDensityReadingFunctions(unittest.TestCase):
 
     def test_density_2_grid(self):
         '''Test the function for projecting the potential onto a grid'''
-        charge, ngx, ngy, ngz, lattice = md.read_vasp_density('CHGCAR.test',
+        charge, ngx, ngy, ngz, lattice = md.read_vasp_density('../CHGCAR.test',
                                                               quiet=True)
         grid_pot, electrons = md.density_2_grid(charge, ngx, ngy, ngz)
         self.assertAlmostEqual(grid_pot[0, 0, 0], - .76010173913E+01)
@@ -53,7 +57,7 @@ class TestOtherReadingFunctions(unittest.TestCase):
     def test_read_vasp_classic(self):
         '''Test the function for reading CHGCAR/LOCPOT'''
         (charge, ngx,
-         ngy, ngz, lattice) = md.read_vasp_density_classic('CHGCAR.test')
+         ngy, ngz, lattice) = md.read_vasp_density_classic('../CHGCAR.test')
         for v, t in ((charge, np.ndarray),
                      (ngx, int),
                      (ngy, int),
