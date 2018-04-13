@@ -4,8 +4,6 @@ import sys
 import os
 import numpy as np
 import macrodensity as md
-contents = os.listdir("/home/travis/build/WMD-group/MacroDensity/tests/")
-print("CONTENTS: ", contents)
 try:
     import pandas
     has_pandas = True
@@ -176,4 +174,6 @@ class TestGeometryFunctions(unittest.TestCase):
 
 
 if __name__ == '__main__':
+    contents = os.listdir("/home/travis/build/WMD-group/MacroDensity/tests/")
+    print("CONTENTS: ", contents)
     unittest.main()
