@@ -1,8 +1,4 @@
 from __future__ import print_function
-import sys
-# Prepend local dir to pypath, this means system versions of md are not used by accident
-old_path = sys.path
-sys.path = ['../'] + old_path
 import unittest
 import sys
 import os
