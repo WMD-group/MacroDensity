@@ -4,6 +4,10 @@ import sys
 import os
 import numpy as np
 import macrodensity as md
+import pkg_resources
+from os.path import join as path_join
+
+
 try:
     import pandas
     has_pandas = True
@@ -17,7 +21,9 @@ class TestDensityReadingFunctions(unittest.TestCase):
 
     def test_read_vasp(self):
         '''Test the function for reading CHGCAR/LOCPOT'''
-        charge, ngx, ngy, ngz, lattice = md.read_vasp_density('CHGCAR.test',
+        chgcar = pkg_resources.resource_filename(
+                    __name__, path_join('..', 'CHGCAR.test'))
+        charge, ngx, ngy, ngz, lattice = md.read_vasp_density(chgcar,
                                                               quiet=True)
         for v, t in ((charge, np.ndarray),
                      (ngx, int),
@@ -32,7 +38,9 @@ class TestDensityReadingFunctions(unittest.TestCase):
 
     def test_density_2_grid(self):
         '''Test the function for projecting the potential onto a grid'''
-        charge, ngx, ngy, ngz, lattice = md.read_vasp_density('CHGCAR.test',
+        chgcar = pkg_resources.resource_filename(
+                    __name__, path_join('..', 'CHGCAR.test'))
+        charge, ngx, ngy, ngz, lattice = md.read_vasp_density(chgcar,
                                                               quiet=True)
         grid_pot, electrons = md.density_2_grid(charge, ngx, ngy, ngz)
         self.assertAlmostEqual(grid_pot[0, 0, 0], - .76010173913E+01)
@@ -51,8 +59,10 @@ class TestDensityReadingFunctionsNoPandas(TestDensityReadingFunctions):
 class TestOtherReadingFunctions(unittest.TestCase):
     def test_read_vasp_classic(self):
         '''Test the function for reading CHGCAR/LOCPOT'''
+        chgcar = pkg_resources.resource_filename(
+                    __name__, path_join('..', 'CHGCAR.test'))
         (charge, ngx,
-         ngy, ngz, lattice) = md.read_vasp_density_classic('CHGCAR.test')
+         ngy, ngz, lattice) = md.read_vasp_density_classic(chgcar)
         for v, t in ((charge, np.ndarray),
                      (ngx, int),
                      (ngy, int),
