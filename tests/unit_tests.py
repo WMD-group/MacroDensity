@@ -4,40 +4,89 @@ import sys
 import os
 import numpy as np
 import macrodensity as md
+import pkg_resources
+from os.path import join as path_join
+
+
+try:
+    import pandas
+    has_pandas = True
+except ImportError:
+    has_pandas = False
 
 test_dir = os.path.abspath(os.path.dirname(__file__))
 
-
-class TestReadingFunctions(unittest.TestCase):
+class TestDensityReadingFunctions(unittest.TestCase):
     ''' Test the code for reading in charge and density files'''
 
     def test_read_vasp(self):
         '''Test the function for reading CHGCAR/LOCPOT'''
-        charge, ngx, ngy, ngz, lattice = md.read_vasp_density('CHGCAR.test')
+        chgcar = pkg_resources.resource_filename(
+                    __name__, path_join('..', 'CHGCAR.test'))
+        charge, ngx, ngy, ngz, lattice = md.read_vasp_density(chgcar,
+                                                              quiet=True)
+        for v, t in ((charge, np.ndarray),
+                     (ngx, int),
+                     (ngy, int),
+                     (ngz, int),
+                     (lattice, np.ndarray)):
+            self.assertIsInstance(v, t)
+        self.assertEqual(charge[0], -.76010173913E+01)
+        self.assertEqual(charge[56 * 56 * 56 -1], -4.4496715627)
+        self.assertEqual(lattice[0, 0], 2.7150000)
+        self.assertEqual(ngx, 56)
+
+    def test_density_2_grid(self):
+        '''Test the function for projecting the potential onto a grid'''
+        chgcar = pkg_resources.resource_filename(
+                    __name__, path_join('..', 'CHGCAR.test'))
+        charge, ngx, ngy, ngz, lattice = md.read_vasp_density(chgcar,
+                                                              quiet=True)
+        grid_pot, electrons = md.density_2_grid(charge, ngx, ngy, ngz)
+        self.assertAlmostEqual(grid_pot[0, 0, 0], - .76010173913E+01)
+        self.assertAlmostEqual(grid_pot[55, 55, 55], -4.4496715627)
+        self.assertAlmostEqual(electrons, 8.00000, places=4)
+
+@unittest.skipIf(not has_pandas, "Already using pandas-free reader")
+class TestDensityReadingFunctionsNoPandas(TestDensityReadingFunctions):
+    """Disable Pandas and test code for reading charge and density files"""
+    def setUp(self):
+        self._pandas = sys.modules['pandas']
+        sys.modules['pandas'] = None
+    def tearDown(self):
+        sys.modules['pandas'] = self._pandas
+
+class TestOtherReadingFunctions(unittest.TestCase):
+    def test_read_vasp_classic(self):
+        '''Test the function for reading CHGCAR/LOCPOT'''
+        chgcar = pkg_resources.resource_filename(
+                    __name__, path_join('..', 'CHGCAR.test'))
+        (charge, ngx,
+         ngy, ngz, lattice) = md.read_vasp_density_classic(chgcar)
+        for v, t in ((charge, np.ndarray),
+                     (ngx, int),
+                     (ngy, int),
+                     (ngz, int),
+                     (lattice, np.ndarray)):
+            self.assertIsInstance(v, t)
         self.assertEqual(charge[0], -.76010173913E+01)
         self.assertEqual(charge[56 * 56 * 56 -1], -4.4496715627)
         self.assertEqual(lattice[0, 0], 2.7150000)
         self.assertEqual(ngx, 56)
 
     def test_matrix_2_abc(self):
-        '''Test the function for converting the lattice to abc, alpha,beta, gamma format'''
-        lattice = np.asarray([[2.715, 2.715, 0.], [0., 2.715, 2.715], [2.715, 0., 2.715]])
+        '''Test conversion of lattice to abc, alpha, beta, gamma format'''
+        lattice = np.asarray([[2.715, 2.715, 0.],
+                              [0., 2.715, 2.715],
+                              [2.715, 0., 2.715]])
         a, b, c, a_vec, b_vec, c_vec = md.matrix_2_abc(lattice)
         self.assertAlmostEqual(a, 3.8395898218429529)
         self.assertAlmostEqual(b, 3.8395898218429529)
         self.assertAlmostEqual(c, 3.8395898218429529)
-
-    def test_density_2_grid(self):
-        '''Test the function for projecting the potential onto a grid'''
-        charge, ngx, ngy, ngz, lattice = md.read_vasp_density('CHGCAR.test')
-        grid_pot, electrons = md.density_2_grid(charge, ngx, ngy, ngz)
-        self.assertAlmostEqual(grid_pot[0, 0, 0], - .76010173913E+01)
-        self.assertAlmostEqual(grid_pot[55, 55, 55], -4.4496715627)
-        self.assertAlmostEqual(electrons, 8.00000, places=4)
-
+    
 
 class TestAveragingFunctions(unittest.TestCase):
-    '''Test various functions for manipulating and mesuring the density'''
+    '''Test various functions for manipulating and measuring the density'''
 
     def test_planar_average(self):
         ''' Test the code for averaging the density'''
@@ -135,4 +184,6 @@ class TestGeometryFunctions(unittest.TestCase):
 
 
 if __name__ == '__main__':
+    contents = os.listdir("/home/travis/build/WMD-group/MacroDensity/tests/")
+    print("CONTENTS: ", contents)
     unittest.main()
