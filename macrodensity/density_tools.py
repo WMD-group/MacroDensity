@@ -139,7 +139,22 @@ def macroscopic_average(potential, periodicity, resolution):
 #------------------------------------------------------------------------------
 
 def cube_potential(origin, travelled, cube, Grid, nx, ny, nz):
-    """Populates the sampling cube with the potential required"""
+    """Average potential over a cuboid volume element
+
+    Args:
+        origin (3-tuple) : Origin coordinates as fractions of lattice
+            vectors
+        travelled (3-tuple) : Vector displacing volume element from origin, in
+            units of potential grid samples
+        cube (3-tuple) : Dimensions of sampling volume in grid samples
+            (NX, NY, NZ)
+        Grid (numpy.ndarray) : 3-dimensional (nx, ny, nz) array of potential
+            data
+        nx (int) : number of samples on first axis
+        ny (int) : number of samples on second axis
+        nz (int) : number of samples on third axis
+
+    """
 
     # Recalc the origin as grid point coordinates
     n_origin = np.zeros(shape=(3))
