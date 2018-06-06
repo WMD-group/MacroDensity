@@ -154,6 +154,10 @@ def cube_potential(origin, travelled, cube, Grid, nx, ny, nz):
         ny (int) : number of samples on second axis
         nz (int) : number of samples on third axis
 
+    Returns:
+        2-tuple:
+            (mean, variance) of potential samples in volume
+
     """
 
     # Recalc the origin as grid point coordinates
