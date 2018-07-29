@@ -1,6 +1,7 @@
 from __future__ import print_function
 import unittest
 import sys
+sys.path = ['/Users/keithbutler/SCRIPTS/MacroDensity/MacroDensity'] + sys.path
 import os
 import numpy as np
 import macrodensity as md
@@ -184,6 +185,6 @@ class TestGeometryFunctions(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    contents = os.listdir("/home/travis/build/WMD-group/MacroDensity/tests/")
-    print("CONTENTS: ", contents)
+    #contents = os.listdir("/home/travis/build/WMD-group/MacroDensity/tests/")
+    #print("CONTENTS: ", contents)
     unittest.main()

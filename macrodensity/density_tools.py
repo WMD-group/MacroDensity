@@ -139,26 +139,7 @@ def macroscopic_average(potential, periodicity, resolution):
 #------------------------------------------------------------------------------
 
 def cube_potential(origin, travelled, cube, Grid, nx, ny, nz):
-    """Average potential over a cuboid volume element
-
-    Args:
-        origin (3-tuple) : Origin coordinates as fractions of lattice
-            vectors
-        travelled (3-tuple) : Vector displacing volume element from origin, in
-            units of potential grid samples
-        cube (3-tuple) : Dimensions of sampling volume in grid samples
-            (NX, NY, NZ)
-        Grid (numpy.ndarray) : 3-dimensional (nx, ny, nz) array of potential
-            data
-        nx (int) : number of samples on first axis
-        ny (int) : number of samples on second axis
-        nz (int) : number of samples on third axis
-
-    Returns:
-        2-tuple:
-            (mean, variance) of potential samples in volume
-
-    """
+    """Populates the sampling cube with the potential required"""
 
     # Recalc the origin as grid point coordinates
     n_origin = np.zeros(shape=(3))
@@ -356,6 +337,79 @@ def read_vasp_density(FILE, use_pandas=None, quiet=False):
 
     return Potential, NGX, NGY, NGZ, lattice
 #------------------------------------------------------------------------------
+def read_vasp_parchg(FILE, use_pandas=None, quiet=False):
+    """Generic reading of CHGCAR LOCPOT etc files from VASP
+
+    Args:
+        FILE (str): Path to parchg file
+        use_pandas (bool): Use Pandas library for faster file reading. If set
+            to None, Pandas will be used when available.
+
+    Returns:
+        density (array), NGX (int), NGY (int), NGZ (int), lattice (array)
+
+        where density is a 1-D flattened array of density data with original
+        dimensions NGX x NGY x NGZ and lattice is the 3x3 unit-cell matrix.
+
+    """
+    # Get Header information by reading a line at a time
+
+    if use_pandas:
+        from pandas import read_table as pandas_read_table
+    elif use_pandas is None:
+        try:
+            from pandas import read_table as pandas_read_table
+            use_pandas = True
+        except ImportError:
+            use_pandas = False
+
+    print("Reading header information...")
+    with open(FILE, "r") as f:
+        _ = f.readline()
+        scale_factor = float(f.readline())
+
+        lattice = np.zeros(shape=(3,3))
+        for row in range(3):
+            lattice[row] = [float(x) for x in f.readline().split()]
+        lattice = lattice * scale_factor
+
+        num_species = len(f.readline().split())
+        num_type = [int(x) for x in f.readline().split()]
+        num_atoms = sum(num_type)
+        coord_type = f.readline().strip()
+
+        coordinates = numpy.zeros(shape=(num_atoms, 3))
+        for atom_i in range(num_atoms):
+            coordinates[atom_i] = [float(x) for x in f.readline().split()]
+
+        # Skip blank line
+        _ = f.readline()
+
+        NGX, NGY, NGZ = [int(x) for x in f.readline().split()]
+
+        if use_pandas:
+            print("Reading 3D data using Pandas...")
+            skiprows = 10 + num_atoms
+            readrows = int(math.ceil(NGX * NGY * NGZ / 10))
+
+            dat = pandas_read_table(FILE, delim_whitespace=True,
+                                    skiprows=skiprows, header=None,
+                                    nrows=readrows)
+            density = dat.iloc[:readrows, :10].values.flatten()
+            remainder = (NGX * NGY * NGZ) % 10
+            if remainder > 0:
+                density = density[:(-10 + remainder)]
+        else:
+            print("Reading 3D data...")
+            density = (f.readline().split()
+                             for i in range(int(math.ceil(NGX * NGY * NGZ / 10))))
+            density = numpy.fromiter(chain.from_iterable(density), float)
+
+    _print_boom(quiet=quiet)
+    if not quiet:
+        print("Average of the potential = ", numpy.average(density))
+
+    return density, NGX, NGY, NGZ, lattice
 
 def read_vasp_density_classic(FILE):
     """Reimplementation of the legacy 3D data importer
@@ -458,6 +512,52 @@ def density_2_grid(Density, nx, ny, nz, Charge=False, Volume=1):
     total_electrons = total_electrons / (nx * ny * nz)
     return Potential_grid, total_electrons
 #------------------------------------------------------------------------------
+def read_gulp_potential(gulpfile='gulp.out'):
+
+    """Generic reading of CHGCAR LOCPOT etc files from VASP
+
+    Args:
+        gulpfile (str): Path to gulp output file
+
+    Returns:
+        potential (array), NGX (int), NGY (int), NGZ (int), lattice (array)
+
+        where density is a 1-D flattened array of density data with original
+        dimensions NGX x NGY x NGZ and lattice is the 3x3 unit-cell matrix.
+    """
+
+    potential = []
+
+    try:
+        file_handle=open(gulpfile)
+    except IOError:
+        print("File not found or path is incorrect")
+    
+    lines = file_handle.readlines()
+    for n, line in enumerate(lines):
+        if line.rfind('Cartesian lattice vectors') > -1:
+            lattice = np.zeros(shape=(3, 3))
+            for r in range(3):
+                lattice[r] = lines[n + 2 + r].split()
+            break
+
+    for n, line in enumerate(lines):
+        if line.rfind('Electrostatic potential on a grid') > -1:
+            NGX = int(lines[n + 3].split()[3])
+            NGY = int(lines[n + 3].split()[5])
+            NGZ = int(lines[n + 3].split()[7])
+            break
+
+    for n, line in enumerate(lines):
+        if line.rfind('Electrostatic potential on a grid') > -1:
+            for k in range(9, NGX*NGY*NGZ + 9):
+                potential.append(float(lines[n + k].split()[3]))
+
+
+    return np.asarray(potential), NGX, NGY, NGZ, lattice
+
+
+#------------------------------------------------------------------------------
 
 def GCD(a,b):
     """ The Euclidean Algorithm """
@@ -476,3 +576,12 @@ def GCD_List(list):
     """
     return reduce(GCD, list)
 #------------------------------------------------------------------------------
+
+def inverse_participation_ratio(density):
+    """ Calculate the IPR, which is Psi**4 or Rho**2
+    Input: density, a 1-D flattened grid of the electron density for the state
+           this is calculated from the PARCHG in VASP
+    Output: ipr, float
+    """
+
+    return sum(i**2 for i in density)
