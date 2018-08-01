@@ -514,7 +514,7 @@ def density_2_grid(Density, nx, ny, nz, Charge=False, Volume=1):
 #------------------------------------------------------------------------------
 def read_gulp_potential(gulpfile='gulp.out'):
 
-    """Generic reading of CHGCAR LOCPOT etc files from VASP
+    """Generic reading of GULP output
 
     Args:
         gulpfile (str): Path to gulp output file
