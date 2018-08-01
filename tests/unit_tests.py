@@ -200,6 +200,4 @@ class TestGeometryFunctions(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    #contents = os.listdir("/home/travis/build/WMD-group/MacroDensity/tests/")
-    #print("CONTENTS: ", contents)
     unittest.main()
