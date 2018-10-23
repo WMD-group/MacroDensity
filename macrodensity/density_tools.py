@@ -584,4 +584,8 @@ def inverse_participation_ratio(density):
     Output: ipr, float
     """
 
-    return sum(i**2 for i in density)
+    sq = sum(i**2 for i in density)
+    fr = sum(i**4 for i in density)
+    ifr = 1 / (len(density) * fr)
+    isq = 1 / (len(density) * sq)
+    return fr / sq**2
