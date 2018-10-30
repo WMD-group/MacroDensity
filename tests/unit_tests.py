@@ -36,6 +36,22 @@ class TestDensityReadingFunctions(unittest.TestCase):
         self.assertEqual(lattice[0, 0], 2.7150000)
         self.assertEqual(ngx, 56)
 
+    def test_read_gulp(self):
+        '''Test the function for reading GULP output'''
+        gulpcar = pkg_resources.resource_filename(
+                    __name__, path_join('../examples', 'gulp.out'))
+        potential, ngx, ngy, ngz, lattice = md.read_gulp_potential(gulpcar)
+        for v, t in ((potential, np.ndarray),
+                     (ngx, int),
+                     (ngy, int),
+                     (ngz, int),
+                     (lattice, np.ndarray)):
+            self.assertIsInstance(v, t)
+        self.assertEqual(potential[0], 8.732207)
+        self.assertEqual(potential[10 * 10 * 20 -1], 8.732207)
+        self.assertEqual(lattice[0, 0], 11.996500)
+        self.assertEqual(ngx, 10)
+
     def test_density_2_grid(self):
         '''Test the function for projecting the potential onto a grid'''
         chgcar = pkg_resources.resource_filename(
@@ -184,6 +200,4 @@ class TestGeometryFunctions(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    contents = os.listdir("/home/travis/build/WMD-group/MacroDensity/tests/")
-    print("CONTENTS: ", contents)
     unittest.main()
