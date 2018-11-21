@@ -519,6 +519,27 @@ def density_2_grid(Density, nx, ny, nz, Charge=False, Volume=1):
     total_electrons = total_electrons / (nx * ny * nz)
     return Potential_grid, total_electrons
 #------------------------------------------------------------------------------
+
+def density_2_grid_gulp(Density, nx, ny, nz):
+    """Convert the Potential list to a grid for ease of manipulation
+    Args:
+        Density: Array of the output from a VAsp calulation charge/potential
+        nx,y,z : Number of mesh points in x/y/z
+     Returns:
+        Potential_grid: the (normalised) quantity on a mesh
+        """
+    l = 0
+    Potential_grid = np.zeros(shape=(nx,ny,nz))
+    total_electrons = 0
+    is_CHGCAR = True
+    for k in range(nx):
+        for j in range(ny):
+            for i in range(nz):
+                Potential_grid[k,j,i] = Density[l]
+                l = l + 1
+    return Potential_grid
+
+#------------------------------------------------------------------------------
 def read_gulp_potential(gulpfile='gulp.out'):
 
     """Generic reading of GULP output
@@ -557,7 +578,7 @@ def read_gulp_potential(gulpfile='gulp.out'):
 
     for n, line in enumerate(lines):
         if line.rfind('Electrostatic potential on a grid') > -1:
-            for k in range(9, NGX*NGY*NGZ + 9):
+            for k in reversed(range(9, NGX*NGY*NGZ + 9)):
                 potential.append(float(lines[n + k].split()[3]))
 
 
