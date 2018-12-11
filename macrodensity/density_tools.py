@@ -145,7 +145,7 @@ def macroscopic_average(potential, periodicity, resolution):
     return macro_average
 #------------------------------------------------------------------------------
 
-def volume_average(origin, travelled, cube, Grid, nx, ny, nz):
+def volume_average(origin, travelled=0, cube, Grid, nx, ny, nz):
     """Populates the sampling cube with the potential required"""
 
     # Recalc the origin as grid point coordinates
