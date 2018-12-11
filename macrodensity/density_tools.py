@@ -145,7 +145,7 @@ def macroscopic_average(potential, periodicity, resolution):
     return macro_average
 #------------------------------------------------------------------------------
 
-def cube_potential(origin, travelled, cube, Grid, nx, ny, nz):
+def volume_average(origin, travelled, cube, Grid, nx, ny, nz):
     """Populates the sampling cube with the potential required"""
 
     # Recalc the origin as grid point coordinates
@@ -170,7 +170,7 @@ def cube_potential(origin, travelled, cube, Grid, nx, ny, nz):
     return potential_cube.mean(), np.var(potential_cube)
 #------------------------------------------------------------------------------
 
-def cuboid_average(Grid, cube, origin, vector, nx, ny, nz, magnitude):
+def travelling_volume_average(Grid, cube, origin, vector, nx, ny, nz, magnitude):
    """Calculates the average in a cube defined by size cube(a,b,c), beginning
     at origin and travelling as far as magnitude."""
 
@@ -178,7 +178,7 @@ def cuboid_average(Grid, cube, origin, vector, nx, ny, nz, magnitude):
    i = 0
    while i < magnitude:
          travelled = np.multiply(i, vector)
-         plotting_average[i], varience = cube_potential(origin, travelled,
+         plotting_average[i], varience = volume_average(origin, travelled,
                                                         cube, Grid,
                                                         nx, ny, nz)
          i = i + 1

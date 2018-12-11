@@ -31,10 +31,10 @@ origin = cube_origin
 ## travelled; do not alter this variable
 travelled = [0,0,0]
 ## Uncomment the lines below to do the business
-cube_potential, cube_var = md.cube_potential(origin,travelled,cube,grid_pot,NGX,NGY,NGZ)
+volume_average, cube_var = md.volume_average(origin,travelled,cube,grid_pot,NGX,NGY,NGZ)
 print "Potential            Variance"
 print "--------------------------------"
-print cube_potential,"   ", cube_var
+print volume_average,"   ", volume_var 
 ##------------------------------------------------------------------
 ##------------------------------------------------------------------
 

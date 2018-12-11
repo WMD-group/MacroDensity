@@ -57,8 +57,8 @@ for coord in ox_coords:
     cube = sample_cube    # The size of the cube x,y,z in units of grid resolution.
     origin = [grid_position[0]-2,grid_position[1]-2,grid_position[2]-1]
     travelled = [0,0,0] # Should be left as it is.
-    cube_potential, cube_var = md.cube_potential(origin,travelled,cube,grid_pot,NGX,NGY,NGZ)
-    potentials_list.append(cube_potential)
+    volume_average, cube_var = md.volume_average(origin,travelled,cube,grid_pot,NGX,NGY,NGZ)
+    potentials_list.append(volume_average)
 n, bins, patches = plt.hist(potentials_list, num_bins,normed=100, facecolor='#6400E1', alpha=0.5)
 plt.xlabel('Hartree potential (V)',fontsize = 22)
 plt.ylabel('% of centres',fontsize = 22)

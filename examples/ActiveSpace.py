@@ -92,7 +92,7 @@ for i in range(0,NGX,cube[0]):
     for j in range(0,NGY,cube[1]):
 	for k in range(0,NGZ,cube[2]):
 	    origin = [float(i)/NGX,float(j)/NGY,float(k)/NGZ]
-            cube_potential, cube_var = md.cube_potential(origin,travelled,cube,grid_pot,NGX,NGY,NGZ)
+            volume_average, cube_var = md.voulme_average(origin,travelled,cube,grid_pot,NGX,NGY,NGZ)
 	    if cube_var <= cutoff_varience:
 		vacuum.append(origin)
 	    else:

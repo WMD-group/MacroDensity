@@ -79,10 +79,10 @@ grad_x,grad_y,grad_z = np.gradient(grid_pot[:,:,:],resolution_x,resolution_y,res
 ## travelled; do not alter this variable
 #travelled = [0,0,0]
 ## Uncomment the lines below to do the business
-#cube_potential, cube_var = md.cube_potential(origin,travelled,cube,grid_pot,NGX,NGY,NGZ)
+#volume_average, cube_var = md.volume_average(origin,travelled,cube,grid_pot,NGX,NGY,NGZ)
 #print "Potential            Variance"
 #print "--------------------------------"
-#print cube_potential,"   ", cube_var
+#print volume_average,"   ", cube_var
 ##------------------------------------------------------------------
 ##------------------------------------------------------------------
 
@@ -98,7 +98,7 @@ origin = [0.5,0,0.5]
 ## magnitude defines the length of the line, in units of mesh points (NGX/Y/Z)
 magnitude = 280
 ## IF YOU WANT TO PLOT THE POTENTIAL:
-cubes_potential = md.cuboid_average(grid_pot,cube,origin,vector,NGX,NGY,NGZ,magnitude)
+cubes_potential = md.travelling_volume_average(grid_pot,cube,origin,vector,NGX,NGY,NGZ,magnitude)
 abscissa = md.vector_2_abscissa(vector,magnitude,resolution_x,resolution_y,resolution_z)
 plt.plot(abscissa, cubes_potential)
 plt.xlabel("$z (\AA)$")
@@ -110,7 +110,7 @@ plt.ylabel("Potential (eV)")
 ## IF YOU WANT TO PLOT THE FIELD MAGNITUDE ALSO:
 ## Get the gradients (of the field, if required)
 grad_mag = md.gradient_magnitude(grad_x,grad_y,grad_z)
-cubes_field = md.cuboid_average(grad_mag,cube,origin,vector,NGX,NGY,NGZ,magnitude)
+cubes_field = md.travelling_volume_average(grad_mag,cube,origin,vector,NGX,NGY,NGZ,magnitude)
 abscissa = md.vector_2_abscissa(vector,magnitude,resolution_x,resolution_y,resolution_z)
 plt.plot(abscissa, cubes_field)
 plt.xlabel("$z (\AA)$")
@@ -154,8 +154,8 @@ with open('ElectricField.dat','wb')as f:
 #    cube = [5,5,3]    # The size of the cube x,y,z in units of grid resolution.
 #    origin = [grid_position[0]-2,grid_position[1]-2,grid_position[2]-1]
 #    travelled = [0,0,0] # Should be left as it is.
-#    cube_potential, cube_var = pot.cube_potential(origin,travelled,cube,grid_pot,NGX,NGY,NGZ)
-#    potentials_list.append(cube_potential)
+#    volume_average, cube_var = pot.volume_average(origin,travelled,cube,grid_pot,NGX,NGY,NGZ)
+#    potentials_list.append(volume_average)
 #n, bins, patches = plt.hist(potentials_list, num_bins,normed=100, facecolor='#6400E1', alpha=0.5)
 #plt.xlabel('Hartree potential (V)',fontsize = 22)
 #plt.ylabel('% of O centres',fontsize = 22)
