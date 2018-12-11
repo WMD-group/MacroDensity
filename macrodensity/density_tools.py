@@ -145,7 +145,7 @@ def macroscopic_average(potential, periodicity, resolution):
     return macro_average
 #------------------------------------------------------------------------------
 
-def volume_average(origin, cube, Grid, nx, ny, nz, travelled=[0, 0, 0]):
+def volume_average(origin, cube, grid, nx, ny, nz, travelled=[0, 0, 0]):
     """Populates the sampling cube with the potential required"""
 
     # Recalc the origin as grid point coordinates
@@ -165,12 +165,12 @@ def volume_average(origin, cube, Grid, nx, ny, nz, travelled=[0, 0, 0]):
                 zv = int(zv - nz*round(zv/nz))
                 yv = int(yv - ny*round(yv/ny))
                 xv = int(xv - nx*round(xv/nx))
-                potential_cube[x,y,z] = Grid[int(xv),int(yv),int(zv)]
+                potential_cube[x,y,z] = grid[int(xv),int(yv),int(zv)]
 
     return potential_cube.mean(), np.var(potential_cube)
 #------------------------------------------------------------------------------
 
-def travelling_volume_average(Grid, cube, origin, vector, nx, ny, nz, magnitude):
+def travelling_volume_average(grid, cube, origin, vector, nx, ny, nz, magnitude):
    """Calculates the average in a cube defined by size cube(a,b,c), beginning
     at origin and travelling as far as magnitude."""
 
@@ -179,33 +179,33 @@ def travelling_volume_average(Grid, cube, origin, vector, nx, ny, nz, magnitude)
    while i < magnitude:
          travelled = np.multiply(i, vector)
          plotting_average[i], varience = volume_average(origin,
-                                                        cube, Grid,
+                                                        cube, grid,
                                                         nx, ny, nz, travelled)
          i = i + 1
 
    return plotting_average
 #------------------------------------------------------------------------------
 
-def planar_average(Grid, nx, ny, nz, axis='z'):
+def planar_average(grid, nx, ny, nz, axis='z'):
     """Calculate the average in a given plane for the full length of the
     normal; e.g. the full length of z in the xy plane."""
     if axis == 'x':
         x_plane = np.zeros(shape=(ny, nz))
         Average = np.zeros(shape=(nx))
         for x_value in range(nx):
-            x_plane[:,:] = Grid[x_value,:,:]
+            x_plane[:,:] = grid[x_value,:,:]
             Average[x_value] = x_plane.mean()
     if axis == 'y':
         Average = np.zeros(shape=(ny))
         y_plane = np.zeros(shape=(nx,nz))
         for y_value in range(ny):
-            y_plane[:,:] = Grid[:,y_value,:]
+            y_plane[:,:] = grid[:,y_value,:]
             Average[y_value] = y_plane.mean()
     if axis == 'z':
         Average = np.zeros(shape=(nz))
         z_plane = np.zeros(shape=(nx,ny))
         for z_value in range(nz):
-            z_plane[:,:] = Grid[:,:,z_value]
+            z_plane[:,:] = grid[:,:,z_value]
             Average[z_value] = z_plane.mean()
 
     return Average
