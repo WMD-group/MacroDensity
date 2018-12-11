@@ -28,10 +28,8 @@ grid_pot, electrons = md.density_2_grid(vasp_pot,NGX,NGY,NGZ)
 cube = cube_size
 ## origin defines the bottom left point of the cube the "0,0,0" point in fractional coordinates
 origin = cube_origin
-## travelled; do not alter this variable
-travelled = [0,0,0]
 ## Uncomment the lines below to do the business
-volume_average, cube_var = md.volume_average(origin,travelled,cube,grid_pot,NGX,NGY,NGZ)
+volume_average, cube_var = md.volume_average(origin, cube, grid_pot, NGX, NGY, NGZ)
 print "Potential            Variance"
 print "--------------------------------"
 print volume_average,"   ", volume_var 

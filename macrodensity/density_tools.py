@@ -145,7 +145,7 @@ def macroscopic_average(potential, periodicity, resolution):
     return macro_average
 #------------------------------------------------------------------------------
 
-def volume_average(origin, travelled=0, cube, Grid, nx, ny, nz):
+def volume_average(origin, cube, Grid, nx, ny, nz, travelled=[0, 0, 0]):
     """Populates the sampling cube with the potential required"""
 
     # Recalc the origin as grid point coordinates
@@ -178,9 +178,9 @@ def travelling_volume_average(Grid, cube, origin, vector, nx, ny, nz, magnitude)
    i = 0
    while i < magnitude:
          travelled = np.multiply(i, vector)
-         plotting_average[i], varience = volume_average(origin, travelled,
+         plotting_average[i], varience = volume_average(origin,
                                                         cube, Grid,
-                                                        nx, ny, nz)
+                                                        nx, ny, nz, travelled)
          i = i + 1
 
    return plotting_average

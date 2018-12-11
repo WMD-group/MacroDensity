@@ -78,8 +78,6 @@ hanksConstant = 4.89E-7
 cube = [2,2,2]
 ## origin defines the bottom left point of the cube the "0,0,0" point in fractional coordinates
 origin = [0,0,0]
-## travelled; do not alter this variable
-travelled = [0,0,0]
 ## Uncomment the lines below to do the business
 vacuum = []
 non_vacuum = []
@@ -92,7 +90,7 @@ for i in range(0,NGX,cube[0]):
     for j in range(0,NGY,cube[1]):
 	for k in range(0,NGZ,cube[2]):
 	    origin = [float(i)/NGX,float(j)/NGY,float(k)/NGZ]
-            volume_average, cube_var = md.voulme_average(origin,travelled,cube,grid_pot,NGX,NGY,NGZ)
+            volume_average, cube_var = md.voulme_average(origin, cube, grid_pot, NGX, NGY, NGZ)
 	    if cube_var <= cutoff_varience:
 		vacuum.append(origin)
 	    else:
