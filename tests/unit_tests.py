@@ -36,6 +36,39 @@ class TestDensityReadingFunctions(unittest.TestCase):
         self.assertEqual(lattice[0, 0], 2.7150000)
         self.assertEqual(ngx, 56)
 
+    def test_read_vasp_parchg(self):
+        '''Test the function for reading CHGCAR/LOCPOT'''
+        parchg = pkg_resources.resource_filename(
+                    __name__, path_join('..', 'PARCHG.test'))
+        spin, ngx, ngy, ngz, lattice = md.read_vasp_parchg(parchg,
+                                                              quiet=True)
+        for v, t in ((spin, np.ndarray),
+                     (ngx, int),
+                     (ngy, int),
+                     (ngz, int),
+                     (lattice, np.ndarray)):
+            self.assertIsInstance(v, t)
+        self.assertEqual(spin[0], 1.0)
+        self.assertEqual(lattice[0, 0], 11.721852)
+
+        spin, ngx, ngy, ngz, lattice = md.read_vasp_parchg(parchg, 
+                                                           spin=True,
+                                                           quiet=True)
+        for v, t in ((spin[0], np.ndarray),
+                     (ngx, int),
+                     (ngy, int),
+                     (ngz, int),
+                     (lattice, np.ndarray)):
+            self.assertIsInstance(v, t)
+        for v, t in ((spin[1], np.ndarray),
+                     (ngx, int),
+                     (ngy, int),
+                     (ngz, int),
+                     (lattice, np.ndarray)):
+            self.assertIsInstance(v, t)
+        self.assertEqual(spin[1][0], 0.0)
+
+
     def test_read_gulp(self):
         '''Test the function for reading GULP output'''
         gulpcar = pkg_resources.resource_filename(
