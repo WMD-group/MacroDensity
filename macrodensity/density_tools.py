@@ -628,15 +628,3 @@ def GCD_List(list):
     """
     return reduce(GCD, list)
 #------------------------------------------------------------------------------
-def inverse_participation_ratio(density):
-    """ Calculate the IPR, which is Psi**4 or Rho**2
-    Input: density, a 1-D flattened grid of the electron density for the state
-           this is calculated from the PARCHG in VASP
-    Output: ipr, float
-    """
-
-    sq = sum(i**2 for i in density)
-    fr = sum(i**4 for i in density)
-    ifr = 1 / (len(density) * fr)
-    isq = 1 / (len(density) * sq)
-    return fr / sq**2
