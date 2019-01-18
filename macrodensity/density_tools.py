@@ -351,7 +351,7 @@ def _read_partial_density(FILE, use_pandas, num_atoms, NGX, NGY, NGZ, spin=0):
         to None, Pandas will be used when available.
         spin: the set of spin data to read, default 0 for ISPIN=1 calculation
     '''
-
+    print("PANDAS:", use_pandas)
     if use_pandas:
         from pandas import read_table as pandas_read_table
     elif use_pandas is None:
@@ -363,6 +363,28 @@ def _read_partial_density(FILE, use_pandas, num_atoms, NGX, NGY, NGZ, spin=0):
 
 
     with open(FILE, "r") as f:
+        _ = f.readline()
+        scale_factor = float(f.readline())
+
+        lattice = np.zeros(shape=(3,3))
+        for row in range(3):
+            lattice[row] = [float(x) for x in f.readline().split()]
+        lattice = lattice * scale_factor
+
+        num_species = len(f.readline().split())
+        num_type = [int(x) for x in f.readline().split()]
+        num_atoms = sum(num_type)
+        coord_type = f.readline().strip()
+
+        coordinates = numpy.zeros(shape=(num_atoms, 3))
+        for atom_i in range(num_atoms):
+            coordinates[atom_i] = [float(x) for x in f.readline().split()]
+
+        # Skip blank line
+        _ = f.readline()
+
+        NGX, NGY, NGZ = [int(x) for x in f.readline().split()]
+
         if use_pandas:
             print("Reading 3D data using Pandas...")
             skiprows = 10 + num_atoms + spin * \
