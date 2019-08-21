@@ -344,23 +344,14 @@ def read_vasp_density(FILE, use_pandas=None, quiet=False):
 
     return Potential, NGX, NGY, NGZ, lattice
 #------------------------------------------------------------------------------
-def read_vasp_parchg(FILE, use_pandas=None, quiet=False):
-    """Generic reading of CHGCAR LOCPOT etc files from VASP
 
-    Args:
-        FILE (str): Path to parchg file
-        use_pandas (bool): Use Pandas library for faster file reading. If set
-            to None, Pandas will be used when available.
-
-    Returns:
-        density (array), NGX (int), NGY (int), NGZ (int), lattice (array)
-
-        where density is a 1-D flattened array of density data with original
-        dimensions NGX x NGY x NGZ and lattice is the 3x3 unit-cell matrix.
-
-    """
-    # Get Header information by reading a line at a time
-
+def _read_partial_density(FILE, use_pandas, num_atoms, NGX, NGY, NGZ, spin=0):
+    '''
+        use_pandas (bool): Use Pandas library for faster file reading. If set 
+        to None, Pandas will be used when available.
+        spin: the set of spin data to read, default 0 for ISPIN=1 calculation
+    '''
+    print("PANDAS:", use_pandas)
     if use_pandas:
         from pandas import read_table as pandas_read_table
     elif use_pandas is None:
@@ -370,7 +361,7 @@ def read_vasp_parchg(FILE, use_pandas=None, quiet=False):
         except ImportError:
             use_pandas = False
 
-    print("Reading header information...")
+
     with open(FILE, "r") as f:
         _ = f.readline()
         scale_factor = float(f.readline())
@@ -396,7 +387,8 @@ def read_vasp_parchg(FILE, use_pandas=None, quiet=False):
 
         if use_pandas:
             print("Reading 3D data using Pandas...")
-            skiprows = 10 + num_atoms
+            skiprows = 10 + num_atoms + spin * \
+                          (math.ceil(NGX * NGY * NGZ / 10) + 2)
             readrows = int(math.ceil(NGX * NGY * NGZ / 10))
 
             dat = pandas_read_table(FILE, delim_whitespace=True,
@@ -412,9 +404,63 @@ def read_vasp_parchg(FILE, use_pandas=None, quiet=False):
                              for i in range(int(math.ceil(NGX * NGY * NGZ / 10))))
             density = numpy.fromiter(chain.from_iterable(density), float)
 
+    return density
+
+#------------------------------------------------------------------------------
+def read_vasp_parchg(FILE, use_pandas=None, quiet=False, spin=False):
+    """Generic reading of CHGCAR LOCPOT etc files from VASP
+
+    Args:
+        FILE (str): Path to parchg file
+        use_pandas (bool): Use Pandas library for faster file reading. If set
+            to None, Pandas will be used when available.
+        spin(bool): is the data spin polarised? 
+
+    Returns:
+        density (array), NGX (int), NGY (int), NGZ (int), lattice (array)
+
+        where density is a 1-D flattened array of density data with original
+        dimensions NGX x NGY x NGZ and lattice is the 3x3 unit-cell matrix.
+
+    """
+    # Get Header information by reading a line at a time
+
+    print("Reading header information...")
+    with open(FILE, "r") as f:
+        _ = f.readline()
+        scale_factor = float(f.readline())
+
+        lattice = np.zeros(shape=(3,3))
+        for row in range(3):
+            lattice[row] = [float(x) for x in f.readline().split()]
+        lattice = lattice * scale_factor
+
+        num_species = len(f.readline().split())
+        num_type = [int(x) for x in f.readline().split()]
+        num_atoms = sum(num_type)
+        coord_type = f.readline().strip()
+
+        coordinates = numpy.zeros(shape=(num_atoms, 3))
+        for atom_i in range(num_atoms):
+            coordinates[atom_i] = [float(x) for x in f.readline().split()]
+
+        # Skip blank line
+        _ = f.readline()
+
+        NGX, NGY, NGZ = [int(x) for x in f.readline().split()]
+ 
+        if not spin:
+            density = _read_partial_density(FILE, use_pandas, num_atoms, NGX, NGY, NGZ)
+        else:
+            densities = []
+            densities.append(_read_partial_density(FILE, use_pandas, num_atoms, NGX, NGY, NGZ
+                , spin=0))
+            densities.append(_read_partial_density(FILE, use_pandas, num_atoms, NGX, NGY, NGZ
+                , spin=1))
+            alpha = densities[0] + densities[1]
+            beta = densities[0] - densities[1]
+            density = [alpha, beta]
     _print_boom(quiet=quiet)
-    if not quiet:
-        print("Average of the potential = ", numpy.average(density))
 
     return density, NGX, NGY, NGZ, lattice
 
