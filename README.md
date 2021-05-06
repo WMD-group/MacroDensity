@@ -17,6 +17,8 @@ Requirements
 
 [ASE](https://wiki.fysik.dtu.dk/ase/) (for atom centred functionality)
 
+[Pandas](https://pandas.pydata.org/)(optional - for quicker reading speeds; requires pandas 1.2.0 or newer)
+
 
 Installation
 ------------
