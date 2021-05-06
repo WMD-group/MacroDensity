@@ -17,6 +17,8 @@ Requirements
 
 [ASE](https://wiki.fysik.dtu.dk/ase/) (for atom centred functionality)
 
+[Pandas](https://pandas.pydata.org/)(optional - for quicker reading speeds; requires pandas 1.2.0 or newer)
+
 
 Installation
 ------------
@@ -74,6 +76,20 @@ python SphericalAverage.py
 ```
 This results in an output of the average potential in the volume, and the variance of the potential. If the variance is too high it means that you are not sampling a plateau in the potential; typically values below 10e-4 are acceptable.
 
+MovingCube.py
+-------------
+
+This example takes the same approach as the spherical average above, but moves the sample volume
+along a defined vector. This allows you to create a 1D profile of the travelling average of the 
+cube. As above, all that has to be defined are the `cube_size`, `cube_origin` and `input_file`
+parameters. 
+
+To run the code simply type:
+
+```
+python MovingCube.py
+```
+
 OnSitePotential.py
 ------------
 
@@ -93,7 +109,7 @@ The cube parameter determines the size of the sample area, the units are mesh po
 To run the code simply type:
 
 ```
-python OnSitePotentail.py
+python OnSitePotential.py
 ```
 The result is a histogram plot using Matplotlib. If you prefer data ouput simply edit the final lines of the script.
 

@@ -147,19 +147,19 @@ class TestAveragingFunctions(unittest.TestCase):
         planar = md.planar_average(test_grid, 3, 3, 3, axis='x')
         self.assertAlmostEqual(planar[2], 0.66666667)
 
-    def test_cube_potential(self):
-        '''Test the cube_potential function'''
+    def test_volume_average(self):
+        '''Test the volume_average function'''
         test_grid = np.zeros(shape=(5, 5, 5))
         for i in range(5):
             for j in range(5):
                 for k in range(5):
                     test_grid[i, j, k] = float(i * j * k)
 
-        potential, variance = md.cube_potential([0, 0, 0], [0, 0, 0], [2, 2, 2], test_grid, 5, 5, 5)
+        potential, variance = md.volume_average([0, 0, 0], [2, 2, 2], test_grid, 5, 5, 5)
         self.assertAlmostEqual(potential, 0.125)
         self.assertAlmostEqual(variance, 0.109375)
-        potential, variance = md.cube_potential([1, 1, 1], [0, 0, 0], [2, 2, 2], test_grid, 5, 5, 5)
-        potential, variance = md.cube_potential([1, 1, 1], [0, 0, 0], [3, 3, 3], test_grid, 5, 5, 5)
+        potential, variance = md.volume_average([1, 1, 1], [2, 2, 2], test_grid, 5, 5, 5)
+        potential, variance = md.volume_average([1, 1, 1], [3, 3, 3], test_grid, 5, 5, 5)
         self.assertAlmostEqual(potential, 1.0)
         self.assertAlmostEqual(variance, 3.6296296296296298)
 
