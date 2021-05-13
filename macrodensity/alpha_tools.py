@@ -417,3 +417,34 @@ def plot_plane_field(a_point,b_point,c_point,input_file='LOCPOT'):
     plt.contour(xx,yy,grd,1)
     plt.show()
 #------------------------------------------------------------------------------
+def moving_cube(cube=[1,1,1],vector=[1,1,1],origin=[0,0,0],magnitude = 280,input_file='LOCPOT'):
+    from macrodensity.density_tools import read_vasp_density, matrix_2_abc, density_2_grid, vector_2_abscissa, travelling_volume_average
+    import matplotlib.pyplot as plt
+    '''
+    ## cube defines the size of the cube in units of mesh points (NGX/Y/Z)
+    ## vector is the vector you wish to travel along
+    ## origin defines the origin of the line in units of mesh points (NGX/Y/Z)
+    ## magnitude defines the length of the line, in units of mesh points (NGX/Y/Z)
+    '''
+    #------------------------------------------------------------------
+    # Get the potential
+    # This section should not be altered
+    #------------------------------------------------------------------
+    vasp_pot, NGX, NGY, NGZ, Lattice = read_vasp_density(input_file)
+    vector_a,vector_b,vector_c,av,bv,cv = matrix_2_abc(Lattice)
+    resolution_x = vector_a/NGX
+    resolution_y = vector_b/NGY
+    resolution_z = vector_c/NGZ
+    grid_pot, electrons = density_2_grid(vasp_pot,NGX,NGY,NGZ)
+
+    ##------------------------------------------------------------------
+    ## Plotting the average in a moving cube along a vector
+    ##------------------------------------------------------------------
+
+    ## IF YOU WANT TO PLOT THE POTENTIAL:
+    cubes_potential = travelling_volume_average(grid_pot,cube,origin,vector,NGX,NGY,NGZ,magnitude)
+    abscissa = vector_2_abscissa(vector,magnitude,resolution_x,resolution_y,resolution_z)
+    plt.plot(abscissa, cubes_potential)
+    plt.xlabel("$z (\AA)$")
+    plt.ylabel("Potential (eV)")
+    plt.savefig('moving_cube.png')
