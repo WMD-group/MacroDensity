@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 #------------------------------------------------------------------------------
-
+'''
 def vasp_params():
     vasp_pot, NGX, NGY, NGZ, Lattice = read_vasp_density(input_file)
     vector_a,vector_b,vector_c,av,bv,cv = matrix_2_abc(Lattice)
@@ -9,6 +9,7 @@ def vasp_params():
     resolution_z = vector_c/NGZ
     grid_pot, electrons = density_2_grid(vasp_pot,NGX,NGY,NGZ)
     return
+'''
 #------------------------------------------------------------------------------
 
 def bulk_interstitial_alignment(interstices,outcar="OUTCAR",locpot="LOCPOT",cube_size=[1,1,1]):
@@ -23,8 +24,16 @@ def bulk_interstitial_alignment(interstices,outcar="OUTCAR",locpot="LOCPOT",cube
 
     Output: Aligned Valence Band, Aligned Conduction Band
     '''
-    from macrodensity.density_tools import spherical_average
+    from macrodensity.density_tools import read_vasp_density, matrix_2_abc, density_2_grid, volume_average
     from macrodensity.vasp_tools import get_band_extrema
+
+    vasp_pot, NGX, NGY, NGZ, Lattice = read_vasp_density(locpot,quiet=True)
+    vector_a,vector_b,vector_c,av,bv,cv = matrix_2_abc(Lattice)
+    resolution_x = vector_a/NGX
+    resolution_y = vector_b/NGY
+    resolution_z = vector_c/NGZ
+    grid_pot, electrons = density_2_grid(vasp_pot,NGX,NGY,NGZ)
+
     band_extrema = get_band_extrema(outcar)
     VB_eigenvalue = band_extrema[0]
     CB_eigenvalue = band_extrema[1]
@@ -33,7 +42,8 @@ def bulk_interstitial_alignment(interstices,outcar="OUTCAR",locpot="LOCPOT",cube
     interstitial_potentials = []
     interstitial_variances = []
     for interstice in interstices:
-        locpot_extract = spherical_average(input_file=locpot,cube_origin=interstice,cube_size=cube_size)
+        #origin, cube, grid, nx, ny, nz, travelled=[0, 0, 0]
+        locpot_extract = volume_average(origin=interstice,cube=cube_size,grid=grid_pot,nx=NGX,ny=NGY,nz=NGZ)
         interstitial_potentials.append(locpot_extract[0])
         interstitial_variances.append(locpot_extract[1])
     ## Calculating the referenced band energies, then rounding the output
@@ -448,3 +458,4 @@ def moving_cube(cube=[1,1,1],vector=[1,1,1],origin=[0,0,0],magnitude = 280,input
     plt.xlabel("$z (\AA)$")
     plt.ylabel("Potential (eV)")
     plt.savefig('moving_cube.png')
+#------------------------------------------------------------------------------
