@@ -280,7 +280,7 @@ def plot_on_site_potential(species,sample_cube,potential_file='LOCPOT',coordinat
     import ase                # Only add this if want to read in coordinates
     from ase.io import write  # Only add this if want to read in coordinates
     from ase.io import vasp   # Only add this if want to read in coordinates
-    from macrodensity.density_tools import read_vasp_density, matrix_2_abc, density_2_grid, numbers_2_grid, planar_average, macroscopic_average,cube_potential
+    from macrodensity.density_tools import read_vasp_density, matrix_2_abc, density_2_grid, numbers_2_grid, planar_average, macroscopic_average,volume_average
     #------------------------------------------------------------------
     # Get the potential
     #------------------------------------------------------------------
@@ -316,7 +316,7 @@ def plot_on_site_potential(species,sample_cube,potential_file='LOCPOT',coordinat
         cube = sample_cube    # The size of the cube x,y,z in units of grid resolution.
         origin = [grid_position[0]-2,grid_position[1]-2,grid_position[2]-1]
         travelled = [0,0,0] # Should be left as it is.
-        cube_potential, cube_var = cube_potential(origin,travelled,cube,grid_pot,NGX,NGY,NGZ)
+        cube_potential, cube_var = volume_average(origin,cube,grid_pot,NGX,NGY,NGZ)
         potentials_list.append(cube_potential)
     n, bins, patches = plt.hist(potentials_list, num_bins, facecolor='#6400E1', alpha=0.5) ##normed=100
     plt.xlabel('Hartree potential (V)',fontsize = 22)
@@ -458,4 +458,30 @@ def moving_cube(cube=[1,1,1],vector=[1,1,1],origin=[0,0,0],magnitude = 280,input
     plt.xlabel("$z (\AA)$")
     plt.ylabel("Potential (eV)")
     plt.savefig('moving_cube.png')
+#------------------------------------------------------------------------------
+def spherical_average(cube_size,cube_origin,input_file='LOCPOT'):
+    from macrodensity.density_tools import read_vasp_density, matrix_2_abc, density_2_grid, volume_average
+    """ Calculates the Spherical Average
+    Inputs:
+    input_file = i.e. 'LOCPOT'
+    cube_size = e.g. [2,2,2] This size is in units of mesh points (NGX/Y/Z)
+    cube_origin = e.g. [0,0,0] Defines the bottom left point of the cube the "0,0,0" point in fractional coordinates
+    Output: cube_potential, cube_variance
+    """
+    vasp_pot, NGX, NGY, NGZ, Lattice = read_vasp_density(input_file)
+    vector_a,vector_b,vector_c,av,bv,cv = matrix_2_abc(Lattice)
+    resolution_x = vector_a/NGX
+    resolution_y = vector_b/NGY
+    resolution_z = vector_c/NGZ
+    grid_pot, electrons = density_2_grid(vasp_pot,NGX,NGY,NGZ)
+
+    cube = cube_size
+    origin = cube_origin
+    ## travelled; do not alter this variable
+    travelled = [0,0,0]
+    cube_pot, cube_var = volume_average(origin=cube_origin,cube=cube_size,grid=grid_pot,nx=NGX,ny=NGY,nz=NGZ,travelled=[0,0,0])
+    print("Potential            Variance")
+    print("--------------------------------")
+    print(cube_pot,"   ", cube_var)
+    return cube_pot, cube_var
 #------------------------------------------------------------------------------
