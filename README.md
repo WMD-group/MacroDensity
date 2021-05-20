@@ -53,7 +53,7 @@ The code is executed as:
 python PlanarAverage.py
 ```
 
-or altenatively embeded in a script as:
+or altenatively, imported into another script via:
 
 ```
 import macrodensity as md 
@@ -83,7 +83,7 @@ To run the code simply type:
 python SphericalAverage.py
 ```
 
-or altenatively embeded in a script as:
+or altenatively, imported into another script via:
 
 ```
 import macrodensity as md 
@@ -105,7 +105,7 @@ To run the code simply type:
 ```
 python MovingCube.py
 ```
-or altenatively embeded in a script as:
+or altenatively, imported into another script via:
 
 ```
 import macrodensity as md 
@@ -133,7 +133,7 @@ To run the code simply type:
 ```
 python OnSitePotential.py
 ```
-or altenatively embeded in a script as:
+or altenatively, imported into another script via:
 
 ```
 import macrodensity as md 
