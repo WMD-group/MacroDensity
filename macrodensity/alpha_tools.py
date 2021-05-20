@@ -422,6 +422,7 @@ def plot_plane_field(a_point,b_point,c_point,input_file='LOCPOT'):
     XY = np.multiply(grad_x,grad_y)
     grad_mag = np.multiply(XY,grad_z)
     ## Create the plane
+    print(NGX,NGY,NGZ,plane_coeff,grad_x)
     xx,yy,grd = create_plotting_mesh(NGX,NGY,NGZ,plane_coeff,grad_x)
     ## Plot the surface
     plt.contour(xx,yy,grd,1)
