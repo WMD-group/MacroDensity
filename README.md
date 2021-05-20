@@ -52,6 +52,14 @@ The code is executed as:
 ```
 python PlanarAverage.py
 ```
+
+or altenatively embeded in a script as:
+
+```
+import macrodensity as md 
+md.plot_planar_average(lattice_vector=4.75,input_file="LOCPOT.slab",output_file="planar.dat")
+```
+
 This results in a plot of the planar average and an output of the potential called `planar.dat`.
 
 SphericalAverage.py
@@ -74,6 +82,14 @@ To run the code simply type:
 ```
 python SphericalAverage.py
 ```
+
+or altenatively embeded in a script as:
+
+```
+import macrodensity as md 
+md.spherical_average(cube_size=[2,2,2],cube_origin=[0.5,0.5,0.5],input_file='LOCPOT')
+```
+
 This results in an output of the average potential in the volume, and the variance of the potential. If the variance is too high it means that you are not sampling a plateau in the potential; typically values below 10e-4 are acceptable.
 
 MovingCube.py
@@ -88,6 +104,12 @@ To run the code simply type:
 
 ```
 python MovingCube.py
+```
+or altenatively embeded in a script as:
+
+```
+import macrodensity as md 
+md.moving_cube(cube=[1,1,1],vector=[1,1,1],origin=[0.17,0.17,0.17],magnitude=16,input_file='LOCPOT')
 ```
 
 OnSitePotential.py
@@ -111,6 +133,13 @@ To run the code simply type:
 ```
 python OnSitePotential.py
 ```
+or altenatively embeded in a script as:
+
+```
+import macrodensity as md 
+md.plot_on_site_potential(species='O',sample_cube=[5,5,5],potential_file='LOCPOT',coordinate_file='POSCAR')
+```
+
 The result is a histogram plot using Matplotlib. If you prefer data ouput simply edit the final lines of the script.
 
 PlaneField.py
