@@ -70,6 +70,8 @@ md.plot_planar_average(lattice_vector=4.75,input_file="LOCPOT.slab",output_file=
 
 This results in a plot of the planar average and an output of the potential called `planar.dat`.
 
+------------
+
 ### SphericalAverage.py
 
 This example is for plotting the average potential inside a sphere of given radius. 
@@ -99,6 +101,8 @@ md.spherical_average(cube_size=[2,2,2],cube_origin=[0.5,0.5,0.5],input_file='LOC
 
 This results in an output of the average potential in the volume, and the variance of the potential. If the variance is too high it means that you are not sampling a plateau in the potential; typically values below 10e-4 are acceptable.
 
+------------
+
 ### MovingCube.py
 
 This example takes the same approach as the spherical average above, but moves the sample volume
@@ -117,6 +121,8 @@ or altenatively, imported into another script via:
 import macrodensity as md 
 md.moving_cube(cube=[1,1,1],vector=[1,1,1],origin=[0.17,0.17,0.17],magnitude=16,input_file='LOCPOT')
 ```
+
+------------
 
 ### OnSitePotential.py
 
@@ -147,6 +153,8 @@ md.plot_on_site_potential(species='O',sample_cube=[5,5,5],potential_file='LOCPOT
 
 The result is a histogram plot using Matplotlib. If you prefer data ouput simply edit the final lines of the script.
 
+------------
+
 ### PlaneField.py
 
 This plots the countour lines of the iso-surface of an electric field in an arbitrary plane as defined in the preamble part of the file.
@@ -165,6 +173,8 @@ The execution is simply:
 python PlaneField.py
 ```
 This creates a contour plot of the field lines.
+
+------------
 
 Exhaustive List of Files & Functions
 ------------
@@ -196,10 +206,6 @@ Reading and manipulating electrostic potential and charge density data.
 * GCD_List
 * inverse_participation_ratio
 
-### plotting_tools.py
-Convenience functions for the plotting of otput data from density_tools.py
-* energy_band_alignment_diagram
-
 ### beta_tools.py
 Additional tools to compliment density_tools.py
 * subs_potentials
@@ -217,10 +223,6 @@ Additional tools to compliment density_tools.py
 * points_2_plane
 * get_third_coordinate
 
-### vasp_tools.py
-VASP specific tools to compliment density_tools.py
-* get_band_extrema
-
 ### alpha_tools.py
 Convenience functions for the postprocessing and plotting of output data from density_tools.py
 * bulk_interstitial_alignment
@@ -233,3 +235,11 @@ Convenience functions for the postprocessing and plotting of output data from de
 * plot_plane_field
 * moving_cube
 * spherical_average
+
+### vasp_tools.py
+VASP specific tools to compliment density_tools.py
+* get_band_extrema
+
+### plotting_tools.py
+Convenience functions for the plotting of otput data from density_tools.py
+* energy_band_alignment_diagram
