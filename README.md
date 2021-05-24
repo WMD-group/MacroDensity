@@ -9,6 +9,12 @@ A set of python scripts to read in a electrostatic potentials and electron densi
 * Spherical average
 * Atom centred averages
 
+Statement of Need
+------------
+When assessing the potential utility of novel semiconducting devices (pn-juntions, heterostructures, surface terminations) through simulation, an understanding of the variation in the electrostatic potential and electron density across the system is key. However, extraction and useful presentation of this data from the raw output of the simulation (i.e. a vasp LOCPOT or CHGCAR) can prove cumbersome and often requires the use of visualisation software followed by manual data extraction. This can result in bottlenecks in high throughput screening projects, where the same data extraction procedure is repeatedly applied to large databases of candidate structures.
+
+To address this, the Macrodensity package has been developed as a VASP, FHI-AIMS and GULP postprocessing tool. The package contains functions that enable the user to format the data from the VASP LOCPOT and CHGCAR files, the FHI-AIMS *.cube file, and GULP *.out file into physically meaningful quantities, which can then be plotted for user interpretation. So far, the code has been used to rapidly generate data for these publications: [List Publications in which Macrodensity has been used]
+
 Requirements
 ------------
 [Python](https://www.python.org)
@@ -30,6 +36,14 @@ pip install git+git://github.com/WMD-group/MacroDensity.git
 - You are now ready to run the examples listed below
 - If you have modified the source code, please run the unit tests with
   ``python setup.py test``.
+
+Files & Functions
+---------
+* density_tools.py: Reading and manipulating electrostic potential and charge density data. 
+* plotting_tools.py: Convenience functions for the plotting of otput data from density_tools.py
+* beta_tools.py: Additional tools to compliment density_tools.py
+* vasp_tools.py: VASP specific tools to compliment density_tools.py
+* alpha_tools.py: Convenience functions for the processing and plotting of output data from density_tools.py
 
 PlanarAverage.py
 ------------
