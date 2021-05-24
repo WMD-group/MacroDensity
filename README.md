@@ -166,7 +166,7 @@ python PlaneField.py
 ```
 This creates a contour plot of the field lines.
 
-Exhaustive Files & Functions
+Exhaustive List of Files & Functions
 ------------
 
 ### density_tools.py
