@@ -67,7 +67,7 @@ The code is executed as:
 python PlanarAverage.py
 ```
 
-or altenatively, imported into another script via:
+or alternatively, imported into another script via:
 
 ```
 import macrodensity as md
@@ -97,14 +97,14 @@ To run the code simply type:
 python SphericalAverage.py
 ```
 
-or altenatively, imported into another script via:
+or alternatively, imported into another script via:
 
 ```
 import macrodensity as md
 md.spherical_average(cube_size=[2,2,2],cube_origin=[0.5,0.5,0.5],input_file='LOCPOT')
 ```
 
-This results in an output of the average potential in the volume, and the variance of the potential. If the variance is too high it means that you are not sampling a plateau in the potential; typically values below 10e-4 are acceptable.
+This results in an output of the average potential in the volume, and the variance of the potential. If the variance is too high it means that you are not sampling a plateau in the potential. Typically values below 10e-4 are acceptable, but you can also use MovingCube.py to verify this.
 
 ### MovingCube.py
 ------------
@@ -119,12 +119,14 @@ To run the code simply type:
 ```
 python MovingCube.py
 ```
-or altenatively, imported into another script via:
+or alternatively, imported into another script via:
 
 ```
 import macrodensity as md
-md.moving_cube(cube=[1,1,1],vector=[1,1,1],origin=[0.17,0.17,0.17],magnitude=16,input_file='LOCPOT')
+md.moving_cube(cube=[1,1,1],vector=[1,1,1],origin=[0.17,0.17,0.17],magnitude=85,input_file='LOCPOT')
 ```
+
+The output for a ZnS (100x100x100 FFT) unit cell is given below. The electrostatic potential at the interstices (0.5 Ang and 2.1 Ang) can be extracted using the SphericalAverage.py code.
 
 ![MovingCube](/tutorials/moving_cube.png)
 
@@ -149,19 +151,19 @@ To run the code simply type:
 ```
 python OnSitePotential.py
 ```
-or altenatively, imported into another script via:
+or alternatively, imported into another script via:
 
 ```
 import macrodensity as md
 md.plot_on_site_potential(species='O',sample_cube=[5,5,5],potential_file='LOCPOT',coordinate_file='POSCAR')
 ```
 
-The result is a histogram plot using Matplotlib. If you prefer data ouput simply edit the final lines of the script.
+The result is a histogram plot using Matplotlib. If you prefer data output simply edit the final lines of the script.
 
 ### PlaneField.py
 ------------
 
-This plots the countour lines of the iso-surface of an electric field in an arbitrary plane as defined in the preamble part of the file.
+This plots the contour lines of the isosurface of an electric field in an arbitrary plane as defined in the preamble part of the file.
 
 ```
 a_point = [0, 0, 0]
