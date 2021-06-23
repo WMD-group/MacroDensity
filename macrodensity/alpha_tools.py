@@ -12,7 +12,7 @@ def vasp_params():
 '''
 #------------------------------------------------------------------------------
 
-def bulk_interstitial_alignment(interstices,outcar="OUTCAR",locpot="LOCPOT",cube_size=[1,1,1]):
+def bulk_interstitial_alignment(interstices,outcar="OUTCAR",locpot="LOCPOT",cube_size=[2,2,2]):
     '''
     Alignment of the band edges with the interstitial "vacuum" potential.
 

@@ -104,7 +104,18 @@ import macrodensity as md
 md.spherical_average(cube_size=[2,2,2],cube_origin=[0.5,0.5,0.5],input_file='LOCPOT')
 ```
 
-This results in an output of the average potential in the volume, and the variance of the potential. If the variance is too high it means that you are not sampling a plateau in the potential. Typically values below 10e-4 are acceptable, but you can also use MovingCube.py to verify this.
+This results in an output of the average potential in the volume, and the variance of the potential:
+
+```
+Reading header information...
+Reading 3D data using Pandas...
+Average of the potential =  -8.597839951107744e-14
+Potential            Variance
+--------------------------------
+7.145660229     2.38371017456777e-05
+```
+
+If the variance is too high it means that you are not sampling a plateau in the potential. Typically values below 10e-4 are acceptable, but you can also use MovingCube.py to verify this.
 
 ### MovingCube.py
 ------------
@@ -126,9 +137,32 @@ import macrodensity as md
 md.moving_cube(cube=[1,1,1],vector=[1,1,1],origin=[0.17,0.17,0.17],magnitude=85,input_file='LOCPOT')
 ```
 
-The output for a ZnS (100x100x100 FFT) unit cell is given below. The electrostatic potential at the interstices (0.5 Ang and 2.1 Ang) can be extracted using the SphericalAverage.py code.
+The output for a ZnS (100x100x100 FFT) unit cell is given below. The electrostatic potential at the interstices (0.5 Ang and 2.1 Ang) can be extracted using the SphericalAverage.py or bulk_interstital_alignment.
 
 ![MovingCube](/tutorials/moving_cube.png)
+
+### bulk_interstitial_alignment
+------------
+
+A convenience function that combines multiple instances of SphericalAverage.py, averages them and prints the Valence Band and Conduction Band positions relative ot this average. This function is based on an analysis akin to that of Frensley and Kroemer's method of band alignment: [Frensley](https://avs.scitation.org/doi/pdf/10.1116/1.568995). An example of its use for the ZnS (Zinc Blende) interstices is given below:
+
+```
+import macrodensity as md
+md.bulk_interstitial_alignment(interstices=([0.5,0.5,0.5],[0.25,0.25,0.25]),outcar="OUTCAR",locpot="LOCPOT",cube_size=[2,2,2])
+```
+
+Data is presented in a similar format to SphericalAverage.py:
+
+```
+Reading header information...
+Reading 3D data using Pandas...
+Reading band edges from file: OUTCAR
+Reading potential from file: LOCPOT
+Interstital variances: [2.38371017456777e-05, 2.4181806506113166e-05]
+VB_aligned      CB_aligned
+--------------------------------
+-4.95           -2.95
+```
 
 ### OnSitePotential.py
 ------------
