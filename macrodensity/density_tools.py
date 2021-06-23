@@ -338,7 +338,7 @@ def read_vasp_density(FILE, use_pandas=None, quiet=False):
                              for i in range(int(math.ceil(NGX * NGY * NGZ / 5))))
             Potential = numpy.fromiter(chain.from_iterable(Potential), float)
 
-    _print_boom(quiet=quiet)
+    ##_print_boom(quiet=quiet)
     if not quiet:
         print("Average of the potential = ", numpy.average(Potential))
 
@@ -460,7 +460,7 @@ def read_vasp_parchg(FILE, use_pandas=None, quiet=False, spin=False):
             alpha = densities[0] + densities[1]
             beta = densities[0] - densities[1]
             density = [alpha, beta]
-    _print_boom(quiet=quiet)
+    ##_print_boom(quiet=quiet)
 
     return density, NGX, NGY, NGZ, lattice
 
@@ -526,7 +526,7 @@ def _read_vasp_density_fromlines(lines):
             upper_limit = (int(NGX * NGY * NGZ / 5) +
                            np.mod(NGX * NGY * NGZ, 5))
 
-    _print_boom(quiet=quiet)
+    ##_print_boom(quiet=quiet)
     print("Average of the potential = ", numpy.average(Potential))
 
     lattice = lattice * scale_factor
