@@ -56,7 +56,7 @@ lattice_vector = 4.75
 output_file = 'planar.dat'
 ```
 
-The variable lattice vector refers to the lattice vector of the bulk crystal structure in the direction of the plotting. 
+The variable lattice vector refers to the lattice vector of the bulk crystal structure in the direction of the plotting.
 It is used to get the macroscopic average, as defined in [Jackson's Electrodynamics](https://archive.org/details/ClassicalElectrodynamics). See the heterojunction tutorial for an interactive description of this.
 
 For the best overview of what the lattice_parameter setting should be, and how macroscopic averaging in general works, this paper from Baldereschi and the crew can't be beaten. [http://iopscience.iop.org/article/10.1088/0022-3727/31/11/002/meta](http://iopscience.iop.org/article/10.1088/0022-3727/31/11/002/meta)
@@ -70,7 +70,7 @@ python PlanarAverage.py
 or altenatively, imported into another script via:
 
 ```
-import macrodensity as md 
+import macrodensity as md
 md.plot_planar_average(lattice_vector=4.75,input_file="LOCPOT.slab",output_file="planar.dat")
 ```
 
@@ -79,7 +79,7 @@ This results in a plot of the planar average and an output of the potential call
 ### SphericalAverage.py
 ------------
 
-This example is for plotting the average potential inside a sphere of given radius. 
+This example is for plotting the average potential inside a sphere of given radius.
 It is the method used in our 2014 study of metal-organic frameworks in [JACS](http://pubs.acs.org/doi/abs/10.1021/ja4110073).
 
 The lines which need to be edited for this are given below.  Note `LOCPOT.MiL` is just a regular `LOCPOT` file that has been renamed.
@@ -100,7 +100,7 @@ python SphericalAverage.py
 or altenatively, imported into another script via:
 
 ```
-import macrodensity as md 
+import macrodensity as md
 md.spherical_average(cube_size=[2,2,2],cube_origin=[0.5,0.5,0.5],input_file='LOCPOT')
 ```
 
@@ -110,9 +110,9 @@ This results in an output of the average potential in the volume, and the varian
 ------------
 
 This example takes the same approach as the spherical average above, but moves the sample volume
-along a defined vector. This allows you to create a 1D profile of the travelling average of the 
+along a defined vector. This allows you to create a 1D profile of the travelling average of the
 cube. As above, all that has to be defined are the `cube_size`, `cube_origin` and `input_file`
-parameters. 
+parameters.
 
 To run the code simply type:
 
@@ -122,9 +122,11 @@ python MovingCube.py
 or altenatively, imported into another script via:
 
 ```
-import macrodensity as md 
+import macrodensity as md
 md.moving_cube(cube=[1,1,1],vector=[1,1,1],origin=[0.17,0.17,0.17],magnitude=16,input_file='LOCPOT')
 ```
+
+![MovingCube](/tutorials/moving_cube.png)
 
 ### OnSitePotential.py
 ------------
@@ -135,8 +137,8 @@ The input lines to edit are :
 
 ```
 potential_file = 'LOCPOT' # The file with VASP output for potential
-coordinate_file = 'POSCAR' # The coordinates file NOTE NOTE This must be in vasp 4 format 
-species = "O"  # The species whose on-site potential you are interested in 
+coordinate_file = 'POSCAR' # The coordinates file NOTE NOTE This must be in vasp 4 format
+species = "O"  # The species whose on-site potential you are interested in
 sample_cube = [5,5,5] # The size of the sampling cube in units of mesh points (NGX/Y/Z)
 ```
 
@@ -150,7 +152,7 @@ python OnSitePotential.py
 or altenatively, imported into another script via:
 
 ```
-import macrodensity as md 
+import macrodensity as md
 md.plot_on_site_potential(species='O',sample_cube=[5,5,5],potential_file='LOCPOT',coordinate_file='POSCAR')
 ```
 
@@ -180,7 +182,7 @@ This creates a contour plot of the field lines.
 ------------
 
 ### density_tools.py
-Reading and manipulating electrostic potential and charge density data. 
+Reading and manipulating electrostic potential and charge density data.
 * gradient_magnitude
 * vector_2_abscissa
 * number_in_field
