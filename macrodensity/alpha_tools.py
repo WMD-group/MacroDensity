@@ -120,7 +120,7 @@ def plot_active_space(a_point,b_point,c_point,tolerance=1E-4,input_file='LOCPOT'
     macro  = macroscopic_average(planar,4.80,resolution_z)
     plt.plot(planar)
     plt.plot(macro)
-    plt.savefig('Planar.eps')
+    plt.savefig('Planar.png')
     plt.show()
     ##------------------------------------------------------------------
     # Getting the average potential in a single cube of arbitrary size
@@ -342,7 +342,7 @@ def plot_planar_average(lattice_vector,input_file="LOCPOT",output_file="Planar.o
     macro = macroscopic_average(planar,lattice_vector,resolution_z)
     plt.plot(planar)
     plt.plot(macro)
-    plt.savefig('Planar.eps')
+    plt.savefig('Planar.png')
     plt.show()
     np.savetxt(output_file,planar)
 #------------------------------------------------------------------------------
@@ -379,7 +379,7 @@ def plot_planar_cube(input_file,lattice_vector,output_file = 'planar.dat'):
     macro  = macroscopic_average(planar,lattice_vector,resolution_z)
     plt.plot(planar)
     plt.plot(macro)
-    plt.savefig('Planar.eps')
+    plt.savefig('Planar.png')
     #plt.show()
     np.savetxt(output_file,planar)
 #------------------------------------------------------------------------------
