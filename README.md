@@ -48,7 +48,7 @@ pip install git+git://github.com/WMD-group/MacroDensity.git
 
 ------------
 
-### PlanarAverage.py
+### Planar Average
 This example is for plotting the planar average of a potential along a vector (here it is z).
 The only variables which need to be set are in the first three lines. Note `LOCPOT.slab` file is just a regular `LOCPOT` grid file.
 
@@ -86,8 +86,10 @@ The `PlanarAverage.py` output can be plotted as so:
 
 Further analysis of the band offset, deformation potential and volume change is outlined in `/tutorials/HeteroJunction/HeteroJunction.ipynb`. For use in a slab-model style calculation for the Ionisation Potential, see `/tutorials/Slab/SlabCalculation.ipynb`.
 
-### SphericalAverage.py
 ------------
+
+### Spherical Average 
+
 
 This example is for plotting the average potential inside a sphere of given radius.
 It is the method used in our 2014 study of metal-organic frameworks in [JACS](http://pubs.acs.org/doi/abs/10.1021/ja4110073).
@@ -127,8 +129,9 @@ Potential            Variance
 
 If the variance is too high it means that you are not sampling a plateau in the potential. Typically values below 10e-4 are acceptable, but you can also use MovingCube.py to verify this. Further examples can be found in `/tutorials/Porous/Porous.ipynb`
 
-### MovingCube.py
 ------------
+
+### Moving Cube 
 
 This example takes the same approach as the spherical average above, but moves the sample volume
 along a defined vector. This allows you to create a 1D profile of the travelling average of the
@@ -151,8 +154,9 @@ The output for a ZnS (100x100x100 FFT) unit cell is given below. The electrostat
 
 ![MovingCube](/tutorials/moving_cube.png)
 
-### bulk_interstitial_alignment
 ------------
+
+### Bulk Interstitial Alignment
 
 A convenience function that combines multiple instances of SphericalAverage.py, averages them and prints the Valence Band and Conduction Band positions relative ot this average. This function is based on an analysis akin to that of [Frensley](https://avs.scitation.org/doi/pdf/10.1116/1.568995) and Kroemer's method of band alignment. An example of its use for the ZnS (Zinc Blende) interstices is given below:
 
@@ -175,8 +179,9 @@ VB_aligned      CB_aligned
 ```
 Further data gathered on Zinc Blende type structures using this function can be found [here](https://aip.scitation.org/doi/10.1063/5.0044866)
 
-### OnSitePotential.py
 ------------
+
+### On Site Potential
 
 This example is for calculating the potential at the sites of a certain atomic nucleus, for example the O nuclei in an oxide. This on-site potential calculated this way is equivalent to a Madelung potential and can be useful for predicting electron energy levels (see http://pubs.acs.org/doi/abs/10.1021/ar400115x for details).
 
@@ -205,8 +210,9 @@ md.plot_on_site_potential(species='O',sample_cube=[5,5,5],potential_file='LOCPOT
 
 The result is a histogram plot using Matplotlib. If you prefer data output simply edit the final lines of the script.
 
-### PlaneField.py
 ------------
+
+### Plane Field
 
 This plots the contour lines of the isosurface of an electric field in an arbitrary plane as defined in the preamble part of the file.
 
@@ -225,16 +231,20 @@ python /examples/PlaneField.py
 ```
 This creates a contour plot of the field lines.
 
-### Plotting
 ------------
+
+### Plotting
+
 Macrodensity also allows the facile generation of band alignment diagrams across a range of structures:
 
 ![BandAlignment](/tutorials/Plotting/BandAlignment05.png)
 
 See `tutorials/Plotting/Plotting.ipynb` for further instructions.
 
-# Exhaustive List of Files & Functions
 ------------
+
+# Exhaustive List of Files & Functions
+
 
 ### density_tools.py
 Reading and manipulating electrostic potential and charge density data.
