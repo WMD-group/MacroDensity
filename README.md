@@ -27,7 +27,9 @@ To address this, the Macrodensity package has been developed as a VASP, FHI-AIMS
 
 [ASE](https://wiki.fysik.dtu.dk/ase/) (for atom centred functionality)
 
-[Pandas](https://pandas.pydata.org/)(optional - for quicker reading speeds; requires pandas 1.2.0 or newer)
+[Pandas](https://pandas.pydata.org/) (optional - for quicker reading speeds; requires pandas 1.2.0 or newer)
+
+[Jupyter](https://jupyter.org/) (optional - for `.ipynb` notebooks in the `/tutorials/`)
 
 
 # Installation
@@ -64,7 +66,7 @@ For the best overview of what the lattice_parameter setting should be, and how m
 The code is executed as:
 
 ```
-python PlanarAverage.py
+python /examples/PlanarAverage.py
 ```
 
 or alternatively, imported into another script via:
@@ -74,7 +76,15 @@ import macrodensity as md
 md.plot_planar_average(lattice_vector=4.75,input_file="LOCPOT.slab",output_file="planar.dat")
 ```
 
-This results in a plot of the planar average and an output of the potential called `planar.dat`.
+This results in a plot of the planar average and an output of the potential called `planar.dat`. An example of `PlanarAverage.py` usage is given in `/tutorials/HeteroJunction/HeteroJunction.ipynb`. For a ZnO/ZnS heterojunction:
+
+![Heterojunction](/tutorials/HeteroJunction/HJ.png)
+
+The `PlanarAverage.py` output can be plotted as so:
+
+![PA-Heterojunction](/tutorials/HJ-offset.png)
+
+Further analysis of the band offset, deformation potential and volume change is outlined in `/tutorials/HeteroJunction/HeteroJunction.ipynb`. For use in a slab-model style calculation for the Ionisation Potential, see `/tutorials/Slab/SlabCalculation.ipynb`.
 
 ### SphericalAverage.py
 ------------
@@ -94,7 +104,7 @@ cube_origin = [0,0,0]
 To run the code simply type:
 
 ```
-python SphericalAverage.py
+python /examples/SphericalAverage.py
 ```
 
 or alternatively, imported into another script via:
@@ -115,7 +125,7 @@ Potential            Variance
 7.145660229     2.38371017456777e-05
 ```
 
-If the variance is too high it means that you are not sampling a plateau in the potential. Typically values below 10e-4 are acceptable, but you can also use MovingCube.py to verify this.
+If the variance is too high it means that you are not sampling a plateau in the potential. Typically values below 10e-4 are acceptable, but you can also use MovingCube.py to verify this. Further examples can be found in `/tutorials/Porous/Porous.ipynb`
 
 ### MovingCube.py
 ------------
@@ -128,7 +138,7 @@ parameters.
 To run the code simply type:
 
 ```
-python MovingCube.py
+python /examples/MovingCube.py
 ```
 or alternatively, imported into another script via:
 
@@ -144,7 +154,7 @@ The output for a ZnS (100x100x100 FFT) unit cell is given below. The electrostat
 ### bulk_interstitial_alignment
 ------------
 
-A convenience function that combines multiple instances of SphericalAverage.py, averages them and prints the Valence Band and Conduction Band positions relative ot this average. This function is based on an analysis akin to that of Frensley and Kroemer's method of band alignment: [Frensley](https://avs.scitation.org/doi/pdf/10.1116/1.568995). An example of its use for the ZnS (Zinc Blende) interstices is given below:
+A convenience function that combines multiple instances of SphericalAverage.py, averages them and prints the Valence Band and Conduction Band positions relative ot this average. This function is based on an analysis akin to that of [Frensley](https://avs.scitation.org/doi/pdf/10.1116/1.568995) and Kroemer's method of band alignment. An example of its use for the ZnS (Zinc Blende) interstices is given below:
 
 ```
 import macrodensity as md
@@ -163,6 +173,7 @@ VB_aligned      CB_aligned
 --------------------------------
 -4.95           -2.95
 ```
+Further data gathered on Zinc Blende type structures using this function can be found here: https://aip.scitation.org/doi/10.1063/5.0044866
 
 ### OnSitePotential.py
 ------------
@@ -183,7 +194,7 @@ The cube parameter determines the size of the sample area, the units are mesh po
 To run the code simply type:
 
 ```
-python OnSitePotential.py
+python /examples/OnSitePotential.py
 ```
 or alternatively, imported into another script via:
 
@@ -210,9 +221,17 @@ input_file = 'LOCPOT.slab'
 The execution is simply:
 
 ```
-python PlaneField.py
+python /examples/PlaneField.py
 ```
 This creates a contour plot of the field lines.
+
+### Plotting
+------------
+Macrodensity also allows the facile generation of band alignment diagrams across a range of structures:
+
+![BandAlignment](/tutorials/Plotting/BandAlignment05.png)
+
+See `tutorials/Plotting/Plotting.ipynb` for further instructions.
 
 # Exhaustive List of Files & Functions
 ------------
