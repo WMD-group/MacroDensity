@@ -15,7 +15,7 @@ A set of python scripts to read in a electrostatic potentials and electron densi
 
 When assessing the potential utility of novel semiconducting devices (pn-juntions, heterostructures, surface terminations) through simulation, an understanding of the variation in the electrostatic potential and electron density across the system is key. However, extraction and useful presentation of this data from the raw output of the simulation (i.e. a vasp LOCPOT or CHGCAR) can prove cumbersome and often requires the use of visualisation software followed by manual data extraction. This can result in bottlenecks in high throughput screening projects, where the same data extraction procedure is repeatedly applied to large databases of candidate structures.
 
-To address this, the Macrodensity package has been developed as a VASP, FHI-AIMS and GULP postprocessing tool. The package contains functions that enable the user to format the data from the VASP LOCPOT and CHGCAR files, the FHI-AIMS *.cube file, and GULP *.out file into physically meaningful quantities, which can then be plotted for user interpretation. So far, the code has been used to rapidly generate data for these publications: [List Publications in which Macrodensity has been used]
+To address this, the Macrodensity package has been developed as a VASP, FHI-AIMS and GULP postprocessing tool. The package contains functions that enable the user to format the data from the VASP LOCPOT and CHGCAR files, the FHI-AIMS *.cube file, and GULP *.out file into physically meaningful quantities, which can then be plotted for user interpretation. So far, the code has been used to rapidly generate data for these publications: [1](http://pubs.acs.org/doi/abs/10.1021/ja4110073),[2](https://aip.scitation.org/doi/10.1063/5.0044866)
 
 # Requirements
 
@@ -173,7 +173,7 @@ VB_aligned      CB_aligned
 --------------------------------
 -4.95           -2.95
 ```
-Further data gathered on Zinc Blende type structures using this function can be found here: https://aip.scitation.org/doi/10.1063/5.0044866
+Further data gathered on Zinc Blende type structures using this function can be found [here](https://aip.scitation.org/doi/10.1063/5.0044866)
 
 ### OnSitePotential.py
 ------------
