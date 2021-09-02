@@ -29,7 +29,7 @@ To address this, the Macrodensity package has been developed as a VASP, FHI-AIMS
 
 [Pandas](https://pandas.pydata.org/) (optional - for quicker reading speeds; requires pandas 1.2.0 or newer)
 
-[Jupyter](https://jupyter.org/) (optional - for `.ipynb` notebooks in the `/tutorials/`)
+[Jupyter](https://jupyter.org/) (optional - for `.ipynb` notebooks in the [tutorials](https://github.com/WMD-group/MacroDensity/tree/V3.1.0/tutorials))
 
 
 # Installation
@@ -49,11 +49,12 @@ pip install git+git://github.com/WMD-group/MacroDensity.git
 ------------
 
 Example scripts are given in the [examples](https://github.com/WMD-group/MacroDensity/tree/V3.1.0/examples) folder.
-Tutorials in the form of .ipynb scripts are given in ther [tutorials](https://github.com/WMD-group/MacroDensity/tree/V3.1.0/tutorials) folder.
+
+Tutorials in the form of .ipynb notebooks are given in the [tutorials](https://github.com/WMD-group/MacroDensity/tree/V3.1.0/tutorials) folder.
 
 ### Planar Average
 This example is for plotting the planar average of a potential along a vector (here it is z).
-The only variables which need to be set are in the first three lines. Note `LOCPOT.slab` file is just a regular `LOCPOT` grid file.
+The only variables which need to be set are in the first three lines. Note `LOCPOT.slab` file is just a regular [LOCPOT](https://www.vasp.at/wiki/index.php/LOCPOT) grid file.
 
 ```
 input_file = 'LOCPOT.slab'
@@ -196,7 +197,7 @@ species = "O"  # The species whose on-site potential you are interested in
 sample_cube = [5,5,5] # The size of the sampling cube in units of mesh points (NGX/Y/Z)
 ```
 
-The cube parameter determines the size of the sample area, the units are mesh points, the magnitude of the mesh point is calculated by dividing the appropriate lattice vector by the number of points (NGX/Y/Z in `OUTCAR`).
+The cube parameter determines the size of the sample area, the units are mesh points, the magnitude of the mesh point is calculated by dividing the appropriate lattice vector by the number of points (NGX/Y/Z in [OUTCAR](https://www.vasp.at/wiki/index.php/OUTCAR)).
 
 To run the code simply type:
 
