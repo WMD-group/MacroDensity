@@ -48,6 +48,9 @@ pip install git+git://github.com/WMD-group/MacroDensity.git
 
 ------------
 
+Example scripts are given in the [examples](https://github.com/WMD-group/MacroDensity/tree/V3.1.0/examples) folder.
+Tutorials in the form of .ipynb scripts are given in ther [tutorials](https://github.com/WMD-group/MacroDensity/tree/V3.1.0/tutorials) folder.
+
 ### Planar Average
 This example is for plotting the planar average of a potential along a vector (here it is z).
 The only variables which need to be set are in the first three lines. Note `LOCPOT.slab` file is just a regular `LOCPOT` grid file.
@@ -61,12 +64,12 @@ output_file = 'planar.dat'
 The variable lattice vector refers to the lattice vector of the bulk crystal structure in the direction of the plotting.
 It is used to get the macroscopic average, as defined in [Jackson's Electrodynamics](https://archive.org/details/ClassicalElectrodynamics). See the heterojunction tutorial for an interactive description of this.
 
-For the best overview of what the lattice_parameter setting should be, and how macroscopic averaging in general works, this paper from Baldereschi and the crew can't be beaten. [http://iopscience.iop.org/article/10.1088/0022-3727/31/11/002/meta](http://iopscience.iop.org/article/10.1088/0022-3727/31/11/002/meta)
+For the best overview of what the lattice_parameter setting should be, and how macroscopic averaging in general works, this paper from [Baldereschi](http://iopscience.iop.org/article/10.1088/0022-3727/31/11/002/meta) and the crew can't be beaten. 
 
 The code is executed as:
 
 ```
-python /examples/PlanarAverage.py
+python PlanarAverage.py
 ```
 
 or alternatively, imported into another script via:
@@ -76,25 +79,24 @@ import macrodensity as md
 md.plot_planar_average(lattice_vector=4.75,input_file="LOCPOT.slab",output_file="planar.dat")
 ```
 
-This results in a plot of the planar average and an output of the potential called `planar.dat`. An example of `PlanarAverage.py` usage is given in `/tutorials/HeteroJunction/HeteroJunction.ipynb`. For a ZnO/ZnS heterojunction:
+This results in a plot of the planar average and an output of the potential called `planar.dat`. An example of [PlanarAverage.py](https://github.com/WMD-group/MacroDensity/blob/V3.1.0/examples/PlanarAverage.py) usage is given in [/tutorials/HeteroJunction/HeteroJunction.ipynb](https://github.com/WMD-group/MacroDensity/blob/V3.1.0/tutorials/HeteroJunction/HeteroJunction.ipynb). For a ZnO/ZnS heterojunction:
 
 ![Heterojunction](/tutorials/HeteroJunction/HJ.png)
 
-The `PlanarAverage.py` output can be plotted as so:
+The output can be plotted as so:
 
 ![PA-Heterojunction](/tutorials/HJ-offset.png)
 
-Further analysis of the band offset, deformation potential and volume change is outlined in `/tutorials/HeteroJunction/HeteroJunction.ipynb`. For use in a slab-model style calculation for the Ionisation Potential, see `/tutorials/Slab/SlabCalculation.ipynb`.
+Further analysis of the band offset, deformation potential and volume change is outlined in [/tutorials/HeteroJunction/HeteroJunction.ipynb](https://github.com/WMD-group/MacroDensity/blob/V3.1.0/tutorials/HeteroJunction/HeteroJunction.ipynb). For use in a slab-model style calculation for the Ionisation Potential, see [/tutorials/Slab/SlabCalculation.ipynb](https://github.com/WMD-group/MacroDensity/blob/V3.1.0/tutorials/Slab/SlabCalculation.ipynb).
 
 ------------
 
 ### Spherical Average 
 
-
 This example is for plotting the average potential inside a sphere of given radius.
 It is the method used in our 2014 study of metal-organic frameworks in [JACS](http://pubs.acs.org/doi/abs/10.1021/ja4110073).
 
-The lines which need to be edited for this are given below.  Note `LOCPOT.MiL` is just a regular `LOCPOT` file that has been renamed.
+The lines which need to be edited for this are given below.  Note `LOCPOT.MiL` is just a regular [LOCPOT](https://www.vasp.at/wiki/index.php/LOCPOT) file that has been renamed.
 
 ```
 input_file = 'LOCPOT.MiL'
@@ -106,7 +108,7 @@ cube_origin = [0,0,0]
 To run the code simply type:
 
 ```
-python /examples/SphericalAverage.py
+python SphericalAverage.py
 ```
 
 or alternatively, imported into another script via:
@@ -127,7 +129,7 @@ Potential            Variance
 7.145660229     2.38371017456777e-05
 ```
 
-If the variance is too high it means that you are not sampling a plateau in the potential. Typically values below 10e-4 are acceptable, but you can also use MovingCube.py to verify this. Further examples can be found in `/tutorials/Porous/Porous.ipynb`
+If the variance is too high it means that you are not sampling a plateau in the potential. Typically values below 10e-4 are acceptable, but you can also use [MovingCube.py](https://github.com/WMD-group/MacroDensity/blob/V3.1.0/examples/MovingCube.py) to verify this. Further examples can be found in [/tutorials/Porous/Porous.ipynb](https://github.com/WMD-group/MacroDensity/tree/master/tutorials/Porous)`
 
 ------------
 
@@ -141,7 +143,7 @@ parameters.
 To run the code simply type:
 
 ```
-python /examples/MovingCube.py
+python MovingCube.py
 ```
 or alternatively, imported into another script via:
 
@@ -150,7 +152,7 @@ import macrodensity as md
 md.moving_cube(cube=[1,1,1],vector=[1,1,1],origin=[0.17,0.17,0.17],magnitude=85,input_file='LOCPOT')
 ```
 
-The output for a ZnS (100x100x100 FFT) unit cell is given below. The electrostatic potential at the interstices (0.5 Ang and 2.1 Ang) can be extracted using the SphericalAverage.py or bulk_interstital_alignment.
+The output for a ZnS (100x100x100 FFT) unit cell is given below. The electrostatic potential at the interstices (0.5 Ang and 2.1 Ang) can be extracted using [SphericalAverage.py](https://github.com/WMD-group/MacroDensity/blob/master/examples/SphericalAverage.py) or [bulk_interstital_alignment](https://github.com/WMD-group/MacroDensity/blob/1bc91530d2badbfbf1843fe614ca379ef31a122c/macrodensity/alpha_tools.py#L15).
 
 ![MovingCube](/tutorials/moving_cube.png)
 
@@ -158,14 +160,14 @@ The output for a ZnS (100x100x100 FFT) unit cell is given below. The electrostat
 
 ### Bulk Interstitial Alignment
 
-A convenience function that combines multiple instances of SphericalAverage.py, averages them and prints the Valence Band and Conduction Band positions relative ot this average. This function is based on an analysis akin to that of [Frensley](https://avs.scitation.org/doi/pdf/10.1116/1.568995) and Kroemer's method of band alignment. An example of its use for the ZnS (Zinc Blende) interstices is given below:
+A convenience function that combines multiple instances of SphericalAverage.py, averages them and prints the Valence Band and Conduction Band positions relative ot this average. This function is based on an analysis akin to that of [Frensley and Kroemer's](https://avs.scitation.org/doi/pdf/10.1116/1.568995) method of band alignment. An example of its use for the ZnS (Zinc Blende) interstices is given below:
 
 ```
 import macrodensity as md
 md.bulk_interstitial_alignment(interstices=([0.5,0.5,0.5],[0.25,0.25,0.25]),outcar="OUTCAR",locpot="LOCPOT",cube_size=[2,2,2])
 ```
 
-Data is presented in a similar format to SphericalAverage.py:
+Data is presented in a similar format to [SphericalAverage.py](https://github.com/WMD-group/MacroDensity/blob/master/examples/SphericalAverage.py):
 
 ```
 Reading header information...
@@ -183,7 +185,7 @@ Further data gathered on Zinc Blende type structures using this function can be 
 
 ### On Site Potential
 
-This example is for calculating the potential at the sites of a certain atomic nucleus, for example the O nuclei in an oxide. This on-site potential calculated this way is equivalent to a Madelung potential and can be useful for predicting electron energy levels (see http://pubs.acs.org/doi/abs/10.1021/ar400115x for details).
+This example is for calculating the potential at the sites of a certain atomic nucleus, for example the O nuclei in an oxide. This on-site potential calculated this way is equivalent to a Madelung potential and can be useful for predicting electron energy levels (see [this publication](http://pubs.acs.org/doi/abs/10.1021/ar400115x) for details).
 
 The input lines to edit are :
 
@@ -199,7 +201,7 @@ The cube parameter determines the size of the sample area, the units are mesh po
 To run the code simply type:
 
 ```
-python /examples/OnSitePotential.py
+python OnSitePotential.py
 ```
 or alternatively, imported into another script via:
 
@@ -227,7 +229,7 @@ input_file = 'LOCPOT.slab'
 The execution is simply:
 
 ```
-python /examples/PlaneField.py
+python PlaneField.py
 ```
 This creates a contour plot of the field lines.
 
@@ -239,7 +241,7 @@ Macrodensity also allows the facile generation of band alignment diagrams across
 
 ![BandAlignment](/tutorials/Plotting/BandAlignment05.png)
 
-See `tutorials/Plotting/Plotting.ipynb` for further instructions.
+See [tutorials/Plotting/Plotting.ipynb](https://github.com/WMD-group/MacroDensity/tree/master/tutorials/Plotting) for further instructions.
 
 ------------
 
@@ -293,15 +295,15 @@ Additional tools to compliment density_tools.py
 ### alpha_tools.py
 Convenience functions for the postprocessing and plotting of output data from density_tools.py
 * bulk_interstitial_alignment
-* plot_active_space
-* plot_field_at_point
 * plot_gulp_potential
 * plot_on_site_potential
 * plot_planar_average
 * plot_planar_cube
-* plot_plane_field
 * moving_cube
 * spherical_average
+* (under development) plot_plane_field 
+* (under development) plot_active_space
+* (under development) plot_field_at_point
 
 ### vasp_tools.py
 VASP specific tools to compliment density_tools.py
