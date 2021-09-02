@@ -53,6 +53,7 @@ Example scripts are given in the [examples](https://github.com/WMD-group/MacroDe
 Tutorials in the form of .ipynb notebooks are given in the [tutorials](https://github.com/WMD-group/MacroDensity/tree/V3.1.0/tutorials) folder.
 
 ### Planar Average
+
 This example is for plotting the planar average of a potential along a vector (here it is z).
 The only variables which need to be set are in the first three lines. Note `LOCPOT.slab` file is just a regular [LOCPOT](https://www.vasp.at/wiki/index.php/LOCPOT) grid file.
 
@@ -130,7 +131,7 @@ Potential            Variance
 7.145660229     2.38371017456777e-05
 ```
 
-If the variance is too high it means that you are not sampling a plateau in the potential. Typically values below 10e-4 are acceptable, but you can also use [MovingCube.py](https://github.com/WMD-group/MacroDensity/blob/V3.1.0/examples/MovingCube.py) to verify this. Further examples can be found in [/tutorials/Porous/Porous.ipynb](https://github.com/WMD-group/MacroDensity/tree/master/tutorials/Porous)`
+If the variance is too high it means that you are not sampling a plateau in the potential. Typically values below 10e-4 are acceptable, but you can also use [MovingCube.py](https://github.com/WMD-group/MacroDensity/blob/V3.1.0/examples/MovingCube.py) to verify this. Further examples can be found in [/tutorials/Porous/Porous.ipynb](https://github.com/WMD-group/MacroDensity/tree/master/tutorials/Porous)
 
 ------------
 
@@ -211,7 +212,7 @@ import macrodensity as md
 md.plot_on_site_potential(species='O',sample_cube=[5,5,5],potential_file='LOCPOT',coordinate_file='POSCAR')
 ```
 
-The result is a histogram plot using Matplotlib. If you prefer data output simply edit the final lines of the script.
+The result is a histogram plot `Potentials.png` using Matplotlib. If you prefer data output simply edit the final lines of the script.
 
 ------------
 
