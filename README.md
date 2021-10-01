@@ -66,7 +66,7 @@ output_file = 'planar.dat'
 The variable lattice vector refers to the lattice vector of the bulk crystal structure in the direction of the plotting.
 It is used to get the macroscopic average, as defined in [Jackson's Electrodynamics](https://archive.org/details/ClassicalElectrodynamics). See the heterojunction tutorial for an interactive description of this.
 
-For the best overview of what the lattice_parameter setting should be, and how macroscopic averaging in general works, this paper from [Baldereschi](http://iopscience.iop.org/article/10.1088/0022-3727/31/11/002/meta) and the crew can't be beaten. 
+For the best overview of what the lattice_parameter setting should be, and how macroscopic averaging in general works, this paper from [Baldereschi](http://iopscience.iop.org/article/10.1088/0022-3727/31/11/002/meta) and the crew can't be beaten.
 
 The code is executed as:
 
@@ -91,9 +91,18 @@ The output can be plotted as so:
 
 Further analysis of the band offset, deformation potential and volume change is outlined in [/tutorials/HeteroJunction/HeteroJunction.ipynb](https://github.com/WMD-group/MacroDensity/blob/V3.1.0/tutorials/HeteroJunction/HeteroJunction.ipynb). For use in a slab-model style calculation for the Ionisation Potential, see [/tutorials/Slab/SlabCalculation.ipynb](https://github.com/WMD-group/MacroDensity/blob/V3.1.0/tutorials/Slab/SlabCalculation.ipynb).
 
+Additionally, the planar average can be obtained and interpolated from [GULP](http://gulp.curtin.edu.au/gulp/) a `gulp.out` file:
+
+```
+import macrodensity as md
+md.plot_gulp_potential(lattice_vector=3.0,input_file='gulp.out',output_file='planar.dat',new_resolution = 3000)
+```
+
+The `new_resolution` sets the resolution for the interpolated planar average. The plots of the planar, macroscopic and interpolated planar averages are returned as `gulp_planar.png`, `gulp_macro.png` and `gulp_int_pot.png` respectively.
+
 ------------
 
-### Spherical Average 
+### Spherical Average
 
 This example is for plotting the average potential inside a sphere of given radius.
 It is the method used in our 2014 study of metal-organic frameworks in [JACS](http://pubs.acs.org/doi/abs/10.1021/ja4110073).
@@ -135,7 +144,7 @@ If the variance is too high it means that you are not sampling a plateau in the 
 
 ------------
 
-### Moving Cube 
+### Moving Cube
 
 This example takes the same approach as the spherical average above, but moves the sample volume
 along a defined vector. This allows you to create a 1D profile of the travelling average of the
@@ -218,7 +227,7 @@ The result is a histogram plot `Potentials.png` using Matplotlib. If you prefer 
 
 ### Plane Field
 
-This plots the contour lines of the isosurface of an electric field in an arbitrary plane as defined in the preamble part of the file.
+This plots the contour lines of the isosurface of an electric field in an arbitrary plane (defined by points a,b and c) as defined in the preamble part of the file.
 
 ```
 a_point = [0, 0, 0]
@@ -234,6 +243,19 @@ The execution is simply:
 python PlaneField.py
 ```
 This creates a contour plot of the field lines.
+
+------------
+
+### Active Space
+
+This checks for plateaus in the electrostatic potential within a volume for a set `tolerance` and prints the result. `cube_size` defines the size of the cube in units of mesh points (NGX/Y/Z). `cube_origin` defines the bottom left point of the cube the "0,0,0" point in fractional coordinates.
+
+The execution is:
+
+```
+import macrodensity as md
+md.plot_active_space(cube_size=[2,2,2],cube_origin=[0.5,0.5,0.5],tolerance=1E-4,input_file='LOCPOT')
+```
 
 ------------
 
@@ -303,9 +325,10 @@ Convenience functions for the postprocessing and plotting of output data from de
 * plot_planar_cube
 * moving_cube
 * spherical_average
-* (under development) plot_plane_field 
-* (under development) plot_active_space
+* plot_active_space
+* (under development) plot_plane_field
 * (under development) plot_field_at_point
+* (under development) plot_active_plane
 
 ### vasp_tools.py
 VASP specific tools to compliment density_tools.py

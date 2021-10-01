@@ -64,20 +64,17 @@ def bulk_interstitial_alignment(interstices,outcar="OUTCAR",locpot="LOCPOT",cube
     return VB_aligned, CB_aligned
 #------------------------------------------------------------------------------
 
-def plot_active_space(a_point,b_point,c_point,tolerance=1E-4,input_file='LOCPOT'):
+def plot_active_space(cube_size,cube_origin,tolerance=1E-4,input_file='LOCPOT'):
     '''
-    Input section (define the plane with 3 points)
-    a_point = [0, 0, 0]
-    b_point = [1, 0, 1]
-    c_point = [0, 1, 0]
+    cube defines the size of the cube in units of mesh points (NGX/Y/Z)
+    cube = [2,2,2]
+    origin defines the bottom left point of the cube the "0,0,0" point in fractional coordinates
+    origin = [0,0,0]
     '''
     import math
     import numpy as np
-    import matplotlib.pyplot as plt
-    import csv
-    ##from itertools import izip
-    from macrodensity.density_tools import read_vasp_density, matrix_2_abc, density_2_grid, numbers_2_grid, planar_average, macroscopic_average,cube_potential
-    from macrodensity.beta_tools import create_plotting_mesh,points_2_plane
+    from macrodensity.density_tools import read_vasp_density, matrix_2_abc, density_2_grid, numbers_2_grid, volume_average
+
     #------------------------------------------------------------------
     # Get the potential
     #------------------------------------------------------------------
@@ -91,63 +88,89 @@ def plot_active_space(a_point,b_point,c_point,tolerance=1E-4,input_file='LOCPOT'
     ## Get the gradiens (Field), if required.
     ## Comment out if not required, due to compuational expense.
     grad_x,grad_y,grad_z = np.gradient(grid_pot[:,:,:],resolution_x,resolution_y,resolution_z)
-    #------------------------------------------------------------------
-    ## Get the equation for the plane
-    ## This is the section for plotting on a user defined plane;
-    ## uncomment commands if this is the option that you want.
-    ##------------------------------------------------------------------
-    ## Convert the fractional points to grid points on the density surface
-    a = numbers_2_grid(a_point,NGX,NGY,NGZ)
-    b = numbers_2_grid(b_point,NGX,NGY,NGZ)
-    c = numbers_2_grid(c_point,NGX,NGY,NGZ)
-    plane_coeff = points_2_plane(a,b,c)
-    ## Get the gradients
-    XY = np.multiply(grad_x,grad_y)
-    grad_mag = np.multiply(XY,grad_z)
-    ## Create the plane
-    xx,yy,grd = create_plotting_mesh(NGX,NGY,NGZ,plane_coeff,grad_x)
-    ## Plot the surface
-    plt.contourf(xx,yy,grd,V)
-    plt.show()
-    ##------------------------------------------------------------------
-    ## Plotting a planar average (Field/potential) throughout the material
-    ##------------------------------------------------------------------
-    ## FIELDS
-    planar = planar_average(grad_x,NGX,NGY,NGZ)
-    ## POTENTIAL
-    planar = planar_average(grid_pot,NGX,NGY,NGZ)
-    ## MACROSCOPIC AVERAGE
-    macro  = macroscopic_average(planar,4.80,resolution_z)
-    plt.plot(planar)
-    plt.plot(macro)
-    plt.savefig('Planar.png')
-    plt.show()
+
     ##------------------------------------------------------------------
     # Getting the average potential in a single cube of arbitrary size
     ##------------------------------------------------------------------
-    ## cube defines the size of the cube in units of mesh points (NGX/Y/Z)
-    cube = [2,2,2]
-    ## origin defines the bottom left point of the cube the "0,0,0" point in fractional coordinates
-    origin = [0,0,0]
     ## travelled; do not alter this variable
     travelled = [0,0,0]
     ## Uncomment the lines below to do the business
     vacuum = []
     non_vacuum = []
-    for i in range(0,NGX,cube[0]):
-        print(float(i)/NGX)
-        for j in range(0,NGY,cube[1]):
-            for k in range(0,NGZ,cube[2]):
-                origin = [float(i)/NGX,float(j)/NGY,float(k)/NGZ]
-                cube_potential, cube_var = cube_potential(origin,travelled,cube,grid_pot,NGX,NGY,NGZ)
-            if cube_var <= cutoff_varience:
-                vacuum.append(origin)
-            else:
-                non_vacuum.append(origin)
+    for i in range(0,NGX,cube_size[0]):
+        #print(float(i)/NGX)
+        for j in range(0,NGY,cube_size[1]):
+            for k in range(0,NGZ,cube_size[2]):
+                sub_origin = [float(i)/NGX,float(j)/NGY,float(k)/NGZ]
+                cube_pot, cube_var = volume_average(origin=sub_origin,cube=cube_size,grid=grid_pot,nx=NGX,ny=NGY,nz=NGZ,travelled=[0,0,0])
+                if cube_var <= cutoff_varience:
+                    vacuum.append(sub_origin)
+                else:
+                    non_vacuum.append(sub_origin)
     print("Number of vacuum cubes: ", len(vacuum))
     print("Number of non-vacuum cubes: ", len(non_vacuum))
     print("Percentage of vacuum cubes: ",(float(len(vacuum))/(float(len(vacuum))+float(len(non_vacuum)))*100.))
     print("Percentage of non-vacuum cubes: ",(float(len(non_vacuum))/(float(len(vacuum))+float(len(non_vacuum)))*100.))
+#------------------------------------------------------------------------------
+
+def plot_active_plane(cube_size,cube_origin,tolerance=1E-4,input_file='LOCPOT'):
+
+    '''
+    Input section (define the plane with 3 points)
+    a_point = [0, 0, 0]
+    b_point = [1, 0, 1]
+    c_point = [0, 1, 0]
+    '''
+
+    import math
+    import numpy as np
+    import matplotlib.pyplot as plt
+    from macrodensity.density_tools import read_vasp_density, matrix_2_abc, density_2_grid, numbers_2_grid, planar_average, macroscopic_average, volume_average
+    from macrodensity.beta_tools import create_plotting_mesh,points_2_plane
+
+    #------------------------------------------------------------------
+    # Get the potential
+    #------------------------------------------------------------------
+    vasp_pot, NGX, NGY, NGZ, Lattice = read_vasp_density(input_file)
+    vector_a,vector_b,vector_c,av,bv,cv = matrix_2_abc(Lattice)
+    resolution_x = vector_a/NGX
+    resolution_y = vector_b/NGY
+    resolution_z = vector_c/NGZ
+    grid_pot, electrons = density_2_grid(vasp_pot,NGX,NGY,NGZ)
+    cutoff_varience = tolerance
+    ## Get the gradiens (Field), if required.
+    ## Comment out if not required, due to compuational expense.
+    grad_x,grad_y,grad_z = np.gradient(grid_pot[:,:,:],resolution_x,resolution_y,resolution_z)
+    ## Convert the fractional points to grid points on the density surface
+    a = pot.numbers_2_grid(a_point,NGX,NGY,NGZ)
+    b = pot.numbers_2_grid(b_point,NGX,NGY,NGZ)
+    c = pot.numbers_2_grid(c_point,NGX,NGY,NGZ)
+    plane_coeff = pot.points_2_plane(a,b,c)
+
+    ## Get the gradients
+    XY = np.multiply(grad_x,grad_y)
+    grad_mag = np.multiply(XY,grad_z)
+
+    ## Create the plane
+    xx,yy,grd =  pot.create_plotting_mesh(NGX,NGY,NGZ,plane_coeff,grad_x)
+    ## Plot the surface
+    plt.contourf(xx,yy,grd,V)
+    plt.show()
+
+    ##------------------------------------------------------------------
+    ## Plotting a planar average (Field/potential) throughout the material
+    ##------------------------------------------------------------------
+    ## FIELDS
+    planar = pot.planar_average(grad_x,NGX,NGY,NGZ)
+    ## POTENTIAL
+    planar = pot.planar_average(grid_pot,NGX,NGY,NGZ)
+    ## MACROSCOPIC AVERAGE
+    macro  = pot.macroscopic_average(planar,4.80,resolution_z)
+    plt.plot(planar)
+    plt.plot(macro)
+    plt.savefig('Planar.eps')
+    plt.show()
+
 #------------------------------------------------------------------------------
 
 def plot_field_at_point(a_point,b_point,c_point,input_file='LOCPOT'):
@@ -161,7 +184,7 @@ def plot_field_at_point(a_point,b_point,c_point,input_file='LOCPOT'):
     import numpy as np
     import matplotlib.pyplot as plt
     from matplotlib import colors,cm #colour maps; so I can specify cube helix
-    from macrodensity.density_tools import read_vasp_density, matrix_2_abc, density_2_grid, numbers_2_grid, planar_average, macroscopic_average,cube_potential
+    from macrodensity.density_tools import read_vasp_density, matrix_2_abc, density_2_grid, numbers_2_grid, planar_average, macroscopic_average
     from macrodensity.beta_tools import create_plotting_mesh,points_2_plane
     #------------------------------------------------------------------
     # Get the potential
@@ -260,9 +283,18 @@ def plot_gulp_potential(lattice_vector,input_file='gulp.out',output_file='planar
     macro  = macroscopic_average(planar, lattice_vector, vector_c/new_resolution)
     ## PLOT
     plt.plot(interpolated_potential)
+    plt.savefig("gulp_int_pot.png")
     plt.show()
+    plt.close()
     plt.plot(planar)
+    plt.savefig("gulp_planar.png")
     plt.show()
+    plt.close()
+    plt.plot(macro)
+    plt.savefig("gulp_macro.png")
+    plt.show()
+    plt.close()
+
 #------------------------------------------------------------------------------
 
 def plot_on_site_potential(species,sample_cube,potential_file='LOCPOT',coordinate_file='POSCAR'):
@@ -422,8 +454,9 @@ def plot_plane_field(a_point,b_point,c_point,input_file='LOCPOT'):
     XY = np.multiply(grad_x,grad_y)
     grad_mag = np.multiply(XY,grad_z)
     ## Create the plane
-    print(NGX,NGY,NGZ,plane_coeff,grad_x)
-    xx,yy,grd = create_plotting_mesh(NGX,NGY,NGZ,plane_coeff,grad_x)
+    #print(NGX,NGY,NGZ,plane_coeff,grad_mag)
+    #xx,yy,grd = create_plotting_mesh(NGX,NGY,NGZ,plane_coeff,grad_mag)
+    print(create_plotting_mesh(NGX,NGY,NGZ,plane_coeff,grad_mag)[10])
     ## Plot the surface
     plt.contour(xx,yy,grd,1)
     plt.show()
