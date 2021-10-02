@@ -51,7 +51,7 @@ class TestDensityReadingFunctions(unittest.TestCase):
         self.assertEqual(spin[0], 1.0)
         self.assertEqual(lattice[0, 0], 11.721852)
 
-        spin, ngx, ngy, ngz, lattice = md.read_vasp_parchg(parchg, 
+        spin, ngx, ngy, ngz, lattice = md.read_vasp_parchg(parchg,
                                                            spin=True,
                                                            quiet=True)
         for v, t in ((spin[0], np.ndarray),
@@ -132,7 +132,7 @@ class TestOtherReadingFunctions(unittest.TestCase):
         self.assertAlmostEqual(a, 3.8395898218429529)
         self.assertAlmostEqual(b, 3.8395898218429529)
         self.assertAlmostEqual(c, 3.8395898218429529)
-    
+
 
 class TestAveragingFunctions(unittest.TestCase):
     '''Test various functions for manipulating and measuring the density'''
@@ -169,7 +169,7 @@ class TestAveragingFunctions(unittest.TestCase):
         parchg = pkg_resources.resource_filename(
                     __name__, path_join('..', 'CHGCAR.test'))
 
-        dens, ngx, ngy, ngz, lattice = md.read_vasp_density(parchg, 
+        dens, ngx, ngy, ngz, lattice = md.read_vasp_density(parchg,
                                                            quiet=True)
         self.assertAlmostEqual(md.inverse_participation_ratio(dens),
                 1.407e-5)
@@ -239,8 +239,82 @@ class TestGeometryFunctions(unittest.TestCase):
         '''Tests the GCD_List function'''
         self.assertEqual(md.GCD_List([15,100,45]), 5)
 
+class TestConvenienceFunctions(unittest.TestCase):
+    def test_bulk_interstitial_alignment(self):
+        '''Tests the bulk_interstitial_alignment function'''
+        Locpot = pkg_resources.resource_filename(
+                    __name__, path_join('..', 'LOCPOT.test'))
+        Outcar = pkg_resources.resource_filename(
+                    __name__, path_join('..', 'OUTCAR.test'))
+        out = md.bulk_interstitial_alignment(interstices=([0.5,0.5,0.5],[0.25,0.25,0.25]),outcar=Outcar,locpot=Locpot,cube_size=[2,2,2])
+        self.assertEqual(out,(-3.24, -1.72, [1.8665165271901357e-05, 6.277207757909537e-06]))
 
+    def test_moving_cube(self):
+        '''Tests the moving_cube function'''
+        Locpot = pkg_resources.resource_filename(
+                    __name__, path_join('..', 'LOCPOT.test'))
+        out = md.moving_cube(cube=[1,1,1],vector=[1,1,1],origin=[0.17,0.17,0.17],magnitude=16,input_file=Locpot)
+        self.assertAlmostEqual(out[0],3.99827598)
+        self.assertAlmostEqual(out[10],6.53774638)
+        self.assertAlmostEqual(out[-1],3.97265811)
 
+    def test_spherical_average(self):
+        '''Tests the spherical_average function'''
+        Locpot = pkg_resources.resource_filename(
+                    __name__, path_join('..', 'LOCPOT.test'))
+        out = md.spherical_average(cube_size=[2,2,2],cube_origin=[0.5,0.5,0.5],input_file=Locpot)
+        self.assertEqual(out,(6.5579496029375, 1.8665165271901357e-05))
+
+    def test_plot_planar_average(self):
+        '''Tests the plot_planar_average function'''
+        Locpot = pkg_resources.resource_filename(
+                    __name__, path_join('..', 'LOCPOT.test'))
+        out = md.plot_planar_average(lattice_vector=5.41,input_file=Locpot,output_file="Planar.out")
+        self.assertAlmostEqual(out[0],0.14555565)
+        self.assertAlmostEqual(out[10],4.61454537)
+        self.assertAlmostEqual(out[-1],-0.87290696)
+
+    def test_plot_on_site_potential(self):
+        '''Tests the plot_on_site_potential function'''
+        Locpot = pkg_resources.resource_filename(
+                    __name__, path_join('..', 'LOCPOT.test'))
+        Poscar = pkg_resources.resource_filename(
+                    __name__, path_join('..', 'POSCAR.test'))
+        out = md.plot_on_site_potential(species='Zn',sample_cube=[5,5,5],potential_file=Locpot,coordinate_file=Poscar)
+        self.assertEqual(out,[-6.545211257074241])
+
+    def test_plot_gulp_potential(self):
+        '''Tests the plot_gulp_potential function'''
+        gulpcar = pkg_resources.resource_filename(
+                    __name__, path_join('../examples', 'gulp.out'))
+        out = md.plot_gulp_potential(lattice_vector=3.0,input_file=gulpcar,output_file='planar.dat',new_resolution = 3000)
+        self.assertEqual(out[0],-23.16678352)
+        self.assertAlmostEqual(out[10],-1.59508152)
+        self.assertEqual(out[-1],-23.16678352)
+
+    def test_plot_active_space(self):
+        '''Tests the plot_active_space function'''
+        Locpot = pkg_resources.resource_filename(
+                    __name__, path_join('..', 'LOCPOT.test'))
+        out = md.plot_active_space(cube_size=[2,2,2],cube_origin=[0.5,0.5,0.5],tolerance=1E-4,input_file=Locpot)
+        self.assertEqual(out,(17, 4079))
+
+    # def test_plot_planar_cube(self):
+    #     '''Tests the plot_planar_cube function'''
+    #     out = md.plot_planar_cube()
+    #     self.assertEqual(out,)
+    # def test_plot_field_at_point(self):
+    #     '''Tests the plot_field_at_point function'''
+    #     out = md.plot_field_at_point([0, 0, 0],[0, 0, 1],[0, 1, 0])
+    #     self.assertEqual(out,)
+    # def test_plot_plane_field(self):
+    #     '''Tests the plot_plane_field function'''
+    #     out = md.plot_plane_field(a_point=[0, 0, 0],b_point=[1, 0, 1],c_point=[0, 0, 1],input_file='LOCPOT')
+    #     self.assertEqual(out,)
+    # def test_plot_active_plane(self):
+    #     '''Tests the plot_active_plane function'''
+    #     out = md.plot_active_plane()
+    #     self.assertEqual(out,)
 
 if __name__ == '__main__':
     unittest.main()

@@ -61,7 +61,7 @@ def bulk_interstitial_alignment(interstices,outcar="OUTCAR",locpot="LOCPOT",cube
     print("VB_aligned      CB_aligned")
     print("--------------------------------")
     print(VB_aligned,"         ",CB_aligned)
-    return VB_aligned, CB_aligned
+    return VB_aligned, CB_aligned, interstitial_variances
 #------------------------------------------------------------------------------
 
 def plot_active_space(cube_size,cube_origin,tolerance=1E-4,input_file='LOCPOT'):
@@ -111,6 +111,7 @@ def plot_active_space(cube_size,cube_origin,tolerance=1E-4,input_file='LOCPOT'):
     print("Number of non-vacuum cubes: ", len(non_vacuum))
     print("Percentage of vacuum cubes: ",(float(len(vacuum))/(float(len(vacuum))+float(len(non_vacuum)))*100.))
     print("Percentage of non-vacuum cubes: ",(float(len(non_vacuum))/(float(len(vacuum))+float(len(non_vacuum)))*100.))
+    return len(vacuum), len(non_vacuum)
 #------------------------------------------------------------------------------
 
 def plot_active_plane(cube_size,cube_origin,tolerance=1E-4,input_file='LOCPOT'):
@@ -294,6 +295,7 @@ def plot_gulp_potential(lattice_vector,input_file='gulp.out',output_file='planar
     plt.savefig("gulp_macro.png")
     plt.show()
     plt.close()
+    return planar
 
 #------------------------------------------------------------------------------
 
@@ -355,6 +357,7 @@ def plot_on_site_potential(species,sample_cube,potential_file='LOCPOT',coordinat
     plt.ylabel('% of centres',fontsize = 22)
     plt.savefig('Potentials.png',dpi=300)
     plt.show()
+    return potentials_list
 #------------------------------------------------------------------------------
 
 def plot_planar_average(lattice_vector,input_file="LOCPOT",output_file="Planar.out"):
@@ -377,6 +380,7 @@ def plot_planar_average(lattice_vector,input_file="LOCPOT",output_file="Planar.o
     plt.savefig('Planar.png')
     plt.show()
     np.savetxt(output_file,planar)
+    return planar
 #------------------------------------------------------------------------------
 
 def plot_planar_cube(input_file,lattice_vector,output_file = 'planar.dat'):
@@ -492,6 +496,7 @@ def moving_cube(cube=[1,1,1],vector=[1,1,1],origin=[0,0,0],magnitude = 280,input
     plt.xlabel("$z (\AA)$")
     plt.ylabel("Potential (eV)")
     plt.savefig('moving_cube.png')
+    return cubes_potential
 #------------------------------------------------------------------------------
 def spherical_average(cube_size,cube_origin,input_file='LOCPOT'):
     from macrodensity.density_tools import read_vasp_density, matrix_2_abc, density_2_grid, volume_average
