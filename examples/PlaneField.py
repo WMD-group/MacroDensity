@@ -1,4 +1,9 @@
 #! /usr/bin/env python
+
+'''
+WARNING: THIS TOOL IS STILL UNDER DEVELOPMENT. KNOWN BUGS ARE PRESENT.
+'''
+
 import macrodensity as md
 import math
 import numpy as np
@@ -12,10 +17,7 @@ c_point = [0, 1, 0]
 
 input_file = 'LOCPOT.slab'
 
-#------------------------------------------------------------------
-# Get the potential
-# This section should not be altered
-#------------------------------------------------------------------
+# No need to alter anything after here
 vasp_pot, NGX, NGY, NGZ, Lattice = md.read_vasp_density(input_file)
 vector_a,vector_b,vector_c,av,bv,cv = md.matrix_2_abc(Lattice)
 resolution_x = vector_a/NGX
@@ -30,7 +32,7 @@ grad_x,grad_y,grad_z = np.gradient(grid_pot[:,:,:],resolution_x,resolution_y,res
 
 ##------------------------------------------------------------------
 ## Get the equation for the plane
-## This is the section for plotting on a user defined plane; 
+## This is the section for plotting on a user defined plane;
 ## uncomment commands if this is the option that you want.
 ##------------------------------------------------------------------
 
@@ -51,4 +53,3 @@ plt.contour(xx,yy,grd,1)
 plt.show()
 ##------------------------------------------------------------------
 ##------------------------------------------------------------------
-

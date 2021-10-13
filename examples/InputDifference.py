@@ -5,7 +5,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-
+'''
+WARNING: THIS TOOL IS STILL UNDER DEVELOPMENT. KNOWN BUGS ARE PRESENT.
+'''
 
 
 #------------------------------------------------------------------
@@ -84,7 +86,6 @@ plt.show()
 difference = md.subs_potentials(slab_trans,bulk_vacuum,tol=0.01)
 difference = md.spline_generate(difference)
 plt.plot(difference[:,0],difference[:,1])
-    
+
 #plt.plot(difference[:,0],difference[:,1])
 plt.show()
-

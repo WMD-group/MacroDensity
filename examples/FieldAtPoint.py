@@ -1,7 +1,11 @@
 #! /usr/bin/env python
 
+'''
+WARNING: THIS TOOL IS STILL UNDER DEVELOPMENT. KNOWN BUGS ARE PRESENT.
+'''
+
 # FieldAtPoint.py - try to calculate the electric field (grad of potential) at arbitrary point
-# Forked form PlaneField.py - JMF 2016-01-25 
+# Forked form PlaneField.py - JMF 2016-01-25
 
 import macrodensity as md
 import math
@@ -39,7 +43,7 @@ grad_x,grad_y,grad_z = np.gradient(grid_pot[:,:,:],resolution_x,resolution_y,res
 
 ##------------------------------------------------------------------
 ## Get the equation for the plane
-## This is the section for plotting on a user defined plane; 
+## This is the section for plotting on a user defined plane;
 ## uncomment commands if this is the option that you want.
 ##------------------------------------------------------------------
 
@@ -60,7 +64,7 @@ grad_mag = np.sqrt(np.add(X2,Y2,Z2))
 # This was my, non working, attempt to use the built in function.
 #grad_mag=np.linalg.norm( [grad_y,grad_y,grad_z], axis=3)
 
-## This function in Macrodensity averages Efield ACROSS Z for Slab calculations 
+## This function in Macrodensity averages Efield ACROSS Z for Slab calculations
 #xx,yy,grd =  pot.create_plotting_mesh(NGX,NGY,NGZ,plane_coeff,grad_mag) #AVG over full volume
 
 # Here we construct the same xx,yy,grd variables with a SLICE, forming a plane in XY at particular ZSLICE
@@ -127,4 +131,3 @@ V_deriv=fftpack.diff(grid_pot[:,:,:]) #V_FFT,order=1)
 
 # Standard catch all to drop into ipython at end of script for variable inspection etc.
 from IPython import embed; embed() # End on an interactive ipython console to inspect variables etc.
-

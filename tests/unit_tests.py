@@ -22,7 +22,7 @@ class TestDensityReadingFunctions(unittest.TestCase):
     def test_read_vasp(self):
         '''Test the function for reading CHGCAR/LOCPOT'''
         chgcar = pkg_resources.resource_filename(
-                    __name__, path_join('..', 'CHGCAR.test'))
+                    __name__, path_join('../tests', 'CHGCAR.test'))
         charge, ngx, ngy, ngz, lattice = md.read_vasp_density(chgcar,
                                                               quiet=True)
         for v, t in ((charge, np.ndarray),
@@ -39,7 +39,7 @@ class TestDensityReadingFunctions(unittest.TestCase):
     def test_read_vasp_parchg(self):
         '''Test the function for reading CHGCAR/LOCPOT'''
         parchg = pkg_resources.resource_filename(
-                    __name__, path_join('..', 'PARCHG.test'))
+                    __name__, path_join('../tests', 'PARCHG.test'))
         spin, ngx, ngy, ngz, lattice = md.read_vasp_parchg(parchg,
                                                               quiet=True)
         for v, t in ((spin, np.ndarray),
@@ -72,7 +72,7 @@ class TestDensityReadingFunctions(unittest.TestCase):
     def test_read_gulp(self):
         '''Test the function for reading GULP output'''
         gulpcar = pkg_resources.resource_filename(
-                    __name__, path_join('../examples', 'gulp.out'))
+                    __name__, path_join('../tests', 'gulp.out'))
         potential, ngx, ngy, ngz, lattice = md.read_gulp_potential(gulpcar)
         for v, t in ((potential, np.ndarray),
                      (ngx, int),
@@ -88,7 +88,7 @@ class TestDensityReadingFunctions(unittest.TestCase):
     def test_density_2_grid(self):
         '''Test the function for projecting the potential onto a grid'''
         chgcar = pkg_resources.resource_filename(
-                    __name__, path_join('..', 'CHGCAR.test'))
+                    __name__, path_join('../tests', 'CHGCAR.test'))
         charge, ngx, ngy, ngz, lattice = md.read_vasp_density(chgcar,
                                                               quiet=True)
         grid_pot, electrons = md.density_2_grid(charge, ngx, ngy, ngz)
@@ -109,7 +109,7 @@ class TestOtherReadingFunctions(unittest.TestCase):
     def test_read_vasp_classic(self):
         '''Test the function for reading CHGCAR/LOCPOT'''
         chgcar = pkg_resources.resource_filename(
-                    __name__, path_join('..', 'CHGCAR.test'))
+                    __name__, path_join('../tests', 'CHGCAR.test'))
         (charge, ngx,
          ngy, ngz, lattice) = md.read_vasp_density_classic(chgcar)
         for v, t in ((charge, np.ndarray),
@@ -167,7 +167,7 @@ class TestAveragingFunctions(unittest.TestCase):
         '''Test the ipr function'''
 
         parchg = pkg_resources.resource_filename(
-                    __name__, path_join('..', 'CHGCAR.test'))
+                    __name__, path_join('../tests', 'CHGCAR.test'))
 
         dens, ngx, ngy, ngz, lattice = md.read_vasp_density(parchg,
                                                            quiet=True)
@@ -243,78 +243,84 @@ class TestConvenienceFunctions(unittest.TestCase):
     def test_bulk_interstitial_alignment(self):
         '''Tests the bulk_interstitial_alignment function'''
         Locpot = pkg_resources.resource_filename(
-                    __name__, path_join('..', 'LOCPOT.test'))
+                    __name__, path_join('../tests', 'LOCPOT.test'))
         Outcar = pkg_resources.resource_filename(
-                    __name__, path_join('..', 'OUTCAR.test'))
+                    __name__, path_join('../tests', 'OUTCAR.test'))
         out = md.bulk_interstitial_alignment(interstices=([0.5,0.5,0.5],[0.25,0.25,0.25]),outcar=Outcar,locpot=Locpot,cube_size=[2,2,2])
         self.assertEqual(out,(-3.24, -1.72, [1.8665165271901357e-05, 6.277207757909537e-06]))
 
     def test_moving_cube(self):
         '''Tests the moving_cube function'''
         Locpot = pkg_resources.resource_filename(
-                    __name__, path_join('..', 'LOCPOT.test'))
+                    __name__, path_join('../tests', 'LOCPOT.test'))
         out = md.moving_cube(cube=[1,1,1],vector=[1,1,1],origin=[0.17,0.17,0.17],magnitude=16,input_file=Locpot)
         self.assertAlmostEqual(out[0],3.99827598)
         self.assertAlmostEqual(out[10],6.53774638)
         self.assertAlmostEqual(out[-1],3.97265811)
+        self.addCleanup(os.remove, 'MovingCube.csv')
+        self.addCleanup(os.remove, 'MovingCube.png')
 
     def test_spherical_average(self):
         '''Tests the spherical_average function'''
         Locpot = pkg_resources.resource_filename(
-                    __name__, path_join('..', 'LOCPOT.test'))
+                    __name__, path_join('../tests', 'LOCPOT.test'))
         out = md.spherical_average(cube_size=[2,2,2],cube_origin=[0.5,0.5,0.5],input_file=Locpot)
         self.assertEqual(out,(6.5579496029375, 1.8665165271901357e-05))
 
     def test_plot_planar_average(self):
         '''Tests the plot_planar_average function'''
         Locpot = pkg_resources.resource_filename(
-                    __name__, path_join('..', 'LOCPOT.test'))
-        out = md.plot_planar_average(lattice_vector=5.41,input_file=Locpot,output_file="Planar.out")
-        self.assertAlmostEqual(out[0],0.14555565)
-        self.assertAlmostEqual(out[10],4.61454537)
-        self.assertAlmostEqual(out[-1],-0.87290696)
+                    __name__, path_join('../tests', 'LOCPOT.test'))
+        out = md.plot_planar_average(lattice_vector=5.41,input_file=Locpot)
+        self.assertAlmostEqual(out[0][0],0.14555565)
+        self.assertAlmostEqual(out[0][10],4.61454537)
+        self.assertAlmostEqual(out[0][-1],-0.87290696)
+        self.addCleanup(os.remove, 'PlanarAverage.csv')
+        self.addCleanup(os.remove, 'PlanarAverage.png')
 
     def test_plot_on_site_potential(self):
         '''Tests the plot_on_site_potential function'''
         Locpot = pkg_resources.resource_filename(
-                    __name__, path_join('..', 'LOCPOT.test'))
+                    __name__, path_join('../tests', 'LOCPOT.test'))
         Poscar = pkg_resources.resource_filename(
-                    __name__, path_join('..', 'POSCAR.test'))
+                    __name__, path_join('../tests', 'POSCAR.test'))
         out = md.plot_on_site_potential(species='Zn',sample_cube=[5,5,5],potential_file=Locpot,coordinate_file=Poscar)
         self.assertEqual(out,[-6.545211257074241])
+        self.addCleanup(os.remove, 'OnSitePotential.csv')
+        self.addCleanup(os.remove, 'OnSitePotential.png')
 
     def test_plot_gulp_potential(self):
         '''Tests the plot_gulp_potential function'''
         gulpcar = pkg_resources.resource_filename(
-                    __name__, path_join('../examples', 'gulp.out'))
-        out = md.plot_gulp_potential(lattice_vector=3.0,input_file=gulpcar,output_file='planar.dat',new_resolution = 3000)
-        self.assertEqual(out[0],-23.16678352)
-        self.assertAlmostEqual(out[10],-1.59508152)
-        self.assertEqual(out[-1],-23.16678352)
+                    __name__, path_join('../tests', 'gulp.out'))
+        out = md.plot_gulp_potential(lattice_vector=3.0,input_file=gulpcar)
+        self.assertEqual(out[0][0],-23.16678352)
+        self.assertAlmostEqual(out[0][10],-1.59508152)
+        self.assertEqual(out[0][-1],-23.16678352)
+        self.addCleanup(os.remove, 'GulpPotential.csv')
+        self.addCleanup(os.remove, 'GulpPotential.png')
 
     def test_plot_active_space(self):
         '''Tests the plot_active_space function'''
         Locpot = pkg_resources.resource_filename(
-                    __name__, path_join('..', 'LOCPOT.test'))
+                    __name__, path_join('../tests', 'LOCPOT.test'))
         out = md.plot_active_space(cube_size=[2,2,2],cube_origin=[0.5,0.5,0.5],tolerance=1E-4,input_file=Locpot)
         self.assertEqual(out,(17, 4079))
 
-    # def test_plot_planar_cube(self):
-    #     '''Tests the plot_planar_cube function'''
-    #     out = md.plot_planar_cube()
-    #     self.assertEqual(out,)
-    # def test_plot_field_at_point(self):
-    #     '''Tests the plot_field_at_point function'''
-    #     out = md.plot_field_at_point([0, 0, 0],[0, 0, 1],[0, 1, 0])
-    #     self.assertEqual(out,)
-    # def test_plot_plane_field(self):
-    #     '''Tests the plot_plane_field function'''
-    #     out = md.plot_plane_field(a_point=[0, 0, 0],b_point=[1, 0, 1],c_point=[0, 0, 1],input_file='LOCPOT')
-    #     self.assertEqual(out,)
-    # def test_plot_active_plane(self):
-    #     '''Tests the plot_active_plane function'''
-    #     out = md.plot_active_plane()
-    #     self.assertEqual(out,)
+    def test_plot_planar_cube(self):
+        '''Tests the plot_planar_cube function'''
+        Density = pkg_resources.resource_filename(
+                    __name__, path_join('../tests', 'cube_001_spin_density.cube'))
+        Potential = pkg_resources.resource_filename(
+                    __name__, path_join('../tests', 'cube_002_hartree_potential.cube'))
+        outden = md.plot_planar_cube(input_file=Density,lattice_vector=4.75)
+        outpot = md.plot_planar_cube(input_file=Potential,lattice_vector=4.75)
+        self.assertEqual(outden[0][0],0.0200083723051778)
+        self.assertEqual(outden[0][-1],0.019841719274268536)
+        self.assertEqual(outpot[0][0],-0.562656062923066)
+        self.assertEqual(outpot[0][-1],-0.581089179258661)
+        self.addCleanup(os.remove, 'PlanarCube.csv')
+        self.addCleanup(os.remove, 'PlanarCube.png')
 
 if __name__ == '__main__':
     unittest.main()

@@ -6,7 +6,9 @@ import matplotlib.pyplot as plt
 import csv
 from itertools import izip
 
-
+'''
+WARNING: THIS TOOL IS STILL UNDER DEVELOPMENT. KNOWN BUGS ARE PRESENT.
+'''
 
 
 #------------------------------------------------------------------
@@ -27,7 +29,7 @@ grad_x,grad_y,grad_z = np.gradient(grid_pot[:,:,:],resolution_x,resolution_y,res
 
 ##------------------------------------------------------------------
 ## Get the equation for the plane
-## This is the section for plotting on a user defined plane; 
+## This is the section for plotting on a user defined plane;
 ## uncomment commands if this is the option that you want.
 ##------------------------------------------------------------------
 ## Input section (define the plane with 3 points)
