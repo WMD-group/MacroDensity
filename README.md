@@ -13,7 +13,7 @@ A set of python scripts to read in a electrostatic potentials and electron densi
 
 ------------
 
-When assessing the potential utility of novel semiconducting devices (pn-juntions, heterostructures, surface terminations) through simulation, an understanding of the variation in the electrostatic potential and electron density across the system is key. However, extraction and useful presentation of this data from the raw output of the simulation (i.e. a vasp LOCPOT or CHGCAR) can prove cumbersome and often requires the use of visualisation software followed by manual data extraction. This can result in bottlenecks in high throughput screening projects, where the same data extraction procedure is repeatedly applied to large databases of candidate structures.
+When assessing the potential utility of novel semiconducting devices (pn-juntions, heterostructures, surface terminations) through simulation, an understanding of the variation in the electrostatic potential and electron density across the system is key. However, extraction and useful presentation of this data from the raw output of the simulation (i.e. a vasp [LOCPOT](https://www.vasp.at/wiki/index.php/LOCPOT) or CHGCAR) can prove cumbersome and often requires the use of visualisation software followed by manual data extraction. This can result in bottlenecks in high throughput screening projects, where the same data extraction procedure is repeatedly applied to large databases of candidate structures.
 
 To address this, the Macrodensity package has been developed as a VASP, FHI-AIMS and GULP postprocessing tool. The package contains functions that enable the user to format the data from the VASP LOCPOT and CHGCAR files, the FHI-AIMS *.cube file, and GULP *.out file into physically meaningful quantities, which can then be plotted for user interpretation. So far, the code has been used to rapidly generate data for these publications: [1](http://pubs.acs.org/doi/abs/10.1021/ja4110073),[2](https://aip.scitation.org/doi/10.1063/5.0044866)
 
@@ -48,42 +48,36 @@ pip install git+git://github.com/WMD-group/MacroDensity.git
 
 ------------
 
-Example scripts are given in the [examples](https://github.com/WMD-group/MacroDensity/tree/V3.1.0/examples) folder.
+The most widely used high level tools of macrodensity can be used as built-in convenience functions and are listed below. For finer input-control using macrodensity's lower level functions, example scripts are given in the [examples](https://github.com/WMD-group/MacroDensity/tree/V3.1.0/examples) folder and can be copied, modified then run via `python <script.py>`. Example input files can be copied from the [tests](https://github.com/WMD-group/MacroDensity/tree/V3.1.0/tests) folder.
 
-Tutorials in the form of .ipynb notebooks are given in the [tutorials](https://github.com/WMD-group/MacroDensity/tree/V3.1.0/tutorials) folder.
+Tutorials in the form of `.ipynb` notebooks are also given in the [tutorials](https://github.com/WMD-group/MacroDensity/tree/V3.1.0/tutorials) folder.
 
 ### Planar Average
 
-This example is for plotting the planar average of a potential along a vector (here it is z).
-The only variables which need to be set are in the first three lines. Note `LOCPOT.slab` file is just a regular [LOCPOT](https://www.vasp.at/wiki/index.php/LOCPOT) grid file.
+This example is for plotting the planar average and macroscopic average (as defined in [Jackson's Electrodynamics](https://archive.org/details/ClassicalElectrodynamics)) of a potential along a vector. The vector is z by default, edit [examples/PlanarAverage.py](https://github.com/WMD-group/MacroDensity/tree/V3.1.0/examples/PlanarAverage.py) to change the vector).
+
+
+The function can be run via:
 
 ```
-input_file = 'LOCPOT.slab'
-lattice_vector = 4.75
-output_file = 'planar.dat'
-```
+## Inputs:
+## lattice_vector = Repeating unit over which the potential is averaged to get the macroscopic average (Angstroms)
+## input_file = input filename to be read (DEFAULT = 'LOCPOT')
+## output file = name of output data file (DEFAULT = 'PlanarAverage.csv')
+## img_file = name of output image file (DEFAULT = 'PlanarAverage.png')
 
-The variable lattice vector refers to the lattice vector of the bulk crystal structure in the direction of the plotting.
-It is used to get the macroscopic average, as defined in [Jackson's Electrodynamics](https://archive.org/details/ClassicalElectrodynamics). See the heterojunction tutorial for an interactive description of this.
+## Outputs:
+## planar average and macroscopic average
+## .csv data file containing: planar average and macroscopic average
+## image file plotting .csv data
 
-For the best overview of what the lattice_parameter setting should be, and how macroscopic averaging in general works, this paper from [Baldereschi](http://iopscience.iop.org/article/10.1088/0022-3727/31/11/002/meta) and the crew can't be beaten.
-
-The code is executed as:
-
-```
-python PlanarAverage.py
-```
-
-or alternatively, imported into another script via:
-
-```
 import macrodensity as md
-md.plot_planar_average(lattice_vector=4.75,input_file="LOCPOT.slab",output_file="planar.dat")
+md.plot_planar_average(lattice_vector=4.75, input_file='LOCPOT', output file='PlanarAverage.csv', img_file='PlanarAverage.png')
 ```
 
-This results in a plot of the planar average and an output of the potential called `planar.dat`. An example of [PlanarAverage.py](https://github.com/WMD-group/MacroDensity/blob/V3.1.0/examples/PlanarAverage.py) usage is given in [/tutorials/HeteroJunction/HeteroJunction.ipynb](https://github.com/WMD-group/MacroDensity/blob/V3.1.0/tutorials/HeteroJunction/HeteroJunction.ipynb). For a ZnO/ZnS heterojunction:
+or by copying, modifying and running [PlanarAverage.py](https://github.com/WMD-group/MacroDensity/blob/V3.1.0/examples/PlanarAverage.py) separately.
 
-![Heterojunction](/tutorials/HeteroJunction/HJ.png)
+For the best overview of what the lattice_vector setting should be, and how macroscopic averaging in general works, this paper from [Baldereschi](http://iopscience.iop.org/article/10.1088/0022-3727/31/11/002/meta) and the crew can't be beaten.
 
 The output can be plotted as so:
 
@@ -91,43 +85,68 @@ The output can be plotted as so:
 
 Further analysis of the band offset, deformation potential and volume change is outlined in [/tutorials/HeteroJunction/HeteroJunction.ipynb](https://github.com/WMD-group/MacroDensity/blob/V3.1.0/tutorials/HeteroJunction/HeteroJunction.ipynb). For use in a slab-model style calculation for the Ionisation Potential, see [/tutorials/Slab/SlabCalculation.ipynb](https://github.com/WMD-group/MacroDensity/blob/V3.1.0/tutorials/Slab/SlabCalculation.ipynb).
 
-Additionally, the planar average can be obtained and interpolated from [GULP](http://gulp.curtin.edu.au/gulp/) a `gulp.out` file:
+Additionally, the planar average can be obtained and interpolated from [GULP](http://gulp.curtin.edu.au/gulp/) outputs:
 
 ```
+## Inputs:
+## lattice_vector = 3.0
+## input_file = Name of GULP input file (DEFAULT = 'gulp.out')
+## output_file = Name of output data file (DEFAULT = 'GulpPotential.csv')
+## img_file = Name of output image file (DEFAULT = 'GulpPotential.png')
+## new_resolution = Total number of points for the interpolated planar avarage (DEFAULT = 3000)
+
+## Outputs:
+## planar average, macroscopic average, interpolated planar average
+## .csv data file containing: planar average, macroscopic average, interpolated planar average
+## image file plotting .csv data
+
 import macrodensity as md
-md.plot_gulp_potential(lattice_vector=3.0,input_file='gulp.out',output_file='planar.dat',new_resolution = 3000)
+md.plot_gulp_potential(lattice_vector=3.0, input_file='gulp.out', new_resolution = 3000)
 ```
 
-The `new_resolution` sets the resolution for the interpolated planar average. The plots of the planar, macroscopic and interpolated planar averages are returned as `gulp_planar.png`, `gulp_macro.png` and `gulp_int_pot.png` respectively.
+as well as `.cube` files:
+
+```
+## Inputs:
+## input_file = input filename to be read (must be in .cube format)
+## lattice_vector = Repeating unit over which the potential is averaged to get the macroscopic average (Angstroms)
+## output file = name of output data file (DEFAULT = 'PlanarCube.csv')
+## img_file = name of output image file (DEFAULT = 'PlanarCube.png')
+
+## Outputs:
+## planar average and macroscopic average
+## .csv data file containing: planar average and macroscopic average
+## image file plotting .csv data
+
+import macrodensity as md
+md.plot_planar_cube(input_file='cube_file.cube', lattice_vector=4.75, output_file='PlanarCube.csv', img_file='PlanarCube.png')
+```
+
+See [GulpPotential.py](https://github.com/WMD-group/MacroDensity/blob/V3.1.0/examples/GulpPotential.py) and [PlanarCube.py](https://github.com/WMD-group/MacroDensity/blob/V3.1.0/examples/PlanarCube.py)
 
 ------------
 
 ### Spherical Average
 
-This example is for plotting the average potential inside a sphere of given radius.
-It is the method used in our 2014 study of metal-organic frameworks in [JACS](http://pubs.acs.org/doi/abs/10.1021/ja4110073).
+This example is for plotting the average potential inside a sphere of given radius. It is the method used in our 2014 study of metal-organic frameworks in [JACS](http://pubs.acs.org/doi/abs/10.1021/ja4110073).
 
-The lines which need to be edited for this are given below.  Note `LOCPOT.MiL` is just a regular [LOCPOT](https://www.vasp.at/wiki/index.php/LOCPOT) file that has been renamed.
-
-```
-input_file = 'LOCPOT.MiL'
-cube_size = [2,2,2]    # This size is in units of mesh points
-## origin defines the bottom left point of the cube the "0,0,0" point in fractional coordinates
-cube_origin = [0,0,0]
-```
-
-To run the code simply type:
+The function can be run via:
 
 ```
-python SphericalAverage.py
-```
+## Inputs:
+## cube_size = size of the cube in units of FFT mesh points (NGX/Y/Z)
+## cube_origin = real-space positioning of the bottom left point of the sampling cube (fractional coordinates of the unit cell).
+## input_file = VASP LOCPOT input filename to be read (DEFAULT = 'LOCPOT')
+## print_output = Print terminal output (DEFAULT = True)
 
-or alternatively, imported into another script via:
+## Outputs:
+## cube_potential, cube_variance (Terminal)
 
-```
 import macrodensity as md
 md.spherical_average(cube_size=[2,2,2],cube_origin=[0.5,0.5,0.5],input_file='LOCPOT')
 ```
+
+or by copying, modifying and running [SphericalAverage.py](https://github.com/WMD-group/MacroDensity/blob/V3.1.0/examples/SphericalAverage.py) separately.
 
 This results in an output of the average potential in the volume, and the variance of the potential:
 
@@ -140,7 +159,7 @@ Potential            Variance
 7.145660229     2.38371017456777e-05
 ```
 
-If the variance is too high it means that you are not sampling a plateau in the potential. Typically values below 10e-4 are acceptable, but you can also use [MovingCube.py](https://github.com/WMD-group/MacroDensity/blob/V3.1.0/examples/MovingCube.py) to verify this. Further examples can be found in [/tutorials/Porous/Porous.ipynb](https://github.com/WMD-group/MacroDensity/tree/master/tutorials/Porous)
+If the variance is too high it means that you are not sampling a plateau in the potential. Typically values below 10e-4 are acceptable, but you can also use [MovingCube.py](https://github.com/WMD-group/MacroDensity/blob/V3.1.0/examples/MovingCube.py) to verify this (See below). Further examples can be found in [/tutorials/Porous/Porous.ipynb](https://github.com/WMD-group/MacroDensity/tree/master/tutorials/Porous)
 
 ------------
 
@@ -148,20 +167,30 @@ If the variance is too high it means that you are not sampling a plateau in the 
 
 This example takes the same approach as the spherical average above, but moves the sample volume
 along a defined vector. This allows you to create a 1D profile of the travelling average of the
-cube. As above, all that has to be defined are the `cube_size`, `cube_origin` and `input_file`
-parameters.
+cube. 
 
-To run the code simply type:
-
-```
-python MovingCube.py
-```
-or alternatively, imported into another script via:
+The function can be run via:
 
 ```
+## Inputs:
+## cube = size of the cube in units of FFT mesh points (NGX/Y/Z)
+## origin = real-space positioning of the bottom left point of the sampling cube (fractional coordinates of the unit cell).
+## vector = vector across which the unit cell is traversed (hkl convention)
+## magnitude = length travelled along the selected vector in units of FFT mesh points (NGX/Y/Z)
+## input_file = VASP LOCPOT input filename to be read (DEFAULT = 'LOCPOT')
+## output file = name of output data file (DEFAULT = 'MovingCube.csv')
+## img_file = name of output image file (DEFAULT = 'MovingCube.png')
+
+## Outputs:
+## averaged electrostatic potential for the set cube size (list)
+## .csv file containing the above data
+## .png file presenting the above data
+
 import macrodensity as md
 md.moving_cube(cube=[1,1,1],vector=[1,1,1],origin=[0.17,0.17,0.17],magnitude=85,input_file='LOCPOT')
 ```
+
+or by copying, modifying and running [MovingCube.py](https://github.com/WMD-group/MacroDensity/blob/V3.1.0/examples/MovingCube.py) separately.
 
 The output for a ZnS (100x100x100 FFT) unit cell is given below. The electrostatic potential at the interstices (0.5 Ang and 2.1 Ang) can be extracted using [SphericalAverage.py](https://github.com/WMD-group/MacroDensity/blob/master/examples/SphericalAverage.py) or [bulk_interstital_alignment](https://github.com/WMD-group/MacroDensity/blob/1bc91530d2badbfbf1843fe614ca379ef31a122c/macrodensity/alpha_tools.py#L15).
 
@@ -173,7 +202,18 @@ The output for a ZnS (100x100x100 FFT) unit cell is given below. The electrostat
 
 A convenience function that combines multiple instances of SphericalAverage.py, averages them and prints the Valence Band and Conduction Band positions relative ot this average. This function is based on an analysis akin to that of [Frensley and Kroemer's](https://avs.scitation.org/doi/pdf/10.1116/1.568995) method of band alignment. An example of its use for the ZnS (Zinc Blende) interstices is given below:
 
+The function can be run via:
+
 ```
+## Inputs:
+## intersices = Positions of the pores/interstices ([[interstice1],[interstice2],...])
+## outcar = VASP OUTCAR input filename (DEFAULT = OUTCAR)
+## locpot = VASP LOCPOT nput filename (DEFAULT = LOCPOT)
+## cube_size = a cube defined by LOCPOT FFT mesh points (DEFAULT = [2,2,2])
+
+## Outputs:
+## Aligned Valence Band, Aligned Conduction Band, Interstitial variances
+
 import macrodensity as md
 md.bulk_interstitial_alignment(interstices=([0.5,0.5,0.5],[0.25,0.25,0.25]),outcar="OUTCAR",locpot="LOCPOT",cube_size=[2,2,2])
 ```
@@ -198,51 +238,26 @@ Further data gathered on Zinc Blende type structures using this function can be 
 
 This example is for calculating the potential at the sites of a certain atomic nucleus, for example the O nuclei in an oxide. This on-site potential calculated this way is equivalent to a Madelung potential and can be useful for predicting electron energy levels (see [this publication](http://pubs.acs.org/doi/abs/10.1021/ar400115x) for details).
 
-The input lines to edit are :
+The function can be run via:
 
 ```
-potential_file = 'LOCPOT' # The file with VASP output for potential
-coordinate_file = 'POSCAR' # The coordinates file NOTE NOTE This must be in vasp 4 format
-species = "O"  # The species whose on-site potential you are interested in
-sample_cube = [5,5,5] # The size of the sampling cube in units of mesh points (NGX/Y/Z)
-```
+## Inputs:
+## potential_file = The file with VASP output for potential (DEFAULT = 'LOCPOT')
+## coordinate_file = The coordinates file (DEFAULT = 'POSCAR')
+## species = The species whose on-site potential you are interested in (string)
+## sample_cube = The size of the sampling cube in units of mesh points (NGX/Y/Z)
+## output file = name of output data file (DEFAULT = 'OnSitePotential.csv')
+## img_file = name of output image file (DEFAULT = 'OnSitePotential.png')
 
-The cube parameter determines the size of the sample area, the units are mesh points, the magnitude of the mesh point is calculated by dividing the appropriate lattice vector by the number of points (NGX/Y/Z in [OUTCAR](https://www.vasp.at/wiki/index.php/OUTCAR)).
+## Outputs:
+## .png histogram output
+## .csv data output
 
-To run the code simply type:
-
-```
-python OnSitePotential.py
-```
-or alternatively, imported into another script via:
-
-```
 import macrodensity as md
 md.plot_on_site_potential(species='O',sample_cube=[5,5,5],potential_file='LOCPOT',coordinate_file='POSCAR')
 ```
 
-The result is a histogram plot `Potentials.png` using Matplotlib. If you prefer data output simply edit the final lines of the script.
-
-------------
-
-### Plane Field
-
-This plots the contour lines of the isosurface of an electric field in an arbitrary plane (defined by points a,b and c) as defined in the preamble part of the file.
-
-```
-a_point = [0, 0, 0]
-b_point = [1, 0, 1]
-c_point = [0, 1, 0]
-
-input_file = 'LOCPOT.slab'
-```
-
-The execution is simply:
-
-```
-python PlaneField.py
-```
-This creates a contour plot of the field lines.
+The cube parameter determines the size of the sample area, the units are mesh points, the magnitude of the mesh point is calculated by dividing the appropriate lattice vector by the number of points (NGX/Y/Z in [OUTCAR](https://www.vasp.at/wiki/index.php/OUTCAR)).
 
 ------------
 
@@ -250,9 +265,19 @@ This creates a contour plot of the field lines.
 
 This checks for plateaus in the electrostatic potential within a volume for a set `tolerance` and prints the result. `cube_size` defines the size of the cube in units of mesh points (NGX/Y/Z). `cube_origin` defines the bottom left point of the cube the "0,0,0" point in fractional coordinates.
 
-The execution is:
+The function can be run via:
 
 ```
+## Inputs:
+## cube_size = size of the cube in units of FFT mesh points (NGX/Y/Z)
+## cube_origin = real-space positioning of the bottom left point of the sampling cube (fractional coordinates of the unit cell).
+## tolerance = threshold below which the electrostatic potential is considered to be plateaued (DEFAULT = 1E-4).
+## input_file = VASP LOCPOT input filename to be read (DEFAULT = 'LOCPOT')
+## print_output = Print terminal output (DEFAULT = True)
+
+## Outputs:
+## Percentage of vaccum vs non-vacuum cubes
+
 import macrodensity as md
 md.plot_active_space(cube_size=[2,2,2],cube_origin=[0.5,0.5,0.5],tolerance=1E-4,input_file='LOCPOT')
 ```
