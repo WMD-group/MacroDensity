@@ -282,6 +282,18 @@ import macrodensity as md
 md.plot_active_space(cube_size=[2,2,2],cube_origin=[0.5,0.5,0.5],tolerance=1E-4,input_file='LOCPOT')
 ```
 
+Which will give a terminal output tht looks like this:
+
+```
+Reading header information...
+Reading 3D data using Pandas...
+Average of the potential =  -4.0478731477833207e-13
+Number of vacuum cubes:  17
+Number of non-vacuum cubes:  4079
+Percentage of vacuum cubes:  0.4150390625
+Percentage of non-vacuum cubes:  99.5849609375
+```
+
 ------------
 
 ### Plotting
