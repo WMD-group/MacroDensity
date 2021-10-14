@@ -113,7 +113,7 @@ def plot_gulp_potential(lattice_vector,input_file='gulp.out',output_file='GulpPo
     Planar and macroscopic average with interpolation scheme for GULP outputs
 
     Inputs:
-    lattice_vector = 3.0
+    lattice_vector = Repeating unit over which the potential is averaged to get the macroscopic average (Angstroms)
     input_file = Name of GULP input file (DEFAULT = 'gulp.out')
     output_file = Name of output data file (DEFAULT = 'GulpPotential.csv')
     img_file = Name of output image file (DEFAULT = 'GulpPotential.png')
@@ -243,14 +243,14 @@ def plot_planar_average(lattice_vector,input_file='LOCPOT',output_file='PlanarAv
     Planar and macroscopic average calculation
 
     Inputs:
-    input_file = input filename to be read (must be in .cube format)
+    input_file = input filename to be read
     lattice_vector = Repeating unit over which the potential is averaged to get the macroscopic average (Angstroms)
     output file = name of output data file (DEFAULT = 'PlanarAverage.csv')
     img_file = name of output image file (DEFAULT = 'PlanarAverage.png')
 
     Outputs:
-    planar average, macroscopic average, interpolated planar average
-    .csv data file containing: planar average, macroscopic average, interpolated planar average
+    planar average and macroscopic average
+    .csv data file containing: planar average and macroscopic average
     image file plotting .csv data
     '''
     import numpy as np
@@ -298,8 +298,8 @@ def plot_planar_cube(input_file,lattice_vector,output_file='PlanarCube.csv',img_
     img_file = name of output image file (DEFAULT = 'PlanarCube.png')
 
     Outputs:
-    planar average, macroscopic average, interpolated planar average
-    .csv data file containing: planar average, macroscopic average, interpolated planar average
+    planar average and macroscopic average
+    .csv data file containing: planar average and macroscopic average 
     image file plotting .csv data
     '''
     import math
