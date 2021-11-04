@@ -71,11 +71,6 @@ bulk_trans = md.translate_grid(bulk_trans, 6.57,False,np.dot(Vector_B[1],elect_r
 slab_trans = md.translate_grid(slab, 6.5653,True,Vector_A[2])
 #potential_difference = md.diff_potentials(pot_slab_orig,bulk_extd,10,40,tol=0.04)
 
-#plt.plot(bulk[:,0],bulk[:,1])
-## PLOT THE POTENTIALS, THIS IS A CHECK THAT THEY HAVE ALIGNED CORRECTLY
-#plt.plot(bulk_trans[:,0],bulk_trans[:,1],)
-#plt.plot(slab_trans[:,0],slab_trans[:,1],)
-#plt.show()
 ##------------------------------------------------------------------
 ## SET THE CHARGE DENSITY TO ZERO OUTSIDE THE BULK
 bulk_vacuum = md.bulk_vac(bulk_trans, slab_trans)
