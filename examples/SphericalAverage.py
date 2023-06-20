@@ -1,38 +1,38 @@
 #! /usr/bin/env python
-import macrodensity as md
-import math
-import numpy as np
-import matplotlib.pyplot as plt
 
-input_file = 'LOCPOT.MiL'
-cube_size = [2,2,2]    # This size is in units of mesh points
-## origin defines the bottom left point of the cube the "0,0,0" point in fractional coordinates
-cube_origin = [0,0,0]
-# No need to alter anything after here
-#------------------------------------------------------------------
-# Get the potential
-# This section should not be altered
-#------------------------------------------------------------------
-vasp_pot, NGX, NGY, NGZ, Lattice = md.read_vasp_density(input_file)
-vector_a,vector_b,vector_c,av,bv,cv = md.matrix_2_abc(Lattice)
+"""
+Calculates the Spherical Average around a given point.
+
+Inputs:
+cube_size = size of the cube in units of FFT mesh points (NGX/Y/Z)
+cube_origin = real-space positioning of the bottom left point of the sampling cube (fractional coordinates of the unit cell).
+input_file = VASP LOCPOT input filename to be read
+
+Outputs:
+cube_potential, cube_variance (Terminal)
+"""
+from macrodensity.density_tools import read_vasp_density, matrix_2_abc, density_2_grid, volume_average
+
+## INPUT SECTION
+cube_size = [2,2,2]
+cube_origin = [0.5,0.5,0.5]
+input_file = 'LOCPOT')
+## END INPUT SECTION
+
+## GETTING POTENTIAL
+vasp_pot, NGX, NGY, NGZ, Lattice = read_vasp_density(input_file)
+vector_a,vector_b,vector_c,av,bv,cv = matrix_2_abc(Lattice)
 resolution_x = vector_a/NGX
 resolution_y = vector_b/NGY
 resolution_z = vector_c/NGZ
-grid_pot, electrons = md.density_2_grid(vasp_pot,NGX,NGY,NGZ)
-#------------------------------------------------------------------
+grid_pot, electrons = density_2_grid(vasp_pot,NGX,NGY,NGZ)
 
-##------------------------------------------------------------------
-# Getting the average potential in a single cube of arbitrary size
-##------------------------------------------------------------------
-## cube defines the size of the cube in units of mesh points (NGX/Y/Z)
 cube = cube_size
-## origin defines the bottom left point of the cube the "0,0,0" point in fractional coordinates
 origin = cube_origin
-## Uncomment the lines below to do the business
-volume_average, cube_var = md.volume_average(origin, cube, grid_pot, NGX, NGY, NGZ)
-print "Potential            Variance"
-print "--------------------------------"
-print volume_average,"   ", volume_var 
-##------------------------------------------------------------------
-##------------------------------------------------------------------
+travelled = [0,0,0]
+cube_pot, cube_var = volume_average(origin=cube_origin,cube=cube_size,grid=grid_pot,nx=NGX,ny=NGY,nz=NGZ,travelled=[0,0,0])
 
+## PRINTING
+print("Potential            Variance")
+print("--------------------------------")
+print(cube_pot,"   ", cube_var)

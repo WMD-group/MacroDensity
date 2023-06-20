@@ -3,10 +3,10 @@
 
 __author__ = "Keith T. Butler"
 __copyright__ = "Copyright Keith T. Butler (2013)"
-__version__ = "1.0"
-__maintainer__ = "Keith T. Butler"
+__version__ = "3.1.0"
+__maintainer__ = "Keith T. Butler, Liam Harnett-Caulfield"
 __email__ = "keith.butler@stfc.ac.uk"
-__date__ = "Jan 11 2019"
+__date__ = "14 Oct 2021"
 
 from setuptools import setup
 import os
@@ -22,11 +22,11 @@ def unit_tests():
 if __name__ == "__main__":
     setup(
         name='MacroDensity',
-        version='1.0',
+        version='3.1.0',
         description='Manipulation of electron density',
         long_description=open(os.path.join(module_dir, 'README.md')).read(),
         url='https://github.com/WMD-group/MacroDensity',
-        author='Keith T. Butler',
+        author='Keith T. Butler, Liam Harnett-Caulfiled',
         author_email='keith.butler@stfc.ac.uk',
         license='GNU General Public License (GPL) v3',
         packages=['macrodensity'],

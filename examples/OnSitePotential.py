@@ -1,42 +1,47 @@
 #! /usr/bin/env python
-import macrodensity as md
+
+'''
+Electrostatic potential at atomic sites
+
+Inputs:
+potential_file = VASP LOCPOT
+coordinate_file = The coordinates file NOTE This must be in vasp 4 format
+species = The species whose on-site potential you are interested in (string)
+sample_cube = The size of the sampling cube in units of mesh points (NGX/Y/Z)
+output file = name of output data file
+img_file = name of output image file
+
+Outputs:
+.png histogram output
+.csv data output
+'''
 import math
 import numpy as np
 import matplotlib.pyplot as plt
 import csv
-from itertools import izip
+import ase
+import pandas as pd
+from ase.io import write
+from ase.io import vasp
+from macrodensity.density_tools import read_vasp_density, matrix_2_abc, density_2_grid, numbers_2_grid, planar_average, macroscopic_average,volume_average
 
+## INPUT SECTION
+potential_file = 'LOCPOT')
+coordinate_file = 'POSCAR')
+species = "Zn"
+sample_cube = [5,5,5]
+output file = 'OnSitePotential.csv'
+img_file = 'OnSitePotential.png'
+## END INPUT SECTION
 
-potential_file = 'LOCPOT' # The file with VASP output for potential
-coordinate_file = 'POSCAR' # The coordinates file NOTE NOTE This must be in vasp 4 format 
-species = "O"  # The species whose on-site potential you are interested in 
-sample_cube = [5,5,5] # The size of the sampling cube in units of mesh points (NGX/Y/Z)
-
-# Nothing below here should require changing
-#------------------------------------------------------------------
-# Get the potential
-# This section should not be altered
-#------------------------------------------------------------------
-vasp_pot, NGX, NGY, NGZ, Lattice = md.read_vasp_density(potential_file)
-vector_a,vector_b,vector_c,av,bv,cv = md.matrix_2_abc(Lattice)
+## GETTING POTENTIALS
+vasp_pot, NGX, NGY, NGZ, Lattice = read_vasp_density(potential_file)
+vector_a,vector_b,vector_c,av,bv,cv = matrix_2_abc(Lattice)
 resolution_x = vector_a/NGX
 resolution_y = vector_b/NGY
 resolution_z = vector_c/NGZ
-grid_pot, electrons = md.density_2_grid(vasp_pot,NGX,NGY,NGZ)
-## Get the gradiens (Field), if required.
-## Comment out if not required, due to compuational expense.
+grid_pot, electrons = density_2_grid(vasp_pot,NGX,NGY,NGZ)
 grad_x,grad_y,grad_z = np.gradient(grid_pot[:,:,:],resolution_x,resolution_y,resolution_z)
-#------------------------------------------------------------------
-
-##------------------------------------------------------------------
-## Getting the potentials for a group of atoms, in this case the Os
-## NOTE THIS REQUIRES ASE to be available https://wiki.fysik.dtu.dk/ase/index.html
-##------------------------------------------------------------------
-##------------------------------------------------------------------
-import ase                # Only add this if want to read in coordinates
-from ase.io import write  # Only add this if want to read in coordinates
-from ase.io import vasp   # Only add this if want to read in coordinates
-
 coords = ase.io.vasp.read_vasp(coordinate_file)
 scaled_coords = coords.get_scaled_positions()
 symbols = coords.get_chemical_symbols()
@@ -54,12 +59,19 @@ for coord in ox_coords:
     grid_position[0] = coord[0]
     grid_position[1] = coord[1]
     grid_position[2] = coord[2]
-    cube = sample_cube    # The size of the cube x,y,z in units of grid resolution.
+    cube = sample_cube
     origin = [grid_position[0]-2,grid_position[1]-2,grid_position[2]-1]
-    volume_average, cube_var = md.volume_average(origin, cube, grid_pot, NGX, NGY, NGZ)
-    potentials_list.append(volume_average)
-n, bins, patches = plt.hist(potentials_list, num_bins,normed=100, facecolor='#6400E1', alpha=0.5)
-plt.xlabel('Hartree potential (V)',fontsize = 22)
-plt.ylabel('% of centres',fontsize = 22)
-plt.savefig('Potentials.png',dpi=300)
-plt.show()
+    travelled = [0,0,0]
+    cube_potential, cube_var = volume_average(origin,cube,grid_pot,NGX,NGY,NGZ)
+    potentials_list.append(cube_potential)
+
+## PLOTTING
+n, bins, patches = plt.hist(potentials_list, num_bins, facecolor='#6400E1', alpha=0.5)
+plt.xlabel('Hartree potential (V)')
+plt.ylabel('% of centres')
+plt.savefig(img_file)
+
+## SAVING
+df = pd.DataFrame.from_dict({'Potential':potentials_list},orient='index')
+df = df.transpose()
+df.to_csv(output_file)

@@ -338,7 +338,7 @@ def read_vasp_density(FILE, use_pandas=None, quiet=False):
                              for i in range(int(math.ceil(NGX * NGY * NGZ / 5))))
             Potential = numpy.fromiter(chain.from_iterable(Potential), float)
 
-    _print_boom(quiet=quiet)
+    ##_print_boom(quiet=quiet)
     if not quiet:
         print("Average of the potential = ", numpy.average(Potential))
 
@@ -347,7 +347,7 @@ def read_vasp_density(FILE, use_pandas=None, quiet=False):
 
 def _read_partial_density(FILE, use_pandas, num_atoms, NGX, NGY, NGZ, spin=0):
     '''
-        use_pandas (bool): Use Pandas library for faster file reading. If set 
+        use_pandas (bool): Use Pandas library for faster file reading. If set
         to None, Pandas will be used when available.
         spin: the set of spin data to read, default 0 for ISPIN=1 calculation
     '''
@@ -414,7 +414,7 @@ def read_vasp_parchg(FILE, use_pandas=None, quiet=False, spin=False):
         FILE (str): Path to parchg file
         use_pandas (bool): Use Pandas library for faster file reading. If set
             to None, Pandas will be used when available.
-        spin(bool): is the data spin polarised? 
+        spin(bool): is the data spin polarised?
 
     Returns:
         density (array), NGX (int), NGY (int), NGZ (int), lattice (array)
@@ -448,7 +448,7 @@ def read_vasp_parchg(FILE, use_pandas=None, quiet=False, spin=False):
         _ = f.readline()
 
         NGX, NGY, NGZ = [int(x) for x in f.readline().split()]
- 
+
         if not spin:
             density = _read_partial_density(FILE, use_pandas, num_atoms, NGX, NGY, NGZ)
         else:
@@ -460,7 +460,7 @@ def read_vasp_parchg(FILE, use_pandas=None, quiet=False, spin=False):
             alpha = densities[0] + densities[1]
             beta = densities[0] - densities[1]
             density = [alpha, beta]
-    _print_boom(quiet=quiet)
+    ##_print_boom(quiet=quiet)
 
     return density, NGX, NGY, NGZ, lattice
 
@@ -526,7 +526,7 @@ def _read_vasp_density_fromlines(lines):
             upper_limit = (int(NGX * NGY * NGZ / 5) +
                            np.mod(NGX * NGY * NGZ, 5))
 
-    _print_boom()
+    ##_print_boom(quiet=quiet)
     print("Average of the potential = ", numpy.average(Potential))
 
     lattice = lattice * scale_factor
@@ -606,7 +606,7 @@ def read_gulp_potential(gulpfile='gulp.out'):
         file_handle=open(gulpfile)
     except IOError:
         print("File not found or path is incorrect")
-    
+
     lines = file_handle.readlines()
     for n, line in enumerate(lines):
         if line.rfind('Cartesian lattice vectors') > -1:
@@ -662,4 +662,3 @@ def inverse_participation_ratio(density):
     ifr = 1 / (len(density) * fr)
     isq = 1 / (len(density) * sq)
     return fr / sq**2
-
