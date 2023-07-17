@@ -25,7 +25,7 @@ To address this, the Macrodensity package has been developed as a VASP, FHI-AIMS
 # Installation
 
 ```
-pip install git+git://github.com/WMD-group/MacroDensity.git
+pip install git+https://github.com/WMD-group/MacroDensity.git
 ```
 
 If you have modified the source code, please run the unit tests with
