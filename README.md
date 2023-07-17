@@ -2,30 +2,25 @@ MacroDensity
 ====================
 ![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.884521.svg)
 
-A set of python scripts to read in a electrostatic potentials and electron densities from electronic structure calculations and plot in a number of ways, including:
+A set of Python scripts to read in a electrostatic potentials and electron densities from electronic structure calculations and plot in a number of ways, including:
 
 * Planar average
 * Spherical average
-* Atom centred averages
+* Atom centred average
 
 # Statement of Need
 
-When assessing the potential utility of novel semiconducting devices (pn-juntions, heterostructures, surface terminations) through simulation, an understanding of the variation in the electrostatic potential and electron density across the system is key. However, extraction and useful presentation of this data from the raw output of the simulation (i.e. a vasp [LOCPOT](https://www.vasp.at/wiki/index.php/LOCPOT) or CHGCAR) can prove cumbersome and often requires the use of visualisation software followed by manual data extraction. This can result in bottlenecks in high throughput screening projects, where the same data extraction procedure is repeatedly applied to large databases of candidate structures.
+When assessing the potential utility of novel semiconducting devices (p-n juntions, heterostructures, surface terminations) through simulation, an understanding of the variation in the electrostatic potential and electron density across the system is key. However, extraction and useful presentation of this data from the raw output of the simulation can prove cumbersome and often requires the use of visualisation software followed by manual data extraction. This can result in bottlenecks in high throughput screening projects, where the same data extraction procedure is repeatedly applied to large databases of candidate structures.
 
-To address this, the Macrodensity package has been developed as a VASP, FHI-AIMS and GULP postprocessing tool. The package contains functions that enable the user to format the data from the VASP LOCPOT and CHGCAR files, the FHI-AIMS *.cube file, and GULP *.out file into physically meaningful quantities, which can then be plotted for user interpretation. So far, the code has been used to rapidly generate data for these publications: [1](http://pubs.acs.org/doi/abs/10.1021/ja4110073),[2](https://aip.scitation.org/doi/10.1063/5.0044866)
+To address this, the Macrodensity package has been developed as a VASP, FHI-AIMS and GULP post-processing tool. The package contains functions that enable the user to format the data from the VASP LOCPOT and CHGCAR files, the FHI-AIMS *.cube file, and GULP *.out file into physically meaningful quantities, which can then be plotted for user interpretation. The code has been used to rapidly generate data for these publications: [1](http://pubs.acs.org/doi/abs/10.1021/ja4110073),[2](https://aip.scitation.org/doi/10.1063/5.0044866), amongst others. 
 
 # Requirements
 
-[Python](https://www.python.org)
-
-[Matplotlib](http://matplotlib.org) (to plot results on the fly)
-
-[ASE](https://wiki.fysik.dtu.dk/ase/) (for atom centred functionality)
-
-[Pandas](https://pandas.pydata.org/) (optional - for quicker reading speeds; requires pandas 1.2.0 or newer)
-
-[Jupyter](https://jupyter.org/) (optional - for `.ipynb` notebooks in the [tutorials](https://github.com/WMD-group/MacroDensity/tree/V3.1.0/tutorials))
-
+* [Python](https://www.python.org)
+* [Matplotlib](http://matplotlib.org) (to plot results on the fly)
+* [ASE](https://wiki.fysik.dtu.dk/ase/) (for atom centred functionality)
+* [Pandas](https://pandas.pydata.org/) (optional - for quicker reading speeds; requires pandas 1.2.0 or newer)
+* [Jupyter](https://jupyter.org/) (optional - for `.ipynb` notebooks in the [tutorials](https://github.com/WMD-group/MacroDensity/tree/V3.1.0/tutorials))
 
 # Installation
 
@@ -33,19 +28,18 @@ To address this, the Macrodensity package has been developed as a VASP, FHI-AIMS
 pip install git+git://github.com/WMD-group/MacroDensity.git
 ```
 
-- You are now ready to run the examples listed below
-- If you have modified the source code, please run the unit tests with
+If you have modified the source code, please run the unit tests with
   ``python setup.py test``.
 
 # Usage
 
-The most widely used high level tools of macrodensity can be used as built-in convenience functions and are listed below. For finer input-control using macrodensity's lower level functions, example scripts are given in the [examples](https://github.com/WMD-group/MacroDensity/tree/V3.1.0/examples) folder and can be copied, modified then run via `python <script.py>`. Example input files can be copied from the [tests](https://github.com/WMD-group/MacroDensity/tree/V3.1.0/tests) folder.
+The high level tools of macrodensity can be used as built-in convenience functions and are listed below. For finer input-control using macrodensity's lower level functions, example scripts are given in the [examples](https://github.com/WMD-group/MacroDensity/tree/V3.1.0/examples) folder and can be copied, modified then run via `python <script.py>`. Example input files can be copied from the [tests](https://github.com/WMD-group/MacroDensity/tree/V3.1.0/tests) folder. 
 
 Tutorials in the form of `.ipynb` notebooks are also given in the [tutorials](https://github.com/WMD-group/MacroDensity/tree/V3.1.0/tutorials) folder.
 
 ### Planar Average
 
-This example is for plotting the planar average and macroscopic average (as defined in [Jackson's Electrodynamics](https://archive.org/details/ClassicalElectrodynamics)) of a potential along a vector. The vector is z by default, edit [examples/PlanarAverage.py](https://github.com/WMD-group/MacroDensity/tree/V3.1.0/examples/PlanarAverage.py) to change the vector).
+This is for plotting the planar average and macroscopic average (as defined in [Jackson's Electrodynamics](https://archive.org/details/ClassicalElectrodynamics)) of a potential along a vector. The vector is z by default, edit [examples/PlanarAverage.py](https://github.com/WMD-group/MacroDensity/tree/V3.1.0/examples/PlanarAverage.py) to change the vector).
 
 
 The function can be run via:
@@ -119,9 +113,7 @@ See [GulpPotential.py](https://github.com/WMD-group/MacroDensity/blob/V3.1.0/exa
 
 ### Spherical Average
 
-This example is for plotting the average potential inside a sphere of given radius. It is the method used in our 2014 study of metal-organic frameworks in [JACS](http://pubs.acs.org/doi/abs/10.1021/ja4110073).
-
-The function can be run via:
+This is for plotting the average potential inside a sphere of given radius. The function can be run via:
 
 ```
 ## Inputs:
@@ -150,7 +142,7 @@ Potential            Variance
 7.145660229     2.38371017456777e-05
 ```
 
-If the variance is too high it means that you are not sampling a plateau in the potential. Typically values below 10e-4 are acceptable, but you can also use [MovingCube.py](https://github.com/WMD-group/MacroDensity/blob/V3.1.0/examples/MovingCube.py) to verify this (See below). Further examples can be found in [/tutorials/Porous/Porous.ipynb](https://github.com/WMD-group/MacroDensity/tree/master/tutorials/Porous)
+If the variance is too high it means that you are not sampling a plateau in the electrostatic potential. Typically values below 10e-4 are acceptable, but you can also use [MovingCube.py](https://github.com/WMD-group/MacroDensity/blob/V3.1.0/examples/MovingCube.py) to verify this (See below). Further examples can be found in [/tutorials/Porous/Porous.ipynb](https://github.com/WMD-group/MacroDensity/tree/master/tutorials/Porous)
 
 ------------
 
@@ -183,7 +175,7 @@ md.moving_cube(cube=[1,1,1],vector=[1,1,1],origin=[0.17,0.17,0.17],magnitude=85,
 
 or by copying, modifying and running [MovingCube.py](https://github.com/WMD-group/MacroDensity/blob/V3.1.0/examples/MovingCube.py) separately.
 
-The output for a ZnS (100x100x100 FFT) unit cell is given below. The electrostatic potential at the interstices (0.5 Ang and 2.1 Ang) can be extracted using [SphericalAverage.py](https://github.com/WMD-group/MacroDensity/blob/master/examples/SphericalAverage.py) or [bulk_interstital_alignment](https://github.com/WMD-group/MacroDensity/blob/1bc91530d2badbfbf1843fe614ca379ef31a122c/macrodensity/alpha_tools.py#L15).
+The output for a ZnS (100x100x100 FFT) unit cell is given below. The electrostatic potential at the interstices (0.5 Å and 2.1 Å) can be extracted using [SphericalAverage.py](https://github.com/WMD-group/MacroDensity/blob/master/examples/SphericalAverage.py) or [bulk_interstital_alignment](https://github.com/WMD-group/MacroDensity/blob/1bc91530d2badbfbf1843fe614ca379ef31a122c/macrodensity/alpha_tools.py#L15).
 
 ![MovingCube](/tutorials/moving_cube.png)
 
@@ -191,7 +183,7 @@ The output for a ZnS (100x100x100 FFT) unit cell is given below. The electrostat
 
 ### Bulk Interstitial Alignment
 
-A convenience function that combines multiple instances of SphericalAverage.py, averages them and prints the Valence Band and Conduction Band positions relative ot this average. This function is based on an analysis akin to that of [Frensley and Kroemer's](https://avs.scitation.org/doi/pdf/10.1116/1.568995) method of band alignment. An example of its use for the ZnS (Zinc Blende) interstices is given below:
+A convenience function that combines multiple instances of SphericalAverage.py, averages them and prints the valence band and conduction band positions relative ot this average. This function is based on an analysis akin to that of [Frensley and Kroemer's](https://avs.scitation.org/doi/pdf/10.1116/1.568995) method of band alignment. An example of its use for the ZnS (zincnlende polymorph) interstices is given below:
 
 The function can be run via:
 
@@ -221,13 +213,13 @@ VB_aligned      CB_aligned
 --------------------------------
 -4.95           -2.95
 ```
-Further data gathered on Zinc Blende type structures using this function can be found [here](https://aip.scitation.org/doi/10.1063/5.0044866)
+Further data gathered on zincblende type structures using this function can be found [here](https://aip.scitation.org/doi/10.1063/5.0044866)
 
 ------------
 
 ### On Site Potential
 
-This example is for calculating the potential at the sites of a certain atomic nucleus, for example the O nuclei in an oxide. This on-site potential calculated this way is equivalent to a Madelung potential and can be useful for predicting electron energy levels (see [this publication](http://pubs.acs.org/doi/abs/10.1021/ar400115x) for details).
+This example is for calculating the potential at the sites of a certain atomic nucleus, for example the O nuclei in an oxide. This on-site potential calculated this way is analagous to a Madelung potential and can be useful for predicting electron energy levels (see [this publication](http://pubs.acs.org/doi/abs/10.1021/ar400115x) for details).
 
 The function can be run via:
 
@@ -254,7 +246,7 @@ The cube parameter determines the size of the sample area, the units are mesh po
 
 ### Active Space
 
-This checks for plateaus in the electrostatic potential within a volume for a set `tolerance` and prints the result. `cube_size` defines the size of the cube in units of mesh points (NGX/Y/Z). `cube_origin` defines the bottom left point of the cube the "0,0,0" point in fractional coordinates.
+This checks for plateaus in the electrostatic potential within a volume for a set `tolerance` and prints the result. `cube_size` defines the size of the cube in units of mesh points. `cube_origin` defines the bottom left point of the cube the "0,0,0" point in fractional coordinates.
 
 The function can be run via:
 
@@ -273,7 +265,7 @@ import macrodensity as md
 md.plot_active_space(cube_size=[2,2,2],cube_origin=[0.5,0.5,0.5],tolerance=1E-4,input_file='LOCPOT')
 ```
 
-Which will give a terminal output tht looks like this:
+Which will give a terminal output that looks like this:
 
 ```
 Reading header information...
@@ -289,7 +281,7 @@ Percentage of non-vacuum cubes:  99.5849609375
 
 ### Plotting
 
-Macrodensity also allows the facile generation of band alignment diagrams across a range of structures:
+Macrodensity also allows the facile generation of band alignment diagrams across a range of structures. A more aesthetic alternative is [bapt](https://github.com/utf/bapt).
 
 ![BandAlignment](/tutorials/Plotting/BandAlignment05.png)
 
