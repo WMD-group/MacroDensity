@@ -1,12 +1,11 @@
-
 #!/usr/bin/env python
 
 __author__ = "Keith T. Butler"
 __copyright__ = "Copyright Keith T. Butler (2013)"
 __version__ = "3.1.0"
-__maintainer__ = "Keith T. Butler, Liam Harnett-Caulfield"
-__email__ = "keith.butler@stfc.ac.uk"
-__date__ = "14 Oct 2021"
+__maintainer__ = "Keith T. Butler"
+__email__ = "k.t.butler@ucl.ac.uk"
+__date__ = "17 July 2023"
 
 from setuptools import setup
 import os
@@ -26,9 +25,9 @@ if __name__ == "__main__":
         description='Manipulation of electron density',
         long_description=open(os.path.join(module_dir, 'README.md')).read(),
         url='https://github.com/WMD-group/MacroDensity',
-        author='Keith T. Butler, Liam Harnett-Caulfiled',
-        author_email='keith.butler@stfc.ac.uk',
-        license='GNU General Public License (GPL) v3',
+        author='Keith T. Butler',
+        author_email='k.t.butler@ucl.ac.uk',
+        license='MIT License',
         packages=['macrodensity'],
         zip_safe=False,
         install_requires=['scipy', 'numpy', 'spglib', 'ase'],

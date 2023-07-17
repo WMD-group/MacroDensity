@@ -1,7 +1,6 @@
 MacroDensity
 ====================
 ![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.884521.svg)
-![Build Status](https://travis-ci.org/WMD-group/MacroDensity.svg?branch=master)
 
 A set of python scripts to read in a electrostatic potentials and electron densities from electronic structure calculations and plot in a number of ways, including:
 
@@ -11,15 +10,11 @@ A set of python scripts to read in a electrostatic potentials and electron densi
 
 # Statement of Need
 
-------------
-
 When assessing the potential utility of novel semiconducting devices (pn-juntions, heterostructures, surface terminations) through simulation, an understanding of the variation in the electrostatic potential and electron density across the system is key. However, extraction and useful presentation of this data from the raw output of the simulation (i.e. a vasp [LOCPOT](https://www.vasp.at/wiki/index.php/LOCPOT) or CHGCAR) can prove cumbersome and often requires the use of visualisation software followed by manual data extraction. This can result in bottlenecks in high throughput screening projects, where the same data extraction procedure is repeatedly applied to large databases of candidate structures.
 
 To address this, the Macrodensity package has been developed as a VASP, FHI-AIMS and GULP postprocessing tool. The package contains functions that enable the user to format the data from the VASP LOCPOT and CHGCAR files, the FHI-AIMS *.cube file, and GULP *.out file into physically meaningful quantities, which can then be plotted for user interpretation. So far, the code has been used to rapidly generate data for these publications: [1](http://pubs.acs.org/doi/abs/10.1021/ja4110073),[2](https://aip.scitation.org/doi/10.1063/5.0044866)
 
 # Requirements
-
-------------
 
 [Python](https://www.python.org)
 
@@ -34,8 +29,6 @@ To address this, the Macrodensity package has been developed as a VASP, FHI-AIMS
 
 # Installation
 
-------------
-
 ```
 pip install git+git://github.com/WMD-group/MacroDensity.git
 ```
@@ -45,8 +38,6 @@ pip install git+git://github.com/WMD-group/MacroDensity.git
   ``python setup.py test``.
 
 # Usage
-
-------------
 
 The most widely used high level tools of macrodensity can be used as built-in convenience functions and are listed below. For finer input-control using macrodensity's lower level functions, example scripts are given in the [examples](https://github.com/WMD-group/MacroDensity/tree/V3.1.0/examples) folder and can be copied, modified then run via `python <script.py>`. Example input files can be copied from the [tests](https://github.com/WMD-group/MacroDensity/tree/V3.1.0/tests) folder.
 
@@ -303,74 +294,3 @@ Macrodensity also allows the facile generation of band alignment diagrams across
 ![BandAlignment](/tutorials/Plotting/BandAlignment05.png)
 
 See [tutorials/Plotting/Plotting.ipynb](https://github.com/WMD-group/MacroDensity/tree/master/tutorials/Plotting) for further instructions.
-
-------------
-
-# Exhaustive List of Files & Functions
-
-
-### density_tools.py
-Reading and manipulating electrostic potential and charge density data.
-* gradient_magnitude
-* vector_2_abscissa
-* number_in_field
-* element_vol
-* one_2_2d
-* macroscopic_average
-* volume_average
-* travelling_volume_average
-* planar_average
-* get_volume
-* numbers_2_grid
-* matrix_2_abc
-* _print_boom
-* read_vasp_density
-* _read_partial_density
-* read_vasp_parchg
-* read_vasp_density_classic
-* _read_vasp_density_fromlines
-* density_2_grid
-* density_2_grid_gulp
-* read_gulp_potential
-* GCD
-* GCD_List
-* inverse_participation_ratio
-
-### beta_tools.py
-Additional tools to compliment density_tools.py
-* subs_potentials
-* bulk_vac
-* match_resolution
-* spline_generate
-* matched_spline_generate
-* scissors_shift
-* extend_potential
-* sort_potential
-* diff_potentials
-* translate_grid
-* create_plotting_mesh
-* read_cube_density
-* points_2_plane
-* get_third_coordinate
-
-### alpha_tools.py
-Convenience functions for the postprocessing and plotting of output data from density_tools.py
-* bulk_interstitial_alignment
-* plot_gulp_potential
-* plot_on_site_potential
-* plot_planar_average
-* plot_planar_cube
-* moving_cube
-* spherical_average
-* plot_active_space
-* (under development) plot_plane_field
-* (under development) plot_field_at_point
-* (under development) plot_active_plane
-
-### vasp_tools.py
-VASP specific tools to compliment density_tools.py
-* get_band_extrema
-
-### plotting_tools.py
-Convenience functions for the plotting of otput data from density_tools.py
-* energy_band_alignment_diagram
