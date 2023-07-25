@@ -21,7 +21,6 @@ from itertools import chain
 
 import numpy
 import numpy as np
-from scipy import interpolate
 
 #------------------------------------------------------------------------------
 def gradient_magnitude(gx, gy, gz):

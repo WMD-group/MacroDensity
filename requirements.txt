@@ -2,3 +2,4 @@ scipy
 numpy
 spglib
 ase
+pandas
