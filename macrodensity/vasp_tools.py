@@ -1,5 +1,6 @@
 from __future__ import print_function
 
+
 def get_band_extrema(input_file):
     '''
     Get the valence band maximum and conduction band minimum from VASP OUTCAR

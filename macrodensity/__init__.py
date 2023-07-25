@@ -14,11 +14,12 @@
 #                                                                             #
 ###############################################################################
 
+import math
+
 import numpy
 import numpy as np
-import math
 from scipy import interpolate
-from macrodensity import vasp_tools
-from macrodensity import plotting_tools
-from macrodensity.density_tools import *
+
+from macrodensity import plotting_tools, vasp_tools
 from macrodensity.alpha_tools import *
+from macrodensity.density_tools import *

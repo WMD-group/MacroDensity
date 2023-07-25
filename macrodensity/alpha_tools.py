@@ -13,7 +13,12 @@ def bulk_interstitial_alignment(interstices,outcar="OUTCAR",locpot="LOCPOT",cube
     Output:
     Aligned Valence Band, Aligned Conduction Band, Interstitial variances
     '''
-    from macrodensity.density_tools import read_vasp_density, matrix_2_abc, density_2_grid, volume_average
+    from macrodensity.density_tools import (
+        density_2_grid,
+        matrix_2_abc,
+        read_vasp_density,
+        volume_average,
+    )
     from macrodensity.vasp_tools import get_band_extrema
 
     ## GETTING POTENTIAL
@@ -73,8 +78,16 @@ def plot_active_space(cube_size,cube_origin,tolerance=1E-4,input_file='LOCPOT',p
     Percentage of vaccum vs non-vacuum cubes
     '''
     import math
+
     import numpy as np
-    from macrodensity.density_tools import read_vasp_density, matrix_2_abc, density_2_grid, numbers_2_grid, volume_average
+
+    from macrodensity.density_tools import (
+        density_2_grid,
+        matrix_2_abc,
+        numbers_2_grid,
+        read_vasp_density,
+        volume_average,
+    )
 
     ## GETTING POTENTIAL
     vasp_pot, NGX, NGY, NGZ, Lattice = read_vasp_density(input_file)
@@ -125,11 +138,19 @@ def plot_gulp_potential(lattice_vector,input_file='gulp.out',output_file='GulpPo
     image file plotting .csv data
     '''
     import math
-    import numpy as np
+
     import matplotlib.pyplot as plt
+    import numpy as np
     import pandas as pd
     from scipy.interpolate import interp1d
-    from macrodensity.density_tools import matrix_2_abc, planar_average, macroscopic_average,density_2_grid_gulp,read_gulp_potential
+
+    from macrodensity.density_tools import (
+        density_2_grid_gulp,
+        macroscopic_average,
+        matrix_2_abc,
+        planar_average,
+        read_gulp_potential,
+    )
 
     # GET POTENTIAL
     pot, NGX, NGY, NGZ, Lattice = read_gulp_potential(input_file)
@@ -183,15 +204,24 @@ def plot_on_site_potential(species,sample_cube,potential_file='LOCPOT',coordinat
     .png histogram output
     .csv data output
     '''
-    import math
-    import numpy as np
-    import matplotlib.pyplot as plt
     import csv
+    import math
+
     import ase
+    import matplotlib.pyplot as plt
+    import numpy as np
     import pandas as pd
-    from ase.io import write
-    from ase.io import vasp
-    from macrodensity.density_tools import read_vasp_density, matrix_2_abc, density_2_grid, numbers_2_grid, planar_average, macroscopic_average,volume_average
+    from ase.io import vasp, write
+
+    from macrodensity.density_tools import (
+        density_2_grid,
+        macroscopic_average,
+        matrix_2_abc,
+        numbers_2_grid,
+        planar_average,
+        read_vasp_density,
+        volume_average,
+    )
 
     ## GETTING POTENTIALS
     vasp_pot, NGX, NGY, NGZ, Lattice = read_vasp_density(potential_file)
@@ -253,10 +283,17 @@ def plot_planar_average(lattice_vector,input_file='LOCPOT',output_file='PlanarAv
     .csv data file containing: planar average and macroscopic average
     image file plotting .csv data
     '''
-    import numpy as np
     import matplotlib.pyplot as plt
+    import numpy as np
     import pandas as pd
-    from macrodensity.density_tools import read_vasp_density, matrix_2_abc, density_2_grid, planar_average, macroscopic_average
+
+    from macrodensity.density_tools import (
+        density_2_grid,
+        macroscopic_average,
+        matrix_2_abc,
+        planar_average,
+        read_vasp_density,
+    )
 
     # GETTING POTENTIAL
     vasp_pot, NGX, NGY, NGZ, Lattice = read_vasp_density(input_file)
@@ -303,11 +340,13 @@ def plot_planar_cube(input_file,lattice_vector,output_file='PlanarCube.csv',img_
     image file plotting .csv data
     '''
     import math
-    import numpy as np
-    import matplotlib.pyplot as plt
+
     import ase.io.cube
+    import matplotlib.pyplot as plt
+    import numpy as np
     import pandas as pd
-    from macrodensity.density_tools import planar_average, macroscopic_average
+
+    from macrodensity.density_tools import macroscopic_average, planar_average
 
     # GETTING POTENTIAL
     potential, atoms = ase.io.cube.read_cube_data(input_file)
@@ -360,9 +399,16 @@ def moving_cube(cube=[1,1,1],vector=[1,1,1],origin=[0,0,0],magnitude = 280,input
     .csv file containing the above data
     .png file presenting the above data
     '''
-    from macrodensity.density_tools import read_vasp_density, matrix_2_abc, density_2_grid, vector_2_abscissa, travelling_volume_average
     import matplotlib.pyplot as plt
     import pandas as pd
+
+    from macrodensity.density_tools import (
+        density_2_grid,
+        matrix_2_abc,
+        read_vasp_density,
+        travelling_volume_average,
+        vector_2_abscissa,
+    )
 
     ## GETTING POTENTIAL
     vasp_pot, NGX, NGY, NGZ, Lattice = read_vasp_density(input_file)
@@ -401,7 +447,12 @@ def spherical_average(cube_size,cube_origin,input_file='LOCPOT',print_output=Tru
     Outputs:
     cube_potential, cube_variance (Terminal)
     """
-    from macrodensity.density_tools import read_vasp_density, matrix_2_abc, density_2_grid, volume_average
+    from macrodensity.density_tools import (
+        density_2_grid,
+        matrix_2_abc,
+        read_vasp_density,
+        volume_average,
+    )
 
     ## GETTING POTENTIAL
     vasp_pot, NGX, NGY, NGZ, Lattice = read_vasp_density(input_file)
@@ -439,11 +490,21 @@ def plot_field_at_point(a_point,b_point,c_point,input_file='LOCPOT'):
     c_point = [0, 1, 0]
     '''
     import math
-    import numpy as np
+
     import matplotlib.pyplot as plt
-    from matplotlib import colors,cm #colour maps; so I can specify cube helix
-    from macrodensity.density_tools import read_vasp_density, matrix_2_abc, density_2_grid, numbers_2_grid, planar_average, macroscopic_average
-    from macrodensity.beta_tools import create_plotting_mesh,points_2_plane
+    import numpy as np
+    from matplotlib import cm, colors  # colour maps; so I can specify cube helix
+
+    from macrodensity.beta_tools import create_plotting_mesh, points_2_plane
+    from macrodensity.density_tools import (
+        density_2_grid,
+        macroscopic_average,
+        matrix_2_abc,
+        numbers_2_grid,
+        planar_average,
+        read_vasp_density,
+    )
+
     #------------------------------------------------------------------
     # Get the potential
     #------------------------------------------------------------------
@@ -526,10 +587,18 @@ def plot_plane_field(a_point,b_point,c_point,input_file='LOCPOT'):
     c_point = [0, 1, 0]
     '''
     import math
-    import numpy as np
+
     import matplotlib.pyplot as plt
-    from macrodensity.density_tools import read_vasp_density, matrix_2_abc, density_2_grid, numbers_2_grid
-    from macrodensity.beta_tools import create_plotting_mesh,points_2_plane
+    import numpy as np
+
+    from macrodensity.beta_tools import create_plotting_mesh, points_2_plane
+    from macrodensity.density_tools import (
+        density_2_grid,
+        matrix_2_abc,
+        numbers_2_grid,
+        read_vasp_density,
+    )
+
     #------------------------------------------------------------------
     # Get the potential
     #------------------------------------------------------------------
@@ -580,10 +649,20 @@ def plot_active_plane(cube_size,cube_origin,tolerance=1E-4,input_file='LOCPOT'):
     '''
 
     import math
-    import numpy as np
+
     import matplotlib.pyplot as plt
-    from macrodensity.density_tools import read_vasp_density, matrix_2_abc, density_2_grid, numbers_2_grid, planar_average, macroscopic_average, volume_average
-    from macrodensity.beta_tools import create_plotting_mesh,points_2_plane
+    import numpy as np
+
+    from macrodensity.beta_tools import create_plotting_mesh, points_2_plane
+    from macrodensity.density_tools import (
+        density_2_grid,
+        macroscopic_average,
+        matrix_2_abc,
+        numbers_2_grid,
+        planar_average,
+        read_vasp_density,
+        volume_average,
+    )
 
     #------------------------------------------------------------------
     # Get the potential

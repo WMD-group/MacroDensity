@@ -14,13 +14,15 @@
 #                                                                             #
 ###############################################################################
 
-from __future__ import print_function, division
-from functools import reduce
+from __future__ import division, print_function
+
 import math
+from functools import reduce
 from itertools import chain
 
 import numpy
 import numpy as np
+
 
 #------------------------------------------------------------------------------
 def gradient_magnitude(gx, gy, gz):
