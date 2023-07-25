@@ -32,10 +32,12 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip wheel setuptools setuptools_scm pytest
-        pip install -r requirements.txt
-        pip install -e .
+        run: |
+          python -m pip install --upgrade pip
+          pip install setuptools setuptools_scm wheel
+          pip install -r requirements.txt
+          pip install pytest
+          pip install -e .
     - name: Check package versions
         run: |
           pip show -V pytest
