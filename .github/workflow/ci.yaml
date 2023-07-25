@@ -1,0 +1,40 @@
+name: MacroDensity CI
+
+on:
+  pull_request:
+    branches:
+      - development(calysta)
+  push:
+    branches:
+      - development(calysta)
+
+jobs:
+
+  qa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pre-commit/action@v3.0.0
+
+  test:
+    needs: qa
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.8","3.9","3.10","3.11"]
+        os: [ubuntu-latest,macos-latest,windows-latest]
+    
+    runs-on: ${{matrix.os}}
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip wheel setuptools
+        pip install -r requirements.txt
+    - name: Run tests
+      run: pytest tests/unit_tests.py
+    
