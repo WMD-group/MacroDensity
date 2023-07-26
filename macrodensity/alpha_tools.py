@@ -1,21 +1,38 @@
 #! /usr/bin/env python
 
 def bulk_interstitial_alignment(interstices,outcar="OUTCAR",locpot="LOCPOT",cube_size=[2,2,2],print_output=True):
-    '''
-    Alignment of the band edges with the interstitial bulk reference potential.
+    """
+    Calculate the aligned band energies for a bulk material with interstitial sites.
 
-    Inputs:
-    intersices = Positions of the pores/interstices ([[interstice1],[interstice2],...])
-    outcar = VASP OUTCAR input filename (DEFAULT = OUTCAR)
-    locpot = VASP LOCPOT nput filename (DEFAULT = LOCPOT)
-    cube_size = a cube defined by LOCPOT FFT mesh points (DEFAULT = [2,2,2])
+    This function calculates the aligned valence band (VB) and conduction band (CB) energies
+    by considering the effect of interstitial sites on the electronic structure of the bulk material.
 
-    Output:
-    Aligned Valence Band, Aligned Conduction Band, Interstitial variances
-    '''
+    Parameters:
+        interstices (list of tuples): A list of tuples representing the coordinates of the interstitial sites
+                                     for which the aligned band energies will be calculated.
+
+        outcar (str, optional): The filename of the OUTCAR file containing electronic band structure information.
+                                Default is "OUTCAR".
+
+        locpot (str, optional): The filename of the LOCPOT file containing the electronic density information.
+                                Default is "LOCPOT".
+
+        cube_size (list of int, optional): The size of the cube (in grid points) around each interstitial site
+                                           used to calculate the local potential. Default is [2, 2, 2].
+
+        print_output (bool, optional): Whether to print the intermediate and final results. Default is True.
+
+    Returns:
+        tuple: A tuple containing the aligned VB energy, aligned CB energy, and a list of interstitial variances.
+               The variances represent the deviation of the potential from the reference state at each interstitial site.
+
+    Example:
+        >>> interstices = [(0.25, 0.25, 0.25), (0.5, 0.5, 0.5), (0.75, 0.75, 0.75)]
+        VB_aligned, CB_aligned, interstitial_variances = bulk_interstitial_alignment(interstices)
+    """
     from macrodensity.density_tools import read_vasp_density, matrix_2_abc, density_2_grid, volume_average
     from macrodensity.vasp_tools import get_band_extrema
-
+    
     ## GETTING POTENTIAL
     vasp_pot, NGX, NGY, NGZ, Lattice = read_vasp_density(locpot,quiet=True)
     vector_a,vector_b,vector_c,av,bv,cv = matrix_2_abc(Lattice)
@@ -60,18 +77,36 @@ def bulk_interstitial_alignment(interstices,outcar="OUTCAR",locpot="LOCPOT",cube
 
 def plot_active_space(cube_size,cube_origin,tolerance=1E-4,input_file='LOCPOT',print_output=True):
     '''
-    Distinguish plateau regions in the electrostatic potential
+    Plot the active space (vacuum and non-vacuum regions) based on potential variations.
 
-    Inputs:
-    cube_size = size of the cube in units of FFT mesh points (NGX/Y/Z)
-    cube_origin = real-space positioning of the bottom left point of the sampling cube (fractional coordinates of the unit cell).
-    tolerance = threshold below which the electrostatic potential is considered to be plateaued (DEFAULT = 1E-4).
-    input_file = VASP LOCPOT input filename to be read (DEFAULT = 'LOCPOT')
-    print_output = Print terminal output (DEFAULT = True)
+    This function analyzes the potential variations within the specified cubes of the given size
+    and determines whether each cube belongs to the vacuum or non-vacuum region based on the provided tolerance.
 
-    Outputs:
-    Percentage of vaccum vs non-vacuum cubes
+    Parameters:
+        cube_size (list of int): The size of the cubes in units of mesh points (NGX/Y/Z) for analysis.
+        cube_origin (list of float): The starting point (origin) of the cubes in fractional coordinates (range [0, 1]).
+        tolerance (float, optional): The cutoff variance value to distinguish vacuum from non-vacuum cubes. Default is 1E-4.
+        input_file (str, optional): The file with VASP output for potential. Default is 'LOCPOT'.
+        print_output (bool, optional): Whether to print the analysis results. Default is True.
+
+    Returns:
+        tuple: A tuple containing the number of cubes identified as vacuum and non-vacuum regions.
+
+    Note:
+        The function calculates the potential variation within each cube and compares it to the tolerance value.
+        Cubes with potential variations below the tolerance are considered vacuum regions, while others are non-vacuum regions.
+
+    Example:
+        >>> cube_size = [2, 2, 2]
+        >>> cube_origin = [0.0, 0.0, 0.0]
+        >>> plot_active_space(cube_size, cube_origin, tolerance=1E-5)
+        Number of vacuum cubes:  20
+        Number of non-vacuum cubes:  4
+        Percentage of vacuum cubes:  83.33333333333334
+        Percentage of non-vacuum cubes:  16.666666666666664
+        (20, 4)
     '''
+    
     import math
     import numpy as np
     from macrodensity.density_tools import read_vasp_density, matrix_2_abc, density_2_grid, numbers_2_grid, volume_average
@@ -110,19 +145,30 @@ def plot_active_space(cube_size,cube_origin,tolerance=1E-4,input_file='LOCPOT',p
 
 def plot_gulp_potential(lattice_vector,input_file='gulp.out',output_file='GulpPotential.csv',img_file='GulpPotential.png',new_resolution = 3000):
     '''
-    Planar and macroscopic average with interpolation scheme for GULP outputs
+    Plot GULP potential analysis results.
 
-    Inputs:
-    lattice_vector = Repeating unit over which the potential is averaged to get the macroscopic average (Angstroms)
-    input_file = Name of GULP input file (DEFAULT = 'gulp.out')
-    output_file = Name of output data file (DEFAULT = 'GulpPotential.csv')
-    img_file = Name of output image file (DEFAULT = 'GulpPotential.png')
-    new_resolution = Total number of points for the interpolated planar avarage (DEFAULT = 3000)
+    This function reads GULP potential data from the specified input file and performs a planar average
+    as well as a macroscopic average. It then generates a plot comparing the planar and macroscopic averages,
+    along with an interpolated curve for better visualization.
 
-    Outputs:
-    planar average, macroscopic average, interpolated planar average
-    .csv data file containing: planar average, macroscopic average, interpolated planar average
-    image file plotting .csv data
+    Parameters:
+        lattice_vector (float): The repeating unit over which the potential is averaged to get the macroscopic average (Angstroms).
+        input_file (str, optional): The filename of the GULP output file containing potential data. Default is 'gulp.out'.
+        output_file (str, optional): Name of the output data file to store the planar average. Default is 'GulpPotential.csv'.
+        img_file (str, optional): Name of the output image file for the generated plot. Default is 'GulpPotential.png'.
+        new_resolution (int, optional): The number of grid points used for the interpolated curve. Default is 3000.
+
+    Returns:
+        tuple: A tuple containing the planar average, macroscopic average, and the interpolated potential curve.
+
+    Example:
+        >>> lattice_vector = 20.0
+        >>> input_file = 'gulp.out'
+        >>> output_file = 'GulpPotential.csv'
+        >>> img_file = 'GulpPotential.png'
+        >>> new_resolution = 5000
+        >>> planar_avg, macro_avg, interpolated_potential = plot_gulp_potential(lattice_vector, input_file, output_file, img_file, new_resolution)
+        ... (plot generated and data saved to 'GulpPotential.png' and 'GulpPotential.csv')
     '''
     import math
     import numpy as np
@@ -169,19 +215,34 @@ def plot_gulp_potential(lattice_vector,input_file='gulp.out',output_file='GulpPo
 
 def plot_on_site_potential(species,sample_cube,potential_file='LOCPOT',coordinate_file='POSCAR',output_file='OnSitePotential.csv',img_file='OnSitePotential.png'):
     '''
-    Electrostatic potential at atomic sites
+    Plot on-site electrostatic potential for a specific species.
 
-    Inputs:
-    potential_file = The file with VASP output for potential (DEFAULT = 'LOCPOT')
-    coordinate_file = The coordinates file NOTE This must be in vasp 4 format (DEFAULT = 'POSCAR')
-    species = The species whose on-site potential you are interested in (string)
-    sample_cube = The size of the sampling cube in units of mesh points (NGX/Y/Z)
-    output file = name of output data file (DEFAULT = 'OnSitePotential.csv')
-    img_file = name of output image file (DEFAULT = 'OnSitePotential.png')
+    This function reads the electronic potential from the specified VASP output file (LOCPOT) and the atomic coordinates
+    from the POSCAR file. It then calculates the on-site electrostatic potential for the specified species and generates
+    a histogram to visualize its distribution across the sample cube.
 
-    Outputs:
-    .png histogram output
-    .csv data output
+    Parameters:
+        species (str): The chemical symbol of the species whose on-site potential is of interest.
+        sample_cube (list of int): The size of the sampling cube in units of mesh points (NGX/Y/Z).
+        potential_file (str, optional): The filename of the VASP output file containing the electronic potential (LOCPOT).
+                                       Default is 'LOCPOT'.
+        coordinate_file (str, optional): The filename of the POSCAR file containing atomic coordinates.
+                                         Default is 'POSCAR'.
+        output_file (str, optional): Name of the output data file to store the on-site potential values. Default is 'OnSitePotential.csv'.
+        img_file (str, optional): Name of the output image file for the histogram plot. Default is 'OnSitePotential.png'.
+
+    Returns:
+        list: A list containing the on-site electrostatic potential values for the specified species.
+
+    Example:
+        >>> species = 'O'
+        >>> sample_cube = [2, 2, 2]
+        >>> potential_file = 'LOCPOT'
+        >>> coordinate_file = 'POSCAR'
+        >>> output_file = 'OnSitePotential.csv'
+        >>> img_file = 'OnSitePotential.png'
+        >>> on_site_potential = plot_on_site_potential(species, sample_cube, potential_file, coordinate_file, output_file, img_file)
+        ... (plot generated and on-site potential data saved to 'OnSitePotential.png' and 'OnSitePotential.csv')
     '''
     import math
     import numpy as np
@@ -240,18 +301,32 @@ def plot_on_site_potential(species,sample_cube,potential_file='LOCPOT',coordinat
 
 def plot_planar_average(lattice_vector,input_file='LOCPOT',output_file='PlanarAverage.csv',img_file='PlanarAverage.png'):
     '''
-    Planar and macroscopic average calculation
+    Plot planar and macroscopic average of the electronic potential.
 
-    Inputs:
-    input_file = input filename to be read
-    lattice_vector = Repeating unit over which the potential is averaged to get the macroscopic average (Angstroms)
-    output file = name of output data file (DEFAULT = 'PlanarAverage.csv')
-    img_file = name of output image file (DEFAULT = 'PlanarAverage.png')
+    This function reads the electronic potential from the specified VASP output file (LOCPOT) and calculates the planar
+    and macroscopic averages of the potential along the lattice vector direction. It then generates two plots: one for
+    the planar average and another for the macroscopic average. The function also saves the data to a CSV file.
 
-    Outputs:
-    planar average and macroscopic average
-    .csv data file containing: planar average and macroscopic average
-    image file plotting .csv data
+    Parameters:
+        lattice_vector (float): The repeating unit over which the potential is averaged to get the macroscopic average (in Angstroms).
+        input_file (str, optional): The filename of the VASP output file containing the electronic potential (LOCPOT).
+                                    Default is 'LOCPOT'.
+        output_file (str, optional): Name of the output data file to store the planar and macroscopic average data.
+                                     Default is 'PlanarAverage.csv'.
+        img_file (str, optional): Name of the output image file for the plots. Default is 'PlanarAverage.png'.
+
+    Returns:
+        tuple: A tuple containing two arrays:
+            - The planar average of the electronic potential.
+            - The macroscopic average of the electronic potential.
+
+    Example:
+        >>> lattice_vector = 15.0
+        >>> input_file = 'LOCPOT'
+        >>> output_file = 'PlanarAverage.csv'
+        >>> img_file = 'PlanarAverage.png'
+        >>> planar_avg, macro_avg = plot_planar_average(lattice_vector, input_file, output_file, img_file)
+        ... (plots generated and planar and macroscopic average data saved to 'PlanarAverage.csv')
     '''
     import numpy as np
     import matplotlib.pyplot as plt
@@ -289,18 +364,31 @@ def plot_planar_average(lattice_vector,input_file='LOCPOT',output_file='PlanarAv
 
 def plot_planar_cube(input_file,lattice_vector,output_file='PlanarCube.csv',img_file='PlanarCube.png'):
     '''
-    Planar and macroscopic average for cube files
+    Plot planar and macroscopic average of the electronic potential from a cube file.
 
-    Inputs:
-    input_file = input filename to be read (must be in .cube format)
-    lattice_vector = Repeating unit over which the potential is averaged to get the macroscopic average (Angstroms)
-    output file = name of output data file (DEFAULT = 'PlanarCube.csv')
-    img_file = name of output image file (DEFAULT = 'PlanarCube.png')
+    This function reads the electronic potential from the specified cube file and calculates the planar and macroscopic
+    averages of the potential along the lattice vector direction. It then generates two plots: one for the planar average
+    and another for the macroscopic average. The function also saves the data to a CSV file.
 
-    Outputs:
-    planar average and macroscopic average
-    .csv data file containing: planar average and macroscopic average 
-    image file plotting .csv data
+    Parameters:
+        input_file (str): The filename of the cube file containing the electronic potential.
+        lattice_vector (float): The repeating unit over which the potential is averaged to get the macroscopic average (in Angstroms).
+        output_file (str, optional): Name of the output data file to store the planar and macroscopic average data.
+                                     Default is 'PlanarCube.csv'.
+        img_file (str, optional): Name of the output image file for the plots. Default is 'PlanarCube.png'.
+
+    Returns:
+        tuple: A tuple containing two arrays:
+            - The planar average of the electronic potential.
+            - The macroscopic average of the electronic potential.
+
+    Example:
+        >>> input_file = 'potential.cube'
+        >>> lattice_vector = 15.0
+        >>> output_file = 'PlanarCube.csv'
+        >>> img_file = 'PlanarCube.png'
+        >>> planar_avg, macro_avg = plot_planar_cube(input_file, lattice_vector, output_file, img_file)
+        ... (plots generated and planar and macroscopic average data saved to 'PlanarCube.csv')
     '''
     import math
     import numpy as np
@@ -344,21 +432,39 @@ def plot_planar_cube(input_file,lattice_vector,output_file='PlanarCube.csv',img_
 
 def moving_cube(cube=[1,1,1],vector=[1,1,1],origin=[0,0,0],magnitude = 280,input_file='LOCPOT',output_file='MovingCube.csv',img_file='MovingCube.png'):
     '''
-    Electrostatic potential plot spanning a vector acros the unit cell
+    Calculate the travelling volume average of the electronic potential along a specific vector.
 
-    Inputs:
-    cube = size of the cube in units of FFT mesh points (NGX/Y/Z)
-    origin = real-space positioning of the bottom left point of the sampling cube (fractional coordinates of the unit cell).
-    vector = vector across which the unit cell is traversed (hkl convention)
-    magnitude = length travelled along the selected vector in units of FFT mesh points (NGX/Y/Z)
-    input_file = VASP LOCPOT input filename to be read (DEFAULT = 'LOCPOT')
-    output file = name of output data file (DEFAULT = 'MovingCube.csv')
-    img_file = name of output image file (DEFAULT = 'MovingCube.png')
+    This function calculates the volume average of the electronic potential as a function of the position along the specified
+    vector. The volume average is performed by moving a cube of specified dimensions along the vector from the specified
+    origin position. The magnitude parameter determines the distance covered in each direction from the origin. The resulting
+    potential values at each position are plotted, and the data is saved to a CSV file.
 
-    Outputs:
-    averaged electrostatic potential for the set cube size (list)
-    .csv file containing the above data
-    .png file presenting the above data
+    Parameters:
+        cube (list, optional): The size of the cube used for volume averaging in units of mesh points (NGX/Y/Z).
+                               Default is [1, 1, 1].
+        vector (list, optional): The vector along which the cube moves for volume averaging. Default is [1, 1, 1].
+        origin (list, optional): The starting position of the cube in fractional coordinates. Default is [0, 0, 0].
+        magnitude (float, optional): The distance covered by the cube in each direction from the origin along the vector (in Angstroms).
+                                     Default is 280.
+        input_file (str, optional): The filename of the file containing the electronic potential (e.g., LOCPOT).
+                                    Default is 'LOCPOT'.
+        output_file (str, optional): Name of the output data file to store the volume-averaged potential data.
+                                     Default is 'MovingCube.csv'.
+        img_file (str, optional): Name of the output image file for the potential plot. Default is 'MovingCube.png'.
+
+    Returns:
+        list: A list containing the volume-averaged potential values at each position along the vector.
+
+    Example:
+        >>> cube_size = [2, 2, 2]
+        >>> vector = [1, 0, 0]
+        >>> origin = [0.5, 0.5, 0.5]
+        >>> magnitude = 280
+        >>> input_file = 'LOCPOT'
+        >>> output_file = 'MovingCube.csv'
+        >>> img_file = 'MovingCube.png'
+        >>> potential_values = moving_cube(cube_size, vector, origin, magnitude, input_file, output_file, img_file)
+        ... (plot generated and potential values saved to 'MovingCube.csv')
     '''
     from macrodensity.density_tools import read_vasp_density, matrix_2_abc, density_2_grid, vector_2_abscissa, travelling_volume_average
     import matplotlib.pyplot as plt
@@ -389,18 +495,36 @@ def moving_cube(cube=[1,1,1],vector=[1,1,1],origin=[0,0,0],magnitude = 280,input
 #------------------------------------------------------------------------------
 
 def spherical_average(cube_size,cube_origin,input_file='LOCPOT',print_output=True):
-    """
-    Calculates the Spherical Average around a given point.
+    '''
+    Calculate the volume average of the electronic potential within a spherical region.
 
-    Inputs:
-    cube_size = size of the cube in units of FFT mesh points (NGX/Y/Z)
-    cube_origin = real-space positioning of the bottom left point of the sampling cube (fractional coordinates of the unit cell).
-    input_file = VASP LOCPOT input filename to be read (DEFAULT = 'LOCPOT')
-    print_output = Print terminal output (DEFAULT = True)
+    This function calculates the volume average of the electronic potential within a spherical region
+    defined by a specific size and origin. The size of the spherical region is specified by the cube_size
+    parameter, which determines the number of mesh points along each direction (NGX/Y/Z). The origin of the
+    sphere is given by the cube_origin parameter, specified in fractional coordinates. The function reads the
+    electronic potential data from the specified input file (e.g., LOCPOT) and calculates the potential and variance
+    within the spherical region.
 
-    Outputs:
-    cube_potential, cube_variance (Terminal)
-    """
+    Parameters:
+        cube_size (list): The size of the spherical region in units of mesh points (NGX/Y/Z).
+        cube_origin (list): The origin of the spherical region in fractional coordinates.
+        input_file (str, optional): The filename of the file containing the electronic potential (e.g., LOCPOT).
+                                    Default is 'LOCPOT'.
+        print_output (bool, optional): If True, the function prints the calculated potential and variance.
+                                       Default is True.
+
+    Returns:
+        tuple: A tuple containing the volume-averaged potential and the variance within the spherical region.
+
+    Example:
+        >>> cube_size = [5, 5, 5]
+        >>> cube_origin = [0.5, 0.5, 0.5]
+        >>> input_file = 'LOCPOT'
+        >>> potential, variance = spherical_average(cube_size, cube_origin, input_file)
+        Potential            Variance
+        --------------------------------
+        1.23456              0.56789
+    '''
     from macrodensity.density_tools import read_vasp_density, matrix_2_abc, density_2_grid, volume_average
 
     ## GETTING POTENTIAL
@@ -426,17 +550,28 @@ def spherical_average(cube_size,cube_origin,input_file='LOCPOT',print_output=Tru
 #------------------------------------------------------------------------------
 
 def plot_field_at_point(a_point,b_point,c_point,input_file='LOCPOT'):
+    '''
+    UNDER DEVELOPMENT. FULL OF BUGS (BEWARE)
+    Plot the electric field magnitude and direction on a user-defined plane.
 
-    '''
-    WARNING: THIS TOOL IS STILL UNDER DEVELOPMENT. KNOWN BUGS ARE PRESENT.
-    '''
+    This function plots the electric field magnitude and direction on a user-defined plane defined by three points: a_point, b_point, and c_point. The function reads the electronic potential data from the specified input file (e.g., LOCPOT) and calculates the electric field (gradient of the potential). The electric field is then visualized by plotting contours of the electric field magnitude and arrows indicating the direction of the electric field on the defined plane.
 
-    '''
-    Inputs:
-    (define the plane with 3 points, fractional coordinates)
-    a_point = [0, 0, 0]
-    b_point = [1, 0, 1]
-    c_point = [0, 1, 0]
+    Parameters:
+        a_point (list): The fractional coordinates of the first point defining the plane.
+        b_point (list): The fractional coordinates of the second point defining the plane.
+        c_point (list): The fractional coordinates of the third point defining the plane.
+        input_file (str, optional): The filename of the file containing the electronic potential (e.g., LOCPOT).
+                                    Default is 'LOCPOT'.
+
+    Returns:
+        None: This function directly plots the electric field visualization.
+
+    Example:
+        >>> a_point = [0.1, 0.2, 0.3]
+        >>> b_point = [0.4, 0.5, 0.6]
+        >>> c_point = [0.7, 0.8, 0.9]
+        >>> input_file = 'LOCPOT'
+        >>> plot_field_at_point(a_point, b_point, c_point, input_file)
     '''
     import math
     import numpy as np
@@ -514,16 +649,24 @@ def plot_field_at_point(a_point,b_point,c_point,input_file='LOCPOT'):
 #------------------------------------------------------------------------------
 
 def plot_plane_field(a_point,b_point,c_point,input_file='LOCPOT'):
+    '''
+    UNDER DEVELOPMENT, FULL OF BUGS (BEWARE)
+    Plot the electric field on a user-defined plane and display it as a contour plot.
 
-    '''
-    WARNING: THIS TOOL IS STILL UNDER DEVELOPMENT. KNOWN BUGS ARE PRESENT.
-    '''
+    Parameters:
+        a_point (list): Fractional coordinates of the first point that defines the plane.
+        b_point (list): Fractional coordinates of the second point that defines the plane.
+        c_point (list): Fractional coordinates of the third point that defines the plane.
+        input_file (str, optional): The filename of the VASP LOCPOT file containing the electrostatic potential. Default is 'LOCPOT'.
 
-    '''
-    Input section (define the plane with 3 points, fractional coordinates)
-    a_point = [0, 0, 0]
-    b_point = [1, 0, 1]
-    c_point = [0, 1, 0]
+    Returns:
+        None
+
+    Note:
+        - The function reads the electrostatic potential from the specified VASP LOCPOT file.
+        - The plane is defined by three points: a_point, b_point, and c_point.
+        - The electric field (gradient of the electrostatic potential) is computed using finite differences.
+        - The function creates a contour plot of the electric field on the defined plane.
     '''
     import math
     import numpy as np
@@ -566,19 +709,26 @@ def plot_plane_field(a_point,b_point,c_point,input_file='LOCPOT'):
 #------------------------------------------------------------------------------
 
 def plot_active_plane(cube_size,cube_origin,tolerance=1E-4,input_file='LOCPOT'):
+     '''
+    UNDER DEVELOPMENT. FULL OF BUGS (BEWARE)
+    Plot the active plane with contour and planar average of the electric field and potential.
 
-    '''
-    WARNING: THIS TOOL IS STILL UNDER DEVELOPMENT. KNOWN BUGS ARE PRESENT.
-    '''
+    Parameters:
+        cube_size (list): The size of the cube used for sampling the active plane.
+        cube_origin (list): The origin point of the cube in fractional coordinates.
+        tolerance (float, optional): The cutoff variance for identifying active and non-active cubes. Default is 1E-4.
+        input_file (str, optional): The filename of the VASP LOCPOT file containing the electrostatic potential. Default is 'LOCPOT'.
 
-    '''
-    Inputs:
-    (define the plane with 3 points)
-    a_point = [0, 0, 0]
-    b_point = [1, 0, 1]
-    c_point = [0, 1, 0]
-    '''
+    Returns:
+        None
 
+    Note:
+        - The function reads the electrostatic potential from the specified VASP LOCPOT file.
+        - The active plane is determined by sampling the potential in a cube around the cube_origin point.
+        - The cutoff_varience parameter sets the threshold for distinguishing active and non-active cubes based on their variance in potential.
+        - The function creates a contour plot of the electric field on the active plane.
+        - It also plots the planar average of the electric field and potential throughout the material.
+    '''
     import math
     import numpy as np
     import matplotlib.pyplot as plt

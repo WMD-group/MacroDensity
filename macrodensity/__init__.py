@@ -20,5 +20,6 @@ import math
 from scipy import interpolate
 from macrodensity import vasp_tools
 from macrodensity import plotting_tools
-from macrodensity.density_tools import *
-from macrodensity.alpha_tools import *
+from macrodensity import density_tools
+from macrodensity import alpha_tools
+from macrodensity import beta_tools

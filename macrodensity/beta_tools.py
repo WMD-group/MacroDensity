@@ -22,14 +22,24 @@ from scipy import interpolate
 
 #------------------------------------------------------------------------------
 def subs_potentials(A,B,tol):
-    """Difference between two sets of data of the same length
-    Args:
-        A/B: the arrays (2D)
-        tol: the tolerence of the difference
-    Returns:
-        C: a new aaray (2D)
     """
+    Subtract potentials between two datasets based on a tolerance value.
 
+    Parameters:
+        A (numpy.ndarray): The first dataset containing potential values in the format (x, potential).
+        B (numpy.ndarray): The second dataset containing potential values in the format (x, potential).
+        tol (float): The tolerance value for potential subtraction.
+
+    Returns:
+        C (numpy.ndarray): The resulting dataset containing the subtracted potentials in the format (x, potential).
+
+    Example:
+        >>> A = np.array([[0, 1], [1, 2], [2, 3], [3, 4]])
+        >>> B = np.array([[0, 1], [1, 3], [2, 2], [3, 4]])
+        >>> tolerance = 1e-2
+        >>> C = subs_potentials(A, B, tolerance)
+        >>> print(C)
+    """
     C = A
     for i in range(len(A)):
         C[i,0] = A[i,0]
@@ -42,16 +52,21 @@ def subs_potentials(A,B,tol):
 
 #------------------------------------------------------------------------------
 def bulk_vac(bulk, slab):
-    """ Set electron density to zero in vacuum region
+    """
+    Subtract potentials between a bulk dataset and a slab dataset based on their positions.
 
-    This sets the electron density to zero in the regions of the projected
-    'bulk' which correspond to the vacuum region of the slab calculation.
+    Parameters:
+        bulk (numpy.ndarray): The dataset containing bulk potential values in the format (x, potential).
+        slab (numpy.ndarray): The dataset containing slab potential values in the format (x, potential).
 
-    Args:
-        bulk : 2D array.
-        vacuum : 2D array.
     Returns:
-        new_bulk : 2D array with vacuum zeros included.
+        new_bulk (numpy.ndarray): The resulting bulk dataset with matching positions of the slab dataset.
+
+    Example:
+        >>> bulk = np.array([[0, 1], [1, 2], [2, 3], [3, 4]])
+        >>> slab = np.array([[0, 1], [1, 3], [2, 2], [3, 4]])
+        >>> result = bulk_vac(bulk, slab)
+        >>> print(result)
 
     """
     new_bulk = np.zeros(shape=(len(slab),2))
@@ -71,13 +86,24 @@ def bulk_vac(bulk, slab):
 #------------------------------------------------------------------------------
 
 def match_resolution(A,B):
-    """Match the resolutions of two data-sets, given their range
-    Args:
-        A/B: two 2D arrays
-    Returns:
-        A_new/B_new : two new 2D arrays
     """
+    Match the resolutions of two datasets by cubic spline interpolation.
 
+    Parameters:
+        A (numpy.ndarray): The first dataset containing potential values in the format (x, potential).
+        B (numpy.ndarray): The second dataset containing potential values in the format (x, potential).
+
+    Returns:
+        A_new (numpy.ndarray): The first dataset with matched resolution and interpolated values.
+        B_new (numpy.ndarray): The second dataset with matched resolution and interpolated values.
+
+    Example:
+        >>> A = np.array([[0, 1], [1, 2], [2, 3], [3, 4]])
+        >>> B = np.array([[0, 1], [1, 3], [2, 2], [3, 4]])
+        >>> result_A, result_B = match_resolution(A, B)
+        >>> print(result_A)
+        >>> print(result_B)
+    """
     np.append(A,A[0,:])
     np.append(B,B[0,:])
     resolution_a = (max(A[:,0])-min(A[:,0]))/len(A)
@@ -101,12 +127,21 @@ def match_resolution(A,B):
 
 #------------------------------------------------------------------------------
 def spline_generate(A,new_res_factor):
-    """Generate a spline of the data in a 2D array
-    Args:
-        A: 2D array
-        new_res_factor: the factor by which to scale the resolution
+    """
+    Generate a new dataset with higher resolution using cubic spline interpolation.
+
+    Parameters:
+        A (numpy.ndarray): The dataset containing potential values in the format (x, potential).
+        new_res_factor (float): The factor by which to increase the resolution.
+
     Returns:
-        B: A spline of the data
+        B (numpy.ndarray): The new dataset with higher resolution and interpolated values.
+
+    Example:
+        >>> A = np.array([[0, 1], [1, 2], [2, 3], [3, 4]])
+        >>> new_res_factor = 2
+        >>> result = spline_generate(A, new_res_factor)
+        >>> print(result)
     """
     resolution = (A[len(A)-1,0]-A[0,0])*new_res_factor/len(A)
     array_a = np.arange(min(A[:,0]),max(A[:,0]),resolution)
@@ -122,14 +157,29 @@ def spline_generate(A,new_res_factor):
 #------------------------------------------------------------------------------
 
 def matched_spline_generate(A,B, V_A, V_B):
-    """Create 2D splines of 2 datasets, with an x-axis of units AA
-    Args:
-        A/B: The two datasets to match up 1-D arrays.
-        V_A/B: The vectors of the direction of plotting.
-    Returns:
-        A/B_new : the new 2D Splined datasets.
     """
+    Generate matched datasets with the same resolution using cubic spline interpolation.
 
+    Parameters:
+        A (numpy.ndarray): The first dataset containing potential values.
+        B (numpy.ndarray): The second dataset containing potential values.
+        V_A (numpy.ndarray): Vector information for the first dataset.
+        V_B (numpy.ndarray): Vector information for the second dataset.
+
+    Returns:
+        TD_A (numpy.ndarray): The first dataset with matched resolution and interpolated values.
+        TD_B (numpy.ndarray): The second dataset with matched resolution and interpolated values.
+
+    Example:
+        >>> A = np.array([1, 2, 3, 4])
+        >>> B = np.array([5, 6, 7, 8])
+        >>> V_A = np.array([1, 2, 3])
+        >>> V_B = np.array([4, 5, 6])
+        >>> result_TD_A, result_TD_B = matched_spline_generate(A, B, V_A, V_B)
+        >>> print(result_TD_A)
+        >>> print(result_TD_B)
+
+    """
     # Convert vectors to magnitude
     length_A = np.sqrt(V_A.dot(V_A))
     length_B = np.sqrt(V_B.dot(V_B))
@@ -164,12 +214,22 @@ def matched_spline_generate(A,B, V_A, V_B):
 
     #--------------------------------------------------------------------------
 def scissors_shift(potential,delta):
-    """Scissors shifts a full potential by delta
-    Args:
-        potential: a 2D array
-        delta: a real number
+    """
+    Shift the potential values by a constant amount.
+
+    Parameters:
+        potential (numpy.ndarray): The dataset containing potential values in the format (x, potential).
+        delta (float): The constant value to shift the potentials.
+
     Returns:
-        shifted_potential: a 2D array
+        shifted_potential (numpy.ndarray): The resulting dataset with shifted potential values.
+
+    Example:
+        >>> potential = np.array([[0, 1], [1, 2], [2, 3], [3, 4]])
+        >>> delta = 0.5
+        >>> result = scissors_shift(potential, delta)
+        >>> print(result)
+
     """
     shifted_potential = potential
     for i in range(len(potential)):
@@ -180,13 +240,25 @@ def scissors_shift(potential,delta):
 
 #------------------------------------------------------------------------------
 def extend_potential(potential,extension,vector):
-    """Takes a potential and expands it.
-    Args:
-        potential: 2D array, the potential to be expanded.
-        extension: integer, the number of times to extend the potential.
-        vector: 1D array, the vector along which you re epanding.
+    """
+    Extend a dataset by duplicating potential values along a specified vector direction.
+
+    Parameters:
+        potential (numpy.ndarray): The dataset containing potential values in the format (x, potential).
+        extension (float): The extension factor specifying how many times to extend the dataset.
+        vector (list): The vector specifying the direction along which to extend the dataset.
+
     Returns:
-        extended_potential: the 2D array, extended n times"""
+        extended_potential (numpy.ndarray): The resulting dataset with extended potential values.
+
+    Example:
+        >>> potential = np.array([[0, 1], [1, 2], [2, 3], [3, 4]])
+        >>> extension = 2
+        >>> vector = np.array([1, 1, 1])
+        >>> result = extend_potential(potential, extension, vector)
+        >>> print(result)
+
+    """
     extended_potential = np.zeros(shape=(int(extension*len(potential)),2))
     idx = 0
     diff = np.sqrt(vector.dot(vector))
@@ -212,15 +284,21 @@ def extend_potential(potential,extension,vector):
 #------------------------------------------------------------------------------
 
 def sort_potential(potential):
-    """I had to write my own method to sort a 2D arry by the first row...
-
-    I don't know why
-    Args:
-        potential: 2-D array.
-    Returns:
-        sorted_potential the same array sorted by the first column.
     """
+    Sort the dataset based on the potential values in ascending order.
 
+    Parameters:
+        potential (numpy.ndarray): The dataset containing potential values in the format (x, potential).
+
+    Returns:
+        sorted_potential (numpy.ndarray): The sorted dataset based on the potential values.
+
+    Example:
+        >>> potential = np.array([[3, 4], [1, 2], [2, 3], [0, 1]])
+        >>> result = sort_potential(potential)
+        >>> print(result)
+
+    """
     idx = sorted(potential[:,0])
     sorted_potential = potential.copy()
     for i in range(len(idx)):
@@ -233,13 +311,28 @@ def sort_potential(potential):
 #------------------------------------------------------------------------------
 
 def diff_potentials(potential_a, potential_b,start,end,tol=0.04):
-    """ Gets the difference betweeen two potentials, returns a 1D array
-    Args:
-        potential_a/b: 2D arrays
-        start/end : the start and finish coordinates
-        tol : the tolerence for the coordinated being the same for subtraction
+    """
+    Subtract potential values between two datasets within a specified range.
+
+    Parameters:
+        potential_a (numpy.ndarray): The first dataset containing potential values in the format (x, potential).
+        potential_b (numpy.ndarray): The second dataset containing potential values in the format (x, potential).
+        start (float): The starting position for potential subtraction.
+        end (float): The ending position for potential subtraction.
+        tol (float, optional): The tolerance value for potential comparison. Default is 0.04.
+
     Returns:
-        new_potential: 2D array
+        new_potential (numpy.ndarray): The resulting dataset with subtracted potential values.
+
+    Example:
+        >>> potential_a = np.array([[0, 1], [1, 2], [2, 3], [3, 4]])
+        >>> potential_b = np.array([[0, 1], [1, 3], [2, 2], [3, 4]])
+        >>> start = 0.5
+        >>> end = 2.5
+        >>> tol = 0.02
+        >>> result = diff_potentials(potential_a, potential_b, start, end, tol)
+        >>> print(result)
+
     """
     resolution = potential_a[0,0] - potential_b[0,1]
     new_potential = np.zeros(shape=((start-end)/resolution,2))
@@ -257,25 +350,27 @@ def diff_potentials(potential_a, potential_b,start,end,tol=0.04):
 
 def translate_grid(potential, translation, periodic=False,
                    vector=[0,0,0], boundary_shift=0.0):
-    """Move the potential around
+    """
+    Translates the grid points of a given potential by a specified translation along the vector direction.
 
-    This is useful for overlapping two plots, or shifting a slab to the centre
-    of the plot (this works if periodic=True)
+    Parameters:
+        potential (numpy.ndarray): Array containing potential data with shape (N, 2), where N is the number of grid points.
+        translation (float): The amount of translation to apply to the grid points along the specified vector direction.
+        periodic (bool, optional): Whether to apply periodic boundary conditions. Default is False.
+        vector (list, optional): The direction vector for translation. Default is [0, 0, 0].
+        boundary_shift (float, optional): The amount of shift to consider when applying periodic boundary conditions. Default is 0.0.
 
-    The new index in the potential arrays [:,0] gives a coordinate in grid
-    points.
-    Args:
-        potential : 2D array containing the electrostatic potential /
-            charge-density
-        translation : the distance to move it
-        periodic : boolean, perform wrapping of coordinates
-        vector: the vector along which you are transforming (only required for
-            periodic=True)
-        boundary_shift : real, number of AA to shift the location of the
-            periodic boundary
     Returns:
-        new_potential_trans : 2D array containing the translated electrostatic
-            potential / charge-density
+        numpy.ndarray: An array containing the translated potential data with shape (N, 2).
+
+    Example:
+        # Sample potential data
+        >>> potential = np.array([[0.0, 1.0], [0.5, 2.0], [1.0, 3.0]])
+
+        # Translate the grid by 0.2 along the x-direction
+        >>> translated_potential = translate_grid(potential, 0.2)
+
+        >>> print(translated_potential)
     """
     new_potential_trans = np.zeros((len(potential),2))
     new_potential_orig = np.zeros((len(potential),2))
@@ -300,10 +395,30 @@ def translate_grid(potential, translation, periodic=False,
 #------------------------------------------------------------------------------
 
 def create_plotting_mesh(NGX,NGY,NGZ,pc,grad):
-    """Create the mesh of points for a contour plot
-    pc: coefficients of the plane equation.
     """
+    Creates a plotting mesh based on the given grid data and plane coefficients.
 
+    Parameters:
+        NGX (int): Number of grid points along the x-direction.
+        NGY (int): Number of grid points along the y-direction.
+        NGZ (int): Number of grid points along the z-direction.
+        pc (numpy.ndarray): Array containing plane coefficients with shape (4,).
+        grad (numpy.ndarray): Array containing gradient data with shape (NGX, NGY, NGZ).
+
+    Returns:
+        numpy.ndarray: A 2D array representing the plotting mesh with shape (a, b), where 'a' and 'b' depend on the plane direction.
+
+    Example:
+        # Sample grid data and plane coefficients
+        >>> NGX, NGY, NGZ = 10, 10, 10
+        >>> pc = np.array([0, 0, 1, 5])
+        >>> grad = np.random.rand(NGX, NGY, NGZ)
+
+        # Create the plotting mesh
+        >>> plotting_mesh = create_plotting_mesh(NGX, NGY, NGZ, pc, grad)
+
+        >>> print(plotting_mesh)
+    """
     if pc[0] == 0 and pc[1] == 0:
         a = NGX; b = NGY; p = 'zzo'; c = int(pc[3] / pc[2]) - 1
     if pc[0] == 0 and pc[2] == 0:
@@ -320,6 +435,22 @@ def create_plotting_mesh(NGX,NGY,NGZ,pc,grad):
 #------------------------------------------------------------------------------
 
 def read_cube_density(FILE):
+    """
+    Reads a cube density file and extracts relevant information.
+
+    Parameters:
+        FILE (str): The path to the cube density file.
+
+    Returns:
+        numpy.ndarray: A 3x3 numpy array representing the lattice.
+
+    Example:
+        >>> file_path = 'path/to/your/cube_density_file.cube'
+
+        # Read the cube density file and get the lattice
+        >>> lattice = read_cube_density(file_path)
+        >>> print(lattice)
+    """
     f = open(FILE,"r")
     lines = f.readlines()
     f.close()
@@ -333,12 +464,27 @@ def read_cube_density(FILE):
 #------------------------------------------------------------------------------
 
 def points_2_plane(a,b,c):
-    """Define a plane based on 3 points
-
-       Method as outlined on
-       http://www.had2know.com/academics/equation-plane-through-3-points.html
     """
+    Calculates the plane coefficients from three points in space.
 
+    Parameters:
+        a (numpy.ndarray): First point with shape (3,).
+        b (numpy.ndarray): Second point with shape (3,).
+        c (numpy.ndarray): Third point with shape (3,).
+
+    Returns:
+        numpy.ndarray: An array containing the plane coefficients with shape (4,).
+
+    Example:
+        # Sample points in space
+        >>> a = np.array([0, 0, 0])
+        >>> b = np.array([1, 0, 0])
+        >>> c = np.array([0, 1, 0])
+
+        # Calculate plane coefficients
+        >>> plane_coefficients = points_2_plane(a, b, c)
+        >>> print(plane_coefficients)
+    """
     coefficients = np.zeros(shape=(4))
 
     ca = c - a
@@ -354,11 +500,26 @@ def points_2_plane(a,b,c):
 #------------------------------------------------------------------------------
 
 def get_third_coordinate(plane_coeff,NGX,NGY):
-    """Given the two sides of a plane, calculate the values of the 'plane'
-
-    (based on the equation earlier)
     """
+    Computes the third coordinate of the plane for given plane coefficients.
 
+    Parameters:
+        plane_coeff (numpy.ndarray): An array containing the plane coefficients with shape (4,).
+        NGX (int): Number of grid points along the x-direction.
+        NGY (int): Number of grid points along the y-direction.
+
+    Returns:
+        list: A list of third coordinates for the plane.
+
+    Example:
+        # Sample plane coefficients and grid dimensions
+        >>> plane_coeff = np.array([1, 1, 1, 5])
+        >>> NGX, NGY = 10, 10
+
+        # Calculate the third coordinate of the plane
+        >>> third_coordinates = get_third_coordinate(plane_coeff, NGX, NGY)
+        >>> print(third_coordinates)
+    """
     zz = []
     i = j = 0
     while i <= NGX:

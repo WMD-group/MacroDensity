@@ -17,7 +17,7 @@ from macrodensity.density_tools import read_vasp_density, matrix_2_abc, density_
 from macrodensity.vasp_tools import get_band_extrema
 
 ## INPUT SECTION
-intersices = ([0.5,0.5,0.5],[0.25,0.25,0.25])
+interstices = ([0.5,0.5,0.5],[0.25,0.25,0.25])
 outcar = 'OUTCAR'
 locpot = 'LOCPOT'
 cube_size = [2,2,2]
