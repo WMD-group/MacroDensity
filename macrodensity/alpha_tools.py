@@ -583,12 +583,13 @@ def spherical_average(cube_size,cube_origin,input_file='LOCPOT',print_output=Tru
 
 #------------------------------------------------------------------------------
 
-def plot_field_at_point(a_point,b_point,c_point,input_file='LOCPOT'):
+def plot_field_at_point(a_point,b_point,c_point,input_file='LOCPOT', grad_calc=False):
     '''
     UNDER DEVELOPMENT. FULL OF BUGS (BEWARE)
     Plot the electric field magnitude and direction on a user-defined plane.
 
-    This function plots the electric field magnitude and direction on a user-defined plane defined by three points: a_point, b_point, and c_point. The function reads the electronic potential data from the specified input file (e.g., LOCPOT) and calculates the electric field (gradient of the potential). The electric field is then visualized by plotting contours of the electric field magnitude and arrows indicating the direction of the electric field on the defined plane.
+    This function plots the electric field magnitude and direction on a user-defined plane defined by three points: a_point, b_point, and c_point. The function reads the electronic potential data from the specified input file (e.g., LOCPOT) and calculates the electric field (gradient of the potential). 
+    The electric field is then visualized by plotting contours of the electric field magnitude and arrows indicating the direction of the electric field on the defined plane.
 
     Parameters:
         a_point (list): The fractional coordinates of the first point defining the plane.
@@ -596,6 +597,7 @@ def plot_field_at_point(a_point,b_point,c_point,input_file='LOCPOT'):
         c_point (list): The fractional coordinates of the third point defining the plane.
         input_file (str, optional): The filename of the file containing the electronic potential (e.g., LOCPOT).
                                     Default is 'LOCPOT'.
+        grad_calc (bool): if True , calculates the gradient of the field. Default is False due to computational expense
 
     Returns:
         None: This function directly plots the electric field visualization.
@@ -634,8 +636,11 @@ def plot_field_at_point(a_point,b_point,c_point,input_file='LOCPOT'):
     grid_pot, electrons = density_2_grid(vasp_pot,NGX,NGY,NGZ)
     ## Get the gradiens (Field), if required.
     ## Comment out if not required, due to compuational expense.
-    print("Calculating gradients (Electic field, E=-Grad.V )...")
-    grad_x,grad_y,grad_z = np.gradient(grid_pot[:,:,:],resolution_x,resolution_y,resolution_z)
+    if grad_calc == True:
+        print("Calculating gradients (Electic field, E=-Grad.V )...")
+        grad_x,grad_y,grad_z = np.gradient(grid_pot[:,:,:],resolution_x,resolution_y,resolution_z)
+    else:
+        pass 
     #------------------------------------------------------------------
     ## Get the equation for the plane
     ## This is the section for plotting on a user defined plane;
@@ -651,7 +656,7 @@ def plot_field_at_point(a_point,b_point,c_point,input_file='LOCPOT'):
     X2 = np.multiply(grad_x,grad_x)
     Y2 = np.multiply(grad_y,grad_y)
     Z2 = np.multiply(grad_z,grad_z)
-    grad_mag = np.sqrt(np.add(X2,Y2,Z2))
+    grad_mag = np.linalg.norm(np.add(X2,Y2,Z2), axis=-1)
     # This was my, non working, attempt to use the built in function.
     #grad_mag=np.linalg.norm( [grad_y,grad_y,grad_z], axis=3)
 
@@ -760,7 +765,7 @@ def plot_plane_field(a_point,b_point,c_point,input_file='LOCPOT'):
 
 #------------------------------------------------------------------------------
 
-def plot_active_plane(cube_size,cube_origin,tolerance=1E-4,input_file='LOCPOT'):
+def plot_active_plane(cube_size,cube_origin,tolerance=1E-4,input_file='LOCPOT', grad_calc= False):
     '''
     UNDER DEVELOPMENT. FULL OF BUGS (BEWARE)
     Plot the active plane with contour and planar average of the electric field and potential.
@@ -770,6 +775,8 @@ def plot_active_plane(cube_size,cube_origin,tolerance=1E-4,input_file='LOCPOT'):
         cube_origin (list): The origin point of the cube in fractional coordinates.
         tolerance (float, optional): The cutoff variance for identifying active and non-active cubes. Default is 1E-4.
         input_file (str, optional): The filename of the VASP LOCPOT file containing the electrostatic potential. Default is 'LOCPOT'.
+        grad_calc (bool): if True , calculates the gradient of the field. Default is False due to computational expense
+
 
     Returns:
         None
@@ -809,7 +816,12 @@ def plot_active_plane(cube_size,cube_origin,tolerance=1E-4,input_file='LOCPOT'):
     cutoff_varience = tolerance
     ## Get the gradiens (Field), if required.
     ## Comment out if not required, due to compuational expense.
-    grad_x,grad_y,grad_z = np.gradient(grid_pot[:,:,:],resolution_x,resolution_y,resolution_z)
+    if grad_calc == True:
+        print("Calculating gradients (Electic field, E=-Grad.V )...")
+        grad_x,grad_y,grad_z = np.gradient(grid_pot[:,:,:],resolution_x,resolution_y,resolution_z)
+    else:
+        pass 
+    
     ## Convert the fractional points to grid points on the density surface
     a = pot.numbers_2_grid(a_point,NGX,NGY,NGZ)
     b = pot.numbers_2_grid(b_point,NGX,NGY,NGZ)
