@@ -246,14 +246,14 @@ class TestConvenienceFunctions(unittest.TestCase):
                     __name__, path_join('../tests', 'LOCPOT.test'))
         Outcar = pkg_resources.resource_filename(
                     __name__, path_join('../tests', 'OUTCAR.test'))
-        out = md.bulk_interstitial_alignment(interstices=([0.5,0.5,0.5],[0.25,0.25,0.25]),outcar=Outcar,locpot=Locpot,cube_size=[2,2,2])
+        out = md.alpha_tools.bulk_interstitial_alignment(interstices=([0.5,0.5,0.5],[0.25,0.25,0.25]),outcar=Outcar,locpot=Locpot,cube_size=[2,2,2])
         self.assertEqual(out,(-3.24, -1.72, [1.8665165271901357e-05, 6.277207757909537e-06]))
 
     def test_moving_cube(self):
         '''Tests the moving_cube function'''
         Locpot = pkg_resources.resource_filename(
                     __name__, path_join('../tests', 'LOCPOT.test'))
-        out = md.moving_cube(cube=[1,1,1],vector=[1,1,1],origin=[0.17,0.17,0.17],magnitude=16,input_file=Locpot)
+        out = md.alpha_tools.moving_cube(cube=[1,1,1],vector=[1,1,1],origin=[0.17,0.17,0.17],magnitude=16,input_file=Locpot)
         self.assertAlmostEqual(out[0],3.99827598)
         self.assertAlmostEqual(out[10],6.53774638)
         self.assertAlmostEqual(out[-1],3.97265811)
@@ -264,14 +264,14 @@ class TestConvenienceFunctions(unittest.TestCase):
         '''Tests the spherical_average function'''
         Locpot = pkg_resources.resource_filename(
                     __name__, path_join('../tests', 'LOCPOT.test'))
-        out = md.spherical_average(cube_size=[2,2,2],cube_origin=[0.5,0.5,0.5],input_file=Locpot)
+        out = md.alpha_tools.spherical_average(cube_size=[2,2,2],cube_origin=[0.5,0.5,0.5],input_file=Locpot)
         self.assertEqual(out,(6.5579496029375, 1.8665165271901357e-05))
 
     def test_plot_planar_average(self):
         '''Tests the plot_planar_average function'''
         Locpot = pkg_resources.resource_filename(
                     __name__, path_join('../tests', 'LOCPOT.test'))
-        out = md.plot_planar_average(lattice_vector=5.41,input_file=Locpot)
+        out = md.alpha_tools.plot_planar_average(lattice_vector=5.41,input_file=Locpot)
         self.assertAlmostEqual(out[0][0],0.14555565)
         self.assertAlmostEqual(out[0][10],4.61454537)
         self.assertAlmostEqual(out[0][-1],-0.87290696)
@@ -284,7 +284,7 @@ class TestConvenienceFunctions(unittest.TestCase):
                     __name__, path_join('../tests', 'LOCPOT.test'))
         Poscar = pkg_resources.resource_filename(
                     __name__, path_join('../tests', 'POSCAR.test'))
-        out = md.plot_on_site_potential(species='Zn',sample_cube=[5,5,5],potential_file=Locpot,coordinate_file=Poscar)
+        out = md.alpha_tools.plot_on_site_potential(species='Zn',sample_cube=[5,5,5],potential_file=Locpot,coordinate_file=Poscar)
         self.assertEqual(out,[-6.545211257074241])
         self.addCleanup(os.remove, 'OnSitePotential.csv')
         self.addCleanup(os.remove, 'OnSitePotential.png')
@@ -293,7 +293,7 @@ class TestConvenienceFunctions(unittest.TestCase):
         '''Tests the plot_gulp_potential function'''
         gulpcar = pkg_resources.resource_filename(
                     __name__, path_join('../tests', 'gulp.out'))
-        out = md.plot_gulp_potential(lattice_vector=3.0,input_file=gulpcar)
+        out = md.alpha_tools.plot_gulp_potential(lattice_vector=3.0,input_file=gulpcar)
         self.assertEqual(out[0][0],-23.16678352)
         self.assertAlmostEqual(out[0][10],-1.59508152)
         self.assertEqual(out[0][-1],-23.16678352)
@@ -304,7 +304,7 @@ class TestConvenienceFunctions(unittest.TestCase):
         '''Tests the plot_active_space function'''
         Locpot = pkg_resources.resource_filename(
                     __name__, path_join('../tests', 'LOCPOT.test'))
-        out = md.plot_active_space(cube_size=[2,2,2],cube_origin=[0.5,0.5,0.5],tolerance=1E-4,input_file=Locpot)
+        out = md.alpha_tools.plot_active_space(cube_size=[2,2,2],cube_origin=[0.5,0.5,0.5],tolerance=1E-4,input_file=Locpot)
         self.assertEqual(out,(17, 4079))
 
     def test_plot_planar_cube(self):
@@ -313,8 +313,8 @@ class TestConvenienceFunctions(unittest.TestCase):
                     __name__, path_join('../tests', 'cube_001_spin_density.cube'))
         Potential = pkg_resources.resource_filename(
                     __name__, path_join('../tests', 'cube_002_hartree_potential.cube'))
-        outden = md.plot_planar_cube(input_file=Density,lattice_vector=4.75)
-        outpot = md.plot_planar_cube(input_file=Potential,lattice_vector=4.75)
+        outden = md.alpha_tools.plot_planar_cube(input_file=Density,lattice_vector=4.75)
+        outpot = md.alpha_tools.plot_planar_cube(input_file=Potential,lattice_vector=4.75)
         self.assertEqual(outden[0][0],0.0200083723051778)
         self.assertEqual(outden[0][-1],0.019841719274268536)
         self.assertEqual(outpot[0][0],-0.562656062923066)
