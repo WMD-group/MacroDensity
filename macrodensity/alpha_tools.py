@@ -709,7 +709,7 @@ def plot_plane_field(a_point,b_point,c_point,input_file='LOCPOT'):
 #------------------------------------------------------------------------------
 
 def plot_active_plane(cube_size,cube_origin,tolerance=1E-4,input_file='LOCPOT'):
-     '''
+    '''
     UNDER DEVELOPMENT. FULL OF BUGS (BEWARE)
     Plot the active plane with contour and planar average of the electric field and potential.
 
