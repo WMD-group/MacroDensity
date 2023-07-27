@@ -1,7 +1,9 @@
-from __future__ import print_function, division
-import numpy as np
-import matplotlib.pyplot as plt
+from __future__ import division, print_function
+
 import matplotlib as mpl
+import matplotlib.pyplot as plt
+import numpy as np
+
 
 def energy_band_alignment_diagram(energies, materials, limit=8., width=1.,
                                   cols=['#74356C','#efce19'], textsize=22,

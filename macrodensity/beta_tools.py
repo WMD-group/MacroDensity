@@ -17,8 +17,10 @@
 ###############################################################################
 
 from __future__ import division
+
 import numpy as np
 from scipy import interpolate
+
 
 #------------------------------------------------------------------------------
 def subs_potentials(A,B,tol):

@@ -7,3 +7,4 @@
 3. Generate page for documentation 
     * Should include a intro to what the package can do
     * A good tutorial (as Jupyter Notebook) exemplifying the main functions
+4. Checking formatting with linters
