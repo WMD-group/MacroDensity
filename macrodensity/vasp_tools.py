@@ -3,13 +3,24 @@ from __future__ import print_function
 
 def get_band_extrema(input_file):
     '''
-    Get the valence band maximum and conduction band minimum from VASP OUTCAR
+    Get the valence band maximum and conduction band minimum from VASP OUTCAR.
 
-    Prints a warning in the case of partial occupancy.
+    This function reads the VASP OUTCAR file and extracts the valence band maximum (VBM) and
+    conduction band minimum (CBM). It also checks for partial occupancy and prints a warning
+    message if found.
+
     Args:
-        input_file : String, the input file name
+        input_file (str): The path to the VASP OUTCAR file.
+
     Returns:
-        list: list[0] = valence band maximum, list[1] = conduction band minimum
+        list: A list containing the valence band maximum (VBM) and conduction band minimum (CBM).
+              list[0] = VBM, list[1] = CBM.
+
+    Example:
+        >>> input_file = 'path/to/OUTCAR'
+        >>> band_extrema = get_band_extrema(input_file)
+        >>> print("Valence Band Maximum (VBM):", band_extrema[0])
+        >>> print("Conduction Band Minimum (CBM):", band_extrema[1])
     '''
     lines = open(input_file, 'r').readlines()
     for line in lines:
