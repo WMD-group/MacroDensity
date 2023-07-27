@@ -28,7 +28,7 @@ def bulk_interstitial_alignment(interstices,outcar="OUTCAR",locpot="LOCPOT",cube
 
     Output:
     Aligned Valence Band, Aligned Conduction Band, Interstitial variances
-    '''
+    """
     from macrodensity.density_tools import read_vasp_density, matrix_2_abc, density_2_grid, volume_average
     from macrodensity.vasp_tools import get_band_extrema
     
@@ -558,7 +558,7 @@ def spherical_average(cube_size,cube_origin,input_file='LOCPOT',print_output=Tru
 
     Outputs:
     cube_potential, cube_variance (Terminal)
-    """
+    '''
     from macrodensity.density_tools import read_vasp_density, matrix_2_abc, density_2_grid, volume_average
 
     ## GETTING POTENTIAL
