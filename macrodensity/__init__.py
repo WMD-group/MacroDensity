@@ -23,3 +23,4 @@ from macrodensity.vasp_tools import *
 from macrodensity.plotting_tools import *
 from macrodensity.density_tools import *
 from macrodensity.beta_tools import *
+from macrodensity.alpha_tools import *
