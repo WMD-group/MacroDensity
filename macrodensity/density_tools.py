@@ -24,12 +24,26 @@ import numpy as np
 
 #------------------------------------------------------------------------------
 def gradient_magnitude(gx, gy, gz):
-    """Converts the separate gradient magnitudes to a single magnitude
-    Args:
-        gx/y/z : fields in x y and z directions 2D array
-    Returns:
-        grad_mag : gradient of fields at each point"""
+    """
+    Calculate the magnitude of the gradient at each point in a 3D field.
 
+    Parameters:
+        gx (numpy.ndarray): Gradient along the x-axis.
+        gy (numpy.ndarray): Gradient along the y-axis.
+        gz (numpy.ndarray): Gradient along the z-axis.
+
+    Returns:
+        numpy.ndarray: 3D array representing the magnitude of the gradient at each point.
+
+    Example:
+        >>> gx = np.random.rand(3, 3, 3)
+        >>> gy = np.random.rand(3, 3, 3)
+        >>> gz = np.random.rand(3, 3, 3)
+        >>> grad_magnitude = gradient_magnitude(gx, gy, gz)
+        >>> print("Gradient Magnitude:")
+        >>> print(grad_magnitude)
+
+    """
     grad_mag = gx
     for i in range(gx.shape[0]):
         for j in range(gy.shape[1]):
@@ -42,15 +56,27 @@ def gradient_magnitude(gx, gy, gz):
 #------------------------------------------------------------------------------
 
 def vector_2_abscissa(vector, magnitude, dx, dy, dz):
-    """Converts a vector with a magnitude given in units of grid density
-    (NGX/Y/Z) to AA for plotting
-    Args:
-        vector : the vector along which the line is being plotted [(3x1) array]
-        magnitude : the number of steps that were taken along that vector
-            [Integer]
-        dx/y/z: the resolution of the density grid in AA-1 [Real]
+    """
+    Convert a 3D vector to an array of abscissa values.
+
+    Parameters:
+        vector (tuple or list): 3D vector represented as (x, y, z).
+        magnitude (int or float): Magnitude of the vector.
+        dx (int or float): Spacing along the x-axis.
+        dy (int or float): Spacing along the y-axis.
+        dz (int or float): Spacing along the z-axis.
+
     Returns:
-        abscissa : the values for plotting on the abscissa in AA [1D array]
+        numpy.ndarray: 1D array containing abscissa values based on the vector and spacing.
+
+    Example:
+        >>> vector = (1, 2, 3)
+        >>> magnitude = 5.0
+        >>> dx, dy, dz = 0.1, 0.2, 0.3
+        >>> abscissa_array = vector_2_abscissa(vector, magnitude, dx, dy, dz)
+        >>> print("Abscissa Array:")
+        >>> print(abscissa_array)
+        
     """
     vec_mag = np.linalg.norm([vector[0] * dx, vector[1] * dy, vector[2] * dz])
     abscissa = [i * vec_mag for i in range(magnitude)]
@@ -59,12 +85,21 @@ def vector_2_abscissa(vector, magnitude, dx, dy, dz):
 #------------------------------------------------------------------------------
 
 def number_in_field(gradients, cutoff):
-    """Get number of grid elements with a field magnitude greater than cutoff
-    Args:
-        gradients: the grid of field gradients (Real(ngx,ngy,ngz))
-        cutoff: the value above which tocout them (Real)
+    """
+    Count the number of elements in a field that have a value greater than or equal to the cutoff.
+
+    Parameters:
+        gradients (numpy.ndarray): 3D array representing the field.
+        cutoff (int or float): Threshold value for counting elements.
+
     Returns:
-        number_of_elements: the number satisfying the condition (Integer)
+        int: Number of elements in the field satisfying the cutoff condition.
+
+    Example:
+        >>> gradients_field = np.random.rand(4, 4, 4)
+        >>> cutoff_value = 0.5
+        >>> num_elements_above_cutoff = number_in_field(gradients_field, cutoff_value)
+        >>> print("Number of Elements Above Cutoff:", num_elements_above_cutoff)
     """
     number_of_elements = 0
     for element in np.nditer(gradients):
@@ -75,12 +110,24 @@ def number_in_field(gradients, cutoff):
 #------------------------------------------------------------------------------
 
 def element_vol(vol, nx, ny, nz):
-    """Calculates the volume of each of the elements on the grid.
-    Args:
-        vol: the cell volume (real)
-        x : the number of grid points in each direction (real)
+    """
+    Calculate the volume of each element in a 3D grid.
+
+    Parameters:
+        vol (int or float): Total volume of the 3D grid.
+        nx (int): Number of elements along the x-axis.
+        ny (int): Number of elements along the y-axis.
+        nz (int): Number of elements along the z-axis.
+
     Returns:
-        ele_vol : the volume (real)
+        float: Volume of each individual element in the grid.
+
+    Example:
+        >>> volume = 10.0
+        >>> nx, ny, nz = 5, 5, 5
+        >>> element_volume = element_vol(volume, nx, ny, nz)
+        >>> print("Volume of Each Element:", element_volume)
+
     """
     number_of_elements = nx * ny * nz
     ele_vol = vol / number_of_elements
@@ -90,13 +137,24 @@ def element_vol(vol, nx, ny, nz):
 #------------------------------------------------------------------------------
 
 def one_2_2d(Array, resolution, vector):
-    """Converts the 1d potential array to 2D with angstroms in A[0]
-    Args:
-        Array: 1D array
-        resolution: density of sampling of distance (1/AA)
-        vector: The vector of the direction of sampling
-    Returns
-        New_array: 2D array
+    """
+    Transform a 1D array to a 2D array with abscissa values based on the given resolution and vector.
+
+    Parameters:
+        Array (numpy.ndarray): 1D array to be transformed.
+        resolution (int or float): Spacing between abscissa values.
+        vector (numpy.ndarray): 3D vector used for the transformation.
+
+    Returns:
+        numpy.ndarray: 2D array with abscissa values and the corresponding Array values.
+
+    Example:
+        >>> Array = np.random.rand(10)
+        >>> resolution = 0.5
+        >>> vector = np.array([1, 2, 3])
+        >>> transformed_array = one_2_2d(Array, resolution, vector)
+        >>> print("Transformed Array:")
+        >>> print(transformed_array)
     """
     length = np.sqrt(vector.dot(vector))
     New_array = np.zeros(shape=(len(Array) - 1, 2))
@@ -109,15 +167,25 @@ def one_2_2d(Array, resolution, vector):
 #------------------------------------------------------------------------------
 
 def macroscopic_average(potential, periodicity, resolution):
-    """Getting the macroscopic average of potential
-    Args:
-        potential : array containig the electrostaticpotential/charge density
-        periodicity : real number; the period over which to average
-        resolution : the grid resolution in the direction of averaging
+    """
+    Calculate the macroscopic average of a 1D potential field with periodicity.
+
+    Parameters:
+        potential (numpy.ndarray): 1D array representing the potential field.
+        periodicity (int or float): Periodicity of the field.
+        resolution (int or float): Spacing between potential data points.
+
     Returns:
-        macro_average : array with the macroscopically averaged values"""
+        numpy.ndarray: 1D array containing the macroscopic average of the potential field.
 
-
+    Example:
+        >>> potential = np.random.rand(20)
+        >>> periodicity = 2.0
+        >>> resolution = 0.1
+        >>> macro_avg_result = macroscopic_average(potential, periodicity, resolution)
+        >>> print("Macroscopic Average Result:")
+        >>> print(macro_avg_result)
+    """
     macro_average = np.zeros(shape=(len(potential)))
     period_points = int((periodicity/resolution))
     # Period points must be even
@@ -145,8 +213,32 @@ def macroscopic_average(potential, periodicity, resolution):
 #------------------------------------------------------------------------------
 
 def volume_average(origin, cube, grid, nx, ny, nz, travelled=[0, 0, 0]):
-    """Populates the sampling cube with the potential required"""
+    """
+    Calculate the volume average and variance of a cube in a 3D grid.
 
+    Parameters:
+        origin (tuple or list): Coordinates of the origin point.
+        cube (tuple or list): Dimensions of the cube (x, y, z).
+        grid (numpy.ndarray): 3D array representing the data grid.
+        nx (int): Number of points along the x-axis in the grid.
+        ny (int): Number of points along the y-axis in the grid.
+        nz (int): Number of points along the z-axis in the grid.
+        travelled (tuple or list, optional): Distance travelled from the origin in each direction (x, y, z). Default is [0, 0, 0].
+
+    Returns:
+        tuple: A tuple containing the volume average and variance of the cube.
+
+    Example:
+        >>> origin = (0.5, 0.5, 0.5)
+        >>> cube = (3, 3, 3)
+        >>> grid = np.random.rand(10, 10, 10)
+        >>> nx, ny, nz = 10, 10, 10
+        >>> travelled = [1, 2, 3]
+        >>> avg, variance = volume_average(origin, cube, grid, nx, ny, nz, travelled)
+        >>> print("Volume Average:", avg)
+        >>> print("Variance:", variance)
+
+    """
     # Recalc the origin as grid point coordinates
     n_origin = np.zeros(shape=(3))
     n_origin[0] = int(origin[0]*nx)
@@ -170,9 +262,29 @@ def volume_average(origin, cube, grid, nx, ny, nz, travelled=[0, 0, 0]):
 #------------------------------------------------------------------------------
 
 def travelling_volume_average(grid, cube, origin, vector, nx, ny, nz, magnitude):
-   """Calculates the average in a cube defined by size cube(a,b,c), beginning
-    at origin and travelling as far as magnitude."""
+   """
+    Calculate the volume average at multiple positions along a given vector.
 
+    Parameters:
+        grid (numpy.ndarray): 3D array representing the data grid.
+        cube (tuple or list): Dimensions of the cube (x, y, z).
+        origin (tuple or list): Coordinates of the origin point.
+        vector (tuple or list): 3D vector representing the direction of travel.
+        nx (int): Number of points along the x-axis in the grid.
+        ny (int): Number of points along the y-axis in the grid.
+        nz (int): Number of points along the z-axis in the grid.
+        magnitude (int): Number of positions to travel along the vector.
+
+    Returns:
+        numpy.ndarray: 1D array containing the volume averages at each position along the vector.
+
+    Example:
+        >>> vector = (0.1, 0.2, 0.3)
+        >>> magnitude = 5
+        >>> travelling_avg = travelling_volume_average(grid, cube, origin, vector, nx, ny, nz, magnitude)
+        >>> print("Travelling Volume Average:")
+        >>> print(travelling_avg)
+    """
    plotting_average = np.zeros(shape=(magnitude))
    i = 0
    while i < magnitude:
@@ -186,8 +298,25 @@ def travelling_volume_average(grid, cube, origin, vector, nx, ny, nz, magnitude)
 #------------------------------------------------------------------------------
 
 def planar_average(grid, nx, ny, nz, axis='z'):
-    """Calculate the average in a given plane for the full length of the
-    normal; e.g. the full length of z in the xy plane."""
+    """
+    Calculate the planar average of a 3D grid along a specified axis.
+
+    Parameters:
+        grid (numpy.ndarray): 3D array representing the data grid.
+        nx (int): Number of points along the x-axis in the grid.
+        ny (int): Number of points along the y-axis in the grid.
+        nz (int): Number of points along the z-axis in the grid.
+        axis (str, optional): Axis along which to calculate the average ('x', 'y', or 'z'). Default is 'z'.
+
+    Returns:
+        numpy.ndarray: 1D array containing the planar average along the specified axis.
+
+    Example:
+        >>> axis = 'z'
+        >>> planar_avg = planar_average(grid, nx, ny, nz, axis)
+        >>> print("Planar Average along axis", axis)
+        >>> print(planar_avg)
+    """
     if axis == 'x':
         x_plane = np.zeros(shape=(ny, nz))
         Average = np.zeros(shape=(nx))
@@ -211,9 +340,23 @@ def planar_average(grid, nx, ny, nz, axis='z'):
 #------------------------------------------------------------------------------
 
 def get_volume(a,b,c):
-    """Calculate the volume of the cell from lattice vectors
-    Args:
-        a/b/c: vectors of the lattice edges
+    """
+    Calculate the volume of a parallelepiped defined by three vectors a, b, and c.
+
+    Parameters:
+        a (numpy.ndarray): 1D array representing vector a.
+        b (numpy.ndarray): 1D array representing vector b.
+        c (numpy.ndarray): 1D array representing vector c.
+
+    Returns:
+        float: Volume of the parallelepiped defined by the three vectors.
+
+    Example:
+        >>> a = np.array([1, 0, 0])
+        >>> b = np.array([0, 1, 0])
+        >>> c = np.array([0, 0, 1])
+        >>> volume = get_volume(a, b, c)
+        >>> print("Volume of parallelepiped:", volume)
     """
     volume = np.dot(a,np.cross(b,c))
 
@@ -221,8 +364,24 @@ def get_volume(a,b,c):
 #------------------------------------------------------------------------------
 
 def numbers_2_grid(a,NGX,NGY,NGZ):
-    """Takes a point (in fractional coordinates) and converts it to a VASP grid
-    point based on the NGX/Y/Z values."""
+    """
+    Convert fractional coordinates to grid point coordinates.
+
+    Parameters:
+        a (tuple or list): Fractional coordinates (x, y, z).
+        NGX (int): Number of grid points along the x-axis.
+        NGY (int): Number of grid points along the y-axis.
+        NGZ (int): Number of grid points along the z-axis.
+
+    Returns:
+        numpy.ndarray: 1D array containing the grid point coordinates (x, y, z).
+
+    Example:
+        >>> fractional_coords = [0.3, 0.4, 0.5]
+        >>> NGX, NGY, NGZ = 10, 10, 10
+        >>> grid_coords = numbers_2_grid(fractional_coords, NGX, NGY, NGZ)
+        >>> print("Grid Point Coordinates:", grid_coords)
+    """
     a_grid = np.zeros(shape=(3))
     a_grid[0] = round(float(a[0])*NGX)
     a_grid[1] = round(float(a[1])*NGY)
@@ -232,8 +391,24 @@ def numbers_2_grid(a,NGX,NGY,NGZ):
 #------------------------------------------------------------------------------
 
 def matrix_2_abc(Lattice):
-    """The the VASP lattice and convert to the a,b,c,alpha,beta,gamma format"""
+    """
+    Extract lattice parameters and vectors from a 3x3 matrix representing a lattice.
 
+    Parameters:
+        Lattice (numpy.ndarray): 3x3 matrix representing the lattice.
+
+    Returns:
+        tuple: A tuple containing the lattice parameters a, b, c and lattice vectors a_vec, b_vec, c_vec.
+
+    Example:
+        >>> Lattice = np.array([[1, 0, 0], [0, 2, 0], [0, 0, 3]])
+        >>> a, b, c, a_vec, b_vec, c_vec = matrix_2_abc(Lattice)
+        >>> print("Lattice parameters:", a, b, c)
+        >>> print("Lattice vectors:")
+        >>> print(a_vec)
+        >>> print(b_vec)
+        >>> print(c_vec)
+    """
     a = np.sqrt(Lattice[0,0]**2+Lattice[0,1]**2+Lattice[0,2]**2)
     b = np.sqrt(Lattice[1,0]**2+Lattice[1,1]**2+Lattice[1,2]**2)
     c = np.sqrt(Lattice[2,0]**2+Lattice[2,1]**2+Lattice[2,2]**2)
@@ -269,19 +444,32 @@ def _print_boom(quiet=False):
         print("BBBB       OOOO        OOOO        M M M   ")
 
 def read_vasp_density(FILE, use_pandas=None, quiet=False):
-    """Generic reading of CHGCAR LOCPOT etc files from VASP
+    """
+    Read density data from a VASP CHGCAR-like file.
 
-    Args:
-        FILE (str): Path to density file
-        use_pandas (bool): Use Pandas library for faster file reading. If set
-            to None, Pandas will be used when available.
+    Parameters:
+        FILE (str): Path to the CHGCAR-like file.
+        use_pandas (bool or None, optional): If True, use Pandas to read 3D data (recommended for large files).
+                                             If False, use Numpy. If None, automatically use Pandas if available.
+                                             Default is None.
+        quiet (bool, optional): If True, suppress print statements during reading. Default is False.
 
     Returns:
-        Potential (array), NGX (int), NGY (int), NGZ (int), lattice (array)
+        tuple: A tuple containing:
+            - numpy.ndarray: 1D array representing the potential data.
+            - int: Number of grid points along the x-axis (NGX).
+            - int: Number of grid points along the y-axis (NGY).
+            - int: Number of grid points along the z-axis (NGZ).
+            - numpy.ndarray: 3x3 array representing the lattice vectors.
 
-        where Potential is a 1-D flattened array of density data with original
-        dimensions NGX x NGY x NGZ and lattice is the 3x3 unit-cell matrix.
-
+    Example:
+        >>> FILE = "path/to/your/CHGCAR_file"
+        >>> potential_data, NGX, NGY, NGZ, lattice = read_vasp_density(FILE)
+        >>> print("Potential Data:")
+        >>> print(potential_data)
+        >>> print("Number of grid points along x, y, z axes:", NGX, NGY, NGZ)
+        >>> print("Lattice Vectors:")
+        >>> print(lattice)
     """
     # Get Header information by reading a line at a time
 
@@ -345,11 +533,25 @@ def read_vasp_density(FILE, use_pandas=None, quiet=False):
 #------------------------------------------------------------------------------
 
 def _read_partial_density(FILE, use_pandas, num_atoms, NGX, NGY, NGZ, spin=0):
-    '''
-        use_pandas (bool): Use Pandas library for faster file reading. If set
-        to None, Pandas will be used when available.
-        spin: the set of spin data to read, default 0 for ISPIN=1 calculation
-    '''
+    """
+    This function is used internally within the read_casp_parchg, reading partial density data from a VASP-PARCHG file.
+
+    Args:
+        FILE (str): Path to the CHGCAR-like file.
+        use_pandas (bool or None, optional): If True, use Pandas to read 3D data (recommended for large files).
+                                             If False, use Numpy. If None, automatically use Pandas if available.
+                                             Default is None.
+        num_atoms (int): Total number of atoms in the system.
+        NGX (int): Number of grid points along the x-axis.
+        NGY (int): Number of grid points along the y-axis.
+        NGZ (int): Number of grid points along the z-axis.
+        spin (int, optional): If 0, read the first spin channel (total density).
+                              If 1, read the second spin channel (spin-up or spin-down).
+                              Default is 0.
+
+    Returns:
+        numpy.ndarray: 1D array representing the partial density data for the specified spin channel.
+    """
     print("PANDAS:", use_pandas)
     if use_pandas:
         from pandas import read_table as pandas_read_table
@@ -407,20 +609,38 @@ def _read_partial_density(FILE, use_pandas, num_atoms, NGX, NGY, NGZ, spin=0):
 
 #------------------------------------------------------------------------------
 def read_vasp_parchg(FILE, use_pandas=None, quiet=False, spin=False):
-    """Generic reading of CHGCAR LOCPOT etc files from VASP
+    """
+    Read density data or spin-polarized partial density data from a VASP PARCHG-like file.
 
-    Args:
-        FILE (str): Path to parchg file
-        use_pandas (bool): Use Pandas library for faster file reading. If set
-            to None, Pandas will be used when available.
-        spin(bool): is the data spin polarised?
+    Parameters:
+        FILE (str): Path to the PARCHG-like file.
+        use_pandas (bool or None, optional): If True, use Pandas to read 3D data (recommended for large files).
+                                             If False, use Numpy. If None, automatically use Pandas if available.
+                                             Default is None.
+        quiet (bool, optional): If True, suppress print statements during reading. Default is False.
+        spin (bool, optional): If True, read spin-polarized partial densities. Default is False.
 
     Returns:
-        density (array), NGX (int), NGY (int), NGZ (int), lattice (array)
+        tuple: A tuple containing:
+            - list or numpy.ndarray: List containing numpy arrays representing the density data for each spin channel,
+                                     or numpy.ndarray for the total density if spin is False.
+            - int: Number of grid points along the x-axis (NGX).
+            - int: Number of grid points along the y-axis (NGY).
+            - int: Number of grid points along the z-axis (NGZ).
+            - numpy.ndarray: 3x3 array representing the lattice vectors.
 
-        where density is a 1-D flattened array of density data with original
-        dimensions NGX x NGY x NGZ and lattice is the 3x3 unit-cell matrix.
-
+    Example:
+        >>> FILE = "path/to/PARCHG-like-file"
+        >>> density, NGX, NGY, NGZ, lattice = read_vasp_parchg(FILE)
+        >>> if isinstance(density, list):
+            >>> print("Spin-polarized Partial Densities:")
+            >>> for i, spin_density in enumerate(density):
+                >>> print(f"Spin {i+1} Density Data:", spin_density)
+        >>> else:
+            >>> print("Total Density Data:", density)
+        >>> print("Number of Grid Points (NGX, NGY, NGZ):", NGX, NGY, NGZ)
+        >>> print("Lattice Vectors:")
+        >>> print(lattice)
     """
     # Get Header information by reading a line at a time
 
@@ -464,20 +684,46 @@ def read_vasp_parchg(FILE, use_pandas=None, quiet=False, spin=False):
     return density, NGX, NGY, NGZ, lattice
 
 def read_vasp_density_classic(FILE):
-    """Reimplementation of the legacy 3D data importer
+    """
+    Read density data from a classic VASP-style file.
 
-    This is still quite a bit slower than the new ``read_vasp_density`` but it
-    makes less assumptions about where newlines will appear in the file. It
-    also prints the progress reading through the file; this definitely makes it
-    slower but might _feel_ faster!
+    Parameters:
+        FILE (str): Path to the density file.
+
+    Returns:
+        tuple: A tuple containing:
+            - numpy.ndarray: 1D array representing the potential data.
+            - int: Number of grid points along the x-axis (NGX).
+            - int: Number of grid points along the y-axis (NGY).
+            - int: Number of grid points along the z-axis (NGZ).
+            - numpy.ndarray: 3x3 array representing the lattice vectors.
+    Example:
+        >>> FILE = "path/to/classic-VASP-density-file"
+        >>> potential, NGX, NGY, NGZ, lattice = read_vasp_density_classic(FILE)
+        >>> print("Potential Data:", potential)
+        >>> print("Number of Grid Points (NGX, NGY, NGZ):", NGX, NGY, NGZ)
+        >>> print("Lattice Vectors:")
+        >>> print(lattice)
     """
     with open(FILE, "r") as f:
         lines = f.readlines()
     return _read_vasp_density_fromlines(lines)
-
+#------------------------------------------------------------------------------
 def _read_vasp_density_fromlines(lines):
-    """Generic reading of CHGCAR LOCPOT etc files from VASP"""
+    """
+    Read density data from a list of lines (classic VASP-style format). This function is used internally within the read_vasp_density_classic function (add hyperlink to read_vasp_density_classic function)
 
+    Parameters:
+        lines (list): List of lines from the density file.
+
+    Returns:
+        tuple: A tuple containing:
+            - numpy.ndarray: 1D array representing the potential data.
+            - int: Number of grid points along the x-axis (NGX).
+            - int: Number of grid points along the y-axis (NGY).
+            - int: Number of grid points along the z-axis (NGZ).
+            - numpy.ndarray: 3x3 array representing the lattice vectors.
+    """
     i, j, k = 0, 0, 0
     NGX, NGY, NGZ = 0, 0, 0
 
@@ -534,17 +780,35 @@ def _read_vasp_density_fromlines(lines):
 #------------------------------------------------------------------------------
 
 def density_2_grid(Density, nx, ny, nz, Charge=False, Volume=1):
-    """Convert the Potential list to a grid for ease of manipulation
-    Args:
-        Density: Array of the output from a VAsp calulation charge/potential
-        nx,y,z : Number of mesh points in x/y/z
-        Charge : Boolean, is it charge or potential (charge needs to be
-            normalised by vol)
-        Volume : The lattice vectors, only required for normalising charge.
-     Returns:
-        Potential_grid: the (normalised) quantity on a mesh
-        total_electrons : the number of electrons in the system
-        """
+    """
+    Convert density data to a 3D grid.
+
+    Parameters:
+        Density (numpy.ndarray): 1D array representing the density data.
+        nx (int): Number of grid points along the x-axis.
+        ny (int): Number of grid points along the y-axis.
+        nz (int): Number of grid points along the z-axis.
+        Charge (bool, optional): If True, convert charge density to the number of electrons.
+                                 Default is False.
+        Volume (int or float, optional): Volume of the grid cell. Used to convert charge density to electrons.
+                                         Default is 1.
+
+    Returns:
+        tuple: A tuple containing:
+            - numpy.ndarray: 3D array representing the potential grid.
+            - float: Total number of electrons in the grid (if Charge is True).
+    
+    Example:
+        >>> Density = np.random.rand(NGX * NGY * NGZ)  # Replace this with actual density data
+        >>> nx, ny, nz = NGX, NGY, NGZ
+        >>> Charge = False  # Set to True if Density represents charge density
+        >>> Volume = 1.0  # Volume of the grid cell (if Charge is True)
+        >>> potential_grid, total_electrons = density_2_grid(Density, nx, ny, nz, Charge, Volume)
+        >>> print("Potential Grid:")
+        >>> print(potential_grid)
+        >>> if Charge:
+            >>> print("Total Electrons:", total_electrons)
+    """
     l = 0
     Potential_grid = np.zeros(shape=(nx,ny,nz))
     total_electrons = 0
@@ -566,13 +830,24 @@ def density_2_grid(Density, nx, ny, nz, Charge=False, Volume=1):
 #------------------------------------------------------------------------------
 
 def density_2_grid_gulp(Density, nx, ny, nz):
-    """Convert the Potential list to a grid for ease of manipulation
-    Args:
-        Density: Array of the output from a VAsp calulation charge/potential
-        nx,y,z : Number of mesh points in x/y/z
-     Returns:
-        Potential_grid: the (normalised) quantity on a mesh
-        """
+    """
+    Convert density data to a 3D grid in the GULP format.
+
+    Parameters:
+        Density (numpy.ndarray): 1D array representing the density data.
+        nx (int): Number of grid points along the x-axis.
+        ny (int): Number of grid points along the y-axis.
+        nz (int): Number of grid points along the z-axis.
+
+    Returns:
+        numpy.ndarray: 3D array representing the potential grid in GULP format.
+
+    Example:
+        >>> Density = np.random.rand(nx * ny * nz)  # Replace this with actual density data
+        >>> potential_grid_gulp = density_2_grid_gulp(Density, nx, ny, nz)
+        >>> print("Potential Grid in GULP format:")
+        >>> print(potential_grid_gulp)
+    """
     l = 0
     Potential_grid = np.zeros(shape=(nx,ny,nz))
     total_electrons = 0
@@ -586,19 +861,28 @@ def density_2_grid_gulp(Density, nx, ny, nz):
 
 #------------------------------------------------------------------------------
 def read_gulp_potential(gulpfile='gulp.out'):
+    """
+    Read electrostatic potential data from a GULP output file.
 
-    """Generic reading of GULP output
-
-    Args:
-        gulpfile (str): Path to gulp output file
+    Parameters:
+        gulpfile (str, optional): Path to the GULP output file (gulp.out). Default is 'gulp.out'.
 
     Returns:
-        potential (array), NGX (int), NGY (int), NGZ (int), lattice (array)
-
-        where density is a 1-D flattened array of density data with original
-        dimensions NGX x NGY x NGZ and lattice is the 3x3 unit-cell matrix.
+        tuple: A tuple containing:
+            - numpy.ndarray: 1D array representing the electrostatic potential data.
+            - int: Number of grid points along the x-axis (NGX).
+            - int: Number of grid points along the y-axis (NGY).
+            - int: Number of grid points along the z-axis (NGZ).
+            - numpy.ndarray: 3x3 array representing the Cartesian lattice vectors.
+    
+    Example:
+        >>> gulpfile = 'path/to/gulp.out'
+        >>> potential, NGX, NGY, NGZ, lattice = read_gulp_potential(gulpfile)
+        >>> print("Electrostatic Potential Data:", potential)
+        >>> print("Number of Grid Points (NGX, NGY, NGZ):", NGX, NGY, NGZ)
+        >>> print("Lattice Vectors:")
+        >>> print(lattice)
     """
-
     potential = []
 
     try:
@@ -633,7 +917,22 @@ def read_gulp_potential(gulpfile='gulp.out'):
 #------------------------------------------------------------------------------
 
 def GCD(a,b):
-    """ The Euclidean Algorithm """
+    """
+    Compute the Greatest Common Divisor (GCD) of two integers a and b.
+
+    Parameters:
+        a (int): First integer.
+        b (int): Second integer.
+
+    Returns:
+        int: The Greatest Common Divisor of a and b.
+    
+    Example:
+        >>> a = 36
+        >>> b = 48
+        >>> gcd = GCD(a, b)
+        >>> print("GCD of", a, "and", b, "is:", gcd)
+    """
     a = abs(a)
     b = abs(b)
     while a:
@@ -642,20 +941,37 @@ def GCD(a,b):
 #------------------------------------------------------------------------------
 
 def GCD_List(list):
-    """ Finds the GCD of numbers in a list.
-    Input: List of numbers you want to find the GCD of
-            E.g. [8, 24, 12]
-    Returns: GCD of all numbers
+    """
+    Compute the Greatest Common Divisor (GCD) of a list of integers.
+
+    Parameters:
+        lst (list): List of integers.
+
+    Returns:
+        int: The Greatest Common Divisor of the elements in the list.
+    
+    Example:
+        >>> numbers = [24, 36, 60]
+        >>> gcd = GCD_List(numbers)
+        >>> print("GCD of", numbers, "is:", gcd)
     """
     return reduce(GCD, list)
 #------------------------------------------------------------------------------
 def inverse_participation_ratio(density):
-    """ Calculate the IPR, which is Psi**4 or Rho**2
-    Input: density, a 1-D flattened grid of the electron density for the state
-           this is calculated from the PARCHG in VASP
-    Output: ipr, float
     """
+    Calculate the inverse participation ratio (IPR) for a given density.
 
+    Parameters:
+        density (list or numpy.ndarray): List or 1D array representing the density data.
+
+    Returns:
+        float: The inverse participation ratio value.
+    
+    Example:
+        >>> density = np.array([0.2, 0.4, 0.6, 0.8])
+        >>> ipr = inverse_participation_ratio(density)
+        >>> print("Inverse Participation Ratio (IPR) for the density:", ipr)
+    """
     sq = sum(i**2 for i in density)
     fr = sum(i**4 for i in density)
     ifr = 1 / (len(density) * fr)

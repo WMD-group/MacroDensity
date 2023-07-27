@@ -7,31 +7,39 @@ def energy_band_alignment_diagram(energies, materials, limit=8., width=1.,
                                   cols=['#74356C','#efce19'], textsize=22,
                                   arrowhead=0.7, outfile='BandAlignment',
                                   references=[], edge=None):
-    '''
-    Function for plotting the classic energy band alignment diagram
-    Args:
-        energies: a list of EAs and IPs for all materials in the plot
-            [[ea1,ip1],[ea2,ip2], ....]
-        materials: a list of labels for the materials
-        limit: the deepest value you want on the plot (eg 8 means that you can
-            plot IPs up to 8, in practive you want this higher than the
-            greatest IP, usually by about 2 eV). Default = 8.
-        width: The width of the bars, nearly always 1. Default = 1.
-        cols: The list of colours that you want to rotate through.
-            Default = [plum, buttercup]
-        textsize: size of the font for the figure. Default = 22.
-        arrowhead: arrow head length. Default = 0.7.
-        outfile: name of the ouput. Default = 'BandAlignment'
-        references: any reference levels you want to add to the plot.
-            [['Name of reference',value_of_reference], ...]. Note that
-            value_of_reference is a positive value on the same scale as
-            IP/EA. Default = [].
-        edge: the colour of the edge box of each material bar chart. Default
-            None.
-    Returns:
-        Nothing, but draws an eps plot.
-    '''
+   
+    """
+    Plot an energy band alignment diagram for a list of materials.
 
+    Parameters:
+        energies (list): A list of tuples containing the ionization potential (IP) and
+                         electron affinity (EA) of each material. The format is [(IP_1, EA_1), ...].
+        materials (list): A list of material names corresponding to each set of energies.
+        limit (float, optional): The limit for the energy axis (in eV). Default is 8.0.
+        width (float, optional): The width of the bars representing IP and EA. Default is 1.0.
+        cols (list, optional): A list of colors to use for the bars. Default is ['#74356C','#efce19'].
+        textsize (int, optional): The font size for the text in the plot. Default is 22.
+        arrowhead (float, optional): The size of the arrowhead for the energy arrows. Default is 0.7.
+        outfile (str, optional): The base name for the output file (both .eps and .png files will be saved).
+                                 Default is 'BandAlignment'.
+        references (list, optional): A list of reference points (as tuples) to be shown as dashed lines
+                                     on the plot. Each tuple should be in the format (reference_value, label).
+                                     Default is an empty list.
+        edge (None or str, optional): The edge color for the bars. If None, there will be no edge color.
+                                      Default is None.
+
+    Returns:
+        None: The function generates and displays the energy band alignment diagram.
+
+    Example:
+        >>> energies = [(5.2, 2.8), (4.9, 3.1), (5.5, 2.6)]
+        >>> materials = ['Material A', 'Material B', 'Material C']
+        >>> energy_band_alignment_diagram(energies, materials, limit=8.0, width=0.8,
+                                    cols=['#74356C', '#efce19'], textsize=18,
+                                    arrowhead=0.5, outfile='BandAlignment',
+                                    references=[(3.0, 'Reference 1'), (4.0, 'Reference 2')],
+                                    edge='black')
+    """
     fig, ax1 = plt.subplots(1, 1, sharex=True)
     fig.set_size_inches(len(energies) * 3, limit * 0.75)
     mpl.rcParams['xtick.labelsize'] = textsize
