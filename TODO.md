@@ -3,13 +3,15 @@
 - [x] Checking function docstrings (e.g. should describe what they do, describe inputs/outputs & include type's of input & output variables) 
 - [x] Testing with GitHub actions
 - [ ] Formatting & cleanup of files
-    * Remove unused imports (e.g. if package is imported but not used etc)
+    * Remove unused imports (e.g. if package/function is imported but not used etc)
     * Maybe some reorganization and renaming of input files to make it more user-friendly (alpha_tools.py etc)?
 - [ ] Generate documentation (with `sphinx`)
-    * Should include a intro to what the package can do
-    * Python API for main functions
-    * A good tutorial (as Jupyter Notebook) exemplifying the main functions & workflow
-      * The notebook should combine `Markdown` and `Code` cells to explain the workflow, showing the outputs/plots etc
+    * Quickstart guide on using `sphinx` [here](https://www.sphinx-doc.org/en/master/usage/quickstart.html)
+    * The docs should include 3 main pages:
+        1. Itro to what the package can do
+        2. Python API for main functions
+        3. A good tutorial (as Jupyter Notebook) exemplifying the main functions & workflow
+            * The notebook should combine `Markdown` and `Code` cells to explain the workflow, showing the outputs/plots etc
 - [ ] Checking code & docstrings formatting with linters
     * Using the packages `isort`, `black`, `pycodestyle`, `flake8`
 - [ ] Installation
