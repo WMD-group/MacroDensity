@@ -11,6 +11,7 @@ MacroDensity's documentation
    :caption: Contents:
 
    getting_started
+   main_functions
    tutorials
    theory
    contributing

@@ -10,7 +10,7 @@ require other packages.
 * Python 3
 * `Matplotlib <https://matplotlib.org/>`_ (only required for interactive plotting features).
 * `Atomic Simulation Environment <https://wiki.fysik.dtu.dk/ase/>`_ (only required for reading Gaussian cube files and for atom centred averaging).
-* `Pandas <https://pandas.pydata.org/>`_ (can speed up I/O of files significantly).
+* `Pandas <https://pandas.pydata.org/>`_ (can speed up I/O of files significantly; version 1.2.0 or greater).
 
 Installation
 ------------
