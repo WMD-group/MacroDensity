@@ -19,7 +19,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import ase.io.cube
 import pandas as pd
-from macrodensity.density_tools import planar_average, macroscopic_average
+from macrodensity.density import planar_average, macroscopic_average
 
 ## INPUT SECTION
 input_file = "cube_001_spin_density.cube"

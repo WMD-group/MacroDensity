@@ -15,7 +15,7 @@ Percentage of vaccum vs non-vacuum cubes
 
 import math
 import numpy as np
-from macrodensity.density_tools import read_vasp_density, matrix_2_abc, density_2_grid, numbers_2_grid, volume_average
+from macrodensity.density import read_vasp_density, matrix_2_abc, density_2_grid, numbers_2_grid, volume_average
 
 ## INPUT SECTION
 cube_size = [2,2,2]

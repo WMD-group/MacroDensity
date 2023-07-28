@@ -21,7 +21,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 from scipy.interpolate import interp1d
-from macrodensity.density_tools import matrix_2_abc, planar_average, macroscopic_average,density_2_grid_gulp,read_gulp_potential
+from macrodensity.density import matrix_2_abc, planar_average, macroscopic_average,density_2_grid_gulp,read_gulp_potential
 
 ## INPUT SECTION
 lattice_vector = 3.0

@@ -11,7 +11,7 @@ input_file = VASP LOCPOT input filename to be read
 Outputs:
 cube_potential, cube_variance (Terminal)
 """
-from macrodensity.density_tools import read_vasp_density, matrix_2_abc, density_2_grid, volume_average
+from macrodensity.density import read_vasp_density, matrix_2_abc, density_2_grid, volume_average
 
 ## INPUT SECTION
 cube_size = [2,2,2]

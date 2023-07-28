@@ -13,7 +13,7 @@ Output:
 Aligned Valence Band, Aligned Conduction Band, Interstitial variances
 '''
 
-from macrodensity.density_tools import read_vasp_density, matrix_2_abc, density_2_grid, volume_average
+from macrodensity.density import read_vasp_density, matrix_2_abc, density_2_grid, volume_average
 from macrodensity.vasp_tools import get_band_extrema
 
 ## INPUT SECTION

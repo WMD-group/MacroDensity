@@ -17,7 +17,7 @@ image file plotting .csv data
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
-from macrodensity.density_tools import read_vasp_density, matrix_2_abc, density_2_grid, planar_average, macroscopic_average
+from macrodensity.density import read_vasp_density, matrix_2_abc, density_2_grid, planar_average, macroscopic_average
 
 ## INPUT SECTION
 input_file = 'LOCPOT'

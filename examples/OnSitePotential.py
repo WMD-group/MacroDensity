@@ -23,7 +23,7 @@ import ase
 import pandas as pd
 from ase.io import write
 from ase.io import vasp
-from macrodensity.density_tools import read_vasp_density, matrix_2_abc, density_2_grid, numbers_2_grid, planar_average, macroscopic_average,volume_average
+from macrodensity.density import read_vasp_density, matrix_2_abc, density_2_grid, numbers_2_grid, planar_average, macroscopic_average,volume_average
 
 ## INPUT SECTION
 potential_file = 'LOCPOT')

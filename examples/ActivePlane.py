@@ -15,7 +15,7 @@ c_point = [0, 1, 0]
 import math
 import numpy as np
 import matplotlib.pyplot as plt
-from macrodensity.density_tools import read_vasp_density, matrix_2_abc, density_2_grid, numbers_2_grid, planar_average, macroscopic_average, volume_average
+from macrodensity.density import read_vasp_density, matrix_2_abc, density_2_grid, numbers_2_grid, planar_average, macroscopic_average, volume_average
 from macrodensity.beta_tools import create_plotting_mesh,points_2_plane
 
 #------------------------------------------------------------------

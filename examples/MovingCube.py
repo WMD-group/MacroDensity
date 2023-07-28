@@ -17,7 +17,7 @@ averaged electrostatic potential for the set cube size (list)
 .csv file containing the above data
 .png file presenting the above data
 '''
-from macrodensity.density_tools import read_vasp_density, matrix_2_abc, density_2_grid, vector_2_abscissa, travelling_volume_average
+from macrodensity.density import read_vasp_density, matrix_2_abc, density_2_grid, vector_2_abscissa, travelling_volume_average
 import matplotlib.pyplot as plt
 import pandas as pd
 
