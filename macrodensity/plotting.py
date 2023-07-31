@@ -1,11 +1,12 @@
 from __future__ import division, print_function
 
+import ase 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib import cm
 import pandas as pd
-import ase.io
+from ase.io import cube, vasp
 from scipy.interpolate import interp1d
 from macrodensity.density import (
     density_2_grid,

@@ -9,7 +9,7 @@ import ase
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
-import ase.io
+from ase.io import cube, vasp
 from scipy.interpolate import interp1d
 from macrodensity.density import (
     density_2_grid,
@@ -19,7 +19,7 @@ from macrodensity.density import (
     matrix_2_abc, 
     travelling_volume_average,
     vector_2_abscissa,)
-from macrodensity.vasp_tools import get_band_extrema
+from macrodensity.vasp import get_band_extrema
 
 def bulk_interstitial_alignment(interstices: list,outcar: str="OUTCAR",locpot: str="LOCPOT",cube_size: list=[2,2,2],print_output:bool=True):
     """

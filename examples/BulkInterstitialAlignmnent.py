@@ -14,7 +14,7 @@ Aligned Valence Band, Aligned Conduction Band, Interstitial variances
 '''
 
 from macrodensity.density import read_vasp_density, matrix_2_abc, density_2_grid, volume_average
-from macrodensity.vasp_tools import get_band_extrema
+from macrodensity.vasp import get_band_extrema
 
 ## INPUT SECTION
 interstices = ([0.5,0.5,0.5],[0.25,0.25,0.25])
