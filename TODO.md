@@ -8,8 +8,8 @@
 - [ ] Generate documentation (with `sphinx`)
     * Quickstart guide on using `sphinx` [here](https://www.sphinx-doc.org/en/master/usage/quickstart.html)
     * The docs should include 3 main pages:
-        1. Itro to what the package can do
-        2. Python API for main functions
+        1. Intro to what the package can do (index.rst)
+        2. Python API for main functions (main_functions.rst)
         3. A good tutorial (as Jupyter Notebook) exemplifying the main functions & workflow
             * The notebook should combine `Markdown` and `Code` cells to explain the workflow, showing the outputs/plots etc
 - [ ] Checking code & docstrings formatting with linters
