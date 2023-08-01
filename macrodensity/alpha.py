@@ -262,7 +262,7 @@ def bulk_vac(bulk: np.ndarray, slab: np.ndarray):
     return new_bulk
 #------------------------------------------------------------------------------
 
-def match_resolution(A,B):
+def match_resolution(A: np.ndarray,B: np.ndarray) -> (np.ndarray, np.ndarray):
     """
     Match the resolutions of two datasets by cubic spline interpolation.
 
@@ -303,7 +303,7 @@ def match_resolution(A,B):
     return A_new, B_new
 
 #------------------------------------------------------------------------------
-def spline_generate(A,new_res_factor):
+def spline_generate(A: np.ndarray,new_res_factor: float) -> np.ndarray:
     """
     Generate a new dataset with higher resolution using cubic spline interpolation.
 
@@ -333,7 +333,7 @@ def spline_generate(A,new_res_factor):
     return B
 #------------------------------------------------------------------------------
 
-def matched_spline_generate(A,B, V_A, V_B):
+def matched_spline_generate(A: np.ndarray,B: np.ndarray, V_A: np.ndarray, V_B: np.ndarray) -> (np.ndarray, np.ndarray):
     """
     Generate matched datasets with the same resolution using cubic spline interpolation.
 
@@ -390,7 +390,7 @@ def matched_spline_generate(A,B, V_A, V_B):
     return TD_A, TD_B
 
 #--------------------------------------------------------------------------
-def scissors_shift(potential,delta):
+def scissors_shift(potential: np.ndarray,delta: float) -> np.ndarray:
     """
     Shift the potential values by a constant amount.
 
@@ -416,7 +416,7 @@ def scissors_shift(potential,delta):
     return shifted_potential
 
 #------------------------------------------------------------------------------
-def extend_potential(potential,extension,vector):
+def extend_potential(potential: np.ndarray,extension: float,vector: list) -> np.ndarray:
     """
     Extend a dataset by duplicating potential values along a specified vector direction.
 
@@ -460,7 +460,7 @@ def extend_potential(potential,extension,vector):
     return extended_potential
 #------------------------------------------------------------------------------
 
-def sort_potential(potential):
+def sort_potential(potential: np.ndarray) -> np.ndarray:
     """
     Sort the dataset based on the potential values in ascending order.
 
@@ -487,7 +487,7 @@ def sort_potential(potential):
     return sorted_potential
 #------------------------------------------------------------------------------
 
-def diff_potentials(potential_a, potential_b,start,end,tol=0.04):
+def diff_potentials(potential_a: np.ndarray, potential_b: np.ndarray,start: float,end: float,tol: float=0.04) -> np.ndarray:
     """
     Subtract potential values between two datasets within a specified range.
 
@@ -525,8 +525,8 @@ def diff_potentials(potential_a, potential_b,start,end,tol=0.04):
     return new_potential
 #------------------------------------------------------------------------------
 
-def translate_grid(potential, translation, periodic=False,
-                   vector=[0,0,0], boundary_shift=0.0):
+def translate_grid(potential: np.ndarray, translation: float, periodic: bool=False,
+                   vector: list=[0,0,0], boundary_shift: float=0.0) -> np.ndarray:
     """
     Translates the grid points of a given potential by a specified translation along the vector direction.
 
@@ -570,7 +570,7 @@ def translate_grid(potential, translation, periodic=False,
     return sorted_potential_trans
 #------------------------------------------------------------------------------
 
-def create_plotting_mesh(NGX,NGY,NGZ,pc,grad):
+def create_plotting_mesh(NGX: int,NGY: int,NGZ: int,pc: np.ndarray,grad: np.ndarray) -> np.ndarray:
     """
     Creates a plotting mesh based on the given grid data and plane coefficients.
 
@@ -610,7 +610,7 @@ def create_plotting_mesh(NGX,NGY,NGZ,pc,grad):
     return plane
 #------------------------------------------------------------------------------
 
-def read_cube_density(FILE):
+def read_cube_density(FILE: str) -> np.ndarray:
     """
     Reads a cube density file and extracts relevant information.
 
@@ -639,7 +639,7 @@ def read_cube_density(FILE):
             natms = inp[0]
 #------------------------------------------------------------------------------
 
-def points_2_plane(a,b,c):
+def points_2_plane(a: np.ndarray,b: np.ndarray,c: np.ndarray) -> np.ndarray:
     """
     Calculates the plane coefficients from three points in space.
 
@@ -675,7 +675,7 @@ def points_2_plane(a,b,c):
     return coefficients
 #------------------------------------------------------------------------------
 
-def get_third_coordinate(plane_coeff,NGX,NGY):
+def get_third_coordinate(plane_coeff: np.ndarray,NGX: int,NGY: int) -> list:
     """
     Computes the third coordinate of the plane for given plane coefficients.
 
