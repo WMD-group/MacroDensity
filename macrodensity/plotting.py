@@ -29,21 +29,25 @@ def energy_band_alignment_diagram(energies: list, materials:list, limit:float=8.
     Plot an energy band alignment diagram for a list of materials.
 
     Parameters:
-        energies (list): A list of tuples containing the ionization potential (IP) and
-                         electron affinity (EA) of each material. The format is [(IP_1, EA_1), ...].
+        energies (list): A list of tuples containing the ionization potential (IP) and electron affinity (EA) of each material. The format is [(IP_1, EA_1), ...].
+
         materials (list): A list of material names corresponding to each set of energies.
+
         limit (float, optional): The limit for the energy axis (in eV). Default is 8.0.
+
         width (float, optional): The width of the bars representing IP and EA. Default is 1.0.
+
         cols (list, optional): A list of colors to use for the bars. Default is ['#74356C','#efce19'].
+
         textsize (int, optional): The font size for the text in the plot. Default is 22.
+        
         arrowhead (float, optional): The size of the arrowhead for the energy arrows. Default is 0.7.
-        outfile (str, optional): The base name for the output file (both .eps and .png files will be saved).
-                                 Default is 'BandAlignment'.
-        references (list, optional): A list of reference points (as tuples) to be shown as dashed lines
-                                     on the plot. Each tuple should be in the format (reference_value, label).
-                                     Default is an empty list.
-        edge (None or str, optional): The edge color for the bars. If None, there will be no edge color.
-                                      Default is None.
+
+        outfile (str, optional): The base name for the output file (both .eps and .png files will be saved). Default is 'BandAlignment'.
+
+        references (list, optional): A list of reference points (as tuples) to be shown as dashed lines on the plot. Each tuple should be in the format (reference_value, label). Default is an empty list.
+
+        edge (None or str, optional): The edge color for the bars. If None, there will be no edge color. Default is None.
 
     Returns:
         None: The function generates and displays the energy band alignment diagram.
@@ -141,10 +145,15 @@ def plot_active_space(cube_size: list,cube_origin: list,tolerance: float=1E-4,in
 
     Parameters:
         cube_size (list of int): The size of the cubes in units of mesh points (NGX/Y/Z) for analysis.
+
         cube_origin (list of float): The starting point (origin) of the cubes in fractional coordinates (range [0, 1]).
+
         tolerance (float, optional): The cutoff variance value to distinguish vacuum from non-vacuum cubes. Default is 1E-4.
+
         input_file (str, optional): The file with VASP output for potential. Default is 'LOCPOT'.
+
         print_output (bool, optional): Whether to print the analysis results. Default is True.
+
         plot_pot (bool, optional): Whether to plot vacuum and non vacuum potential in a scatter (VOXEL) plot. Default is False.
 
     Returns:
@@ -158,11 +167,7 @@ def plot_active_space(cube_size: list,cube_origin: list,tolerance: float=1E-4,in
         >>> cube_size = [2, 2, 2]
         >>> cube_origin = [0.0, 0.0, 0.0]
         >>> plot_active_space(cube_size, cube_origin, tolerance=1E-5)
-        Number of vacuum cubes:  20
-        Number of non-vacuum cubes:  4
-        Percentage of vacuum cubes:  83.33333333333334
-        Percentage of non-vacuum cubes:  16.666666666666664
-        (20, 4)
+    
     '''
     ## GETTING POTENTIAL
     vasp_pot, NGX, NGY, NGZ, Lattice = read_vasp_density(input_file)
@@ -241,9 +246,13 @@ def plot_gulp_potential(lattice_vector: float,input_file: str='gulp.out',output_
 
     Parameters:
         lattice_vector (float): The repeating unit over which the potential is averaged to get the macroscopic average (Angstroms).
+
         input_file (str, optional): The filename of the GULP output file containing potential data. Default is 'gulp.out'.
+
         output_file (str, optional): Name of the output data file to store the planar average. Default is 'GulpPotential.csv'.
+
         img_file (str, optional): Name of the output image file for the generated plot. Default is 'GulpPotential.png'.
+
         new_resolution (int, optional): The number of grid points used for the interpolated curve. Default is 3000.
 
     Returns:
@@ -303,12 +312,15 @@ def plot_on_site_potential(species: str,sample_cube: list,potential_file: str='L
 
     Parameters:
         species (str): The chemical symbol of the species whose on-site potential is of interest.
+
         sample_cube (list of int): The size of the sampling cube in units of mesh points (NGX/Y/Z).
-        potential_file (str, optional): The filename of the VASP output file containing the electronic potential (LOCPOT).
-                                       Default is 'LOCPOT'.
-        coordinate_file (str, optional): The filename of the POSCAR file containing atomic coordinates.
-                                         Default is 'POSCAR'.
+
+        potential_file (str, optional): The filename of the VASP output file containing the electronic potential (LOCPOT). Default is 'LOCPOT'.
+
+        coordinate_file (str, optional): The filename of the POSCAR file containing atomic coordinates. Default is 'POSCAR'.
+
         output_file (str, optional): Name of the output data file to store the on-site potential values. Default is 'OnSitePotential.csv'.
+
         img_file (str, optional): Name of the output image file for the histogram plot. Default is 'OnSitePotential.png'.
 
     Returns:
@@ -378,10 +390,11 @@ def plot_planar_average(lattice_vector: float,input_file: str='LOCPOT',output_fi
 
     Parameters:
         lattice_vector (float): The repeating unit over which the potential is averaged to get the macroscopic average (in Angstroms).
-        input_file (str, optional): The filename of the VASP output file containing the electronic potential (LOCPOT).
-                                    Default is 'LOCPOT'.
-        output_file (str, optional): Name of the output data file to store the planar and macroscopic average data.
-                                     Default is 'PlanarAverage.csv'.
+        
+        input_file (str, optional): The filename of the VASP output file containing the electronic potential (LOCPOT). Default is 'LOCPOT'.
+
+        output_file (str, optional): Name of the output data file to store the planar and macroscopic average data. Default is 'PlanarAverage.csv'.
+
         img_file (str, optional): Name of the output image file for the plots. Default is 'PlanarAverage.png'.
 
     Returns:
@@ -434,9 +447,11 @@ def plot_planar_cube(input_file: str,lattice_vector: float,output_file: str='Pla
 
     Parameters:
         input_file (str): The filename of the cube file containing the electronic potential.
+
         lattice_vector (float): The repeating unit over which the potential is averaged to get the macroscopic average (in Angstroms).
-        output_file (str, optional): Name of the output data file to store the planar and macroscopic average data.
-                                     Default is 'PlanarCube.csv'.
+
+        output_file (str, optional): Name of the output data file to store the planar and macroscopic average data. Default is 'PlanarCube.csv'.
+
         img_file (str, optional): Name of the output image file for the plots. Default is 'PlanarCube.png'.
 
     Returns:
@@ -494,10 +509,13 @@ def plot_field_at_point(a_point: list,b_point: list,c_point: list,input_file: st
 
     Parameters:
         a_point (list): The fractional coordinates of the first point defining the plane.
+
         b_point (list): The fractional coordinates of the second point defining the plane.
+
         c_point (list): The fractional coordinates of the third point defining the plane.
-        input_file (str, optional): The filename of the file containing the electronic potential (e.g., LOCPOT).
-                                    Default is 'LOCPOT'.
+
+        input_file (str, optional): The filename of the file containing the electronic potential (e.g., LOCPOT). Default is 'LOCPOT'.
+
         grad_calc (bool): if True , calculates the gradient of the field. Default is False due to computational expense
 
     Returns:
@@ -586,8 +604,11 @@ def plot_plane_field(a_point: list,b_point: list,c_point: list,input_file: str='
 
     Parameters:
         a_point (list): Fractional coordinates of the first point that defines the plane.
+
         b_point (list): Fractional coordinates of the second point that defines the plane.
+
         c_point (list): Fractional coordinates of the third point that defines the plane.
+
         input_file (str, optional): The filename of the VASP LOCPOT file containing the electrostatic potential. Default is 'LOCPOT'.
 
     Returns:
@@ -639,11 +660,14 @@ def plot_active_plane(cube_size: list,cube_origin: list,tolerance: float=1E-4,in
 
     Parameters:
         cube_size (list): The size of the cube used for sampling the active plane.
-        cube_origin (list): The origin point of the cube in fractional coordinates.
-        tolerance (float, optional): The cutoff variance for identifying active and non-active cubes. Default is 1E-4.
-        input_file (str, optional): The filename of the VASP LOCPOT file containing the electrostatic potential. Default is 'LOCPOT'.
-        grad_calc (bool): if True , calculates the gradient of the field. Default is False due to computational expense
 
+        cube_origin (list): The origin point of the cube in fractional coordinates.
+
+        tolerance (float, optional): The cutoff variance for identifying active and non-active cubes. Default is 1E-4.
+
+        input_file (str, optional): The filename of the VASP LOCPOT file containing the electrostatic potential. Default is 'LOCPOT'.
+
+        grad_calc (bool): if True , calculates the gradient of the field. Default is False due to computational expense
 
     Returns:
         None

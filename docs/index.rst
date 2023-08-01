@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to MacroDensity Documentation's documentation!
+Welcome to MacroDensity's documentation!
 ======================================================
 
 .. toctree::
@@ -11,7 +11,7 @@ Welcome to MacroDensity Documentation's documentation!
    :caption: Contents:
 
    modules
-
+   nbsphinx:: tutorials/TEST.ipynb
 
 Indices and tables
 ==================

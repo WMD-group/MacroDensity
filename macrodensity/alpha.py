@@ -21,7 +21,7 @@ from macrodensity.density import (
     vector_2_abscissa,)
 from macrodensity.vasp import get_band_extrema
 
-def bulk_interstitial_alignment(interstices: list,outcar: str="OUTCAR",locpot: str="LOCPOT",cube_size: list=[2,2,2],print_output:bool=True):
+def bulk_interstitial_alignment(interstices: list,outcar: str="OUTCAR",locpot: str="LOCPOT",cube_size: list=[2,2,2],print_output:bool=True) -> (float, float, float):
     """
     Calculate the aligned band energies for a bulk material with interstitial sites.
 
@@ -29,26 +29,21 @@ def bulk_interstitial_alignment(interstices: list,outcar: str="OUTCAR",locpot: s
     by considering the effect of interstitial sites on the electronic structure of the bulk material.
 
     Parameters:
-        interstices (list of tuples): A list of tuples representing the coordinates of the interstitial sites
-                                     for which the aligned band energies will be calculated.
+        interstices (list of tuples): A list of tuples representing the coordinates of the interstitial sites for which the aligned band energies will be calculated.
 
-        outcar (str, optional): The filename of the OUTCAR file containing electronic band structure information.
-                                Default is "OUTCAR".
+        outcar (str, optional): The filename of the OUTCAR file containing electronic band structure information. Default is "OUTCAR".
 
-        locpot (str, optional): The filename of the LOCPOT file containing the electronic density information.
-                                Default is "LOCPOT".
+        locpot (str, optional): The filename of the LOCPOT file containing the electronic density information. Default is "LOCPOT".
 
-        cube_size (list of int, optional): The size of the cube (in grid points) around each interstitial site
-                                           used to calculate the local potential. Default is [2, 2, 2].
+        cube_size (list of int, optional): The size of the cube (in grid points) around each interstitial site used to calculate the local potential. Default is [2, 2, 2].
 
         print_output (bool, optional): Whether to print the intermediate and final results. Default is True.
 
     Returns:
-        tuple: A tuple containing the aligned VB energy, aligned CB energy, and a list of interstitial variances.
-               The variances represent the deviation of the potential from the reference state at each interstitial site.
+        tuple: A tuple containing the aligned VB energy, aligned CB energy, and a list of interstitial variances. The variances represent the deviation of the potential from the reference state at each interstitial site.
 
     Output:
-    Aligned Valence Band, Aligned Conduction Band, Interstitial variances
+        Aligned Valence Band, Aligned Conduction Band, Interstitial variances
     """ 
     
     ## GETTING POTENTIAL
@@ -93,7 +88,7 @@ def bulk_interstitial_alignment(interstices: list,outcar: str="OUTCAR",locpot: s
 
 #------------------------------------------------------------------------------
 
-def moving_cube(cube=[1,1,1],vector=[1,1,1],origin=[0,0,0],magnitude = 280,input_file='LOCPOT',output_file='MovingCube.csv',img_file='MovingCube.png'):
+def moving_cube(cube=[1,1,1],vector=[1,1,1],origin=[0,0,0],magnitude = 280,input_file='LOCPOT',output_file='MovingCube.csv',img_file='MovingCube.png') -> list:
     '''
     Calculate the travelling volume average of the electronic potential along a specific vector.
 
@@ -103,16 +98,18 @@ def moving_cube(cube=[1,1,1],vector=[1,1,1],origin=[0,0,0],magnitude = 280,input
     potential values at each position are plotted, and the data is saved to a CSV file.
 
     Parameters:
-        cube (list, optional): The size of the cube used for volume averaging in units of mesh points (NGX/Y/Z).
-                               Default is [1, 1, 1].
+        cube (list, optional): The size of the cube used for volume averaging in units of mesh points (NGX/Y/Z). Default is [1, 1, 1].
+
         vector (list, optional): The vector along which the cube moves for volume averaging. Default is [1, 1, 1].
+
         origin (list, optional): The starting position of the cube in fractional coordinates. Default is [0, 0, 0].
-        magnitude (float, optional): The distance covered by the cube in each direction from the origin along the vector (in Angstroms).
-                                     Default is 280.
-        input_file (str, optional): The filename of the file containing the electronic potential (e.g., LOCPOT).
-                                    Default is 'LOCPOT'.
-        output_file (str, optional): Name of the output data file to store the volume-averaged potential data.
-                                     Default is 'MovingCube.csv'.
+
+        magnitude (float, optional): The distance covered by the cube in each direction from the origin along the vector (in Angstroms). Default is 280.
+
+        input_file (str, optional): The filename of the file containing the electronic potential (e.g., LOCPOT). Default is 'LOCPOT'.
+
+        output_file (str, optional): Name of the output data file to store the volume-averaged potential data. Default is 'MovingCube.csv'.
+
         img_file (str, optional): Name of the output image file for the potential plot. Default is 'MovingCube.png'.
 
     Returns:
@@ -152,7 +149,7 @@ def moving_cube(cube=[1,1,1],vector=[1,1,1],origin=[0,0,0],magnitude = 280,input
 
 #------------------------------------------------------------------------------
 
-def spherical_average(cube_size: list,cube_origin: list,input_file: str='LOCPOT',print_output: bool=True):
+def spherical_average(cube_size: list,cube_origin: list,input_file: str='LOCPOT',print_output: bool=True) -> (float, float):
     '''
     Calculate the volume average of the electronic potential within a spherical region.
 
@@ -165,17 +162,18 @@ def spherical_average(cube_size: list,cube_origin: list,input_file: str='LOCPOT'
 
     Parameters:
         cube_size (list): The size of the spherical region in units of mesh points (NGX/Y/Z).
+
         cube_origin (list): The origin of the spherical region in fractional coordinates.
-        input_file (str, optional): The filename of the file containing the electronic potential (e.g., LOCPOT).
-                                    Default is 'LOCPOT'.
-        print_output (bool, optional): If True, the function prints the calculated potential and variance.
-                                       Default is True.
+
+        input_file (str, optional): The filename of the file containing the electronic potential (e.g., LOCPOT). Default is 'LOCPOT'.
+
+        print_output (bool, optional): If True, the function prints the calculated potential and variance. Default is True.
 
     Returns:
         tuple: A tuple containing the volume-averaged potential and the variance within the spherical region.
 
     Outputs:
-        cube_potential, cube_variance (Terminal)
+        cube_potential, cube_variance
     '''
     
     ## GETTING POTENTIAL
@@ -204,7 +202,9 @@ def subs_potentials(A: np.ndarray,B: np.ndarray,tol: float) -> np.ndarray:
 
     Parameters:
         A (numpy.ndarray): The first dataset containing potential values in the format (x, potential).
+
         B (numpy.ndarray): The second dataset containing potential values in the format (x, potential).
+
         tol (float): The tolerance value for potential subtraction.
 
     Returns:
@@ -228,12 +228,13 @@ def subs_potentials(A: np.ndarray,B: np.ndarray,tol: float) -> np.ndarray:
     return C
 
 #------------------------------------------------------------------------------
-def bulk_vac(bulk: np.ndarray, slab: np.ndarray):
+def bulk_vac(bulk: np.ndarray, slab: np.ndarray) -> np.ndarray:
     """
     Subtract potentials between a bulk dataset and a slab dataset based on their positions.
 
     Parameters:
         bulk (numpy.ndarray): The dataset containing bulk potential values in the format (x, potential).
+
         slab (numpy.ndarray): The dataset containing slab potential values in the format (x, potential).
 
     Returns:
@@ -268,10 +269,12 @@ def match_resolution(A: np.ndarray,B: np.ndarray) -> (np.ndarray, np.ndarray):
 
     Parameters:
         A (numpy.ndarray): The first dataset containing potential values in the format (x, potential).
+
         B (numpy.ndarray): The second dataset containing potential values in the format (x, potential).
 
     Returns:
         A_new (numpy.ndarray): The first dataset with matched resolution and interpolated values.
+
         B_new (numpy.ndarray): The second dataset with matched resolution and interpolated values.
 
     Example:
@@ -309,6 +312,7 @@ def spline_generate(A: np.ndarray,new_res_factor: float) -> np.ndarray:
 
     Parameters:
         A (numpy.ndarray): The dataset containing potential values in the format (x, potential).
+
         new_res_factor (float): The factor by which to increase the resolution.
 
     Returns:
@@ -339,12 +343,16 @@ def matched_spline_generate(A: np.ndarray,B: np.ndarray, V_A: np.ndarray, V_B: n
 
     Parameters:
         A (numpy.ndarray): The first dataset containing potential values.
+
         B (numpy.ndarray): The second dataset containing potential values.
+
         V_A (numpy.ndarray): Vector information for the first dataset.
+
         V_B (numpy.ndarray): Vector information for the second dataset.
 
     Returns:
         TD_A (numpy.ndarray): The first dataset with matched resolution and interpolated values.
+        
         TD_B (numpy.ndarray): The second dataset with matched resolution and interpolated values.
 
     Example:
@@ -396,6 +404,7 @@ def scissors_shift(potential: np.ndarray,delta: float) -> np.ndarray:
 
     Parameters:
         potential (numpy.ndarray): The dataset containing potential values in the format (x, potential).
+
         delta (float): The constant value to shift the potentials.
 
     Returns:
@@ -422,7 +431,9 @@ def extend_potential(potential: np.ndarray,extension: float,vector: list) -> np.
 
     Parameters:
         potential (numpy.ndarray): The dataset containing potential values in the format (x, potential).
+
         extension (float): The extension factor specifying how many times to extend the dataset.
+
         vector (list): The vector specifying the direction along which to extend the dataset.
 
     Returns:
@@ -493,9 +504,13 @@ def diff_potentials(potential_a: np.ndarray, potential_b: np.ndarray,start: floa
 
     Parameters:
         potential_a (numpy.ndarray): The first dataset containing potential values in the format (x, potential).
+
         potential_b (numpy.ndarray): The second dataset containing potential values in the format (x, potential).
+
         start (float): The starting position for potential subtraction.
+
         end (float): The ending position for potential subtraction.
+
         tol (float, optional): The tolerance value for potential comparison. Default is 0.04.
 
     Returns:
@@ -532,21 +547,23 @@ def translate_grid(potential: np.ndarray, translation: float, periodic: bool=Fal
 
     Parameters:
         potential (numpy.ndarray): Array containing potential data with shape (N, 2), where N is the number of grid points.
+
         translation (float): The amount of translation to apply to the grid points along the specified vector direction.
+
         periodic (bool, optional): Whether to apply periodic boundary conditions. Default is False.
+
         vector (list, optional): The direction vector for translation. Default is [0, 0, 0].
+
         boundary_shift (float, optional): The amount of shift to consider when applying periodic boundary conditions. Default is 0.0.
 
     Returns:
         numpy.ndarray: An array containing the translated potential data with shape (N, 2).
 
     Example:
-        # Sample potential data
+        >>> # Sample potential data
         >>> potential = np.array([[0.0, 1.0], [0.5, 2.0], [1.0, 3.0]])
-
-        # Translate the grid by 0.2 along the x-direction
+        >>> # Translate the grid by 0.2 along the x-direction
         >>> translated_potential = translate_grid(potential, 0.2)
-
         >>> print(translated_potential)
     """
     new_potential_trans = np.zeros((len(potential),2))
@@ -576,23 +593,25 @@ def create_plotting_mesh(NGX: int,NGY: int,NGZ: int,pc: np.ndarray,grad: np.ndar
 
     Parameters:
         NGX (int): Number of grid points along the x-direction.
+
         NGY (int): Number of grid points along the y-direction.
+
         NGZ (int): Number of grid points along the z-direction.
+
         pc (numpy.ndarray): Array containing plane coefficients with shape (4,).
+
         grad (numpy.ndarray): Array containing gradient data with shape (NGX, NGY, NGZ).
 
     Returns:
         numpy.ndarray: A 2D array representing the plotting mesh with shape (a, b), where 'a' and 'b' depend on the plane direction.
 
     Example:
-        # Sample grid data and plane coefficients
+        >>> # Sample grid data and plane coefficients
         >>> NGX, NGY, NGZ = 10, 10, 10
         >>> pc = np.array([0, 0, 1, 5])
         >>> grad = np.random.rand(NGX, NGY, NGZ)
-
-        # Create the plotting mesh
+        >>> # Create the plotting mesh
         >>> plotting_mesh = create_plotting_mesh(NGX, NGY, NGZ, pc, grad)
-
         >>> print(plotting_mesh)
     """
     if pc[0] == 0 and pc[1] == 0:
@@ -622,8 +641,7 @@ def read_cube_density(FILE: str) -> np.ndarray:
 
     Example:
         >>> file_path = 'path/to/your/cube_density_file.cube'
-
-        # Read the cube density file and get the lattice
+        >>> # Read the cube density file and get the lattice
         >>> lattice = read_cube_density(file_path)
         >>> print(lattice)
     """
@@ -645,19 +663,20 @@ def points_2_plane(a: np.ndarray,b: np.ndarray,c: np.ndarray) -> np.ndarray:
 
     Parameters:
         a (numpy.ndarray): First point with shape (3,).
+
         b (numpy.ndarray): Second point with shape (3,).
+
         c (numpy.ndarray): Third point with shape (3,).
 
     Returns:
         numpy.ndarray: An array containing the plane coefficients with shape (4,).
 
     Example:
-        # Sample points in space
+        >>> # Sample points in space
         >>> a = np.array([0, 0, 0])
         >>> b = np.array([1, 0, 0])
         >>> c = np.array([0, 1, 0])
-
-        # Calculate plane coefficients
+        >>> # Calculate plane coefficients
         >>> plane_coefficients = points_2_plane(a, b, c)
         >>> print(plane_coefficients)
     """
@@ -681,18 +700,19 @@ def get_third_coordinate(plane_coeff: np.ndarray,NGX: int,NGY: int) -> list:
 
     Parameters:
         plane_coeff (numpy.ndarray): An array containing the plane coefficients with shape (4,).
+
         NGX (int): Number of grid points along the x-direction.
+
         NGY (int): Number of grid points along the y-direction.
 
     Returns:
         list: A list of third coordinates for the plane.
 
     Example:
-        # Sample plane coefficients and grid dimensions
+        >>> # Sample plane coefficients and grid dimensions
         >>> plane_coeff = np.array([1, 1, 1, 5])
         >>> NGX, NGY = 10, 10
-
-        # Calculate the third coordinate of the plane
+        >>> # Calculate the third coordinate of the plane
         >>> third_coordinates = get_third_coordinate(plane_coeff, NGX, NGY)
         >>> print(third_coordinates)
     """

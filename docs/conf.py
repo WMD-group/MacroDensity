@@ -22,8 +22,12 @@ release = 'v0.0.0'
 extensions = ['sphinx.ext.autodoc',
     'sphinx.ext.intersphinx',
     'sphinx.ext.mathjax',
-    'sphinx.ext.githubpages']
+    'sphinx.ext.githubpages',
+    'sphinx.ext.doctest', 
+    'sphinx_autodoc_annotation', 
+    'nbsphinx']
 
+nbsphinx_execute ='auto'
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
@@ -32,5 +36,5 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = 'insipid'
+html_theme = 'furo'
 html_static_path = ['_static']
