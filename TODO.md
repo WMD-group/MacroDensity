@@ -2,7 +2,7 @@
 
 - [x] Checking function docstrings (e.g. should describe what they do, describe inputs/outputs & include type's of input & output variables) 
 - [x] Testing with GitHub actions
-- [ ] Formatting & cleanup of files
+- [x] Formatting & cleanup of files
     * Remove unused imports (e.g. if package/function is imported but not used etc)
     * Maybe some reorganization and renaming of input files to make it more user-friendly (alpha_tools.py etc)?
 - [ ] Generate documentation (with `sphinx`)
