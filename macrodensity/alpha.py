@@ -306,14 +306,14 @@ def match_resolution(A: np.ndarray,B: np.ndarray) -> (np.ndarray, np.ndarray):
     return A_new, B_new
 
 #------------------------------------------------------------------------------
-def spline_generate(A: np.ndarray,new_res_factor: float) -> np.ndarray:
+def spline_generate(A: np.ndarray,new_res_factor: int) -> np.ndarray:
     """
     Generate a new dataset with higher resolution using cubic spline interpolation.
 
     Parameters:
         A (numpy.ndarray): The dataset containing potential values in the format (x, potential).
 
-        new_res_factor (float): The factor by which to increase the resolution.
+        new_res_factor (int): The factor by which to increase the resolution.
 
     Returns:
         B (numpy.ndarray): The new dataset with higher resolution and interpolated values.
@@ -329,7 +329,7 @@ def spline_generate(A: np.ndarray,new_res_factor: float) -> np.ndarray:
     f_a = interp1d(A[:,0],A[:,1],kind='cubic')
     #ius = interpolate.InterpolatedUnivariateSpline(A[:,0],A[:,1])
     S = f_a(array_a)
-    B = np.zeros(shape=(len(A)/new_res_factor,2))
+    B = np.zeros(shape=(len(A)//new_res_factor,2))
     for i in range(len(B)):
         B[i,0] = i*resolution+A[0,0]
         B[i,1] = S[i]
@@ -614,17 +614,23 @@ def create_plotting_mesh(NGX: int,NGY: int,NGZ: int,pc: np.ndarray,grad: np.ndar
         >>> plotting_mesh = create_plotting_mesh(NGX, NGY, NGZ, pc, grad)
         >>> print(plotting_mesh)
     """
+
+    a = 0
+    b = 0
+
     if pc[0] == 0 and pc[1] == 0:
         a = NGX; b = NGY; p = 'zzo'; c = int(pc[3] / pc[2]) - 1
-    if pc[0] == 0 and pc[2] == 0:
+    elif pc[0] == 0 and pc[2] == 0:
         a = NGX; b = NGZ; p = 'zoz'; c = int(pc[3] / pc[1]) - 1
-    if pc[1] == 0 and pc[2] == 0:
+    elif pc[1] == 0 and pc[2] == 0:
         a = NGY; b = NGZ; p = 'ozz'; c = int(pc[3] / pc[0]) - 1
     plane = np.zeros(shape=(a,b))
     for x in range(a):
         for y in range(b):
             if p == 'zzo':
                 plane[x,y] = grad[x,y,c]
+            else:
+                pass
 
     return plane
 #------------------------------------------------------------------------------
@@ -656,7 +662,6 @@ def read_cube_density(FILE: str) -> np.ndarray:
         if len(inp) == 4:
             natms = inp[0]
 #------------------------------------------------------------------------------
-
 def points_2_plane(a: np.ndarray,b: np.ndarray,c: np.ndarray) -> np.ndarray:
     """
     Calculates the plane coefficients from three points in space.

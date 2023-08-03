@@ -8,6 +8,7 @@ from matplotlib import cm
 import pandas as pd
 from ase.io import cube, vasp
 from scipy.interpolate import interp1d
+from macrodensity.alpha import points_2_plane, create_plotting_mesh
 from macrodensity.density import (
     density_2_grid,
     matrix_2_abc,
@@ -19,6 +20,10 @@ from macrodensity.density import (
     matrix_2_abc,
     planar_average,
     read_gulp_potential)
+
+""" 
+macrodensity.plotting contains functions to plot a 
+"""
 
 def energy_band_alignment_diagram(energies: list, materials:list, limit:float=8., width:float=1.,
                                   cols: list=['#74356C','#efce19'], textsize: int=22,
@@ -694,29 +699,36 @@ def plot_active_plane(cube_size: list,cube_origin: list,tolerance: float=1E-4,in
 
     active_cube = potential_variance >= cutoff_variance #using tolerance in input parameter
 
+    #Input section (define the plane with 3 points, fractional coordinates)
+    a_point = [0, 0, 0]
+    b_point = [1, 0, 1]
+    c_point = [0, 1, 0]
+
     if active_cube:
         ## Get the gradiens (Field), if required.
         ## Comment out if not required, due to compuational expense.
+
         if grad_calc == True:
             print("Calculating gradients (Electic field, E=-Grad.V )...")
             grad_x,grad_y,grad_z = np.gradient(grid_pot[:,:,:],resolution_x,resolution_y,resolution_z)
         else:
             pass 
         
+
         ## Convert the fractional points to grid points on the density surface
-        a = pot.numbers_2_grid(a_point,NGX,NGY,NGZ)
-        b = pot.numbers_2_grid(b_point,NGX,NGY,NGZ)
-        c = pot.numbers_2_grid(c_point,NGX,NGY,NGZ)
-        plane_coeff = pot.points_2_plane(a,b,c)
+        a = numbers_2_grid(a_point,NGX,NGY,NGZ)
+        b = numbers_2_grid(b_point,NGX,NGY,NGZ)
+        c = numbers_2_grid(c_point,NGX,NGY,NGZ)
+        plane_coeff = points_2_plane(a,b,c)
 
         ## Get the gradients
         XY = np.multiply(grad_x,grad_y)
         grad_mag = np.multiply(XY,grad_z)
 
         ## Create the plane
-        xx,yy,grd =  pot.create_plotting_mesh(NGX,NGY,NGZ,plane_coeff,grad_x)
+        xx,yy,grd = create_plotting_mesh(NGX,NGY,NGZ,plane_coeff,grad_x)
         ## Plot the surface
-        plt.contourf(xx,yy,grd,V)
+        plt.contourf(xx,yy,grd) #This only plots the surface (no contour for the potentials)
         plt.show()
     else:
         print('The cube is not active (variance is below tolerance set)')
@@ -726,11 +738,11 @@ def plot_active_plane(cube_size: list,cube_origin: list,tolerance: float=1E-4,in
     ## Plotting a planar average (Field/potential) throughout the material
     ##------------------------------------------------------------------
     ## FIELDS
-    planar = pot.planar_average(grad_x,NGX,NGY,NGZ)
+    planar = planar_average(grad_x,NGX,NGY,NGZ)
     ## POTENTIAL
-    planar = pot.planar_average(grid_pot,NGX,NGY,NGZ)
+    planar = planar_average(grid_pot,NGX,NGY,NGZ)
     ## MACROSCOPIC AVERAGE
-    macro  = pot.macroscopic_average(planar,4.80,resolution_z)
+    macro  = macroscopic_average(planar,4.80,resolution_z)
     plt.plot(planar)
     plt.plot(macro)
     plt.savefig('Planar.eps')
