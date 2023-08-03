@@ -11,7 +11,7 @@ Welcome to MacroDensity's documentation!
    :caption: Contents:
 
    modules
-   nbsphinx:: tutorials/TEST.ipynb
+   tutorials
 
 Indices and tables
 ==================

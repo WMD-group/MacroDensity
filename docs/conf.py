@@ -27,9 +27,11 @@ extensions = ['sphinx.ext.autodoc',
     'sphinx_autodoc_annotation', 
     'nbsphinx']
 
-nbsphinx_execute ='auto'
+
 templates_path = ['_templates']
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', '**.ipynb_checkpoints', 'notebooks']
+
+source_suffix = [".rst", ".md"]
 
 
 
