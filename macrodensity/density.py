@@ -1014,18 +1014,18 @@ def planar_average_charge(grid: np.ndarray,nx: int,ny: int,nz: int,vector: np.nd
     axis = ""
     a_vec, b_vec, c_vec = vector[0], vector[1], vector[2]
 
-    if (a_vec == 0 and b_vec == 0).all():
+    if (a_vec == 0).all() and (b_vec == 0).all():
         a, b = nx, ny
         axis = 'z'
-        c = int(vector[3] / vector[2]) - 1
-    elif (a_vec == 0 and c_vec == 0).all():
+        c = int(c_vec[2]) - 1
+    elif (a_vec == 0).all() and (c_vec == 0).all():
         a, b = nx, nz
         axis = 'y'
-        c = int(vector[3] / vector[1]) - 1
-    elif (b_vec == 0 and c_vec == 0).all():
+        c = int(b_vec[1]) - 1
+    elif (b_vec == 0).all() and (c_vec == 0).all():
         a, b = ny, nz
         axis = 'x'
-        c = int(vector[3] / vector[0]) - 1
+        c = int(a_vec[0]) - 1
     else:
         raise ValueError("Invalid vector coefficients. Cannot determine plane direction.")
 
