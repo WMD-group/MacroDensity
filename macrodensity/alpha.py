@@ -736,3 +736,6 @@ def get_third_coordinate(plane_coeff: np.ndarray,NGX: int,NGY: int) -> list:
                 zz.append(-(plane_coeff[0]*i+plane_coeff[1]*j)/plane_coeff[2])
 
     return zz
+#------------------------------------------------------------------------------
+
+

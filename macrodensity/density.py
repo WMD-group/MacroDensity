@@ -1006,3 +1006,29 @@ def inverse_participation_ratio(density: np.ndarray) -> float:
     ifr = 1 / (len(density) * fr)
     isq = 1 / (len(density) * sq)
     return fr / sq**2
+#------------------------------------------------------------------------------
+
+def planar_average_charge(grid: np.ndarray,nx: int,ny: int,nz: int,vector: np.ndarray) -> np.ndarray:
+
+    a, b = 0, 0
+    axis = ""
+    a_vec, b_vec, c_vec = vector[0], vector[1], vector[2]
+
+    if (a_vec == 0 and b_vec == 0).all():
+        a, b = nx, ny
+        axis = 'z'
+        c = int(vector[3] / vector[2]) - 1
+    elif (a_vec == 0 and c_vec == 0).all():
+        a, b = nx, nz
+        axis = 'y'
+        c = int(vector[3] / vector[1]) - 1
+    elif (b_vec == 0 and c_vec == 0).all():
+        a, b = ny, nz
+        axis = 'x'
+        c = int(vector[3] / vector[0]) - 1
+    else:
+        raise ValueError("Invalid vector coefficients. Cannot determine plane direction.")
+
+    average_charge = planar_average(grid, a, b, c, axis)
+
+    return average_charge
