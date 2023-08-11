@@ -1,3 +1,7 @@
+"""
+macrodensity.density contains functions to calculate the electron density of a structure, as well as functions to calculate the electrostatic potential and the electrostatic potential gradients of a structure. 
+"""
+
 #[[[IMPORTS]]]
 from __future__ import division, print_function
 

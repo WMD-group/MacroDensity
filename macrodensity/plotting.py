@@ -1,3 +1,6 @@
+""" 
+macrodensity.plotting contains different types of plotting functions such as band alignment diagrams and potentials at different grid points.
+"""
 from __future__ import division, print_function
 
 import ase 
@@ -21,9 +24,6 @@ from macrodensity.density import (
     planar_average,
     read_gulp_potential)
 
-""" 
-macrodensity.plotting contains functions to plot a 
-"""
 
 def energy_band_alignment_diagram(energies: list, materials:list, limit:float=8., width:float=1.,
                                   cols: list=['#74356C','#efce19'], textsize: int=22,

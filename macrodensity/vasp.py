@@ -1,3 +1,6 @@
+""" 
+macrodensity.vasp contains a function to extract the valence band maximum (VBM) and conduction band minimum (CBM) from a VASP OUTCAR file.
+"""
 from __future__ import print_function
 
 

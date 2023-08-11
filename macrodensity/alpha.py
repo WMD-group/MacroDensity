@@ -1,6 +1,7 @@
 #! /usr/bin/env python
 """ 
-Functions to 
+macrodensity.alpha contains functions to read and manipulate the electronic density data from a material.
+These functions are complementary to the functions in macrodensity.vasp and macrodensity.density, which retrieve and manipulate the electronic density data from a VASP LOCPOT file.
 """
 #[[[[IMPORTS]]]
 
@@ -616,7 +617,9 @@ def create_plotting_mesh(NGX: int,NGY: int,NGZ: int,pc: np.ndarray,grad: np.ndar
     """
 
     a = 0
-    b = 0
+    b = 0 
+    c = 0 
+    p = ''
 
     if pc[0] == 0 and pc[1] == 0:
         a = NGX; b = NGY; p = 'zzo'; c = int(pc[3] / pc[2]) - 1
@@ -690,12 +693,10 @@ def points_2_plane(a: np.ndarray,b: np.ndarray,c: np.ndarray) -> np.ndarray:
     ca = c - a
     ba = b - a
     normal = np.cross(ba,ca)
-    #GCD_coeff = GCD_List(normal)
-    #normal = [x / GCD_coeff for x in normal]
-    d = normal[0]*a[0] + normal[1]*a[1] + normal[2]*a[2]
-    for i in 0, 1, 2:
-        coefficients[i] = normal[i]
-    coefficients[3] = d
+    d = -np.dot(normal,a)
+    A, B, C = normal[0], normal[1], normal[2]
+    D = d
+    coefficients = np.array([A, B, C, D])
     return coefficients
 #------------------------------------------------------------------------------
 
