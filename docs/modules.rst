@@ -5,4 +5,3 @@ MacroDensity
    :maxdepth: 4
 
    macrodensity
-   .. setup
