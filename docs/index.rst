@@ -78,7 +78,7 @@ For development of ``MacroDensity``, you can install a copy of the package from 
     git clone https://github.com/WMD-group/MacroDensity.git
     
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :hidden:
    :caption: Links
 
