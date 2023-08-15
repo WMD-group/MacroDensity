@@ -1,0 +1,844 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>macrodensity.alpha module &#8212; MacroDensity v0.0.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'macrodensity.alpha';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="macrodensity.density module" href="macrodensity.density.html" />
+    <link rel="prev" title="MacroDensity Package" href="macrodensity.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">MacroDensity v0.0.0 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Links</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="modules.html">MacroDensity</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="macrodensity.html">MacroDensity Package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">macrodensity.alpha module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="macrodensity.density.html">macrodensity.density module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="macrodensity.plotting.html">macrodensity.plotting module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="macrodensity.vasp.html">macrodensity.vasp module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="tutorials.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="doctests/MDTutorials_1.html">Basic Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="doctests/HeteroJunction/HeteroJunction.html">Heterojunction offsets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="doctests/Plotting/Plotting.html">Band Alignment Plotting Tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="doctests/Porous/Porous.html">Ionisation potential of a porous material</a></li>
+<li class="toctree-l2"><a class="reference internal" href="doctests/Slab/SlabCalculation.html">Ionisation potential of a bulk material</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/macrodensity.alpha.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>macrodensity.alpha module</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-macrodensity.alpha">Module Description</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.alpha.bulk_interstitial_alignment"><code class="docutils literal notranslate"><span class="pre">bulk_interstitial_alignment()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.alpha.bulk_vac"><code class="docutils literal notranslate"><span class="pre">bulk_vac()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.alpha.create_plotting_mesh"><code class="docutils literal notranslate"><span class="pre">create_plotting_mesh()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.alpha.diff_potentials"><code class="docutils literal notranslate"><span class="pre">diff_potentials()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.alpha.extend_potential"><code class="docutils literal notranslate"><span class="pre">extend_potential()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.alpha.get_third_coordinate"><code class="docutils literal notranslate"><span class="pre">get_third_coordinate()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.alpha.match_resolution"><code class="docutils literal notranslate"><span class="pre">match_resolution()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.alpha.matched_spline_generate"><code class="docutils literal notranslate"><span class="pre">matched_spline_generate()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.alpha.moving_cube"><code class="docutils literal notranslate"><span class="pre">moving_cube()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.alpha.points_2_plane"><code class="docutils literal notranslate"><span class="pre">points_2_plane()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.alpha.read_cube_density"><code class="docutils literal notranslate"><span class="pre">read_cube_density()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.alpha.scissors_shift"><code class="docutils literal notranslate"><span class="pre">scissors_shift()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.alpha.sort_potential"><code class="docutils literal notranslate"><span class="pre">sort_potential()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.alpha.spherical_average"><code class="docutils literal notranslate"><span class="pre">spherical_average()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.alpha.spline_generate"><code class="docutils literal notranslate"><span class="pre">spline_generate()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.alpha.subs_potentials"><code class="docutils literal notranslate"><span class="pre">subs_potentials()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.alpha.translate_grid"><code class="docutils literal notranslate"><span class="pre">translate_grid()</span></code></a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="macrodensity-alpha-module">
+<h1>macrodensity.alpha module<a class="headerlink" href="#macrodensity-alpha-module" title="Permalink to this heading">#</a></h1>
+<section id="module-macrodensity.alpha">
+<span id="module-description"></span><h2>Module Description<a class="headerlink" href="#module-macrodensity.alpha" title="Permalink to this heading">#</a></h2>
+<p>macrodensity.alpha contains functions to read and manipulate the electronic density data from a material.
+These functions are complementary to the functions in macrodensity.vasp and macrodensity.density, which retrieve and manipulate the electronic density data from a VASP LOCPOT file.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="macrodensity.alpha.bulk_interstitial_alignment">
+<span class="sig-prename descclassname"><span class="pre">macrodensity.alpha.</span></span><span class="sig-name descname"><span class="pre">bulk_interstitial_alignment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">interstices:</span> <span class="pre">list,</span> <span class="pre">outcar:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">'OUTCAR',</span> <span class="pre">locpot:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">'LOCPOT',</span> <span class="pre">cube_size:</span> <span class="pre">list</span> <span class="pre">=</span> <span class="pre">[2,</span> <span class="pre">2,</span> <span class="pre">2],</span> <span class="pre">print_output:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True)</span> <span class="pre">-&gt;</span> <span class="pre">(&lt;class</span> <span class="pre">'float'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'float'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'float'&gt;</span></em><span class="sig-paren">)</span><a class="headerlink" href="#macrodensity.alpha.bulk_interstitial_alignment" title="Permalink to this definition">#</a></dt>
+<dd><p>Calculate the aligned band energies for a bulk material with interstitial sites.</p>
+<p>This function calculates the aligned valence band (VB) and conduction band (CB) energies
+by considering the effect of interstitial sites on the electronic structure of the bulk material.</p>
+<dl>
+<dt>Parameters:</dt><dd><p>interstices (list of tuples): A list of tuples representing the coordinates of the interstitial sites for which the aligned band energies will be calculated.</p>
+<p>outcar (str, optional): The filename of the OUTCAR file containing electronic band structure information. Default is “OUTCAR”.</p>
+<p>locpot (str, optional): The filename of the LOCPOT file containing the electronic density information. Default is “LOCPOT”.</p>
+<p>cube_size (list of int, optional): The size of the cube (in grid points) around each interstitial site used to calculate the local potential. Default is [2, 2, 2].</p>
+<p>print_output (bool, optional): Whether to print the intermediate and final results. Default is True.</p>
+</dd>
+<dt>Returns:</dt><dd><p>tuple: A tuple containing the aligned VB energy, aligned CB energy, and a list of interstitial variances. The variances represent the deviation of the potential from the reference state at each interstitial site.</p>
+</dd>
+<dt>Output:</dt><dd><p>Aligned Valence Band, Aligned Conduction Band, Interstitial variances</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="macrodensity.alpha.bulk_vac">
+<span class="sig-prename descclassname"><span class="pre">macrodensity.alpha.</span></span><span class="sig-name descname"><span class="pre">bulk_vac</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bulk</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">slab</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#macrodensity.alpha.bulk_vac" title="Permalink to this definition">#</a></dt>
+<dd><p>Subtract potentials between a bulk dataset and a slab dataset based on their positions.</p>
+<dl>
+<dt>Parameters:</dt><dd><p>bulk (numpy.ndarray): The dataset containing bulk potential values in the format (x, potential).</p>
+<p>slab (numpy.ndarray): The dataset containing slab potential values in the format (x, potential).</p>
+</dd>
+<dt>Returns:</dt><dd><p>new_bulk (numpy.ndarray): The resulting bulk dataset with matching positions of the slab dataset.</p>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bulk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">slab</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">bulk_vac</span><span class="p">(</span><span class="n">bulk</span><span class="p">,</span> <span class="n">slab</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="macrodensity.alpha.create_plotting_mesh">
+<span class="sig-prename descclassname"><span class="pre">macrodensity.alpha.</span></span><span class="sig-name descname"><span class="pre">create_plotting_mesh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">NGX</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">NGY</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">NGZ</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grad</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#macrodensity.alpha.create_plotting_mesh" title="Permalink to this definition">#</a></dt>
+<dd><p>Creates a plotting mesh based on the given grid data and plane coefficients.</p>
+<dl>
+<dt>Parameters:</dt><dd><p>NGX (int): Number of grid points along the x-direction.</p>
+<p>NGY (int): Number of grid points along the y-direction.</p>
+<p>NGZ (int): Number of grid points along the z-direction.</p>
+<p>pc (numpy.ndarray): Array containing plane coefficients with shape (4,).</p>
+<p>grad (numpy.ndarray): Array containing gradient data with shape (NGX, NGY, NGZ).</p>
+</dd>
+<dt>Returns:</dt><dd><p>numpy.ndarray: A 2D array representing the plotting mesh with shape (a, b), where ‘a’ and ‘b’ depend on the plane direction.</p>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Sample grid data and plane coefficients</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">NGX</span><span class="p">,</span> <span class="n">NGY</span><span class="p">,</span> <span class="n">NGZ</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">grad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">NGX</span><span class="p">,</span> <span class="n">NGY</span><span class="p">,</span> <span class="n">NGZ</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Create the plotting mesh</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plotting_mesh</span> <span class="o">=</span> <span class="n">create_plotting_mesh</span><span class="p">(</span><span class="n">NGX</span><span class="p">,</span> <span class="n">NGY</span><span class="p">,</span> <span class="n">NGZ</span><span class="p">,</span> <span class="n">pc</span><span class="p">,</span> <span class="n">grad</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">plotting_mesh</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="macrodensity.alpha.diff_potentials">
+<span class="sig-prename descclassname"><span class="pre">macrodensity.alpha.</span></span><span class="sig-name descname"><span class="pre">diff_potentials</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">potential_a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">potential_b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.04</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#macrodensity.alpha.diff_potentials" title="Permalink to this definition">#</a></dt>
+<dd><p>Subtract potential values between two datasets within a specified range.</p>
+<dl>
+<dt>Parameters:</dt><dd><p>potential_a (numpy.ndarray): The first dataset containing potential values in the format (x, potential).</p>
+<p>potential_b (numpy.ndarray): The second dataset containing potential values in the format (x, potential).</p>
+<p>start (float): The starting position for potential subtraction.</p>
+<p>end (float): The ending position for potential subtraction.</p>
+<p>tol (float, optional): The tolerance value for potential comparison. Default is 0.04.</p>
+</dd>
+<dt>Returns:</dt><dd><p>new_potential (numpy.ndarray): The resulting dataset with subtracted potential values.</p>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">potential_a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">potential_b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">start</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">end</span> <span class="o">=</span> <span class="mf">2.5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tol</span> <span class="o">=</span> <span class="mf">0.02</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">diff_potentials</span><span class="p">(</span><span class="n">potential_a</span><span class="p">,</span> <span class="n">potential_b</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">tol</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="macrodensity.alpha.extend_potential">
+<span class="sig-prename descclassname"><span class="pre">macrodensity.alpha.</span></span><span class="sig-name descname"><span class="pre">extend_potential</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">potential</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extension</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#macrodensity.alpha.extend_potential" title="Permalink to this definition">#</a></dt>
+<dd><p>Extend a dataset by duplicating potential values along a specified vector direction.</p>
+<dl>
+<dt>Parameters:</dt><dd><p>potential (numpy.ndarray): The dataset containing potential values in the format (x, potential).</p>
+<p>extension (float): The extension factor specifying how many times to extend the dataset.</p>
+<p>vector (list): The vector specifying the direction along which to extend the dataset.</p>
+</dd>
+<dt>Returns:</dt><dd><p>extended_potential (numpy.ndarray): The resulting dataset with extended potential values.</p>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">potential</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">extension</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">extend_potential</span><span class="p">(</span><span class="n">potential</span><span class="p">,</span> <span class="n">extension</span><span class="p">,</span> <span class="n">vector</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="macrodensity.alpha.get_third_coordinate">
+<span class="sig-prename descclassname"><span class="pre">macrodensity.alpha.</span></span><span class="sig-name descname"><span class="pre">get_third_coordinate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plane_coeff</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">NGX</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">NGY</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#macrodensity.alpha.get_third_coordinate" title="Permalink to this definition">#</a></dt>
+<dd><p>Computes the third coordinate of the plane for given plane coefficients.</p>
+<dl>
+<dt>Parameters:</dt><dd><p>plane_coeff (numpy.ndarray): An array containing the plane coefficients with shape (4,).</p>
+<p>NGX (int): Number of grid points along the x-direction.</p>
+<p>NGY (int): Number of grid points along the y-direction.</p>
+</dd>
+<dt>Returns:</dt><dd><p>list: A list of third coordinates for the plane.</p>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Sample plane coefficients and grid dimensions</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plane_coeff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">NGX</span><span class="p">,</span> <span class="n">NGY</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Calculate the third coordinate of the plane</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">third_coordinates</span> <span class="o">=</span> <span class="n">get_third_coordinate</span><span class="p">(</span><span class="n">plane_coeff</span><span class="p">,</span> <span class="n">NGX</span><span class="p">,</span> <span class="n">NGY</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">third_coordinates</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="macrodensity.alpha.match_resolution">
+<span class="sig-prename descclassname"><span class="pre">macrodensity.alpha.</span></span><span class="sig-name descname"><span class="pre">match_resolution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A:</span> <span class="pre">~numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B:</span> <span class="pre">~numpy.ndarray)</span> <span class="pre">-&gt;</span> <span class="pre">(&lt;class</span> <span class="pre">'numpy.ndarray'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">&lt;class</span> <span class="pre">'numpy.ndarray'&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#macrodensity.alpha.match_resolution" title="Permalink to this definition">#</a></dt>
+<dd><p>Match the resolutions of two datasets by cubic spline interpolation.</p>
+<dl>
+<dt>Parameters:</dt><dd><p>A (numpy.ndarray): The first dataset containing potential values in the format (x, potential).</p>
+<p>B (numpy.ndarray): The second dataset containing potential values in the format (x, potential).</p>
+</dd>
+<dt>Returns:</dt><dd><p>A_new (numpy.ndarray): The first dataset with matched resolution and interpolated values.</p>
+<p>B_new (numpy.ndarray): The second dataset with matched resolution and interpolated values.</p>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result_A</span><span class="p">,</span> <span class="n">result_B</span> <span class="o">=</span> <span class="n">match_resolution</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">result_A</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">result_B</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="macrodensity.alpha.matched_spline_generate">
+<span class="sig-prename descclassname"><span class="pre">macrodensity.alpha.</span></span><span class="sig-name descname"><span class="pre">matched_spline_generate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A:</span> <span class="pre">~numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B:</span> <span class="pre">~numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">V_A:</span> <span class="pre">~numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">V_B:</span> <span class="pre">~numpy.ndarray)</span> <span class="pre">-&gt;</span> <span class="pre">(&lt;class</span> <span class="pre">'numpy.ndarray'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">&lt;class</span> <span class="pre">'numpy.ndarray'&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#macrodensity.alpha.matched_spline_generate" title="Permalink to this definition">#</a></dt>
+<dd><p>Generate matched datasets with the same resolution using cubic spline interpolation.</p>
+<dl>
+<dt>Parameters:</dt><dd><p>A (numpy.ndarray): The first dataset containing potential values.</p>
+<p>B (numpy.ndarray): The second dataset containing potential values.</p>
+<p>V_A (numpy.ndarray): Vector information for the first dataset.</p>
+<p>V_B (numpy.ndarray): Vector information for the second dataset.</p>
+</dd>
+<dt>Returns:</dt><dd><p>TD_A (numpy.ndarray): The first dataset with matched resolution and interpolated values.</p>
+<p>TD_B (numpy.ndarray): The second dataset with matched resolution and interpolated values.</p>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">V_A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">V_B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result_TD_A</span><span class="p">,</span> <span class="n">result_TD_B</span> <span class="o">=</span> <span class="n">matched_spline_generate</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">V_A</span><span class="p">,</span> <span class="n">V_B</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">result_TD_A</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">result_TD_B</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="macrodensity.alpha.moving_cube">
+<span class="sig-prename descclassname"><span class="pre">macrodensity.alpha.</span></span><span class="sig-name descname"><span class="pre">moving_cube</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[1,</span> <span class="pre">1,</span> <span class="pre">1]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vector</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[1,</span> <span class="pre">1,</span> <span class="pre">1]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0,</span> <span class="pre">0,</span> <span class="pre">0]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">magnitude</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">280</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'LOCPOT'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'MovingCube.csv'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'MovingCube.png'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#macrodensity.alpha.moving_cube" title="Permalink to this definition">#</a></dt>
+<dd><p>Calculate the travelling volume average of the electronic potential along a specific vector.</p>
+<p>This function calculates the volume average of the electronic potential as a function of the position along the specified
+vector. The volume average is performed by moving a cube of specified dimensions along the vector from the specified
+origin position. The magnitude parameter determines the distance covered in each direction from the origin. The resulting
+potential values at each position are plotted, and the data is saved to a CSV file.</p>
+<dl>
+<dt>Parameters:</dt><dd><p>cube (list, optional): The size of the cube used for volume averaging in units of mesh points (NGX/Y/Z). Default is [1, 1, 1].</p>
+<p>vector (list, optional): The vector along which the cube moves for volume averaging. Default is [1, 1, 1].</p>
+<p>origin (list, optional): The starting position of the cube in fractional coordinates. Default is [0, 0, 0].</p>
+<p>magnitude (float, optional): The distance covered by the cube in each direction from the origin along the vector (in Angstroms). Default is 280.</p>
+<p>input_file (str, optional): The filename of the file containing the electronic potential (e.g., LOCPOT). Default is ‘LOCPOT’.</p>
+<p>output_file (str, optional): Name of the output data file to store the volume-averaged potential data. Default is ‘MovingCube.csv’.</p>
+<p>img_file (str, optional): Name of the output image file for the potential plot. Default is ‘MovingCube.png’.</p>
+</dd>
+<dt>Returns:</dt><dd><p>list: A list containing the volume-averaged potential values at each position along the vector.</p>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cube_size</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vector</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">origin</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">magnitude</span> <span class="o">=</span> <span class="mi">280</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">input_file</span> <span class="o">=</span> <span class="s1">&#39;LOCPOT&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">output_file</span> <span class="o">=</span> <span class="s1">&#39;MovingCube.csv&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img_file</span> <span class="o">=</span> <span class="s1">&#39;MovingCube.png&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">potential_values</span> <span class="o">=</span> <span class="n">moving_cube</span><span class="p">(</span><span class="n">cube_size</span><span class="p">,</span> <span class="n">vector</span><span class="p">,</span> <span class="n">origin</span><span class="p">,</span> <span class="n">magnitude</span><span class="p">,</span> <span class="n">input_file</span><span class="p">,</span> <span class="n">output_file</span><span class="p">,</span> <span class="n">img_file</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="macrodensity.alpha.points_2_plane">
+<span class="sig-prename descclassname"><span class="pre">macrodensity.alpha.</span></span><span class="sig-name descname"><span class="pre">points_2_plane</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#macrodensity.alpha.points_2_plane" title="Permalink to this definition">#</a></dt>
+<dd><p>Calculates the plane coefficients from three points in space.</p>
+<dl>
+<dt>Parameters:</dt><dd><p>a (numpy.ndarray): First point with shape (3,).</p>
+<p>b (numpy.ndarray): Second point with shape (3,).</p>
+<p>c (numpy.ndarray): Third point with shape (3,).</p>
+</dd>
+<dt>Returns:</dt><dd><p>numpy.ndarray: An array containing the plane coefficients with shape (4,).</p>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Sample points in space</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Calculate plane coefficients</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plane_coefficients</span> <span class="o">=</span> <span class="n">points_2_plane</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">plane_coefficients</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="macrodensity.alpha.read_cube_density">
+<span class="sig-prename descclassname"><span class="pre">macrodensity.alpha.</span></span><span class="sig-name descname"><span class="pre">read_cube_density</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">FILE</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#macrodensity.alpha.read_cube_density" title="Permalink to this definition">#</a></dt>
+<dd><p>Reads a cube density file and extracts relevant information.</p>
+<dl>
+<dt>Parameters:</dt><dd><p>FILE (str): The path to the cube density file.</p>
+</dd>
+<dt>Returns:</dt><dd><p>numpy.ndarray: A 3x3 numpy array representing the lattice.</p>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">file_path</span> <span class="o">=</span> <span class="s1">&#39;path/to/your/cube_density_file.cube&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Read the cube density file and get the lattice</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lattice</span> <span class="o">=</span> <span class="n">read_cube_density</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">lattice</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="macrodensity.alpha.scissors_shift">
+<span class="sig-prename descclassname"><span class="pre">macrodensity.alpha.</span></span><span class="sig-name descname"><span class="pre">scissors_shift</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">potential</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#macrodensity.alpha.scissors_shift" title="Permalink to this definition">#</a></dt>
+<dd><p>Shift the potential values by a constant amount.</p>
+<dl>
+<dt>Parameters:</dt><dd><p>potential (numpy.ndarray): The dataset containing potential values in the format (x, potential).</p>
+<p>delta (float): The constant value to shift the potentials.</p>
+</dd>
+<dt>Returns:</dt><dd><p>shifted_potential (numpy.ndarray): The resulting dataset with shifted potential values.</p>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">potential</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">delta</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">scissors_shift</span><span class="p">(</span><span class="n">potential</span><span class="p">,</span> <span class="n">delta</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="macrodensity.alpha.sort_potential">
+<span class="sig-prename descclassname"><span class="pre">macrodensity.alpha.</span></span><span class="sig-name descname"><span class="pre">sort_potential</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">potential</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#macrodensity.alpha.sort_potential" title="Permalink to this definition">#</a></dt>
+<dd><p>Sort the dataset based on the potential values in ascending order.</p>
+<dl>
+<dt>Parameters:</dt><dd><p>potential (numpy.ndarray): The dataset containing potential values in the format (x, potential).</p>
+</dd>
+<dt>Returns:</dt><dd><p>sorted_potential (numpy.ndarray): The sorted dataset based on the potential values.</p>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">potential</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">sort_potential</span><span class="p">(</span><span class="n">potential</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="macrodensity.alpha.spherical_average">
+<span class="sig-prename descclassname"><span class="pre">macrodensity.alpha.</span></span><span class="sig-name descname"><span class="pre">spherical_average</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube_size:</span> <span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cube_origin:</span> <span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_file:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">'LOCPOT'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_output:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True)</span> <span class="pre">-&gt;</span> <span class="pre">(&lt;class</span> <span class="pre">'float'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">&lt;class</span> <span class="pre">'float'&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#macrodensity.alpha.spherical_average" title="Permalink to this definition">#</a></dt>
+<dd><p>Calculate the volume average of the electronic potential within a spherical region.</p>
+<p>This function calculates the volume average of the electronic potential within a spherical region
+defined by a specific size and origin. The size of the spherical region is specified by the cube_size
+parameter, which determines the number of mesh points along each direction (NGX/Y/Z). The origin of the
+sphere is given by the cube_origin parameter, specified in fractional coordinates. The function reads the
+electronic potential data from the specified input file (e.g., LOCPOT) and calculates the potential and variance
+within the spherical region.</p>
+<dl>
+<dt>Parameters:</dt><dd><p>cube_size (list): The size of the spherical region in units of mesh points (NGX/Y/Z).</p>
+<p>cube_origin (list): The origin of the spherical region in fractional coordinates.</p>
+<p>input_file (str, optional): The filename of the file containing the electronic potential (e.g., LOCPOT). Default is ‘LOCPOT’.</p>
+<p>print_output (bool, optional): If True, the function prints the calculated potential and variance. Default is True.</p>
+</dd>
+<dt>Returns:</dt><dd><p>tuple: A tuple containing the volume-averaged potential and the variance within the spherical region.</p>
+</dd>
+<dt>Outputs:</dt><dd><p>cube_potential, cube_variance</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="macrodensity.alpha.spline_generate">
+<span class="sig-prename descclassname"><span class="pre">macrodensity.alpha.</span></span><span class="sig-name descname"><span class="pre">spline_generate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_res_factor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#macrodensity.alpha.spline_generate" title="Permalink to this definition">#</a></dt>
+<dd><p>Generate a new dataset with higher resolution using cubic spline interpolation.</p>
+<dl>
+<dt>Parameters:</dt><dd><p>A (numpy.ndarray): The dataset containing potential values in the format (x, potential).</p>
+<p>new_res_factor (int): The factor by which to increase the resolution.</p>
+</dd>
+<dt>Returns:</dt><dd><p>B (numpy.ndarray): The new dataset with higher resolution and interpolated values.</p>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">new_res_factor</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">spline_generate</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">new_res_factor</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="macrodensity.alpha.subs_potentials">
+<span class="sig-prename descclassname"><span class="pre">macrodensity.alpha.</span></span><span class="sig-name descname"><span class="pre">subs_potentials</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#macrodensity.alpha.subs_potentials" title="Permalink to this definition">#</a></dt>
+<dd><p>Subtract potentials between two datasets based on a tolerance value.</p>
+<dl>
+<dt>Parameters:</dt><dd><p>A (numpy.ndarray): The first dataset containing potential values in the format (x, potential).</p>
+<p>B (numpy.ndarray): The second dataset containing potential values in the format (x, potential).</p>
+<p>tol (float): The tolerance value for potential subtraction.</p>
+</dd>
+<dt>Returns:</dt><dd><p>C (numpy.ndarray): The resulting dataset containing the subtracted potentials in the format (x, potential).</p>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tolerance</span> <span class="o">=</span> <span class="mf">1e-2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">C</span> <span class="o">=</span> <span class="n">subs_potentials</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">tolerance</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">C</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="macrodensity.alpha.translate_grid">
+<span class="sig-prename descclassname"><span class="pre">macrodensity.alpha.</span></span><span class="sig-name descname"><span class="pre">translate_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">potential</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">translation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">periodic</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[0,</span> <span class="pre">0,</span> <span class="pre">0]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary_shift</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#macrodensity.alpha.translate_grid" title="Permalink to this definition">#</a></dt>
+<dd><p>Translates the grid points of a given potential by a specified translation along the vector direction.</p>
+<dl>
+<dt>Parameters:</dt><dd><p>potential (numpy.ndarray): Array containing potential data with shape (N, 2), where N is the number of grid points.</p>
+<p>translation (float): The amount of translation to apply to the grid points along the specified vector direction.</p>
+<p>periodic (bool, optional): Whether to apply periodic boundary conditions. Default is False.</p>
+<p>vector (list, optional): The direction vector for translation. Default is [0, 0, 0].</p>
+<p>boundary_shift (float, optional): The amount of shift to consider when applying periodic boundary conditions. Default is 0.0.</p>
+</dd>
+<dt>Returns:</dt><dd><p>numpy.ndarray: An array containing the translated potential data with shape (N, 2).</p>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Sample potential data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">potential</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Translate the grid by 0.2 along the x-direction</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">translated_potential</span> <span class="o">=</span> <span class="n">translate_grid</span><span class="p">(</span><span class="n">potential</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">translated_potential</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="macrodensity.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">MacroDensity Package</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="macrodensity.density.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">macrodensity.density module</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-macrodensity.alpha">Module Description</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.alpha.bulk_interstitial_alignment"><code class="docutils literal notranslate"><span class="pre">bulk_interstitial_alignment()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.alpha.bulk_vac"><code class="docutils literal notranslate"><span class="pre">bulk_vac()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.alpha.create_plotting_mesh"><code class="docutils literal notranslate"><span class="pre">create_plotting_mesh()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.alpha.diff_potentials"><code class="docutils literal notranslate"><span class="pre">diff_potentials()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.alpha.extend_potential"><code class="docutils literal notranslate"><span class="pre">extend_potential()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.alpha.get_third_coordinate"><code class="docutils literal notranslate"><span class="pre">get_third_coordinate()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.alpha.match_resolution"><code class="docutils literal notranslate"><span class="pre">match_resolution()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.alpha.matched_spline_generate"><code class="docutils literal notranslate"><span class="pre">matched_spline_generate()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.alpha.moving_cube"><code class="docutils literal notranslate"><span class="pre">moving_cube()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.alpha.points_2_plane"><code class="docutils literal notranslate"><span class="pre">points_2_plane()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.alpha.read_cube_density"><code class="docutils literal notranslate"><span class="pre">read_cube_density()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.alpha.scissors_shift"><code class="docutils literal notranslate"><span class="pre">scissors_shift()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.alpha.sort_potential"><code class="docutils literal notranslate"><span class="pre">sort_potential()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.alpha.spherical_average"><code class="docutils literal notranslate"><span class="pre">spherical_average()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.alpha.spline_generate"><code class="docutils literal notranslate"><span class="pre">spline_generate()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.alpha.subs_potentials"><code class="docutils literal notranslate"><span class="pre">subs_potentials()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.alpha.translate_grid"><code class="docutils literal notranslate"><span class="pre">translate_grid()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Keith T. Butler
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023, Keith T. Butler.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

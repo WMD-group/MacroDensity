@@ -1,0 +1,1389 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Basic Functions &#8212; MacroDensity v0.0.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'doctests/MDTutorials_1';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Heterojunction offsets" href="HeteroJunction/HeteroJunction.html" />
+    <link rel="prev" title="Tutorials" href="../tutorials.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">MacroDensity v0.0.0 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Links</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../modules.html">MacroDensity</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../macrodensity.html">MacroDensity Package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../macrodensity.alpha.html">macrodensity.alpha module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../macrodensity.density.html">macrodensity.density module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../macrodensity.plotting.html">macrodensity.plotting module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../macrodensity.vasp.html">macrodensity.vasp module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../tutorials.html">Tutorials</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Basic Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="HeteroJunction/HeteroJunction.html">Heterojunction offsets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Plotting/Plotting.html">Band Alignment Plotting Tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Porous/Porous.html">Ionisation potential of a porous material</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Slab/SlabCalculation.html">Ionisation potential of a bulk material</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/doctests/MDTutorials_1.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Basic Functions</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="basic-functions">
+<h1>Basic Functions<a class="headerlink" href="#basic-functions" title="Permalink to this heading">#</a></h1>
+<p>Welcome to MacroDensity’s tutorial Jupyter Notebook. This notebook contains a few examples of how MacroDensity’s basic functions are used. By downloading the package, you have access to the executable Jupyter Notebook.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#ActivePlane.py (POINT: )</span>
+<span class="c1">#! /usr/bin/env python</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">WARNING: THIS TOOL IS STILL UNDER DEVELOPMENT. KNOWN BUGS ARE PRESENT.</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Inputs:</span>
+<span class="sd">(define the plane with 3 points)</span>
+<span class="sd">a_point = [0, 0, 0]</span>
+<span class="sd">b_point = [1, 0, 1]</span>
+<span class="sd">c_point = [0, 1, 0]</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">macrodensity</span> <span class="k">as</span> <span class="nn">md</span>
+
+<span class="c1">#------------------------------------------------------------------</span>
+<span class="c1"># Get the potential</span>
+<span class="c1">#------------------------------------------------------------------</span>
+<span class="n">vasp_pot</span><span class="p">,</span> <span class="n">NGX</span><span class="p">,</span> <span class="n">NGY</span><span class="p">,</span> <span class="n">NGZ</span><span class="p">,</span> <span class="n">Lattice</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">read_vasp_density</span><span class="p">(</span><span class="s1">&#39;CHGCAR.test&#39;</span><span class="p">)</span>
+<span class="n">vector_a</span><span class="p">,</span><span class="n">vector_b</span><span class="p">,</span><span class="n">vector_c</span><span class="p">,</span><span class="n">av</span><span class="p">,</span><span class="n">bv</span><span class="p">,</span><span class="n">cv</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">matrix_2_abc</span><span class="p">(</span><span class="n">Lattice</span><span class="p">)</span>
+<span class="n">resolution_x</span> <span class="o">=</span> <span class="n">vector_a</span><span class="o">/</span><span class="n">NGX</span>
+<span class="n">resolution_y</span> <span class="o">=</span> <span class="n">vector_b</span><span class="o">/</span><span class="n">NGY</span>
+<span class="n">resolution_z</span> <span class="o">=</span> <span class="n">vector_c</span><span class="o">/</span><span class="n">NGZ</span>
+<span class="n">grid_pot</span><span class="p">,</span> <span class="n">electrons</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">density_2_grid</span><span class="p">(</span><span class="n">vasp_pot</span><span class="p">,</span><span class="n">NGX</span><span class="p">,</span><span class="n">NGY</span><span class="p">,</span><span class="n">NGZ</span><span class="p">)</span>
+<span class="n">cutoff_varience</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="c1">## Get the gradiens (Field), if required.</span>
+<span class="c1">## Comment out if not required, due to compuational expense.</span>
+<span class="n">grad_x</span><span class="p">,</span><span class="n">grad_y</span><span class="p">,</span><span class="n">grad_z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">grid_pot</span><span class="p">[:,:,:],</span><span class="n">resolution_x</span><span class="p">,</span><span class="n">resolution_y</span><span class="p">,</span><span class="n">resolution_z</span><span class="p">)</span>
+<span class="c1">## Convert the fractional points to grid points on the density surface</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">numbers_2_grid</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span><span class="n">NGX</span><span class="p">,</span><span class="n">NGY</span><span class="p">,</span><span class="n">NGZ</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">numbers_2_grid</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span><span class="n">NGX</span><span class="p">,</span><span class="n">NGY</span><span class="p">,</span><span class="n">NGZ</span><span class="p">)</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">numbers_2_grid</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span><span class="n">NGX</span><span class="p">,</span><span class="n">NGY</span><span class="p">,</span><span class="n">NGZ</span><span class="p">)</span>
+<span class="n">plane_coeff</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">points_2_plane</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">plane_coeff</span><span class="p">)</span>
+<span class="c1">## Get the gradients</span>
+<span class="n">XY</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">grad_x</span><span class="p">,</span><span class="n">grad_y</span><span class="p">)</span>
+<span class="n">grad_mag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">XY</span><span class="p">,</span><span class="n">grad_z</span><span class="p">)</span>
+
+<span class="c1">## Create the plane</span>
+<span class="n">grd</span> <span class="o">=</span>  <span class="n">md</span><span class="o">.</span><span class="n">create_plotting_mesh</span><span class="p">(</span><span class="n">NGX</span><span class="p">,</span><span class="n">NGY</span><span class="p">,</span><span class="n">NGZ</span><span class="p">,</span><span class="n">plane_coeff</span><span class="p">,</span><span class="n">grad_x</span><span class="p">)</span>
+
+<span class="c1">## Plot the surface</span>
+<span class="c1">#plt.contourf(xx,yy,grd)</span>
+<span class="c1">#plt.show()</span>
+
+<span class="c1">##------------------------------------------------------------------</span>
+<span class="c1">## Plotting a planar average (Field/potential) throughout the material</span>
+<span class="c1">##------------------------------------------------------------------</span>
+<span class="c1">## FIELDS</span>
+<span class="n">planar</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">planar_average</span><span class="p">(</span><span class="n">grad_x</span><span class="p">,</span><span class="n">NGX</span><span class="p">,</span><span class="n">NGY</span><span class="p">,</span><span class="n">NGZ</span><span class="p">)</span>
+<span class="c1">## POTENTIAL</span>
+<span class="n">planar</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">planar_average</span><span class="p">(</span><span class="n">grid_pot</span><span class="p">,</span><span class="n">NGX</span><span class="p">,</span><span class="n">NGY</span><span class="p">,</span><span class="n">NGZ</span><span class="p">)</span>
+<span class="c1">## MACROSCOPIC AVERAGE</span>
+<span class="n">macro</span>  <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">macroscopic_average</span><span class="p">(</span><span class="n">planar</span><span class="p">,</span><span class="mf">4.80</span><span class="p">,</span><span class="n">resolution_z</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">planar</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">macro</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;Planar.eps&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Reading header information...
+Reading 3D data using Pandas...
+Average of the potential =  8.000000069794417
+[-3136.     0.  3136.    -0.]
+Average of the average =  7.72953392288895
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/4354c5e905bd7e6968b88f3984e38db06b5c849439f2a6cf8b9c650fa3f64a75.png"><img alt="../_images/4354c5e905bd7e6968b88f3984e38db06b5c849439f2a6cf8b9c650fa3f64a75.png" src="../_images/4354c5e905bd7e6968b88f3984e38db06b5c849439f2a6cf8b9c650fa3f64a75.png" style="height: 300px;" /></a>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#ActivePlane.py</span>
+<span class="c1">#! /usr/bin/env python</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Distinguish plateau regions in the electrostatic potential</span>
+
+<span class="sd">Inputs:</span>
+<span class="sd">cube_size = size of the cube in units of FFT mesh points (NGX/Y/Z)</span>
+<span class="sd">cube_origin = real-space positioning of the bottom left point of the sampling cube (fractional coordinates of the unit cell).</span>
+<span class="sd">tolerance = threshold below which the electrostatic potential is considered to be plateaued</span>
+<span class="sd">input_file = VASP LOCPOT input filename to be read</span>
+
+<span class="sd">Outputs:</span>
+<span class="sd">Percentage of vaccum vs non-vacuum cubes</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">macrodensity</span> <span class="k">as</span> <span class="nn">md</span> 
+
+<span class="c1">## INPUT SECTION</span>
+<span class="n">cube_size</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">cube_origin</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.5</span><span class="p">]</span>
+<span class="n">tolerance</span> <span class="o">=</span> <span class="mf">1E-4</span>
+<span class="n">input_file</span> <span class="o">=</span> <span class="s1">&#39;LOCPOT.test&#39;</span> <span class="c1">#(POINT: added .test to file name for code to work)</span>
+<span class="c1">## END INPUT SECTION</span>
+
+<span class="c1">## GETTING POTENTIAL</span>
+<span class="n">vasp_pot</span><span class="p">,</span> <span class="n">NGX</span><span class="p">,</span> <span class="n">NGY</span><span class="p">,</span> <span class="n">NGZ</span><span class="p">,</span> <span class="n">Lattice</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">read_vasp_density</span><span class="p">(</span><span class="n">input_file</span><span class="p">)</span>
+<span class="n">vector_a</span><span class="p">,</span><span class="n">vector_b</span><span class="p">,</span><span class="n">vector_c</span><span class="p">,</span><span class="n">av</span><span class="p">,</span><span class="n">bv</span><span class="p">,</span><span class="n">cv</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">matrix_2_abc</span><span class="p">(</span><span class="n">Lattice</span><span class="p">)</span>
+<span class="n">resolution_x</span> <span class="o">=</span> <span class="n">vector_a</span><span class="o">/</span><span class="n">NGX</span>
+<span class="n">resolution_y</span> <span class="o">=</span> <span class="n">vector_b</span><span class="o">/</span><span class="n">NGY</span>
+<span class="n">resolution_z</span> <span class="o">=</span> <span class="n">vector_c</span><span class="o">/</span><span class="n">NGZ</span>
+<span class="n">grid_pot</span><span class="p">,</span> <span class="n">electrons</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">density_2_grid</span><span class="p">(</span><span class="n">vasp_pot</span><span class="p">,</span><span class="n">NGX</span><span class="p">,</span><span class="n">NGY</span><span class="p">,</span><span class="n">NGZ</span><span class="p">)</span>
+<span class="n">cutoff_varience</span> <span class="o">=</span> <span class="n">tolerance</span>
+<span class="n">grad_x</span><span class="p">,</span><span class="n">grad_y</span><span class="p">,</span><span class="n">grad_z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">grid_pot</span><span class="p">[:,:,:],</span><span class="n">resolution_x</span><span class="p">,</span><span class="n">resolution_y</span><span class="p">,</span><span class="n">resolution_z</span><span class="p">)</span>
+<span class="n">travelled</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="c1">## DISTNGUISHING VACCUM FROM NON_VACUUM</span>
+<span class="n">vacuum</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">non_vacuum</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">NGX</span><span class="p">,</span><span class="n">cube_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">NGY</span><span class="p">,</span><span class="n">cube_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">NGZ</span><span class="p">,</span><span class="n">cube_size</span><span class="p">[</span><span class="mi">2</span><span class="p">]):</span>
+            <span class="n">sub_origin</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">/</span><span class="n">NGX</span><span class="p">,</span><span class="nb">float</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="n">NGY</span><span class="p">,</span><span class="nb">float</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="o">/</span><span class="n">NGZ</span><span class="p">]</span>
+            <span class="n">cube_pot</span><span class="p">,</span> <span class="n">cube_var</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">volume_average</span><span class="p">(</span><span class="n">origin</span><span class="o">=</span><span class="n">sub_origin</span><span class="p">,</span><span class="n">cube</span><span class="o">=</span><span class="n">cube_size</span><span class="p">,</span><span class="n">grid</span><span class="o">=</span><span class="n">grid_pot</span><span class="p">,</span><span class="n">nx</span><span class="o">=</span><span class="n">NGX</span><span class="p">,</span><span class="n">ny</span><span class="o">=</span><span class="n">NGY</span><span class="p">,</span><span class="n">nz</span><span class="o">=</span><span class="n">NGZ</span><span class="p">,</span><span class="n">travelled</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">cube_var</span> <span class="o">&lt;=</span> <span class="n">cutoff_varience</span><span class="p">:</span>
+                <span class="n">vacuum</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sub_origin</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">non_vacuum</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sub_origin</span><span class="p">)</span>
+
+<span class="c1">## PRINTING</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of vacuum cubes: &quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">vacuum</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of non-vacuum cubes: &quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">non_vacuum</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Percentage of vacuum cubes: &quot;</span><span class="p">,(</span><span class="nb">float</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">vacuum</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">vacuum</span><span class="p">))</span><span class="o">+</span><span class="nb">float</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">non_vacuum</span><span class="p">)))</span><span class="o">*</span><span class="mf">100.</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Percentage of non-vacuum cubes: &quot;</span><span class="p">,(</span><span class="nb">float</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">non_vacuum</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">vacuum</span><span class="p">))</span><span class="o">+</span><span class="nb">float</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">non_vacuum</span><span class="p">)))</span><span class="o">*</span><span class="mf">100.</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Reading header information...
+Reading 3D data using Pandas...
+Average of the potential =  -4.0478731477833207e-13
+Number of vacuum cubes:  17
+Number of non-vacuum cubes:  4079
+Percentage of vacuum cubes:  0.4150390625
+Percentage of non-vacuum cubes:  99.5849609375
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#BulkInterstitialAlignment </span>
+<span class="c1">#! /usr/bin/env python</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Alignment of the band edges with the interstitial bulk reference potential.</span>
+
+<span class="sd">Inputs:</span>
+<span class="sd">intersices = Positions of the pores/interstices ([[interstice1],[interstice2],...])</span>
+<span class="sd">outcar = VASP OUTCAR input filename</span>
+<span class="sd">locpot = VASP LOCPOT input filename</span>
+<span class="sd">cube_size = a cube defined by LOCPOT FFT mesh points</span>
+
+<span class="sd">Output:</span>
+<span class="sd">Aligned Valence Band, Aligned Conduction Band, Interstitial variances</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="kn">import</span> <span class="nn">macrodensity</span> <span class="k">as</span> <span class="nn">md</span>
+
+<span class="c1">## INPUT SECTION</span>
+<span class="n">interstices</span> <span class="o">=</span> <span class="p">([</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.5</span><span class="p">],[</span><span class="mf">0.25</span><span class="p">,</span><span class="mf">0.25</span><span class="p">,</span><span class="mf">0.25</span><span class="p">])</span> <span class="c1">#(POINT: typo error here)</span>
+<span class="n">outcar</span> <span class="o">=</span> <span class="s1">&#39;OUTCAR.test&#39;</span>
+<span class="n">locpot</span> <span class="o">=</span> <span class="s1">&#39;LOCPOT.test&#39;</span>
+<span class="n">cube_size</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+<span class="c1">## END INPUT SECTION</span>
+
+<span class="c1">## GETTING POTENTIAL</span>
+<span class="n">vasp_pot</span><span class="p">,</span> <span class="n">NGX</span><span class="p">,</span> <span class="n">NGY</span><span class="p">,</span> <span class="n">NGZ</span><span class="p">,</span> <span class="n">Lattice</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">read_vasp_density</span><span class="p">(</span><span class="n">locpot</span><span class="p">,</span><span class="n">quiet</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">vector_a</span><span class="p">,</span><span class="n">vector_b</span><span class="p">,</span><span class="n">vector_c</span><span class="p">,</span><span class="n">av</span><span class="p">,</span><span class="n">bv</span><span class="p">,</span><span class="n">cv</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">matrix_2_abc</span><span class="p">(</span><span class="n">Lattice</span><span class="p">)</span>
+<span class="n">resolution_x</span> <span class="o">=</span> <span class="n">vector_a</span><span class="o">/</span><span class="n">NGX</span>
+<span class="n">resolution_y</span> <span class="o">=</span> <span class="n">vector_b</span><span class="o">/</span><span class="n">NGY</span>
+<span class="n">resolution_z</span> <span class="o">=</span> <span class="n">vector_c</span><span class="o">/</span><span class="n">NGZ</span>
+<span class="n">grid_pot</span><span class="p">,</span> <span class="n">electrons</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">density_2_grid</span><span class="p">(</span><span class="n">vasp_pot</span><span class="p">,</span><span class="n">NGX</span><span class="p">,</span><span class="n">NGY</span><span class="p">,</span><span class="n">NGZ</span><span class="p">)</span>
+
+<span class="c1">## GETTING BAND EDGES</span>
+<span class="n">band_extrema</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">get_band_extrema</span><span class="p">(</span><span class="n">outcar</span><span class="p">)</span>
+<span class="n">VB_eigenvalue</span> <span class="o">=</span> <span class="n">band_extrema</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">CB_eigenvalue</span> <span class="o">=</span> <span class="n">band_extrema</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="c1">## CALCULATING REFERENCE STATE</span>
+<span class="n">interstitial_potentials</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">interstitial_variances</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">interstice</span> <span class="ow">in</span> <span class="n">interstices</span><span class="p">:</span>
+    <span class="n">locpot_extract</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">volume_average</span><span class="p">(</span><span class="n">origin</span><span class="o">=</span><span class="n">interstice</span><span class="p">,</span><span class="n">cube</span><span class="o">=</span><span class="n">cube_size</span><span class="p">,</span><span class="n">grid</span><span class="o">=</span><span class="n">grid_pot</span><span class="p">,</span><span class="n">nx</span><span class="o">=</span><span class="n">NGX</span><span class="p">,</span><span class="n">ny</span><span class="o">=</span><span class="n">NGY</span><span class="p">,</span><span class="n">nz</span><span class="o">=</span><span class="n">NGZ</span><span class="p">)</span>
+    <span class="n">interstitial_potentials</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">locpot_extract</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">interstitial_variances</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">locpot_extract</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="c1">## CALCULATING ALIGNED BAND ENERGIES</span>
+<span class="n">sum_interstitial_potential</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">ele</span> <span class="ow">in</span> <span class="n">interstitial_potentials</span><span class="p">:</span>
+    <span class="n">sum_interstitial_potential</span> <span class="o">+=</span> <span class="n">ele</span>
+<span class="n">average_interstitial_potential</span> <span class="o">=</span> <span class="n">sum_interstitial_potential</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">interstitial_potentials</span><span class="p">)</span>
+<span class="n">VB_aligned</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">VB_eigenvalue</span> <span class="o">-</span> <span class="n">average_interstitial_potential</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">CB_aligned</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">CB_eigenvalue</span> <span class="o">-</span> <span class="n">average_interstitial_potential</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1">## PRINTING</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Reading band edges from file: &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">outcar</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Reading potential from file: &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">locpot</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Interstital variances: &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">interstitial_variances</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;VB_aligned (eV)      CB_aligned (eV)&quot;</span><span class="p">)</span> <span class="c1">#(POINT: added units)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--------------------------------&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">VB_aligned</span><span class="p">,</span><span class="s2">&quot;         &quot;</span><span class="p">,</span><span class="n">CB_aligned</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Reading header information...
+Reading 3D data using Pandas...
+Reading band edges from file: OUTCAR.test
+Reading potential from file: LOCPOT.test
+Interstital variances: [1.8665165271901357e-05, 6.277207757909537e-06]
+VB_aligned (eV)      CB_aligned (eV)
+--------------------------------
+-3.24           -1.72
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#FieldAtPoint</span>
+<span class="c1">#! /usr/bin/env python</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Alignment of the band edges with the interstitial bulk reference potential.</span>
+
+<span class="sd">Inputs:</span>
+<span class="sd">intersices = Positions of the pores/interstices ([[interstice1],[interstice2],...])</span>
+<span class="sd">outcar = VASP OUTCAR input filename</span>
+<span class="sd">locpot = VASP LOCPOT input filename</span>
+<span class="sd">cube_size = a cube defined by LOCPOT FFT mesh points</span>
+
+<span class="sd">Output:</span>
+<span class="sd">Aligned Valence Band, Aligned Conduction Band, Interstitial variances</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="kn">import</span> <span class="nn">macrodensity</span> <span class="k">as</span> <span class="nn">md</span>
+
+<span class="c1">## INPUT SECTION</span>
+<span class="n">intersices</span> <span class="o">=</span> <span class="p">([</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.5</span><span class="p">],[</span><span class="mf">0.25</span><span class="p">,</span><span class="mf">0.25</span><span class="p">,</span><span class="mf">0.25</span><span class="p">])</span>
+<span class="n">outcar</span> <span class="o">=</span> <span class="s1">&#39;OUTCAR.test&#39;</span>
+<span class="n">locpot</span> <span class="o">=</span> <span class="s1">&#39;LOCPOT.test&#39;</span>
+<span class="n">cube_size</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+<span class="c1">## END INPUT SECTION</span>
+
+<span class="c1">## GETTING POTENTIAL</span>
+<span class="n">vasp_pot</span><span class="p">,</span> <span class="n">NGX</span><span class="p">,</span> <span class="n">NGY</span><span class="p">,</span> <span class="n">NGZ</span><span class="p">,</span> <span class="n">Lattice</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">read_vasp_density</span><span class="p">(</span><span class="n">locpot</span><span class="p">,</span><span class="n">quiet</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">vector_a</span><span class="p">,</span><span class="n">vector_b</span><span class="p">,</span><span class="n">vector_c</span><span class="p">,</span><span class="n">av</span><span class="p">,</span><span class="n">bv</span><span class="p">,</span><span class="n">cv</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">matrix_2_abc</span><span class="p">(</span><span class="n">Lattice</span><span class="p">)</span>
+<span class="n">resolution_x</span> <span class="o">=</span> <span class="n">vector_a</span><span class="o">/</span><span class="n">NGX</span>
+<span class="n">resolution_y</span> <span class="o">=</span> <span class="n">vector_b</span><span class="o">/</span><span class="n">NGY</span>
+<span class="n">resolution_z</span> <span class="o">=</span> <span class="n">vector_c</span><span class="o">/</span><span class="n">NGZ</span>
+<span class="n">grid_pot</span><span class="p">,</span> <span class="n">electrons</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">density_2_grid</span><span class="p">(</span><span class="n">vasp_pot</span><span class="p">,</span><span class="n">NGX</span><span class="p">,</span><span class="n">NGY</span><span class="p">,</span><span class="n">NGZ</span><span class="p">)</span>
+
+<span class="c1">## GETTING BAND EDGES</span>
+<span class="n">band_extrema</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">get_band_extrema</span><span class="p">(</span><span class="n">outcar</span><span class="p">)</span>
+<span class="n">VB_eigenvalue</span> <span class="o">=</span> <span class="n">band_extrema</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">CB_eigenvalue</span> <span class="o">=</span> <span class="n">band_extrema</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="c1">## CALCULATING REFERENCE STATE</span>
+<span class="n">interstitial_potentials</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">interstitial_variances</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">interstice</span> <span class="ow">in</span> <span class="n">interstices</span><span class="p">:</span>
+    <span class="n">locpot_extract</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">volume_average</span><span class="p">(</span><span class="n">origin</span><span class="o">=</span><span class="n">interstice</span><span class="p">,</span><span class="n">cube</span><span class="o">=</span><span class="n">cube_size</span><span class="p">,</span><span class="n">grid</span><span class="o">=</span><span class="n">grid_pot</span><span class="p">,</span><span class="n">nx</span><span class="o">=</span><span class="n">NGX</span><span class="p">,</span><span class="n">ny</span><span class="o">=</span><span class="n">NGY</span><span class="p">,</span><span class="n">nz</span><span class="o">=</span><span class="n">NGZ</span><span class="p">)</span>
+    <span class="n">interstitial_potentials</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">locpot_extract</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">interstitial_variances</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">locpot_extract</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="c1">## CALCULATING ALIGNED BAND ENERGIES</span>
+<span class="n">sum_interstitial_potential</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">ele</span> <span class="ow">in</span> <span class="n">interstitial_potentials</span><span class="p">:</span>
+    <span class="n">sum_interstitial_potential</span> <span class="o">+=</span> <span class="n">ele</span>
+<span class="n">average_interstitial_potential</span> <span class="o">=</span> <span class="n">sum_interstitial_potential</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">interstitial_potentials</span><span class="p">)</span>
+<span class="n">VB_aligned</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">VB_eigenvalue</span> <span class="o">-</span> <span class="n">average_interstitial_potential</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">CB_aligned</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">CB_eigenvalue</span> <span class="o">-</span> <span class="n">average_interstitial_potential</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1">## PRINTING</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Reading band edges from file: &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">outcar</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Reading potential from file: &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">locpot</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Interstital variances: &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">interstitial_variances</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;VB_aligned      CB_aligned&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--------------------------------&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">VB_aligned</span><span class="p">,</span><span class="s2">&quot;         &quot;</span><span class="p">,</span><span class="n">CB_aligned</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Reading header information...
+Reading 3D data using Pandas...
+Reading band edges from file: OUTCAR.test
+Reading potential from file: LOCPOT.test
+Interstital variances: [1.8665165271901357e-05, 6.277207757909537e-06]
+VB_aligned      CB_aligned
+--------------------------------
+-3.24           -1.72
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#GulpPotential.py</span>
+<span class="c1">#! /usr/bin/env python</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Alignment of the band edges with the interstitial bulk reference potential.</span>
+
+<span class="sd">Inputs:</span>
+<span class="sd">intersices = Positions of the pores/interstices ([[interstice1],[interstice2],...])</span>
+<span class="sd">outcar = VASP OUTCAR input filename</span>
+<span class="sd">locpot = VASP LOCPOT input filename</span>
+<span class="sd">cube_size = a cube defined by LOCPOT FFT mesh points</span>
+
+<span class="sd">Output:</span>
+<span class="sd">Aligned Valence Band, Aligned Conduction Band, Interstitial variances</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="kn">import</span> <span class="nn">macrodensity</span> <span class="k">as</span> <span class="nn">md</span>
+
+<span class="c1">## INPUT SECTION</span>
+<span class="n">intersices</span> <span class="o">=</span> <span class="p">([</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.5</span><span class="p">],[</span><span class="mf">0.25</span><span class="p">,</span><span class="mf">0.25</span><span class="p">,</span><span class="mf">0.25</span><span class="p">])</span>
+<span class="n">outcar</span> <span class="o">=</span> <span class="s1">&#39;OUTCAR.test&#39;</span>
+<span class="n">locpot</span> <span class="o">=</span> <span class="s1">&#39;LOCPOT.test&#39;</span>
+<span class="n">cube_size</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+<span class="c1">## END INPUT SECTION</span>
+
+<span class="c1">## GETTING POTENTIAL</span>
+<span class="n">vasp_pot</span><span class="p">,</span> <span class="n">NGX</span><span class="p">,</span> <span class="n">NGY</span><span class="p">,</span> <span class="n">NGZ</span><span class="p">,</span> <span class="n">Lattice</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">read_vasp_density</span><span class="p">(</span><span class="n">locpot</span><span class="p">,</span><span class="n">quiet</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">vector_a</span><span class="p">,</span><span class="n">vector_b</span><span class="p">,</span><span class="n">vector_c</span><span class="p">,</span><span class="n">av</span><span class="p">,</span><span class="n">bv</span><span class="p">,</span><span class="n">cv</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">matrix_2_abc</span><span class="p">(</span><span class="n">Lattice</span><span class="p">)</span>
+<span class="n">resolution_x</span> <span class="o">=</span> <span class="n">vector_a</span><span class="o">/</span><span class="n">NGX</span>
+<span class="n">resolution_y</span> <span class="o">=</span> <span class="n">vector_b</span><span class="o">/</span><span class="n">NGY</span>
+<span class="n">resolution_z</span> <span class="o">=</span> <span class="n">vector_c</span><span class="o">/</span><span class="n">NGZ</span>
+<span class="n">grid_pot</span><span class="p">,</span> <span class="n">electrons</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">density_2_grid</span><span class="p">(</span><span class="n">vasp_pot</span><span class="p">,</span><span class="n">NGX</span><span class="p">,</span><span class="n">NGY</span><span class="p">,</span><span class="n">NGZ</span><span class="p">)</span>
+
+<span class="c1">## GETTING BAND EDGES</span>
+<span class="n">band_extrema</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">get_band_extrema</span><span class="p">(</span><span class="n">outcar</span><span class="p">)</span>
+<span class="n">VB_eigenvalue</span> <span class="o">=</span> <span class="n">band_extrema</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">CB_eigenvalue</span> <span class="o">=</span> <span class="n">band_extrema</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="c1">## CALCULATING REFERENCE STATE</span>
+<span class="n">interstitial_potentials</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">interstitial_variances</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">interstice</span> <span class="ow">in</span> <span class="n">interstices</span><span class="p">:</span>
+    <span class="n">locpot_extract</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">volume_average</span><span class="p">(</span><span class="n">origin</span><span class="o">=</span><span class="n">interstice</span><span class="p">,</span><span class="n">cube</span><span class="o">=</span><span class="n">cube_size</span><span class="p">,</span><span class="n">grid</span><span class="o">=</span><span class="n">grid_pot</span><span class="p">,</span><span class="n">nx</span><span class="o">=</span><span class="n">NGX</span><span class="p">,</span><span class="n">ny</span><span class="o">=</span><span class="n">NGY</span><span class="p">,</span><span class="n">nz</span><span class="o">=</span><span class="n">NGZ</span><span class="p">)</span>
+    <span class="n">interstitial_potentials</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">locpot_extract</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">interstitial_variances</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">locpot_extract</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="c1">## CALCULATING ALIGNED BAND ENERGIES</span>
+<span class="n">sum_interstitial_potential</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">ele</span> <span class="ow">in</span> <span class="n">interstitial_potentials</span><span class="p">:</span>
+    <span class="n">sum_interstitial_potential</span> <span class="o">+=</span> <span class="n">ele</span>
+<span class="n">average_interstitial_potential</span> <span class="o">=</span> <span class="n">sum_interstitial_potential</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">interstitial_potentials</span><span class="p">)</span>
+<span class="n">VB_aligned</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">VB_eigenvalue</span> <span class="o">-</span> <span class="n">average_interstitial_potential</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">CB_aligned</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">CB_eigenvalue</span> <span class="o">-</span> <span class="n">average_interstitial_potential</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1">## PRINTING</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Reading band edges from file: &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">outcar</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Reading potential from file: &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">locpot</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Interstital variances: &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">interstitial_variances</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;VB_aligned      CB_aligned&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--------------------------------&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">VB_aligned</span><span class="p">,</span><span class="s2">&quot;         &quot;</span><span class="p">,</span><span class="n">CB_aligned</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Reading header information...
+Reading 3D data using Pandas...
+Reading band edges from file: OUTCAR.test
+Reading potential from file: LOCPOT.test
+Interstital variances: [1.8665165271901357e-05, 6.277207757909537e-06]
+VB_aligned      CB_aligned
+--------------------------------
+-3.24           -1.72
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#InputControl</span>
+<span class="c1">#! /usr/bin/env python</span>
+<span class="kn">import</span> <span class="nn">macrodensity</span> <span class="k">as</span> <span class="nn">md</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">csv</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="c1">#from itertools import izip #(POINT: Hashed because of Python3 compatibility issues)</span>
+
+<span class="c1">#&#39;&#39;&#39;</span>
+<span class="c1">#WARNING: THIS TOOL IS STILL UNDER DEVELOPMENT. KNOWN BUGS ARE PRESENT.</span>
+<span class="c1">#&#39;&#39;&#39;</span>
+
+
+<span class="c1">#------------------------------------------------------------------</span>
+<span class="c1"># Get the potential</span>
+<span class="c1"># This section should not be altered</span>
+<span class="c1">#------------------------------------------------------------------</span>
+<span class="n">vasp_pot</span><span class="p">,</span> <span class="n">NGX</span><span class="p">,</span> <span class="n">NGY</span><span class="p">,</span> <span class="n">NGZ</span><span class="p">,</span> <span class="n">Lattice</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">read_vasp_density</span><span class="p">(</span><span class="s1">&#39;LOCPOT.test&#39;</span><span class="p">)</span>
+<span class="n">vector_a</span><span class="p">,</span><span class="n">vector_b</span><span class="p">,</span><span class="n">vector_c</span><span class="p">,</span><span class="n">av</span><span class="p">,</span><span class="n">bv</span><span class="p">,</span><span class="n">cv</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">matrix_2_abc</span><span class="p">(</span><span class="n">Lattice</span><span class="p">)</span>
+<span class="n">resolution_x</span> <span class="o">=</span> <span class="n">vector_a</span><span class="o">/</span><span class="n">NGX</span>
+<span class="n">resolution_y</span> <span class="o">=</span> <span class="n">vector_b</span><span class="o">/</span><span class="n">NGY</span>
+<span class="n">resolution_z</span> <span class="o">=</span> <span class="n">vector_c</span><span class="o">/</span><span class="n">NGZ</span>
+<span class="n">grid_pot</span><span class="p">,</span> <span class="n">electrons</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">density_2_grid</span><span class="p">(</span><span class="n">vasp_pot</span><span class="p">,</span><span class="n">NGX</span><span class="p">,</span><span class="n">NGY</span><span class="p">,</span><span class="n">NGZ</span><span class="p">)</span>
+<span class="c1">## Get the gradiens (Field), if required.</span>
+<span class="c1">## Comment out if not required, due to compuational expense.</span>
+<span class="n">grad_x</span><span class="p">,</span><span class="n">grad_y</span><span class="p">,</span><span class="n">grad_z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">grid_pot</span><span class="p">[:,:,:],</span><span class="n">resolution_x</span><span class="p">,</span><span class="n">resolution_y</span><span class="p">,</span><span class="n">resolution_z</span><span class="p">)</span>
+<span class="c1">#------------------------------------------------------------------</span>
+
+<span class="c1">##------------------------------------------------------------------</span>
+<span class="c1">## Plotting the average in a moving cube along a vector</span>
+<span class="c1">##------------------------------------------------------------------</span>
+<span class="c1">## cube defines the size of the cube in units of mesh points (NGX/Y/Z)</span>
+<span class="n">cube</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+<span class="c1">## vector is the vector you wish to travel along</span>
+<span class="n">vector</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+<span class="c1">## cube defines the origin of the line in units of mesh points (NGX/Y/Z)</span>
+<span class="n">origin</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.5</span><span class="p">]</span>
+<span class="c1">## magnitude defines the length of the line, in units of mesh points (NGX/Y/Z)</span>
+<span class="n">magnitude</span> <span class="o">=</span> <span class="mi">280</span>
+<span class="c1">## IF YOU WANT TO PLOT THE POTENTIAL:</span>
+<span class="n">cubes_potential</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">travelling_volume_average</span><span class="p">(</span><span class="n">grid_pot</span><span class="p">,</span><span class="n">cube</span><span class="p">,</span><span class="n">origin</span><span class="p">,</span><span class="n">vector</span><span class="p">,</span><span class="n">NGX</span><span class="p">,</span><span class="n">NGY</span><span class="p">,</span><span class="n">NGZ</span><span class="p">,</span><span class="n">magnitude</span><span class="p">)</span>
+<span class="n">abscissa</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">vector_2_abscissa</span><span class="p">(</span><span class="n">vector</span><span class="p">,</span><span class="n">magnitude</span><span class="p">,</span><span class="n">resolution_x</span><span class="p">,</span><span class="n">resolution_y</span><span class="p">,</span><span class="n">resolution_z</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">abscissa</span><span class="p">,</span> <span class="n">cubes_potential</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;$z (\AA)$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Potential (eV)&quot;</span><span class="p">)</span>
+<span class="c1">## IF YOU WANT TO PLOT THE FIELD MAGNITUDE ALSO:</span>
+<span class="c1">## Get the gradients (of the field, if required)</span>
+<span class="n">grad_mag</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">gradient_magnitude</span><span class="p">(</span><span class="n">grad_x</span><span class="p">,</span><span class="n">grad_y</span><span class="p">,</span><span class="n">grad_z</span><span class="p">)</span>
+<span class="n">cubes_field</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">travelling_volume_average</span><span class="p">(</span><span class="n">grad_mag</span><span class="p">,</span><span class="n">cube</span><span class="p">,</span><span class="n">origin</span><span class="p">,</span><span class="n">vector</span><span class="p">,</span><span class="n">NGX</span><span class="p">,</span><span class="n">NGY</span><span class="p">,</span><span class="n">NGZ</span><span class="p">,</span><span class="n">magnitude</span><span class="p">)</span>
+<span class="n">abscissa</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">vector_2_abscissa</span><span class="p">(</span><span class="n">vector</span><span class="p">,</span><span class="n">magnitude</span><span class="p">,</span><span class="n">resolution_x</span><span class="p">,</span><span class="n">resolution_y</span><span class="p">,</span><span class="n">resolution_z</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">abscissa</span><span class="p">,</span> <span class="n">cubes_field</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;$z (\AA)$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Field $(eV/\AA)$&quot;</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;ElectricField.csv&#39;</span><span class="p">,</span><span class="s1">&#39;w&#39;</span><span class="p">)</span><span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">([</span><span class="s1">&#39;abscissa&#39;</span><span class="p">,</span> <span class="s1">&#39;cubes_field&#39;</span><span class="p">])</span> <span class="c1">#(POINT : PYTHON3 INCOMPATIBLE)</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">abscissa</span><span class="p">,</span> <span class="n">cubes_field</span><span class="p">):</span>
+        <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+
+<span class="n">temp</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;ElectricField.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>    
+<span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">temp</span><span class="o">.</span><span class="n">values</span><span class="p">)</span><span class="o">.</span><span class="n">tofile</span><span class="p">(</span><span class="s1">&#39;ElectricField.dat&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Reading header information...
+Reading 3D data using Pandas...
+Average of the potential =  -4.0478731477833207e-13
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/b892da5d3df2cb7b36d1e30ebbdf1252abc0140ca3c7d56e195226b4e510c043.png"><img alt="../_images/b892da5d3df2cb7b36d1e30ebbdf1252abc0140ca3c7d56e195226b4e510c043.png" src="../_images/b892da5d3df2cb7b36d1e30ebbdf1252abc0140ca3c7d56e195226b4e510c043.png" style="height: 300px;" /></a>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">macrodensity</span> <span class="k">as</span> <span class="nn">md</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">WARNING: THIS TOOL IS STILL UNDER DEVELOPMENT. KNOWN BUGS ARE PRESENT.</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+
+<span class="c1">#------------------------------------------------------------------</span>
+<span class="c1">#   READING</span>
+<span class="c1"># Get the two potentials and change them to a planar average.</span>
+<span class="c1"># This section should not be altered</span>
+<span class="c1">#------------------------------------------------------------------</span>
+<span class="c1"># SLAB</span>
+<span class="n">vasp_pot</span><span class="p">,</span> <span class="n">NGX</span><span class="p">,</span> <span class="n">NGY</span><span class="p">,</span> <span class="n">NGZ</span><span class="p">,</span> <span class="n">Lattice</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">read_vasp_density</span><span class="p">(</span><span class="s1">&#39;CHGCAR.test&#39;</span><span class="p">)</span>
+<span class="n">mag_a</span><span class="p">,</span><span class="n">mag_b</span><span class="p">,</span><span class="n">mag_c</span><span class="p">,</span><span class="n">vec_a</span><span class="p">,</span><span class="n">vec_b</span><span class="p">,</span><span class="n">vec_c</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">matrix_2_abc</span><span class="p">(</span><span class="n">Lattice</span><span class="p">)</span>
+<span class="n">resolution_x</span> <span class="o">=</span> <span class="n">mag_a</span><span class="o">/</span><span class="n">NGX</span>
+<span class="n">resolution_y</span> <span class="o">=</span> <span class="n">mag_b</span><span class="o">/</span><span class="n">NGY</span>
+<span class="n">resolution_z</span> <span class="o">=</span> <span class="n">mag_c</span><span class="o">/</span><span class="n">NGZ</span>
+<span class="n">Volume</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">get_volume</span><span class="p">(</span><span class="n">vec_a</span><span class="p">,</span><span class="n">vec_b</span><span class="p">,</span><span class="n">vec_c</span><span class="p">)</span>
+<span class="n">grid_pot_slab</span><span class="p">,</span> <span class="n">electrons_slab</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">density_2_grid</span><span class="p">(</span><span class="n">vasp_pot</span><span class="p">,</span><span class="n">NGX</span><span class="p">,</span><span class="n">NGY</span><span class="p">,</span><span class="n">NGZ</span><span class="p">,</span><span class="kc">True</span><span class="p">,</span><span class="n">Volume</span><span class="p">)</span>
+<span class="c1"># Save the lattce vectors for use later</span>
+<span class="n">Vector_A</span> <span class="o">=</span> <span class="p">[</span><span class="n">vec_a</span><span class="p">,</span><span class="n">vec_b</span><span class="p">,</span><span class="n">vec_c</span><span class="p">]</span>
+<span class="c1">#----------------------------------------------------------------------------------</span>
+<span class="c1"># CONVERT TO PLANAR DENSITIES</span>
+<span class="c1">#----------------------------------------------------------------------------------</span>
+<span class="n">planar_slab</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">planar_average</span><span class="p">(</span><span class="n">grid_pot_slab</span><span class="p">,</span><span class="n">NGX</span><span class="p">,</span><span class="n">NGY</span><span class="p">,</span><span class="n">NGZ</span><span class="p">)</span>
+<span class="c1"># BULK</span>
+<span class="n">vasp_pot</span><span class="p">,</span> <span class="n">NGX</span><span class="p">,</span> <span class="n">NGY</span><span class="p">,</span> <span class="n">NGZ</span><span class="p">,</span> <span class="n">Lattice</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">read_vasp_density</span><span class="p">(</span><span class="s1">&#39;CHGCAR.test&#39;</span><span class="p">)</span>
+<span class="n">mag_a</span><span class="p">,</span><span class="n">mag_b</span><span class="p">,</span><span class="n">mag_c</span><span class="p">,</span><span class="n">vec_a</span><span class="p">,</span><span class="n">vec_b</span><span class="p">,</span><span class="n">vec_c</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">matrix_2_abc</span><span class="p">(</span><span class="n">Lattice</span><span class="p">)</span>
+<span class="n">resolution_x</span> <span class="o">=</span> <span class="n">mag_a</span><span class="o">/</span><span class="n">NGX</span>
+<span class="n">resolution_y</span> <span class="o">=</span> <span class="n">mag_b</span><span class="o">/</span><span class="n">NGY</span>
+<span class="n">resolution_z</span> <span class="o">=</span> <span class="n">mag_c</span><span class="o">/</span><span class="n">NGZ</span>
+<span class="c1"># Save the lattce vectors for use later</span>
+<span class="n">Vector_B</span> <span class="o">=</span> <span class="p">[</span><span class="n">vec_a</span><span class="p">,</span><span class="n">vec_b</span><span class="p">,</span><span class="n">vec_c</span><span class="p">]</span>
+<span class="n">Volume</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">get_volume</span><span class="p">(</span><span class="n">vec_a</span><span class="p">,</span><span class="n">vec_b</span><span class="p">,</span><span class="n">vec_c</span><span class="p">)</span>
+<span class="c1">#----------------------------------------------------------------------------------</span>
+<span class="c1"># CONVERT TO PLANAR DENSITIES</span>
+<span class="c1">#----------------------------------------------------------------------------------</span>
+<span class="n">grid_pot_bulk</span><span class="p">,</span> <span class="n">electrons_bulk</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">density_2_grid</span><span class="p">(</span><span class="n">vasp_pot</span><span class="p">,</span><span class="n">NGX</span><span class="p">,</span><span class="n">NGY</span><span class="p">,</span><span class="n">NGZ</span><span class="p">,</span><span class="kc">True</span><span class="p">,</span><span class="n">Volume</span><span class="p">)</span>
+<span class="n">planar_bulk</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">planar_average</span><span class="p">(</span><span class="n">grid_pot_bulk</span><span class="p">,</span><span class="n">NGX</span><span class="p">,</span><span class="n">NGY</span><span class="p">,</span><span class="n">NGZ</span><span class="p">)</span>
+<span class="c1">#----------------------------------------------------------------------------------</span>
+<span class="c1"># FINISHED READING</span>
+<span class="c1">#----------------------------------------------------------------------------------</span>
+<span class="c1"># GET RATIO OF NUMBERS OF ELECTRONS</span>
+<span class="c1">#----------------------------------------------------------------------------------</span>
+<span class="n">elect_ratio</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">electrons_slab</span><span class="o">/</span><span class="n">electrons_bulk</span><span class="p">)</span>
+<span class="c1">#----------------------------------------------------------------------------------</span>
+<span class="c1"># SPLINE THE TWO GENERATING A DISTANCE ON ABSCISSA</span>
+<span class="c1">#----------------------------------------------------------------------------------</span>
+<span class="n">slab</span><span class="p">,</span> <span class="n">bulk</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">matched_spline_generate</span><span class="p">(</span><span class="n">planar_slab</span><span class="p">,</span><span class="n">planar_bulk</span><span class="p">,</span><span class="n">Vector_A</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">Vector_B</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="c1">#----------------------------------------------------------------------------------</span>
+<span class="c1"># EXTEND THE BULK POTENTIAL TO MATCH THE ELECTRON NUMBERS</span>
+<span class="c1">#----------------------------------------------------------------------------------</span>
+<span class="n">bulk</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">extend_potential</span><span class="p">(</span><span class="n">bulk</span><span class="p">,</span><span class="n">elect_ratio</span><span class="p">,</span><span class="n">Vector_B</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="c1">#----------------------------------------------------------------------------------</span>
+<span class="c1"># MATCH THE RESOLUTIONS OF THE TWO</span>
+<span class="c1">#----------------------------------------------------------------------------------</span>
+<span class="n">slab</span><span class="p">,</span> <span class="n">bulk</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">match_resolution</span><span class="p">(</span><span class="n">slab</span><span class="p">,</span> <span class="n">bulk</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">bulk</span><span class="p">[:,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="c1">#----------------------------------------------------------------------------------</span>
+<span class="c1"># TRANSLATE THE BULK POTENTIAL TO GET OVERLAP</span>
+<span class="c1">#----------------------------------------------------------------------------------</span>
+<span class="n">bulk_trans</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">translate_grid</span><span class="p">(</span><span class="n">bulk</span><span class="p">,</span> <span class="mf">3.13</span><span class="p">,</span><span class="kc">True</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Vector_B</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">elect_ratio</span><span class="p">),</span><span class="mf">0.42</span><span class="p">)</span>
+<span class="n">bulk_trans</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">translate_grid</span><span class="p">(</span><span class="n">bulk_trans</span><span class="p">,</span> <span class="mf">6.57</span><span class="p">,</span><span class="kc">False</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Vector_B</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">elect_ratio</span><span class="p">),</span><span class="mf">0.42</span><span class="p">)</span>
+<span class="n">slab_trans</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">translate_grid</span><span class="p">(</span><span class="n">slab</span><span class="p">,</span> <span class="mf">6.5653</span><span class="p">,</span><span class="kc">True</span><span class="p">,</span><span class="n">Vector_A</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<span class="c1">#potential_difference = md.diff_potentials(pot_slab_orig,bulk_extd,10,40,tol=0.04)</span>
+
+<span class="c1">##------------------------------------------------------------------</span>
+<span class="c1">## SET THE CHARGE DENSITY TO ZERO OUTSIDE THE BULK</span>
+<span class="n">bulk_vacuum</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">bulk_vac</span><span class="p">(</span><span class="n">bulk_trans</span><span class="p">,</span> <span class="n">slab_trans</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">bulk_vacuum</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span><span class="n">bulk_vacuum</span><span class="p">[:,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">slab_trans</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span><span class="n">slab_trans</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="c1"># GET THE DIFFERENCES (within a numerical tolerence)</span>
+<span class="n">difference</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">subs_potentials</span><span class="p">(</span><span class="n">slab_trans</span><span class="p">,</span><span class="n">bulk_vacuum</span><span class="p">,</span><span class="n">tol</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+<span class="n">difference</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">spline_generate</span><span class="p">(</span><span class="n">difference</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="c1">#(POINT: Float-Integer error)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">difference</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span><span class="n">difference</span><span class="p">[:,</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="c1">#plt.plot(difference[:,0],difference[:,1])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Reading header information...
+Reading 3D data using Pandas...
+Average of the potential =  8.000000069794417
+Total electrons:  8.000000069794574
+Reading header information...
+Reading 3D data using Pandas...
+Average of the potential =  8.000000069794417
+Total electrons:  8.000000069794574
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/36eb9b37d2b2649ebf6674db7c347e9530728a0bff5372fa5945c8f838da40ad.png"><img alt="../_images/36eb9b37d2b2649ebf6674db7c347e9530728a0bff5372fa5945c8f838da40ad.png" src="../_images/36eb9b37d2b2649ebf6674db7c347e9530728a0bff5372fa5945c8f838da40ad.png" style="height: 300px;" /></a>
+<a class="reference internal image-reference" href="../_images/02160af1341f390ee4b76b85ed40567178dbd07072dd7a1d702d1e00f4417db7.png"><img alt="../_images/02160af1341f390ee4b76b85ed40567178dbd07072dd7a1d702d1e00f4417db7.png" src="../_images/02160af1341f390ee4b76b85ed40567178dbd07072dd7a1d702d1e00f4417db7.png" style="height: 300px;" /></a>
+<a class="reference internal image-reference" href="../_images/228f264c3d1866f16f4cb5809e10b4469699bc0d11bf5c649e67830b8ae77a14.png"><img alt="../_images/228f264c3d1866f16f4cb5809e10b4469699bc0d11bf5c649e67830b8ae77a14.png" src="../_images/228f264c3d1866f16f4cb5809e10b4469699bc0d11bf5c649e67830b8ae77a14.png" style="height: 300px;" /></a>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#MovingCube </span>
+<span class="c1">#! /usr/bin/env python</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Electrostatic potential plot spanning a vector acros the unit cell</span>
+
+<span class="sd">Inputs:</span>
+<span class="sd">cube = size of the cube in units of FFT mesh points (NGX/Y/Z)</span>
+<span class="sd">origin = real-space positioning of the bottom left point of the sampling cube (fractional coordinates of the unit cell).</span>
+<span class="sd">vector = vector across which the unit cell is traversed (hkl convention)</span>
+<span class="sd">magnitude = length travelled along the selected vector in units of FFT mesh points (NGX/Y/Z)</span>
+<span class="sd">input_file = VASP LOCPOT input filename to be read</span>
+<span class="sd">output file = name of output data file</span>
+<span class="sd">img_file = name of output image file</span>
+
+<span class="sd">Outputs:</span>
+<span class="sd">averaged electrostatic potential for the set cube size (list)</span>
+<span class="sd">.csv file containing the above data</span>
+<span class="sd">.png file presenting the above data</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="kn">import</span> <span class="nn">macrodensity</span> <span class="k">as</span> <span class="nn">md</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="c1">## INPUT SECTION</span>
+<span class="n">cube</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">origin</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.17</span><span class="p">,</span><span class="mf">0.17</span><span class="p">,</span><span class="mf">0.17</span><span class="p">]</span>
+<span class="n">vector</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">magnitude</span> <span class="o">=</span> <span class="mi">16</span>
+<span class="n">input_file</span> <span class="o">=</span> <span class="s1">&#39;LOCPOT.test&#39;</span>
+<span class="n">output_file</span> <span class="o">=</span><span class="s1">&#39;MovingCube.csv&#39;</span>
+<span class="n">img_file</span> <span class="o">=</span><span class="s1">&#39;MovingCube.png&#39;</span>
+<span class="c1">## END INPUT SECTION</span>
+
+<span class="c1">## GETTING POTENTIAL</span>
+<span class="n">vasp_pot</span><span class="p">,</span> <span class="n">NGX</span><span class="p">,</span> <span class="n">NGY</span><span class="p">,</span> <span class="n">NGZ</span><span class="p">,</span> <span class="n">Lattice</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">read_vasp_density</span><span class="p">(</span><span class="n">input_file</span><span class="p">)</span>
+<span class="n">vector_a</span><span class="p">,</span><span class="n">vector_b</span><span class="p">,</span><span class="n">vector_c</span><span class="p">,</span><span class="n">av</span><span class="p">,</span><span class="n">bv</span><span class="p">,</span><span class="n">cv</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">matrix_2_abc</span><span class="p">(</span><span class="n">Lattice</span><span class="p">)</span>
+<span class="n">resolution_x</span> <span class="o">=</span> <span class="n">vector_a</span><span class="o">/</span><span class="n">NGX</span>
+<span class="n">resolution_y</span> <span class="o">=</span> <span class="n">vector_b</span><span class="o">/</span><span class="n">NGY</span>
+<span class="n">resolution_z</span> <span class="o">=</span> <span class="n">vector_c</span><span class="o">/</span><span class="n">NGZ</span>
+<span class="n">grid_pot</span><span class="p">,</span> <span class="n">electrons</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">density_2_grid</span><span class="p">(</span><span class="n">vasp_pot</span><span class="p">,</span><span class="n">NGX</span><span class="p">,</span><span class="n">NGY</span><span class="p">,</span><span class="n">NGZ</span><span class="p">)</span>
+<span class="n">cubes_potential</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">travelling_volume_average</span><span class="p">(</span><span class="n">grid_pot</span><span class="p">,</span><span class="n">cube</span><span class="p">,</span><span class="n">origin</span><span class="p">,</span><span class="n">vector</span><span class="p">,</span><span class="n">NGX</span><span class="p">,</span><span class="n">NGY</span><span class="p">,</span><span class="n">NGZ</span><span class="p">,</span><span class="n">magnitude</span><span class="p">)</span>
+<span class="n">abscissa</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">vector_2_abscissa</span><span class="p">(</span><span class="n">vector</span><span class="p">,</span><span class="n">magnitude</span><span class="p">,</span><span class="n">resolution_x</span><span class="p">,</span><span class="n">resolution_y</span><span class="p">,</span><span class="n">resolution_z</span><span class="p">)</span>
+
+<span class="c1">## PLOTTING</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">abscissa</span><span class="p">,</span> <span class="n">cubes_potential</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;$z (\AA)$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Potential (V)&quot;</span><span class="p">)</span> <span class="c1">#(POINT: Fixed the axis title)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">img_file</span><span class="p">)</span>
+
+<span class="c1">##SAVING</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">({</span><span class="s1">&#39;Potential&#39;</span><span class="p">:</span><span class="n">cubes_potential</span><span class="p">},</span><span class="n">orient</span><span class="o">=</span><span class="s1">&#39;index&#39;</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">output_file</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Reading header information...
+Reading 3D data using Pandas...
+Average of the potential =  -4.0478731477833207e-13
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/3bb87ca13fb858cf12837562446175c024e320bc59a0c34ff9cf47fba3f89574.png"><img alt="../_images/3bb87ca13fb858cf12837562446175c024e320bc59a0c34ff9cf47fba3f89574.png" src="../_images/3bb87ca13fb858cf12837562446175c024e320bc59a0c34ff9cf47fba3f89574.png" style="height: 300px;" /></a>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#OnsitePotential </span>
+<span class="c1">#! /usr/bin/env python</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Electrostatic potential at atomic sites</span>
+
+<span class="sd">Inputs:</span>
+<span class="sd">potential_file = VASP LOCPOT</span>
+<span class="sd">coordinate_file = The coordinates file NOTE This must be in vasp 4 format</span>
+<span class="sd">species = The species whose on-site potential you are interested in (string)</span>
+<span class="sd">sample_cube = The size of the sampling cube in units of mesh points (NGX/Y/Z)</span>
+<span class="sd">output file = name of output data file</span>
+<span class="sd">img_file = name of output image file</span>
+
+<span class="sd">Outputs:</span>
+<span class="sd">.png histogram output</span>
+<span class="sd">.csv data output</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">csv</span>
+<span class="kn">import</span> <span class="nn">ase</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">ase.io</span> <span class="kn">import</span> <span class="n">write</span>
+<span class="kn">from</span> <span class="nn">ase.io</span> <span class="kn">import</span> <span class="n">vasp</span>
+<span class="kn">import</span> <span class="nn">macrodensity</span> <span class="k">as</span> <span class="nn">md</span>
+
+<span class="c1">## INPUT SECTION</span>
+<span class="n">potential_file</span> <span class="o">=</span> <span class="s1">&#39;LOCPOT.test&#39;</span>
+<span class="n">coordinate_file</span> <span class="o">=</span> <span class="s1">&#39;POSCAR.test&#39;</span>
+<span class="n">species</span> <span class="o">=</span> <span class="s2">&quot;Zn&quot;</span>
+<span class="n">sample_cube</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span>
+<span class="n">output_file</span> <span class="o">=</span> <span class="s1">&#39;OnSitePotential.csv&#39;</span>
+<span class="n">img_file</span> <span class="o">=</span> <span class="s1">&#39;OnSitePotential.png&#39;</span>
+<span class="c1">## END INPUT SECTION</span>
+
+<span class="c1">## GETTING POTENTIALS</span>
+<span class="n">vasp_pot</span><span class="p">,</span> <span class="n">NGX</span><span class="p">,</span> <span class="n">NGY</span><span class="p">,</span> <span class="n">NGZ</span><span class="p">,</span> <span class="n">Lattice</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">read_vasp_density</span><span class="p">(</span><span class="n">potential_file</span><span class="p">)</span>
+<span class="n">vector_a</span><span class="p">,</span><span class="n">vector_b</span><span class="p">,</span><span class="n">vector_c</span><span class="p">,</span><span class="n">av</span><span class="p">,</span><span class="n">bv</span><span class="p">,</span><span class="n">cv</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">matrix_2_abc</span><span class="p">(</span><span class="n">Lattice</span><span class="p">)</span>
+<span class="n">resolution_x</span> <span class="o">=</span> <span class="n">vector_a</span><span class="o">/</span><span class="n">NGX</span>
+<span class="n">resolution_y</span> <span class="o">=</span> <span class="n">vector_b</span><span class="o">/</span><span class="n">NGY</span>
+<span class="n">resolution_z</span> <span class="o">=</span> <span class="n">vector_c</span><span class="o">/</span><span class="n">NGZ</span>
+<span class="n">grid_pot</span><span class="p">,</span> <span class="n">electrons</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">density_2_grid</span><span class="p">(</span><span class="n">vasp_pot</span><span class="p">,</span><span class="n">NGX</span><span class="p">,</span><span class="n">NGY</span><span class="p">,</span><span class="n">NGZ</span><span class="p">)</span>
+<span class="n">grad_x</span><span class="p">,</span><span class="n">grad_y</span><span class="p">,</span><span class="n">grad_z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">grid_pot</span><span class="p">[:,:,:],</span><span class="n">resolution_x</span><span class="p">,</span><span class="n">resolution_y</span><span class="p">,</span><span class="n">resolution_z</span><span class="p">)</span>
+<span class="n">coords</span> <span class="o">=</span> <span class="n">ase</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">vasp</span><span class="o">.</span><span class="n">read_vasp</span><span class="p">(</span><span class="n">coordinate_file</span><span class="p">)</span>
+<span class="n">scaled_coords</span> <span class="o">=</span> <span class="n">coords</span><span class="o">.</span><span class="n">get_scaled_positions</span><span class="p">()</span>
+<span class="n">symbols</span> <span class="o">=</span> <span class="n">coords</span><span class="o">.</span><span class="n">get_chemical_symbols</span><span class="p">()</span>
+<span class="n">ox_coords</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">atom</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">coords</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">symbols</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">species</span><span class="p">:</span>
+        <span class="n">ox_coords</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">scaled_coords</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+<span class="n">grid_position</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">potentials_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">num_bins</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="k">for</span> <span class="n">coord</span> <span class="ow">in</span> <span class="n">ox_coords</span><span class="p">:</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">grid_position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">coord</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">grid_position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">coord</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">grid_position</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">coord</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">cube</span> <span class="o">=</span> <span class="n">sample_cube</span>
+    <span class="n">origin</span> <span class="o">=</span> <span class="p">[</span><span class="n">grid_position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="n">grid_position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="n">grid_position</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">travelled</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">cube_potential</span><span class="p">,</span> <span class="n">cube_var</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">volume_average</span><span class="p">(</span><span class="n">origin</span><span class="p">,</span><span class="n">cube</span><span class="p">,</span><span class="n">grid_pot</span><span class="p">,</span><span class="n">NGX</span><span class="p">,</span><span class="n">NGY</span><span class="p">,</span><span class="n">NGZ</span><span class="p">)</span>
+    <span class="n">potentials_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cube_potential</span><span class="p">)</span>
+
+<span class="c1">## PLOTTING</span>
+<span class="n">n</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">patches</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">potentials_list</span><span class="p">,</span> <span class="n">num_bins</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;#6400E1&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Hartree potential (V)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">% o</span><span class="s1">f centres&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">img_file</span><span class="p">)</span>
+
+<span class="c1">## SAVING</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">({</span><span class="s1">&#39;Potential&#39;</span><span class="p">:</span><span class="n">potentials_list</span><span class="p">},</span><span class="n">orient</span><span class="o">=</span><span class="s1">&#39;index&#39;</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">output_file</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Reading header information...
+Reading 3D data using Pandas...
+Average of the potential =  -4.0478731477833207e-13
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/edcab59fe964a3e1dd680a3ef552233a5df28ab5451f20d163bc227ab3a033bf.png"><img alt="../_images/edcab59fe964a3e1dd680a3ef552233a5df28ab5451f20d163bc227ab3a033bf.png" src="../_images/edcab59fe964a3e1dd680a3ef552233a5df28ab5451f20d163bc227ab3a033bf.png" style="height: 300px;" /></a>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#PlanarAverage</span>
+<span class="c1">#! /usr/bin/env python</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Planar and macroscopic average calculation</span>
+
+<span class="sd">Inputs:</span>
+<span class="sd">input_file = input filename to be read (must be in .cube format)</span>
+<span class="sd">lattice_vector = Repeating unit over which the potential is averaged to get the macroscopic average (Angstroms)</span>
+<span class="sd">output file = name of output data file</span>
+<span class="sd">img_file = name of output image file</span>
+
+<span class="sd">Outputs:</span>
+<span class="sd">planar average, macroscopic average, interpolated planar average</span>
+<span class="sd">.csv data file containing: planar average, macroscopic average, interpolated planar average</span>
+<span class="sd">image file plotting .csv data</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">macrodensity</span> <span class="k">as</span> <span class="nn">md</span>
+
+<span class="c1">## INPUT SECTION</span>
+<span class="n">input_file</span> <span class="o">=</span> <span class="s1">&#39;LOCPOT.test&#39;</span>
+<span class="n">lattice_vector</span> <span class="o">=</span> <span class="mf">5.41</span>
+<span class="n">output_file</span> <span class="o">=</span> <span class="s1">&#39;PlanarAverage.csv&#39;</span>
+<span class="n">img_file</span> <span class="o">=</span> <span class="s1">&#39;PlanarAverage.png&#39;</span>
+<span class="c1">## END INPUT SECTION</span>
+
+<span class="c1"># GETTING POTENTIAL</span>
+<span class="n">vasp_pot</span><span class="p">,</span> <span class="n">NGX</span><span class="p">,</span> <span class="n">NGY</span><span class="p">,</span> <span class="n">NGZ</span><span class="p">,</span> <span class="n">Lattice</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">read_vasp_density</span><span class="p">(</span><span class="n">input_file</span><span class="p">)</span>
+<span class="n">vector_a</span><span class="p">,</span><span class="n">vector_b</span><span class="p">,</span><span class="n">vector_c</span><span class="p">,</span><span class="n">av</span><span class="p">,</span><span class="n">bv</span><span class="p">,</span><span class="n">cv</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">matrix_2_abc</span><span class="p">(</span><span class="n">Lattice</span><span class="p">)</span>
+<span class="n">resolution_x</span> <span class="o">=</span> <span class="n">vector_a</span><span class="o">/</span><span class="n">NGX</span>
+<span class="n">resolution_y</span> <span class="o">=</span> <span class="n">vector_b</span><span class="o">/</span><span class="n">NGY</span>
+<span class="n">resolution_z</span> <span class="o">=</span> <span class="n">vector_c</span><span class="o">/</span><span class="n">NGZ</span>
+<span class="n">grid_pot</span><span class="p">,</span> <span class="n">electrons</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">density_2_grid</span><span class="p">(</span><span class="n">vasp_pot</span><span class="p">,</span><span class="n">NGX</span><span class="p">,</span><span class="n">NGY</span><span class="p">,</span><span class="n">NGZ</span><span class="p">)</span>
+
+<span class="c1">## PLANAR AVERAGE</span>
+<span class="n">planar</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">planar_average</span><span class="p">(</span><span class="n">grid_pot</span><span class="p">,</span><span class="n">NGX</span><span class="p">,</span><span class="n">NGY</span><span class="p">,</span><span class="n">NGZ</span><span class="p">)</span>
+
+<span class="c1">## MACROSCOPIC AVERAGE</span>
+<span class="n">macro</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">macroscopic_average</span><span class="p">(</span><span class="n">planar</span><span class="p">,</span><span class="n">lattice_vector</span><span class="p">,</span><span class="n">resolution_z</span><span class="p">)</span>
+
+<span class="c1">## PLOTTING</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Voltage/V&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Grid Position&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">planar</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">macro</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">img_file</span><span class="p">)</span>
+
+<span class="c1">## SAVING</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">({</span><span class="s1">&#39;Planar&#39;</span><span class="p">:</span><span class="n">planar</span><span class="p">,</span><span class="s1">&#39;Macroscopic&#39;</span><span class="p">:</span><span class="n">macro</span><span class="p">},</span><span class="n">orient</span><span class="o">=</span><span class="s1">&#39;index&#39;</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">output_file</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Reading header information...
+Reading 3D data using Pandas...
+Average of the potential =  -4.0478731477833207e-13
+Average of the average =  -0.07045532018119124
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/7f3dfcb6823e711130b3a216024b92c3ceca508bed28bf4b8a359dcab0d2ffe7.png"><img alt="../_images/7f3dfcb6823e711130b3a216024b92c3ceca508bed28bf4b8a359dcab0d2ffe7.png" src="../_images/7f3dfcb6823e711130b3a216024b92c3ceca508bed28bf4b8a359dcab0d2ffe7.png" style="height: 300px;" /></a>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#PlanarCube </span>
+<span class="c1">#! /usr/bin/env python</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Planar and macroscopic average for cube files</span>
+
+<span class="sd">Inputs:</span>
+<span class="sd">input_file = input filename to be read (must be in .cube format)</span>
+<span class="sd">lattice_vector = Repeating unit over which the potential is averaged to get the macroscopic average (Angstroms)</span>
+<span class="sd">output file = name of output data file</span>
+<span class="sd">img_file = name of output image file</span>
+
+<span class="sd">Outputs:</span>
+<span class="sd">planar average, macroscopic average, interpolated planar average</span>
+<span class="sd">.csv data file containing: planar average, macroscopic average, interpolated planar average</span>
+<span class="sd">image file plotting .csv data</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">ase.io.cube</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">macrodensity</span> <span class="k">as</span> <span class="nn">md</span>
+
+<span class="c1">## INPUT SECTION</span>
+<span class="n">input_file</span> <span class="o">=</span> <span class="s2">&quot;cube_001_spin_density.cube&quot;</span>
+<span class="n">lattice_vector</span> <span class="o">=</span> <span class="mf">4.75</span>
+<span class="n">output_file</span> <span class="o">=</span> <span class="s1">&#39;PlanarCube.csv&#39;</span>
+<span class="n">img_file</span> <span class="o">=</span> <span class="s1">&#39;PlanarCube.png&#39;</span>
+<span class="c1">## END INPUT SECTION</span>
+
+<span class="c1"># GETTING POTENTIAL</span>
+<span class="n">potential</span><span class="p">,</span> <span class="n">atoms</span> <span class="o">=</span> <span class="n">ase</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">cube</span><span class="o">.</span><span class="n">read_cube_data</span><span class="p">(</span><span class="n">input_file</span><span class="p">)</span>
+<span class="n">vector_a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">atoms</span><span class="o">.</span><span class="n">cell</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">vector_b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">atoms</span><span class="o">.</span><span class="n">cell</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">vector_c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">atoms</span><span class="o">.</span><span class="n">cell</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">NGX</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">potential</span><span class="p">)</span>
+<span class="n">NGY</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">potential</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">NGZ</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">potential</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">resolution_x</span> <span class="o">=</span> <span class="n">vector_a</span><span class="o">/</span><span class="n">NGX</span>
+<span class="n">resolution_y</span> <span class="o">=</span> <span class="n">vector_b</span><span class="o">/</span><span class="n">NGY</span>
+<span class="n">resolution_z</span> <span class="o">=</span> <span class="n">vector_c</span><span class="o">/</span><span class="n">NGZ</span>
+
+<span class="c1">## PLANAR AVERAGE</span>
+<span class="n">planar</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">planar_average</span><span class="p">(</span><span class="n">potential</span><span class="p">,</span><span class="n">NGX</span><span class="p">,</span><span class="n">NGY</span><span class="p">,</span><span class="n">NGZ</span><span class="p">)</span>
+
+<span class="c1">## MACROSCOPIC AVERAGE</span>
+<span class="n">macro</span>  <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">macroscopic_average</span><span class="p">(</span><span class="n">planar</span><span class="p">,</span><span class="n">lattice_vector</span><span class="p">,</span><span class="n">resolution_z</span><span class="p">)</span>
+
+<span class="c1">## PLOTTING</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;V/V&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Grid Position&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">planar</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">macro</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">img_file</span><span class="p">)</span>
+
+<span class="c1">## SAVING</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">({</span><span class="s1">&#39;Planar&#39;</span><span class="p">:</span><span class="n">planar</span><span class="p">,</span><span class="s1">&#39;Macroscopic&#39;</span><span class="p">:</span><span class="n">macro</span><span class="p">},</span><span class="n">orient</span><span class="o">=</span><span class="s1">&#39;index&#39;</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">output_file</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Average of the average =  0.004323820372140808
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/056accb7179630fb175d922c309935c54a5ba61a6c4db4499a23df8ab6d08b65.png"><img alt="../_images/056accb7179630fb175d922c309935c54a5ba61a6c4db4499a23df8ab6d08b65.png" src="../_images/056accb7179630fb175d922c309935c54a5ba61a6c4db4499a23df8ab6d08b65.png" style="height: 300px;" /></a>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#PlaneField</span>
+<span class="c1">#! /usr/bin/env python</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">WARNING: THIS TOOL IS STILL UNDER DEVELOPMENT. KNOWN BUGS ARE PRESENT.</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="kn">import</span> <span class="nn">macrodensity</span> <span class="k">as</span> <span class="nn">md</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+
+<span class="c1">## Input section (define the plane with 3 points, fractional coordinates)</span>
+<span class="n">a_point</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">b_point</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">c_point</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+
+<span class="n">input_file</span> <span class="o">=</span> <span class="s1">&#39;LOCPOT.test&#39;</span>
+
+<span class="c1"># No need to alter anything after here</span>
+<span class="n">vasp_pot</span><span class="p">,</span> <span class="n">NGX</span><span class="p">,</span> <span class="n">NGY</span><span class="p">,</span> <span class="n">NGZ</span><span class="p">,</span> <span class="n">Lattice</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">read_vasp_density</span><span class="p">(</span><span class="n">input_file</span><span class="p">)</span>
+<span class="n">vector_a</span><span class="p">,</span><span class="n">vector_b</span><span class="p">,</span><span class="n">vector_c</span><span class="p">,</span><span class="n">av</span><span class="p">,</span><span class="n">bv</span><span class="p">,</span><span class="n">cv</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">matrix_2_abc</span><span class="p">(</span><span class="n">Lattice</span><span class="p">)</span>
+<span class="n">resolution_x</span> <span class="o">=</span> <span class="n">vector_a</span><span class="o">/</span><span class="n">NGX</span>
+<span class="n">resolution_y</span> <span class="o">=</span> <span class="n">vector_b</span><span class="o">/</span><span class="n">NGY</span>
+<span class="n">resolution_z</span> <span class="o">=</span> <span class="n">vector_c</span><span class="o">/</span><span class="n">NGZ</span>
+<span class="n">grid_pot</span><span class="p">,</span> <span class="n">electrons</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">density_2_grid</span><span class="p">(</span><span class="n">vasp_pot</span><span class="p">,</span><span class="n">NGX</span><span class="p">,</span><span class="n">NGY</span><span class="p">,</span><span class="n">NGZ</span><span class="p">)</span>
+<span class="c1">## Get the gradiens (Field), if required.</span>
+<span class="c1">## Comment out if not required, due to compuational expense.</span>
+<span class="n">grad_x</span><span class="p">,</span><span class="n">grad_y</span><span class="p">,</span><span class="n">grad_z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">grid_pot</span><span class="p">[:,:,:],</span><span class="n">resolution_x</span><span class="p">,</span><span class="n">resolution_y</span><span class="p">,</span><span class="n">resolution_z</span><span class="p">)</span>
+<span class="c1">#------------------------------------------------------------------</span>
+
+
+<span class="c1">##------------------------------------------------------------------</span>
+<span class="c1">## Get the equation for the plane</span>
+<span class="c1">## This is the section for plotting on a user defined plane;</span>
+<span class="c1">## uncomment commands if this is the option that you want.</span>
+<span class="c1">##------------------------------------------------------------------</span>
+
+<span class="c1">## Convert the fractional points to grid points on the density surface</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">numbers_2_grid</span><span class="p">(</span><span class="n">a_point</span><span class="p">,</span><span class="n">NGX</span><span class="p">,</span><span class="n">NGY</span><span class="p">,</span><span class="n">NGZ</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">numbers_2_grid</span><span class="p">(</span><span class="n">b_point</span><span class="p">,</span><span class="n">NGX</span><span class="p">,</span><span class="n">NGY</span><span class="p">,</span><span class="n">NGZ</span><span class="p">)</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">numbers_2_grid</span><span class="p">(</span><span class="n">c_point</span><span class="p">,</span><span class="n">NGX</span><span class="p">,</span><span class="n">NGY</span><span class="p">,</span><span class="n">NGZ</span><span class="p">)</span>
+<span class="n">plane_coeff</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">points_2_plane</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">)</span>
+
+<span class="c1">## Get the gradients</span>
+<span class="n">XY</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">grad_x</span><span class="p">,</span><span class="n">grad_y</span><span class="p">)</span>
+<span class="n">grad_mag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">XY</span><span class="p">,</span><span class="n">grad_z</span><span class="p">)</span>
+
+<span class="c1">## Create the plane</span>
+<span class="c1">#grd =  md.create_plotting_mesh(NGX,NGY,NGZ,plane_coeff,grad_x)</span>
+<span class="c1">## Plot the surface</span>
+<span class="c1">#plt.contour(grd,levels=[0],colors=&#39;k&#39;)</span>
+<span class="c1">#plt.show()</span>
+<span class="c1">##------------------------------------------------------------------</span>
+<span class="c1">##------------------------------------------------------------------</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Reading header information...
+Reading 3D data using Pandas...
+Average of the potential =  -4.0478731477833207e-13
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#SphericalAverage.py </span>
+<span class="c1">#! /usr/bin/env python</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Calculates the Spherical Average around a given point.</span>
+
+<span class="sd">Inputs:</span>
+<span class="sd">cube_size = size of the cube in units of FFT mesh points (NGX/Y/Z)</span>
+<span class="sd">cube_origin = real-space positioning of the bottom left point of the sampling cube (fractional coordinates of the unit cell).</span>
+<span class="sd">input_file = VASP LOCPOT input filename to be read</span>
+
+<span class="sd">Outputs:</span>
+<span class="sd">cube_potential, cube_variance (Terminal)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">macrodensity</span> <span class="k">as</span> <span class="nn">md</span> 
+
+<span class="c1">## INPUT SECTION</span>
+<span class="n">cube_size</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">cube_origin</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.5</span><span class="p">]</span>
+<span class="n">input_file</span> <span class="o">=</span> <span class="s1">&#39;LOCPOT.test&#39;</span>
+<span class="c1">## END INPUT SECTION</span>
+
+<span class="c1">## GETTING POTENTIAL</span>
+<span class="n">vasp_pot</span><span class="p">,</span> <span class="n">NGX</span><span class="p">,</span> <span class="n">NGY</span><span class="p">,</span> <span class="n">NGZ</span><span class="p">,</span> <span class="n">Lattice</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">read_vasp_density</span><span class="p">(</span><span class="n">input_file</span><span class="p">)</span>
+<span class="n">vector_a</span><span class="p">,</span><span class="n">vector_b</span><span class="p">,</span><span class="n">vector_c</span><span class="p">,</span><span class="n">av</span><span class="p">,</span><span class="n">bv</span><span class="p">,</span><span class="n">cv</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">matrix_2_abc</span><span class="p">(</span><span class="n">Lattice</span><span class="p">)</span>
+<span class="n">resolution_x</span> <span class="o">=</span> <span class="n">vector_a</span><span class="o">/</span><span class="n">NGX</span>
+<span class="n">resolution_y</span> <span class="o">=</span> <span class="n">vector_b</span><span class="o">/</span><span class="n">NGY</span>
+<span class="n">resolution_z</span> <span class="o">=</span> <span class="n">vector_c</span><span class="o">/</span><span class="n">NGZ</span>
+<span class="n">grid_pot</span><span class="p">,</span> <span class="n">electrons</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">density_2_grid</span><span class="p">(</span><span class="n">vasp_pot</span><span class="p">,</span><span class="n">NGX</span><span class="p">,</span><span class="n">NGY</span><span class="p">,</span><span class="n">NGZ</span><span class="p">)</span>
+
+<span class="n">cube</span> <span class="o">=</span> <span class="n">cube_size</span>
+<span class="n">origin</span> <span class="o">=</span> <span class="n">cube_origin</span>
+<span class="n">travelled</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">cube_pot</span><span class="p">,</span> <span class="n">cube_var</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">volume_average</span><span class="p">(</span><span class="n">origin</span><span class="o">=</span><span class="n">cube_origin</span><span class="p">,</span><span class="n">cube</span><span class="o">=</span><span class="n">cube_size</span><span class="p">,</span><span class="n">grid</span><span class="o">=</span><span class="n">grid_pot</span><span class="p">,</span><span class="n">nx</span><span class="o">=</span><span class="n">NGX</span><span class="p">,</span><span class="n">ny</span><span class="o">=</span><span class="n">NGY</span><span class="p">,</span><span class="n">nz</span><span class="o">=</span><span class="n">NGZ</span><span class="p">,</span><span class="n">travelled</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="c1">## PRINTING</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Potential            Variance&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--------------------------------&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cube_pot</span><span class="p">,</span><span class="s2">&quot;   &quot;</span><span class="p">,</span> <span class="n">cube_var</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Reading header information...
+Reading 3D data using Pandas...
+Average of the potential =  -4.0478731477833207e-13
+Potential            Variance
+--------------------------------
+6.5579496029375     1.8665165271901357e-05
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../tutorials.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Tutorials</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="HeteroJunction/HeteroJunction.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Heterojunction offsets</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Keith T. Butler
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023, Keith T. Butler.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

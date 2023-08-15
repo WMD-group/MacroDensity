@@ -1,0 +1,714 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Heterojunction offsets &#8212; MacroDensity v0.0.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'doctests/HeteroJunction/HeteroJunction';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Band Alignment Plotting Tutorial" href="../Plotting/Plotting.html" />
+    <link rel="prev" title="Basic Functions" href="../MDTutorials_1.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">MacroDensity v0.0.0 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Links</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../modules.html">MacroDensity</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../macrodensity.html">MacroDensity Package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../macrodensity.alpha.html">macrodensity.alpha module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../macrodensity.density.html">macrodensity.density module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../macrodensity.plotting.html">macrodensity.plotting module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../macrodensity.vasp.html">macrodensity.vasp module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../tutorials.html">Tutorials</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../MDTutorials_1.html">Basic Functions</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Heterojunction offsets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Plotting/Plotting.html">Band Alignment Plotting Tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Porous/Porous.html">Ionisation potential of a porous material</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Slab/SlabCalculation.html">Ionisation potential of a bulk material</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/doctests/HeteroJunction/HeteroJunction.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Heterojunction offsets</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#our-system">Our system</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#procedure">Procedure</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#procedure-i">Procedure (i)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interface-calculation">Interface calculation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-code-below-is-usually-set-in-the-planaraverage-py-file-you-don-t-need-to-edit-it">The code below is usually set in the PlanarAverage.py file; you don’t need to edit it</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-code-below-will-prompt-you-to-say-which-axis-you-want-to-average-along">The code below will prompt you to say which axis you want to average along</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#now-we-can-plot-the-results">Now we can plot the results</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#get-delta-v">Get $\Delta V$</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-offset">The offset</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#procedure-ii">Procedure (ii)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-deformation-potential">The deformation potential</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-potential-alignment">The potential alignment</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#volume-change">Volume change</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="heterojunction-offsets">
+<h1>Heterojunction offsets<a class="headerlink" href="#heterojunction-offsets" title="Permalink to this heading">#</a></h1>
+<p>Heterojunctions are the basis of much of the semiconductor technology. From computer memory, to flat-panel display to photovoltaics, semiconductor heterojuctions underly much of the technology created in the past 100 years. Previosuly we constructed band-alignment-diagrams using the IP and EA from slab calculations. However, the details of the interface can also affect the line-up, from charge transfer and lattice strain effects, for example. For an excellent overview of the subject, I recommend: <a class="reference external" href="http://iopscience.iop.org/article/10.1088/0022-3727/31/11/002/meta">Band engineering at interfaces: theory and numerical experiments</a>.</p>
+<section id="our-system">
+<h2>Our system<a class="headerlink" href="#our-system" title="Permalink to this heading">#</a></h2>
+<p>For this demonstration we will choose a well-matched interface system. The interface between wurtzite structured ZnO and ZnS. In this case the lattice constants have been set to be those of ZnO. Obviously, due to deformation potentials the value of the offset depends on the lattice parameter used.</p>
+<p><strong>Note</strong> The values in this tutorial are from very approximate calculations and no interface relaxation was allowed, therefore the absolute actual numbers should not be treated as meaningful.</p>
+<img src="HJ.png">
+</section>
+<section id="procedure">
+<h2>Procedure<a class="headerlink" href="#procedure" title="Permalink to this heading">#</a></h2>
+<p>We present two procedures for obtaining the offset from a heterojunction calulcation.</p>
+<p>(i) We will intitally calculate the offset for the interface as we have modelled it, this essentially involves the calculation of the macroscopic average of the potential.</p>
+<p>(ii) We will then look at how the effects of strain at the interface can be accounted for to yield a “natural band offset”. As outlined in <a class="reference external" href="http://aip.scitation.org/doi/10.1063/1.3143626">Appl. Phys. Lett. 94, 212109 (2009)</a>.</p>
+<section id="procedure-i">
+<h3>Procedure (i)<a class="headerlink" href="#procedure-i" title="Permalink to this heading">#</a></h3>
+<p>$VBO = \epsilon_{vbm}^a - \epsilon_{vbm}^b + \Delta V$</p>
+<p>$VBO$ is the offset. $\epsilon_{vbm}$ are the eigenvalues of the highest occupied bands from bulk calculations of the two materials (ZnO and ZnS) and $\Delta V$ is the offset in the potential across the interface.</p>
+<p>We obtain the $\epsilon_{vbm}$ values from the bulk <code class="docutils literal notranslate"><span class="pre">OUTCAR</span></code> files as in the slab model exercise.</p>
+</section>
+<section id="interface-calculation">
+<h3>Interface calculation<a class="headerlink" href="#interface-calculation" title="Permalink to this heading">#</a></h3>
+<p>Now we do a calculation of the interface to get the potential profile. Important settings for the <code class="docutils literal notranslate"><span class="pre">INCAR</span></code> file:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>LVHAR = .TRUE.  # This generates a LOCPOT file with the potential 
+</pre></div>
+</div>
+<p>In your example directory there should already be a <code class="docutils literal notranslate"><span class="pre">LOCPOT</span></code> file. This is the one we will use to analyse the potential and extract the value of $\Delta V$.</p>
+<p>In the sample <code class="docutils literal notranslate"><span class="pre">PlanarAverage.py</span></code> file, all we have to edit are the top three lines. Of these the only one that is not obvious is the <code class="docutils literal notranslate"><span class="pre">lattice_vector</span></code> parameter. This is just the periodicity of the slab in the direction normal to the surface. In the picture below, this is just the distance between the layers of ZnO.</p>
+<img src="HJ.png"><div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">macrodensity</span> <span class="k">as</span> <span class="nn">md</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">extrema</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">get_band_extrema</span><span class="p">(</span><span class="s1">&#39;OUTCAR_ZnO&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">extrema</span><span class="p">)</span>
+<span class="n">extrema</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">get_band_extrema</span><span class="p">(</span><span class="s1">&#39;OUTCAR_ZnS&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">extrema</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1.0732, 1.6392]
+[2.2761, 4.3586]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">input_file</span> <span class="o">=</span> <span class="s1">&#39;LOCPOT.test&#39;</span>
+<span class="n">lattice_vector</span> <span class="o">=</span> <span class="mf">3.6</span>
+<span class="n">output_file</span> <span class="o">=</span> <span class="s1">&#39;planar.dat&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="the-code-below-is-usually-set-in-the-planaraverage-py-file-you-don-t-need-to-edit-it">
+<h3>The code below is usually set in the PlanarAverage.py file; you don’t need to edit it<a class="headerlink" href="#the-code-below-is-usually-set-in-the-planaraverage-py-file-you-don-t-need-to-edit-it" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="s1">&#39;LOCPOT.test&#39;</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;LOCPOT already exists&#39;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;bunzip2 LOCPOT.bz2&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vasp_pot</span><span class="p">,</span> <span class="n">NGX</span><span class="p">,</span> <span class="n">NGY</span><span class="p">,</span> <span class="n">NGZ</span><span class="p">,</span> <span class="n">Lattice</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">read_vasp_density</span><span class="p">(</span><span class="n">input_file</span><span class="p">)</span>
+<span class="n">vector_a</span><span class="p">,</span><span class="n">vector_b</span><span class="p">,</span><span class="n">vector_c</span><span class="p">,</span><span class="n">av</span><span class="p">,</span><span class="n">bv</span><span class="p">,</span><span class="n">cv</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">matrix_2_abc</span><span class="p">(</span><span class="n">Lattice</span><span class="p">)</span>
+<span class="n">resolution_x</span> <span class="o">=</span> <span class="n">vector_a</span><span class="o">/</span><span class="n">NGX</span>
+<span class="n">resolution_y</span> <span class="o">=</span> <span class="n">vector_b</span><span class="o">/</span><span class="n">NGY</span>
+<span class="n">resolution_z</span> <span class="o">=</span> <span class="n">vector_c</span><span class="o">/</span><span class="n">NGZ</span>
+<span class="n">grid_pot</span><span class="p">,</span> <span class="n">electrons</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">density_2_grid</span><span class="p">(</span><span class="n">vasp_pot</span><span class="p">,</span><span class="n">NGX</span><span class="p">,</span><span class="n">NGY</span><span class="p">,</span><span class="n">NGZ</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Reading header information...
+Reading 3D data using Pandas...
+Average of the potential =  -2.275851464955416e-13
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="the-code-below-will-prompt-you-to-say-which-axis-you-want-to-average-along">
+<h3>The code below will prompt you to say which axis you want to average along<a class="headerlink" href="#the-code-below-will-prompt-you-to-say-which-axis-you-want-to-average-along" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## POTENTIAL</span>
+<span class="n">planar</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">planar_average</span><span class="p">(</span><span class="n">grid_pot</span><span class="p">,</span> <span class="n">NGX</span><span class="p">,</span> <span class="n">NGY</span><span class="p">,</span> <span class="n">NGZ</span><span class="p">)</span>
+<span class="c1">## MACROSCOPIC AVERAGE</span>
+<span class="n">macro</span>  <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">macroscopic_average</span><span class="p">(</span><span class="n">planar</span><span class="p">,</span> <span class="n">lattice_vector</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">resolution_z</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Average of the average =  -2.2737367544323206e-13
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="now-we-can-plot-the-results">
+<h3>Now we can plot the results<a class="headerlink" href="#now-we-can-plot-the-results" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">textsize</span> <span class="o">=</span> <span class="mi">22</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;xtick.labelsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">textsize</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;ytick.labelsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">textsize</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.figsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">planar</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Planar&quot;</span><span class="p">,</span><span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">macro</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Macroscopic&quot;</span><span class="p">,</span><span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;V/V&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">22</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Grid position&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">22</span><span class="p">)</span>
+
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">planar</span><span class="p">))</span>
+
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">((</span><span class="mf">0.95</span><span class="p">,</span><span class="mf">0.95</span><span class="p">,</span><span class="mf">0.95</span><span class="p">))</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">22</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;hj-offset.png&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">output_file</span><span class="p">,</span><span class="n">macro</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<a class="reference internal image-reference" href="../../_images/6b1d81cd8e14eb96aa42a71c8b9929ad5ed22f5fcb1235030027a8588a8b9c77.png"><img alt="../../_images/6b1d81cd8e14eb96aa42a71c8b9929ad5ed22f5fcb1235030027a8588a8b9c77.png" src="../../_images/6b1d81cd8e14eb96aa42a71c8b9929ad5ed22f5fcb1235030027a8588a8b9c77.png" style="height: 300px;" /></a>
+</div>
+</div>
+</section>
+<section id="get-delta-v">
+<h3>Get $\Delta V$<a class="headerlink" href="#get-delta-v" title="Permalink to this heading">#</a></h3>
+<p>From inspection of the macroscopic average, saved in <code class="docutils literal notranslate"><span class="pre">planar.dat</span></code> we can find that the value of $V$ at each plateau is 2.64 V and -2.61 V. So the step $\Delta V$ is 5.25 V</p>
+</section>
+<section id="the-offset">
+<h3>The offset<a class="headerlink" href="#the-offset" title="Permalink to this heading">#</a></h3>
+<p>Applying the equation from earlier, the VBO is</p>
+<p>1.07 - 2.28 + 5.25 = 4.04 eV</p>
+</section>
+<section id="procedure-ii">
+<h3>Procedure (ii)<a class="headerlink" href="#procedure-ii" title="Permalink to this heading">#</a></h3>
+<p>In this procedure we can take into account the fact that the band edge positions are affected by changes to the cell volume. To do this we first calculate the eigenvalues $\epsilon_{VBM}$ at an <em>average</em> volume of the two materials.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">extrema</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">vasp_tools</span><span class="o">.</span><span class="n">get_band_extrema</span><span class="p">(</span><span class="s1">&#39;OUTCAR_ZnO_av&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">extrema</span><span class="p">)</span>
+<span class="n">extrema</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">vasp_tools</span><span class="o">.</span><span class="n">get_band_extrema</span><span class="p">(</span><span class="s1">&#39;OUTCAR_ZnS_av&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">extrema</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[-2.464, -0.626]
+[4.8288, 10.184]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="the-deformation-potential">
+<h3>The deformation potential<a class="headerlink" href="#the-deformation-potential" title="Permalink to this heading">#</a></h3>
+<p>To account for the effect of strain on the band positions we need to know the deformation potential $\alpha$. In this case the values for $\alpha$ of ZnO and ZnS (and many other systems) are available <a class="reference external" href="https://journals.aps.org/prb/abstract/10.1103/PhysRevB.73.245206">Phys. Rev. B 73, 245206</a>.</p>
+<p>$\alpha_{ZnO} = 0.48$</p>
+<p>$\alpha_{ZnS} = 0.83$</p>
+<p>The equation we now use is</p>
+<p>$ VBO = (\epsilon_{vbm}^a + \alpha_a \partial \ln V_a )- (\epsilon_{vbm}^b + \alpha_b \partial \ln V_b) + \Delta V $</p>
+<p>Here the eigenvalues and offset potential are the same as in procedure (i), but calculated for an average volume cell. We also use the log of the change in volume of each phase multiplied by the deformation potential ($ \alpha_B \partial \ln V_B $).</p>
+</section>
+<section id="the-potential-alignment">
+<h3>The potential alignment<a class="headerlink" href="#the-potential-alignment" title="Permalink to this heading">#</a></h3>
+<p>This procedure is the same as for procedure (i), but always using the average volume cell. Actually as we used the average cell in procedure (i), it turns out to be exactly the same. But we can do it again to reinforce.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">input_file</span> <span class="o">=</span> <span class="s1">&#39;LOCPOT&#39;</span>
+<span class="n">lattice_vector</span> <span class="o">=</span> <span class="mf">3.6</span>
+<span class="n">output_file</span> <span class="o">=</span> <span class="s1">&#39;planar.dat&#39;</span>
+
+<span class="n">vasp_pot</span><span class="p">,</span> <span class="n">NGX</span><span class="p">,</span> <span class="n">NGY</span><span class="p">,</span> <span class="n">NGZ</span><span class="p">,</span> <span class="n">Lattice</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">read_vasp_density</span><span class="p">(</span><span class="n">input_file</span><span class="p">)</span>
+<span class="n">vector_a</span><span class="p">,</span><span class="n">vector_b</span><span class="p">,</span><span class="n">vector_c</span><span class="p">,</span><span class="n">av</span><span class="p">,</span><span class="n">bv</span><span class="p">,</span><span class="n">cv</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">matrix_2_abc</span><span class="p">(</span><span class="n">Lattice</span><span class="p">)</span>
+<span class="n">resolution_x</span> <span class="o">=</span> <span class="n">vector_a</span><span class="o">/</span><span class="n">NGX</span>
+<span class="n">resolution_y</span> <span class="o">=</span> <span class="n">vector_b</span><span class="o">/</span><span class="n">NGY</span>
+<span class="n">resolution_z</span> <span class="o">=</span> <span class="n">vector_c</span><span class="o">/</span><span class="n">NGZ</span>
+<span class="n">grid_pot</span><span class="p">,</span> <span class="n">electrons</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">density_2_grid</span><span class="p">(</span><span class="n">vasp_pot</span><span class="p">,</span><span class="n">NGX</span><span class="p">,</span><span class="n">NGY</span><span class="p">,</span><span class="n">NGZ</span><span class="p">)</span>
+
+<span class="c1">## POTENTIAL</span>
+<span class="n">planar</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">planar_average</span><span class="p">(</span><span class="n">grid_pot</span><span class="p">,</span><span class="n">NGX</span><span class="p">,</span><span class="n">NGY</span><span class="p">,</span><span class="n">NGZ</span><span class="p">)</span>
+<span class="c1">## MACROSCOPIC AVERAGE</span>
+<span class="n">macro</span>  <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">macroscopic_average</span><span class="p">(</span><span class="n">planar</span><span class="p">,</span><span class="n">lattice_vector</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="n">resolution_z</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">textsize</span> <span class="o">=</span> <span class="mi">22</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;xtick.labelsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">textsize</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;ytick.labelsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">textsize</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.figsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">planar</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Planar&quot;</span><span class="p">,</span><span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">macro</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Macroscopic&quot;</span><span class="p">,</span><span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">planar</span><span class="p">))</span>
+
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">((</span><span class="mf">0.95</span><span class="p">,</span><span class="mf">0.95</span><span class="p">,</span><span class="mf">0.95</span><span class="p">))</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">22</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">output_file</span><span class="p">,</span><span class="n">macro</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Reading header information...
+Reading 3D data using Pandas...
+Average of the potential =  -2.275851464955416e-13
+Average of the average =  -2.2737367544323206e-13
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../../_images/f3a3c6910c42388c8ad9e4bffee32a4e53a8e08f9d8f2bea894299e95319559d.png"><img alt="../../_images/f3a3c6910c42388c8ad9e4bffee32a4e53a8e08f9d8f2bea894299e95319559d.png" src="../../_images/f3a3c6910c42388c8ad9e4bffee32a4e53a8e08f9d8f2bea894299e95319559d.png" style="height: 300px;" /></a>
+</div>
+</div>
+<p>As before the value of $\Delta V$ is 5.25 V.</p>
+</section>
+<section id="volume-change">
+<h3>Volume change<a class="headerlink" href="#volume-change" title="Permalink to this heading">#</a></h3>
+<p>By comparing the average to the equilibrium POSCARs we can get the values of $\partial\ln V = \frac{\Delta V}{V_{av}}$</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dlnVa</span> <span class="o">=</span> <span class="p">(</span><span class="mf">47.55</span> <span class="o">-</span> <span class="mf">61.04</span><span class="p">)</span> <span class="o">/</span> <span class="mf">61.04</span> <span class="c1"># ZnO</span>
+<span class="n">dlnVb</span> <span class="o">=</span> <span class="p">(</span><span class="mf">76.88</span> <span class="o">-</span> <span class="mf">61.04</span><span class="p">)</span> <span class="o">/</span> <span class="mf">61.04</span> <span class="c1"># ZnS</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">VBO_natural</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">2.464</span> <span class="o">+</span> <span class="mf">0.48</span> <span class="o">*</span> <span class="n">dlnVa</span> <span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="mf">4.8288</span> <span class="o">+</span> <span class="mf">0.83</span> <span class="o">*</span> <span class="n">dlnVb</span><span class="p">)</span> <span class="o">+</span> <span class="mf">5.25</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Natural offset: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">VBO_natural</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; eV&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Natural offset: -2.364267889908257 eV
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../MDTutorials_1.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Basic Functions</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../Plotting/Plotting.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Band Alignment Plotting Tutorial</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#our-system">Our system</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#procedure">Procedure</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#procedure-i">Procedure (i)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interface-calculation">Interface calculation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-code-below-is-usually-set-in-the-planaraverage-py-file-you-don-t-need-to-edit-it">The code below is usually set in the PlanarAverage.py file; you don’t need to edit it</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-code-below-will-prompt-you-to-say-which-axis-you-want-to-average-along">The code below will prompt you to say which axis you want to average along</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#now-we-can-plot-the-results">Now we can plot the results</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#get-delta-v">Get $\Delta V$</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-offset">The offset</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#procedure-ii">Procedure (ii)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-deformation-potential">The deformation potential</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-potential-alignment">The potential alignment</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#volume-change">Volume change</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Keith T. Butler
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023, Keith T. Butler.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

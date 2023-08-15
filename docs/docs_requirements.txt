@@ -5,7 +5,9 @@ myst-nb
 sphinx-book-theme
 sphinx_design
 sphinx_autodoc_annotation
-furo
+#furo
+sphinx_book_theme
+recommonmark
 
 # Package requirements
 numpy
