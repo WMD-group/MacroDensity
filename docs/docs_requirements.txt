@@ -1,0 +1,16 @@
+# Requirements to build docs
+sphinx
+nbsphinx
+myst-nb
+sphinx-book-theme
+sphinx_design
+sphinx_autodoc_annotation
+furo
+
+# Package requirements
+numpy
+scipy
+spglib
+ase
+pandas
+matplotlib
