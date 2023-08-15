@@ -9,6 +9,8 @@
 import os 
 import sys 
 
+from recommonmark.transform import AutoStructify
+
 sys.path.insert(0, os.path.abspath(".."))
 
 project = 'MacroDensity'
@@ -50,7 +52,7 @@ myst_enable_extensions = [
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = 'furo'
+html_theme = 'sphinx_book_theme' #'furo'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -61,3 +63,19 @@ html_static_path = ['_static']
 # If true, SmartyPants will be used to convert quotes and dashes to
 # typographically correct entities.
 html_use_smartypants = True
+
+# -- Options for autodoc -----------------------------------------------------
+autoclass_content="both"
+
+# -- Options for nb extension -----------------------------------------------
+nb_execution_mode = "off"
+nb_render_image_options = {"height": "300",}  # Reduce plots size
+#myst_render_markdown_format = "gfm"
+myst_heading_anchors = 2
+github_doc_root = 'https://github.com/executablebooks/MyST-Parser/tree/master/docs/'
+def setup(app):
+    app.add_config_value('myst_parser_config', {
+            'url_resolver': lambda url: github_doc_root + url,
+            'auto_toc_tree_section': 'Contents',
+            }, True)
+    app.add_transform(AutoStructify)
