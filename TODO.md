@@ -15,6 +15,7 @@
 - [ ] Publish docs in `Readthedocs`
 - [ ] Installation
   - [ ] Enable `pip` install: this requires adding package to [pypi](https://pypi.org/)
+- [ ] Update tutorial 1 to rewrite long code snippets as functions
 - [ ] Checking code & docstrings formatting with linters
     * Using the packages `isort`, `black`, `pycodestyle`, `flake8`
 - [ ] Write up `JOSS` paper
