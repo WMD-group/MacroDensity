@@ -61,21 +61,24 @@ User installation:
 
   pip install macrodensity
 
-Alternatively if needed, it can also be installed from ``conda`` with:
+.. Alternatively if needed, it can also be installed from ``conda`` with:
 
-.. code:: bash
+.. .. code:: bash
 
-  conda install macrodensity
+..   conda install macrodensity
 
 Developer installation
 ----------------------
 
 For development of ``MacroDensity``, you can install a copy of the package from the source directory:
+
 1. Download ``MacroDensity`` source code using the command:
 
 .. code:: bash
 
     git clone https://github.com/WMD-group/MacroDensity.git
+    cd MacroDensity
+    pip install -e .
     
 .. toctree::
    :maxdepth: 3
