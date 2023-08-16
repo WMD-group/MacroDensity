@@ -215,7 +215,7 @@ def macroscopic_average(potential: np.ndarray, periodicity: float, resolution: f
     return macro_average
 #------------------------------------------------------------------------------
 
-def volume_average(origin: tuple, cube: tuple, grid: np.ndarray, nx: int, ny: int, nz: int, travelled: list=[0, 0, 0]) -> (float, float):
+def volume_average(origin: tuple, cube: tuple, grid: np.ndarray, nx: int, ny: int, nz: int, travelled: list=[0, 0, 0]) -> tuple:
     """
     Calculate the volume average and variance of a cube in a 3D grid.
 
@@ -469,7 +469,7 @@ def _print_boom(quiet=False):
         print("BBBB       OOOO        OOOO        M M M   ")
 #------------------------------------------------------------------------------
 
-def read_vasp_density(FILE: str, use_pandas: bool=None, quiet: bool=False) -> (np.ndarray, int, int, int, np.ndarray):
+def read_vasp_density(FILE: str, use_pandas: bool=None, quiet: bool=False) -> tuple:
     """
     Read density data from a VASP CHGCAR-like file.
 
@@ -636,7 +636,7 @@ def _read_partial_density(FILE: str, use_pandas: bool, num_atoms: int, NGX: int,
     return density
 #------------------------------------------------------------------------------
 
-def read_vasp_parchg(FILE: str, use_pandas: bool=None, quiet: bool=False, spin: bool=False) -> (np.ndarray, int, int, int, np.ndarray):
+def read_vasp_parchg(FILE: str, use_pandas: bool=None, quiet: bool=False, spin: bool=False) -> tuple:
     """
     Read density data or spin-polarized partial density data from a VASP PARCHG-like file.
 
@@ -712,7 +712,7 @@ def read_vasp_parchg(FILE: str, use_pandas: bool=None, quiet: bool=False, spin: 
     return density, NGX, NGY, NGZ, lattice
 #------------------------------------------------------------------------------
 
-def read_vasp_density_classic(FILE: str) -> (np.ndarray, int, int, int, np.ndarray):
+def read_vasp_density_classic(FILE: str) -> tuple:
     """
     Read density data from a classic VASP-style file.
 
@@ -739,7 +739,7 @@ def read_vasp_density_classic(FILE: str) -> (np.ndarray, int, int, int, np.ndarr
     return _read_vasp_density_fromlines(lines)
 #------------------------------------------------------------------------------
 
-def _read_vasp_density_fromlines(lines: list) -> (np.ndarray, int, int, int, np.ndarray):
+def _read_vasp_density_fromlines(lines: list) -> tuple:
     """
     Read density data from a list of lines (classic VASP-style format). This function is used internally within the read_vasp_density_classic function (add hyperlink to read_vasp_density_classic function)
 
@@ -809,7 +809,7 @@ def _read_vasp_density_fromlines(lines: list) -> (np.ndarray, int, int, int, np.
     return Potential, NGX, NGY, NGZ, lattice
 #------------------------------------------------------------------------------
 
-def density_2_grid(Density: np.ndarray, nx: int, ny: int, nz: int, Charge: bool=False, Volume: float=1) -> (np.ndarray, float):
+def density_2_grid(Density: np.ndarray, nx: int, ny: int, nz: int, Charge: bool=False, Volume: float=1) -> tuple:
     """
     Convert density data to a 3D grid.
 
@@ -893,7 +893,7 @@ def density_2_grid_gulp(Density: np.ndarray, nx: int, ny: int, nz: int) -> np.nd
     return Potential_grid
 
 #------------------------------------------------------------------------------
-def read_gulp_potential(gulpfile: str='gulp.out') -> (np.ndarray, int, int, int, np.ndarray):
+def read_gulp_potential(gulpfile: str='gulp.out') -> tuple:
     """
     Read electrostatic potential data from a GULP output file.
 

@@ -139,7 +139,7 @@ def energy_band_alignment_diagram(energies: list, materials:list, limit:float=8.
     print("Figure saved as %s.eps and %s.png"%(outfile, outfile))
     plt.close(fig)
 #-----------------------------------------------------------------------------
-def plot_active_space(cube_size: list,cube_origin: list,tolerance: float=1E-4,input_file='LOCPOT',print_output=True, plot_pot= False) -> (int, int): 
+def plot_active_space(cube_size: list,cube_origin: list,tolerance: float=1E-4,input_file='LOCPOT',print_output=True, plot_pot= False) -> tuple: 
     '''
     Plot the active space (vacuum and non-vacuum regions) based on potential variations.
 
@@ -241,7 +241,7 @@ def plot_active_space(cube_size: list,cube_origin: list,tolerance: float=1E-4,in
 
     return len(vacuum), len(non_vacuum)
 #-----------------------------------------------------------------------------
-def plot_gulp_potential(lattice_vector: float,input_file: str='gulp.out',output_file: str='GulpPotential.csv',img_file: str='GulpPotential.png',new_resolution: int = 3000) -> (np.float64, np.float64, list):
+def plot_gulp_potential(lattice_vector: float,input_file: str='gulp.out',output_file: str='GulpPotential.csv',img_file: str='GulpPotential.png',new_resolution: int = 3000) -> tuple:
     '''
     Plot GULP potential analysis results.
 
@@ -385,7 +385,7 @@ def plot_on_site_potential(species: str,sample_cube: list,potential_file: str='L
     df.to_csv(output_file)
     return potentials_list
 #------------------------------------------------------------------------------
-def plot_planar_average(lattice_vector: float,input_file: str='LOCPOT',output_file: str='PlanarAverage.csv',img_file: str='PlanarAverage.png') -> (np.float64, np.float64):
+def plot_planar_average(lattice_vector: float,input_file: str='LOCPOT',output_file: str='PlanarAverage.csv',img_file: str='PlanarAverage.png') -> tuple:
     '''
     Plot planar and macroscopic average of the electronic potential.
 
@@ -442,7 +442,7 @@ def plot_planar_average(lattice_vector: float,input_file: str='LOCPOT',output_fi
     df.to_csv(output_file)
     return planar, macro
 #------------------------------------------------------------------------------
-def plot_planar_cube(input_file: str,lattice_vector: float,output_file: str='PlanarCube.csv',img_file: str='PlanarCube.png') -> (np.float64, np.float64):
+def plot_planar_cube(input_file: str,lattice_vector: float,output_file: str='PlanarCube.csv',img_file: str='PlanarCube.png') -> tuple:
     '''
     Plot planar and macroscopic average of the electronic potential from a cube file.
 
