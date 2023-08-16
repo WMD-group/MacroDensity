@@ -42,7 +42,6 @@
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'doctests/Slab/SlabCalculation';</script>
@@ -301,7 +300,6 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-offset">The offset</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-ip-for-bi-2-o-3">Exercise - IP for Bi$_2$O$_3$</a></li>
 </ul>
             </nav>
         </div>
@@ -345,7 +343,7 @@ document.write(`
 <p>Let’s try it out on the OUTCAR_bulk file in this directory</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">extrema</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">vasp_tools</span><span class="o">.</span><span class="n">get_band_extrema</span><span class="p">(</span><span class="s1">&#39;OUTCAR_MoO3_bulk&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">extrema</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">get_band_extrema</span><span class="p">(</span><span class="s1">&#39;OUTCAR_MoO3_bulk&#39;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">extrema</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -478,16 +476,6 @@ document.write(`
 </div>
 </section>
 </section>
-<section id="exercise-ip-for-bi-2-o-3">
-<h2>Exercise - IP for Bi$_2$O$_3$<a class="headerlink" href="#exercise-ip-for-bi-2-o-3" title="Permalink to this heading">#</a></h2>
-<p>Use the procedure above and the Bi$_2$O$_3$ files to calculate the IP.</p>
-<p>Some information to assist with the assignment of <code class="docutils literal notranslate"><span class="pre">lattice_vector</span></code>:</p>
-<ul class="simple">
-<li><p>The $c$ lattice vector of the slab is 45.00 A.</p></li>
-<li><p>There are 840 sub-divisions along $c$. This can be set with the <code class="docutils literal notranslate"><span class="pre">NGZ</span></code> flag.</p></li>
-<li><p>The cell is 6 repeating unit cells long in the $c$-direction.</p></li>
-</ul>
-</section>
 </section>
 
 
@@ -539,7 +527,6 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-offset">The offset</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-ip-for-bi-2-o-3">Exercise - IP for Bi$_2$O$_3$</a></li>
 </ul>
   </nav></div>
 

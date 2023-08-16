@@ -42,7 +42,6 @@
     <script src="_static/underscore.js"></script>
     <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'macrodensity.density';</script>
@@ -292,31 +291,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-macrodensity.density">Module Description</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.GCD"><code class="docutils literal notranslate"><span class="pre">GCD()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.GCD_List"><code class="docutils literal notranslate"><span class="pre">GCD_List()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.density_2_grid"><code class="docutils literal notranslate"><span class="pre">density_2_grid()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.density_2_grid_gulp"><code class="docutils literal notranslate"><span class="pre">density_2_grid_gulp()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.element_vol"><code class="docutils literal notranslate"><span class="pre">element_vol()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.get_volume"><code class="docutils literal notranslate"><span class="pre">get_volume()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.gradient_magnitude"><code class="docutils literal notranslate"><span class="pre">gradient_magnitude()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.inverse_participation_ratio"><code class="docutils literal notranslate"><span class="pre">inverse_participation_ratio()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.macroscopic_average"><code class="docutils literal notranslate"><span class="pre">macroscopic_average()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.matrix_2_abc"><code class="docutils literal notranslate"><span class="pre">matrix_2_abc()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.number_in_field"><code class="docutils literal notranslate"><span class="pre">number_in_field()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.numbers_2_grid"><code class="docutils literal notranslate"><span class="pre">numbers_2_grid()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.one_2_2d"><code class="docutils literal notranslate"><span class="pre">one_2_2d()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.planar_average"><code class="docutils literal notranslate"><span class="pre">planar_average()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.planar_average_charge"><code class="docutils literal notranslate"><span class="pre">planar_average_charge()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.read_gulp_potential"><code class="docutils literal notranslate"><span class="pre">read_gulp_potential()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.read_vasp_density"><code class="docutils literal notranslate"><span class="pre">read_vasp_density()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.read_vasp_density_classic"><code class="docutils literal notranslate"><span class="pre">read_vasp_density_classic()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.read_vasp_parchg"><code class="docutils literal notranslate"><span class="pre">read_vasp_parchg()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.travelling_volume_average"><code class="docutils literal notranslate"><span class="pre">travelling_volume_average()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.vector_2_abscissa"><code class="docutils literal notranslate"><span class="pre">vector_2_abscissa()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.volume_average"><code class="docutils literal notranslate"><span class="pre">volume_average()</span></code></a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-macrodensity.density">Module Description</a></li>
 </ul>
             </nav>
         </div>
@@ -914,31 +889,7 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-macrodensity.density">Module Description</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.GCD"><code class="docutils literal notranslate"><span class="pre">GCD()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.GCD_List"><code class="docutils literal notranslate"><span class="pre">GCD_List()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.density_2_grid"><code class="docutils literal notranslate"><span class="pre">density_2_grid()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.density_2_grid_gulp"><code class="docutils literal notranslate"><span class="pre">density_2_grid_gulp()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.element_vol"><code class="docutils literal notranslate"><span class="pre">element_vol()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.get_volume"><code class="docutils literal notranslate"><span class="pre">get_volume()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.gradient_magnitude"><code class="docutils literal notranslate"><span class="pre">gradient_magnitude()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.inverse_participation_ratio"><code class="docutils literal notranslate"><span class="pre">inverse_participation_ratio()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.macroscopic_average"><code class="docutils literal notranslate"><span class="pre">macroscopic_average()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.matrix_2_abc"><code class="docutils literal notranslate"><span class="pre">matrix_2_abc()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.number_in_field"><code class="docutils literal notranslate"><span class="pre">number_in_field()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.numbers_2_grid"><code class="docutils literal notranslate"><span class="pre">numbers_2_grid()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.one_2_2d"><code class="docutils literal notranslate"><span class="pre">one_2_2d()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.planar_average"><code class="docutils literal notranslate"><span class="pre">planar_average()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.planar_average_charge"><code class="docutils literal notranslate"><span class="pre">planar_average_charge()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.read_gulp_potential"><code class="docutils literal notranslate"><span class="pre">read_gulp_potential()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.read_vasp_density"><code class="docutils literal notranslate"><span class="pre">read_vasp_density()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.read_vasp_density_classic"><code class="docutils literal notranslate"><span class="pre">read_vasp_density_classic()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.read_vasp_parchg"><code class="docutils literal notranslate"><span class="pre">read_vasp_parchg()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.travelling_volume_average"><code class="docutils literal notranslate"><span class="pre">travelling_volume_average()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.vector_2_abscissa"><code class="docutils literal notranslate"><span class="pre">vector_2_abscissa()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.volume_average"><code class="docutils literal notranslate"><span class="pre">volume_average()</span></code></a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-macrodensity.density">Module Description</a></li>
 </ul>
   </nav></div>
 

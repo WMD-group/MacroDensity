@@ -81,7 +81,7 @@ For development of ``MacroDensity``, you can install a copy of the package from 
     pip install -e .
     
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :hidden:
    :caption: Links
 
