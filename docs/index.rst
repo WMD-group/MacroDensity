@@ -64,7 +64,9 @@ For development of ``MacroDensity``, you can install a copy of the package from 
 
 
 Literature
-----------
+------------
+For more information on the theory behind the package, please see the following references:
+
 - General Approach: Butler, K. T., Hendon, C. H., & Walsh, A. `Electronic chemical potentials of porous Metal–Organic frameworks.`_ *Journal of the American Chemical Society*, 136(7), 2703–2706, **2014**
 - Theoretical Background: Politzer, P., & Murray, J. S. `The fundamental nature and role of the electrostatic potential in atoms and molecules.`_ *Theoretical Chemistry Accounts*, 108(3), 134–142, **2002**
 
@@ -82,6 +84,7 @@ Indices and tables
    :hidden:
    :maxdepth: 4
 
+   installation
    modules
    tutorials
    studies

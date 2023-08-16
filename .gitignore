@@ -155,3 +155,4 @@ snb_test.ipynb
 conda_packaging.md
 
 docs/_build/*
+docs/_build/html
