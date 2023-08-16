@@ -1,4 +1,4 @@
-Studies using ``MacroDensity``
+Studies using MacroDensity
 ===============================
 
 Research activities and publications using ``MacroDensity`` will be listed here:

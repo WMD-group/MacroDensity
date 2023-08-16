@@ -56,8 +56,6 @@ Developer installation
 
 For development of ``MacroDensity``, you can install a copy of the package from the source directory:
 
-1. Download ``MacroDensity`` source code using the command:
-
 .. code:: bash
 
     git clone https://github.com/WMD-group/MacroDensity.git
@@ -81,9 +79,8 @@ Indices and tables
 * :ref:`search`
 
 .. toctree::
-   :maxdepth: 3
    :hidden:
-   .. :caption: Links
+   :maxdepth: 4
 
    modules
    tutorials

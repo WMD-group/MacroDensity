@@ -154,4 +154,4 @@ snb_test.ipynb
 # Conda Packaging Notes
 conda_packaging.md
 
-docs/_build
+docs/_build/*
