@@ -13,10 +13,12 @@ from recommonmark.transform import AutoStructify
 
 sys.path.insert(0, os.path.abspath(".."))
 
-project = 'MacroDensity'
-copyright = '2023, Keith T. Butler'
-author = 'Keith T. Butler'
-release = 'v0.0.0'
+project = 'macrodensity'
+copyright = '2023, Walsh Materials Design Group'
+author = 'Keith T. Butler, Liam Harnett-Caulfield, Calysta Tesiman'
+
+# The full version, including alpha/beta/rc tags
+release = '0.0.0'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -24,7 +26,8 @@ release = 'v0.0.0'
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['sphinx.ext.autodoc',
+extensions = [
+    'sphinx.ext.autodoc',
     'sphinx.ext.intersphinx',
     'sphinx.ext.mathjax',
     'sphinx.ext.githubpages',
@@ -54,6 +57,7 @@ myst_enable_extensions = [
 # a list of builtin themes.
 html_theme = 'sphinx_book_theme' #'furo'
 html_title = "MacroDensity"
+
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
@@ -63,6 +67,22 @@ html_static_path = ['_static']
 # If true, SmartyPants will be used to convert quotes and dashes to
 # typographically correct entities.
 html_use_smartypants = True
+
+html_theme_options = {
+    "repository_url": "https://github.com/WMD-group/MacroDensity",
+    "repository_branch": "master",
+    "path_to_docs": "docs",
+    "use_repository_button": True,
+    "home_page_in_toc": True,
+}
+# Adding “Edit Source” links on your Sphinx theme
+html_context = {
+    "display_github": True, # Integrate GitHub
+    "github_user": "WMD-group", # Username
+    "github_repo": "MacroDensity", # Repo name
+    "github_version": "master", # Version
+    "conf_py_path": "/docs/", # Path in the checkout to the docs root
+}
 
 # -- Options for autodoc -----------------------------------------------------
 autoclass_content="both"

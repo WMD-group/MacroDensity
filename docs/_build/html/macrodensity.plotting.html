@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>macrodensity.plotting module &#8212; MacroDensity v0.0.0 documentation</title>
+    <title>macrodensity.plotting module &#8212; MacroDensity</title>
   
   
   
@@ -42,13 +42,12 @@
     <script src="_static/underscore.js"></script>
     <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'macrodensity.plotting';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="macrodensity.vasp module" href="macrodensity.vasp.html" />
-    <link rel="prev" title="macrodensity.density module" href="macrodensity.density.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -120,33 +119,20 @@
   
   
   
-    <p class="title logo__title">MacroDensity v0.0.0 documentation</p>
+    <p class="title logo__title">MacroDensity</p>
   
 </a></div>
         <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Links</span></p>
-<ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="modules.html">MacroDensity</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l2 current active has-children"><a class="reference internal" href="macrodensity.html">MacroDensity Package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="macrodensity.alpha.html">macrodensity.alpha module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="macrodensity.density.html">macrodensity.density module</a></li>
-<li class="toctree-l3 current active"><a class="current reference internal" href="#">macrodensity.plotting module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="macrodensity.vasp.html">macrodensity.vasp module</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="tutorials.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="doctests/MDTutorials_1.html">Basic Functions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="doctests/HeteroJunction/HeteroJunction.html">Heterojunction offsets</a></li>
-<li class="toctree-l2"><a class="reference internal" href="doctests/Plotting/Plotting.html">Band Alignment Plotting Tutorial</a></li>
-<li class="toctree-l2"><a class="reference internal" href="doctests/Porous/Porous.html">Ionisation potential of a porous material</a></li>
-<li class="toctree-l2"><a class="reference internal" href="doctests/Slab/SlabCalculation.html">Ionisation potential of a bulk material</a></li>
-</ul>
-</li>
-</ul>
-
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="index.html">
+                    Welcome to MacroDensity
+                </a>
+            </li>
+        </ul>
+        
     </div>
 </nav></div>
     </div>
@@ -186,6 +172,21 @@
         <div class="header-article-item">
 
 <div class="article-header-buttons">
+
+
+<a href="https://github.com/WMD-group/MacroDensity" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
 
 
 
@@ -291,7 +292,18 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-macrodensity.plotting">Module Description</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-macrodensity.plotting">Module Description</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.plotting.energy_band_alignment_diagram"><code class="docutils literal notranslate"><span class="pre">energy_band_alignment_diagram()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.plotting.plot_active_plane"><code class="docutils literal notranslate"><span class="pre">plot_active_plane()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.plotting.plot_active_space"><code class="docutils literal notranslate"><span class="pre">plot_active_space()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.plotting.plot_field_at_point"><code class="docutils literal notranslate"><span class="pre">plot_field_at_point()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.plotting.plot_gulp_potential"><code class="docutils literal notranslate"><span class="pre">plot_gulp_potential()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.plotting.plot_on_site_potential"><code class="docutils literal notranslate"><span class="pre">plot_on_site_potential()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.plotting.plot_planar_average"><code class="docutils literal notranslate"><span class="pre">plot_planar_average()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.plotting.plot_planar_cube"><code class="docutils literal notranslate"><span class="pre">plot_planar_cube()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.plotting.plot_plane_field"><code class="docutils literal notranslate"><span class="pre">plot_plane_field()</span></code></a></li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -580,24 +592,6 @@ and another for the macroscopic average. The function also saves the data to a C
   
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
-    <a class="left-prev"
-       href="macrodensity.density.html"
-       title="previous page">
-      <i class="fa-solid fa-angle-left"></i>
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">macrodensity.density module</p>
-      </div>
-    </a>
-    <a class="right-next"
-       href="macrodensity.vasp.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">macrodensity.vasp module</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
-    </a>
 </div></div>
   
 </div>
@@ -616,7 +610,18 @@ and another for the macroscopic average. The function also saves the data to a C
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-macrodensity.plotting">Module Description</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-macrodensity.plotting">Module Description</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.plotting.energy_band_alignment_diagram"><code class="docutils literal notranslate"><span class="pre">energy_band_alignment_diagram()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.plotting.plot_active_plane"><code class="docutils literal notranslate"><span class="pre">plot_active_plane()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.plotting.plot_active_space"><code class="docutils literal notranslate"><span class="pre">plot_active_space()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.plotting.plot_field_at_point"><code class="docutils literal notranslate"><span class="pre">plot_field_at_point()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.plotting.plot_gulp_potential"><code class="docutils literal notranslate"><span class="pre">plot_gulp_potential()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.plotting.plot_on_site_potential"><code class="docutils literal notranslate"><span class="pre">plot_on_site_potential()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.plotting.plot_planar_average"><code class="docutils literal notranslate"><span class="pre">plot_planar_average()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.plotting.plot_planar_cube"><code class="docutils literal notranslate"><span class="pre">plot_planar_cube()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.plotting.plot_plane_field"><code class="docutils literal notranslate"><span class="pre">plot_plane_field()</span></code></a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 
@@ -631,7 +636,7 @@ and another for the macroscopic average. The function also saves the data to a C
   <div class="footer-item">
     
 <p class="component-author">
-By Keith T. Butler
+By Keith T. Butler, Liam Harnett-Caulfield, Calysta Tesiman
 </p>
 
   </div>
@@ -640,7 +645,7 @@ By Keith T. Butler
     
   <p class="copyright">
     
-      © Copyright 2023, Keith T. Butler.
+      © Copyright 2023, Walsh Materials Design Group.
       <br/>
     
   </p>
