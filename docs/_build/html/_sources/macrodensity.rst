@@ -1,5 +1,6 @@
 MacroDensity Package
 ====================
+
 Module contents
 ---------------
 .. automodule:: macrodensity
@@ -8,6 +9,8 @@ Module contents
    :show-inheritance:
 
 
+Submodules
+------------
 .. toctree::
    macrodensity.alpha
    macrodensity.density

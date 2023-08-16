@@ -25,3 +25,13 @@ For development of ``MacroDensity``, you can install a copy of the package from 
     git clone https://github.com/WMD-group/MacroDensity.git
     cd MacroDensity
     pip install -e .
+
+
+Requirements
+------------
+To use ``MacroDensity`` you will need the following Python packages:
+
+- `Matplotlib <https://matplotlib.org/>`_
+- `Pandas <https://pandas.pydata.org/>`_
+- `Ase <https://wiki.fysik.dtu.dk/ase/>`_
+- `Spglib <https://spglib.readthedocs.io/en/latest/>`_

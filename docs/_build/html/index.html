@@ -135,7 +135,7 @@
         </ul>
         <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="modules.html">MacroDensity</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="modules.html">Python API</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="macrodensity.html">MacroDensity Package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="macrodensity.alpha.html">macrodensity.alpha module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="macrodensity.density.html">macrodensity.density module</a></li>
@@ -318,15 +318,20 @@ document.write(`
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Welcome to MacroDensity</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statement-of-need">Statement of Need</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requirements">Requirements</a></li>
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#user-installation">User installation:</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#developer-installation">Developer installation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#literature">Literature</a></li>
 </ul>
 </li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#literature">Literature</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#contributing">Contributing</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bugs-reports-feature-requests-and-questions">Bugs reports, feature requests and questions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tests">Tests</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#license-and-citation">License and citation</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#indices-and-tables">Indices and tables</a></li>
 </ul>
 
@@ -345,8 +350,8 @@ document.write(`
 </section>
 <section id="summary">
 <h1>Summary<a class="headerlink" href="#summary" title="Permalink to this heading">#</a></h1>
-<p><code class="docutils literal notranslate"><span class="pre">MacroDensity</span></code> is a set of Python scripts to read in a electrostatic potentials
-and electron densities from electronic structure calculations and plot in a number of ways, including:</p>
+<p><code class="docutils literal notranslate"><span class="pre">MacroDensity</span></code> is a Python package to read and process electrostatic potential and
+electron density files from electronic structure calculations and plot in a number of ways, including:</p>
 <ol class="arabic simple">
 <li><p>Planar average</p></li>
 <li><p>Spherical average</p></li>
@@ -354,22 +359,13 @@ and electron densities from electronic structure calculations and plot in a numb
 </ol>
 <section id="statement-of-need">
 <h2>Statement of Need<a class="headerlink" href="#statement-of-need" title="Permalink to this heading">#</a></h2>
-<p>When assessing the potential utility of novel semiconducting devices (p-n juntions, heterostructures, surface terminations) through simulation,
-an understanding of the variation in the electrostatic potential and electron density across the system is key.
+<p>To assess the potential utility of novel semiconducting devices (like p-n juntions, heterostructures, surface terminations),
+it is key to understand how the electrostatic potential and electron density change across the system.
 However, extraction and useful presentation of this data from the raw output of the simulation can prove cumbersome and often requires the use of visualisation software followed by manual data extraction.
 This can result in bottlenecks in high throughput screening projects, where the same data extraction procedure is repeatedly applied to large databases of candidate structures.</p>
-<p>To address this, the Macrodensity package has been developed as a <code class="docutils literal notranslate"><span class="pre">VASP</span></code>, <code class="docutils literal notranslate"><span class="pre">FHI-AIMS</span></code> and <code class="docutils literal notranslate"><span class="pre">GULP</span></code> post-processing tool.
-The package contains functions that enable the user to format the data from the <code class="docutils literal notranslate"><span class="pre">VASP</span></code> LOCPOT and CHGCAR files, the FHI-AIMS <a href="#id1"><span class="problematic" id="id2">*</span></a>.cube file, and GULP <a href="#id3"><span class="problematic" id="id4">*</span></a>.out file into physically meaningful quantities, which can then be plotted for user interpretation.</p>
-</section>
-<section id="requirements">
-<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading">#</a></h2>
-<p>To use <code class="docutils literal notranslate"><span class="pre">MacroDensity</span></code> you will need the following Python packages:</p>
-<ul class="simple">
-<li><p><a class="reference external" href="https://matplotlib.org/">Matplotlib</a></p></li>
-<li><p><a class="reference external" href="https://pandas.pydata.org/">Pandas</a></p></li>
-<li><p><a class="reference external" href="https://wiki.fysik.dtu.dk/ase/">Ase</a></p></li>
-<li><p><a class="reference external" href="https://jupyter.org/">Jupyter</a></p></li>
-</ul>
+<p>To address this, the Macrodensity package has been developed to post-process the output of ab-initio codes like <code class="docutils literal notranslate"><span class="pre">VASP</span></code>, <code class="docutils literal notranslate"><span class="pre">FHI-AIMS</span></code> and <code class="docutils literal notranslate"><span class="pre">GULP</span></code>.
+The package contains functions that enable the user to format the data from the <code class="docutils literal notranslate"><span class="pre">VASP</span></code> <code class="docutils literal notranslate"><span class="pre">LOCPOT</span></code> and <code class="docutils literal notranslate"><span class="pre">CHGCAR</span></code> files, the <code class="docutils literal notranslate"><span class="pre">FHI-AIMS</span></code> <code class="docutils literal notranslate"><span class="pre">*.cube</span></code> file,
+and <code class="docutils literal notranslate"><span class="pre">GULP</span></code> <code class="docutils literal notranslate"><span class="pre">*.out</span></code> file into physically meaningful quantities, which can then be plotted for user interpretation.</p>
 </section>
 </section>
 <section id="installation">
@@ -390,14 +386,41 @@ pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </s
 </pre></div>
 </div>
 </section>
+</section>
 <section id="literature">
-<h2>Literature<a class="headerlink" href="#literature" title="Permalink to this heading">#</a></h2>
+<h1>Literature<a class="headerlink" href="#literature" title="Permalink to this heading">#</a></h1>
 <p>For more information on the theory behind the package, please see the following references:</p>
 <ul class="simple">
 <li><p>General Approach: Butler, K. T., Hendon, C. H., &amp; Walsh, A. <a class="reference external" href="https://doi.org/10.1021/ja4110073">Electronic chemical potentials of porous Metal–Organic frameworks.</a> <em>Journal of the American Chemical Society</em>, 136(7), 2703–2706, <strong>2014</strong></p></li>
 <li><p>Theoretical Background: Politzer, P., &amp; Murray, J. S. <a class="reference external" href="https://doi.org/10.1007/s00214-002-0360-0">The fundamental nature and role of the electrostatic potential in atoms and molecules.</a> <em>Theoretical Chemistry Accounts</em>, 108(3), 134–142, <strong>2002</strong></p></li>
 </ul>
 </section>
+<section id="contributing">
+<h1>Contributing<a class="headerlink" href="#contributing" title="Permalink to this heading">#</a></h1>
+<section id="bugs-reports-feature-requests-and-questions">
+<h2>Bugs reports, feature requests and questions<a class="headerlink" href="#bugs-reports-feature-requests-and-questions" title="Permalink to this heading">#</a></h2>
+<p>Please use the <a class="reference external" href="https://github.com/WMD-group/MacroDensity/issues">Issue Tracker</a>
+to report bugs or request new features.</p>
+<p>Contributions to extend this package are very welcome! Please use the
+<a class="reference external" href="https://docs.github.com/en/get-started/quickstart/contributing-to-projects">“Fork and Pull”</a>
+workflow to do so and follow the <a class="reference external" href="https://peps.python.org/pep-0008/">PEP8</a> style guidelines.</p>
+</section>
+<section id="tests">
+<h2>Tests<a class="headerlink" href="#tests" title="Permalink to this heading">#</a></h2>
+<p>Unit tests are in the <code class="docutils literal notranslate"><span class="pre">tests</span></code> directory and can be run from the top directory using
+<a class="reference external" href="https://docs.python.org/3/library/unittest.html">unittest</a>.
+Automatic testing is run on the master and develop branches using Github Actions. Please
+run tests and add new tests for any new features whenever submitting pull requests.</p>
+</section>
+</section>
+<section id="license-and-citation">
+<h1>License and citation<a class="headerlink" href="#license-and-citation" title="Permalink to this heading">#</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">MacroDensity</span></code> is made available under the MIT License.</p>
+<p>If you use it in your research, please cite:</p>
+<ul class="simple">
+<li><p>Method: Harnett-Caulfield, L., &amp; Walsh, A. [<cite>Assessment of interstitial potentials for rapid prediction of absolute band energies in crystals.</cite>](<a class="reference external" href="https://doi.org/10.1063/5.0056141)_">https://doi.org/10.1063/5.0056141)_</a> <em>Journal of Chemical Physics</em>, 155(2). <strong>2021</strong></p></li>
+<li><p>Code: JOSS paper</p></li>
+</ul>
 </section>
 <section id="indices-and-tables">
 <h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this heading">#</a></h1>
@@ -451,15 +474,20 @@ pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </s
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Welcome to MacroDensity</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statement-of-need">Statement of Need</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requirements">Requirements</a></li>
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#user-installation">User installation:</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#developer-installation">Developer installation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#literature">Literature</a></li>
 </ul>
 </li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#literature">Literature</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#contributing">Contributing</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bugs-reports-feature-requests-and-questions">Bugs reports, feature requests and questions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tests">Tests</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#license-and-citation">License and citation</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#indices-and-tables">Indices and tables</a></li>
 </ul>
 
