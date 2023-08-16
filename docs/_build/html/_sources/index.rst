@@ -63,14 +63,7 @@ For development of ``MacroDensity``, you can install a copy of the package from 
     git clone https://github.com/WMD-group/MacroDensity.git
     cd MacroDensity
     pip install -e .
-    
-.. toctree::
-   :maxdepth: 3
-   :hidden:
-   .. :caption: Links
 
-   modules
-   tutorials
 
 Literature
 ----------
@@ -80,17 +73,18 @@ Literature
 .. _Electronic chemical potentials of porous Metal–Organic frameworks.: https://doi.org/10.1021/ja4110073
 .. _The fundamental nature and role of the electrostatic potential in atoms and molecules.: https://doi.org/10.1007/s00214-002-0360-0
 
-Studies using ``MacroDensity``
-------------------------------
-Research activities and publications using ``MacroDensity`` will be listed here:
-
-- Harnett-Caulfield, L., & Walsh, A. `Assessment of interstitial potentials for rapid prediction of absolute band energies in crystals.`_ *Journal of Chemical Physics*, 155(2). **2021**
-
-
-.. _Assessment of interstitial potentials for rapid prediction of absolute band energies in crystals.: https://doi.org/10.1063/5.0056141
 
 Indices and tables
 ==================
 
 * :ref:`genindex`
 * :ref:`search`
+
+.. toctree::
+   :maxdepth: 3
+   :hidden:
+   .. :caption: Links
+
+   modules
+   tutorials
+   studies
