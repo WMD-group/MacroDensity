@@ -76,7 +76,6 @@ instance/
 # Scrapy stuff:
 .scrapy
 
-
 # PyBuilder
 target/
 
@@ -142,6 +141,7 @@ dmypy.json
 
 # Affinity Designer
 Affinity/
+.vscode/*
 .vscode/settings.json
 
 # Sourcery
@@ -150,8 +150,8 @@ Affinity/
 # Conda Packaging Notes
 conda_packaging.md
 
-# Miscellaneous
+# Docs outputs
 docs/_build/*
 docs/_build/doctrees/*
-docs/_build/html/
-docs/_build/_sources/
+docs/_build/html/*
+docs/_build/_sources/*

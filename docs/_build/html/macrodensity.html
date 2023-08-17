@@ -142,6 +142,7 @@
 <li class="toctree-l3"><a class="reference internal" href="macrodensity.density.html">macrodensity.density module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="macrodensity.plotting.html">macrodensity.plotting module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="macrodensity.vasp.html">macrodensity.vasp module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="macrodensity.io.html">macrodensity.io module</a></li>
 </ul>
 </li>
 </ul>
@@ -316,7 +317,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-macrodensity">Module contents</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
 </ul>
             </nav>
@@ -331,21 +332,40 @@ document.write(`
                   
   <section id="macrodensity-package">
 <h1>MacroDensity Package<a class="headerlink" href="#macrodensity-package" title="Permalink to this heading">#</a></h1>
-<section id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this heading">#</a></h2>
+<section id="module-macrodensity">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-macrodensity" title="Permalink to this heading">#</a></h2>
+<p>MacroDensity is a package to read, process and plot electrostatic potential and electron density 
+files from electronic structure calculations.</p>
 </section>
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">#</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="macrodensity.alpha.html">macrodensity.alpha module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="macrodensity.alpha.html#module-description">Module Description</a></li>
+<li class="toctree-l2"><a class="reference internal" href="macrodensity.alpha.html#module-macrodensity.alpha">Module Description</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="macrodensity.alpha.html#macrodensity.alpha.bulk_interstitial_alignment"><code class="docutils literal notranslate"><span class="pre">bulk_interstitial_alignment()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="macrodensity.alpha.html#macrodensity.alpha.bulk_vac"><code class="docutils literal notranslate"><span class="pre">bulk_vac()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="macrodensity.alpha.html#macrodensity.alpha.create_plotting_mesh"><code class="docutils literal notranslate"><span class="pre">create_plotting_mesh()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="macrodensity.alpha.html#macrodensity.alpha.diff_potentials"><code class="docutils literal notranslate"><span class="pre">diff_potentials()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="macrodensity.alpha.html#macrodensity.alpha.extend_potential"><code class="docutils literal notranslate"><span class="pre">extend_potential()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="macrodensity.alpha.html#macrodensity.alpha.get_third_coordinate"><code class="docutils literal notranslate"><span class="pre">get_third_coordinate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="macrodensity.alpha.html#macrodensity.alpha.match_resolution"><code class="docutils literal notranslate"><span class="pre">match_resolution()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="macrodensity.alpha.html#macrodensity.alpha.matched_spline_generate"><code class="docutils literal notranslate"><span class="pre">matched_spline_generate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="macrodensity.alpha.html#macrodensity.alpha.moving_cube"><code class="docutils literal notranslate"><span class="pre">moving_cube()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="macrodensity.alpha.html#macrodensity.alpha.points_2_plane"><code class="docutils literal notranslate"><span class="pre">points_2_plane()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="macrodensity.alpha.html#macrodensity.alpha.read_cube_density"><code class="docutils literal notranslate"><span class="pre">read_cube_density()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="macrodensity.alpha.html#macrodensity.alpha.scissors_shift"><code class="docutils literal notranslate"><span class="pre">scissors_shift()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="macrodensity.alpha.html#macrodensity.alpha.sort_potential"><code class="docutils literal notranslate"><span class="pre">sort_potential()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="macrodensity.alpha.html#macrodensity.alpha.spherical_average"><code class="docutils literal notranslate"><span class="pre">spherical_average()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="macrodensity.alpha.html#macrodensity.alpha.spline_generate"><code class="docutils literal notranslate"><span class="pre">spline_generate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="macrodensity.alpha.html#macrodensity.alpha.subs_potentials"><code class="docutils literal notranslate"><span class="pre">subs_potentials()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="macrodensity.alpha.html#macrodensity.alpha.translate_grid"><code class="docutils literal notranslate"><span class="pre">translate_grid()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="macrodensity.density.html">macrodensity.density module</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="macrodensity.density.html#module-macrodensity.density">Module Description</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="macrodensity.density.html#macrodensity.density.GCD"><code class="docutils literal notranslate"><span class="pre">GCD()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="macrodensity.density.html#macrodensity.density.GCD_List"><code class="docutils literal notranslate"><span class="pre">GCD_List()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="macrodensity.density.html#macrodensity.density.density_2_grid"><code class="docutils literal notranslate"><span class="pre">density_2_grid()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="macrodensity.density.html#macrodensity.density.density_2_grid_gulp"><code class="docutils literal notranslate"><span class="pre">density_2_grid_gulp()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="macrodensity.density.html#macrodensity.density.element_vol"><code class="docutils literal notranslate"><span class="pre">element_vol()</span></code></a></li>
@@ -367,12 +387,33 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="macrodensity.plotting.html">macrodensity.plotting module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="macrodensity.plotting.html#module-description">Module Description</a></li>
+<li class="toctree-l2"><a class="reference internal" href="macrodensity.plotting.html#module-macrodensity.plotting">Module Description</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="macrodensity.plotting.html#macrodensity.plotting.energy_band_alignment_diagram"><code class="docutils literal notranslate"><span class="pre">energy_band_alignment_diagram()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="macrodensity.plotting.html#macrodensity.plotting.plot_active_plane"><code class="docutils literal notranslate"><span class="pre">plot_active_plane()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="macrodensity.plotting.html#macrodensity.plotting.plot_active_space"><code class="docutils literal notranslate"><span class="pre">plot_active_space()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="macrodensity.plotting.html#macrodensity.plotting.plot_field_at_point"><code class="docutils literal notranslate"><span class="pre">plot_field_at_point()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="macrodensity.plotting.html#macrodensity.plotting.plot_gulp_potential"><code class="docutils literal notranslate"><span class="pre">plot_gulp_potential()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="macrodensity.plotting.html#macrodensity.plotting.plot_on_site_potential"><code class="docutils literal notranslate"><span class="pre">plot_on_site_potential()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="macrodensity.plotting.html#macrodensity.plotting.plot_planar_average"><code class="docutils literal notranslate"><span class="pre">plot_planar_average()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="macrodensity.plotting.html#macrodensity.plotting.plot_planar_cube"><code class="docutils literal notranslate"><span class="pre">plot_planar_cube()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="macrodensity.plotting.html#macrodensity.plotting.plot_plane_field"><code class="docutils literal notranslate"><span class="pre">plot_plane_field()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="macrodensity.vasp.html">macrodensity.vasp module</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="macrodensity.vasp.html#module-macrodensity.vasp">Module Description</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="macrodensity.vasp.html#macrodensity.vasp.get_band_extrema"><code class="docutils literal notranslate"><span class="pre">get_band_extrema()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="macrodensity.io.html">macrodensity.io module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="macrodensity.io.html#module-macrodensity.io">Module Description</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="macrodensity.io.html#macrodensity.io.read_gulp_potential"><code class="docutils literal notranslate"><span class="pre">read_gulp_potential()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="macrodensity.io.html#macrodensity.io.read_vasp_density"><code class="docutils literal notranslate"><span class="pre">read_vasp_density()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="macrodensity.io.html#macrodensity.io.read_vasp_density_classic"><code class="docutils literal notranslate"><span class="pre">read_vasp_density_classic()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="macrodensity.io.html#macrodensity.io.read_vasp_parchg"><code class="docutils literal notranslate"><span class="pre">read_vasp_parchg()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -430,7 +471,7 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-macrodensity">Module contents</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
 </ul>
   </nav></div>

@@ -142,6 +142,7 @@
 <li class="toctree-l3 current active"><a class="current reference internal" href="#">macrodensity.density module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="macrodensity.plotting.html">macrodensity.plotting module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="macrodensity.vasp.html">macrodensity.vasp module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="macrodensity.io.html">macrodensity.io module</a></li>
 </ul>
 </li>
 </ul>
@@ -317,8 +318,6 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-macrodensity.density">Module Description</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.GCD"><code class="docutils literal notranslate"><span class="pre">GCD()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.GCD_List"><code class="docutils literal notranslate"><span class="pre">GCD_List()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.density_2_grid"><code class="docutils literal notranslate"><span class="pre">density_2_grid()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.density_2_grid_gulp"><code class="docutils literal notranslate"><span class="pre">density_2_grid_gulp()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.element_vol"><code class="docutils literal notranslate"><span class="pre">element_vol()</span></code></a></li>
@@ -353,44 +352,6 @@ document.write(`
 <section id="module-macrodensity.density">
 <span id="module-description"></span><h2>Module Description<a class="headerlink" href="#module-macrodensity.density" title="Permalink to this heading">#</a></h2>
 <p>macrodensity.density contains functions to calculate the electron density of a structure, as well as functions to calculate the electrostatic potential and the electrostatic potential gradients of a structure.</p>
-<dl class="py function">
-<dt class="sig sig-object py" id="macrodensity.density.GCD">
-<span class="sig-prename descclassname"><span class="pre">macrodensity.density.</span></span><span class="sig-name descname"><span class="pre">GCD</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#macrodensity.density.GCD" title="Permalink to this definition">#</a></dt>
-<dd><p>Compute the Greatest Common Divisor (GCD) of two integers a and b.</p>
-<dl>
-<dt>Parameters:</dt><dd><p>a (int): First integer.</p>
-<p>b (int): Second integer.</p>
-</dd>
-<dt>Returns:</dt><dd><p>int: The Greatest Common Divisor of a and b.</p>
-</dd>
-<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="mi">36</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="mi">48</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">gcd</span> <span class="o">=</span> <span class="n">GCD</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;GCD of&quot;</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="s2">&quot;and&quot;</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="s2">&quot;is:&quot;</span><span class="p">,</span> <span class="n">gcd</span><span class="p">)</span>
-</pre></div>
-</div>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="macrodensity.density.GCD_List">
-<span class="sig-prename descclassname"><span class="pre">macrodensity.density.</span></span><span class="sig-name descname"><span class="pre">GCD_List</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#macrodensity.density.GCD_List" title="Permalink to this definition">#</a></dt>
-<dd><p>Compute the Greatest Common Divisor (GCD) of a list of integers.</p>
-<dl>
-<dt>Parameters:</dt><dd><p>list (list): List of integers.</p>
-</dd>
-<dt>Returns:</dt><dd><p>int: The Greatest Common Divisor of the elements in the list.</p>
-</dd>
-<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">24</span><span class="p">,</span> <span class="mi">36</span><span class="p">,</span> <span class="mi">60</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">gcd</span> <span class="o">=</span> <span class="n">GCD_List</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;GCD of&quot;</span><span class="p">,</span> <span class="n">numbers</span><span class="p">,</span> <span class="s2">&quot;is:&quot;</span><span class="p">,</span> <span class="n">gcd</span><span class="p">)</span>
-</pre></div>
-</div>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="py function">
 <dt class="sig sig-object py" id="macrodensity.density.density_2_grid">
 <span class="sig-prename descclassname"><span class="pre">macrodensity.density.</span></span><span class="sig-name descname"><span class="pre">density_2_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Density</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ny</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nz</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Charge</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Volume</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span></span></span><a class="headerlink" href="#macrodensity.density.density_2_grid" title="Permalink to this definition">#</a></dt>
@@ -804,8 +765,6 @@ document.write(`
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-macrodensity.density">Module Description</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.GCD"><code class="docutils literal notranslate"><span class="pre">GCD()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.GCD_List"><code class="docutils literal notranslate"><span class="pre">GCD_List()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.density_2_grid"><code class="docutils literal notranslate"><span class="pre">density_2_grid()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.density_2_grid_gulp"><code class="docutils literal notranslate"><span class="pre">density_2_grid_gulp()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.element_vol"><code class="docutils literal notranslate"><span class="pre">element_vol()</span></code></a></li>
