@@ -1,5 +1,6 @@
 """ 
-macrodensity.plotting contains different types of plotting functions such as band alignment diagrams and potentials at different grid points.
+macrodensity.plotting contains different types of plotting functions 
+such as band alignment diagrams and potentials at different grid points.
 """
 from __future__ import division, print_function
 
@@ -9,7 +10,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib import cm
 import pandas as pd
-from ase.io import cube, vasp
 from scipy.interpolate import interp1d
 from macrodensity.alpha import points_2_plane, create_plotting_mesh
 from macrodensity.density import (
@@ -22,7 +22,8 @@ from macrodensity.density import (
     macroscopic_average,
     matrix_2_abc,
     planar_average,
-    read_gulp_potential)
+    read_gulp_potential
+)
 
 
 def energy_band_alignment_diagram(energies: list, materials:list, limit:float=8., width:float=1.,
@@ -138,7 +139,8 @@ def energy_band_alignment_diagram(energies: list, materials:list, limit:float=8.
     plt.show()
     print("Figure saved as %s.eps and %s.png"%(outfile, outfile))
     plt.close(fig)
-#-----------------------------------------------------------------------------
+
+
 def plot_active_space(cube_size: list,cube_origin: list,tolerance: float=1E-4,input_file='LOCPOT',print_output=True, plot_pot= False) -> tuple: 
     '''
     Plot the active space (vacuum and non-vacuum regions) based on potential variations.
@@ -240,7 +242,8 @@ def plot_active_space(cube_size: list,cube_origin: list,tolerance: float=1E-4,in
         pass 
 
     return len(vacuum), len(non_vacuum)
-#-----------------------------------------------------------------------------
+
+
 def plot_gulp_potential(lattice_vector: float,input_file: str='gulp.out',output_file: str='GulpPotential.csv',img_file: str='GulpPotential.png',new_resolution: int = 3000) -> tuple:
     '''
     Plot GULP potential analysis results.
@@ -384,7 +387,8 @@ def plot_on_site_potential(species: str,sample_cube: list,potential_file: str='L
     df = df.transpose()
     df.to_csv(output_file)
     return potentials_list
-#------------------------------------------------------------------------------
+
+
 def plot_planar_average(lattice_vector: float,input_file: str='LOCPOT',output_file: str='PlanarAverage.csv',img_file: str='PlanarAverage.png') -> tuple:
     '''
     Plot planar and macroscopic average of the electronic potential.
@@ -441,7 +445,8 @@ def plot_planar_average(lattice_vector: float,input_file: str='LOCPOT',output_fi
     df = df.transpose()
     df.to_csv(output_file)
     return planar, macro
-#------------------------------------------------------------------------------
+
+
 def plot_planar_cube(input_file: str,lattice_vector: float,output_file: str='PlanarCube.csv',img_file: str='PlanarCube.png') -> tuple:
     '''
     Plot planar and macroscopic average of the electronic potential from a cube file.
@@ -503,7 +508,8 @@ def plot_planar_cube(input_file: str,lattice_vector: float,output_file: str='Pla
     df = df.transpose()
     df.to_csv(output_file)
     return planar, macro
-#------------------------------------------------------------------------------
+
+
 def plot_field_at_point(a_point: list,b_point: list,c_point: list,input_file: str='LOCPOT', grad_calc: bool=False) -> None:
     '''
     UNDER DEVELOPMENT. FULL OF BUGS (BEWARE)
@@ -602,7 +608,8 @@ def plot_field_at_point(a_point: list,b_point: list,c_point: list,input_file: st
 
     plt.axis('equal') #force square aspect ratio; this assuming X and Y are equal.
     plt.show()
-#------------------------------------------------------------------------------
+
+
 def plot_plane_field(a_point: list,b_point: list,c_point: list,input_file: str='LOCPOT') -> None:
     '''
     Plot the electric field on a user-defined plane and display it as a contour plot.
@@ -658,7 +665,8 @@ def plot_plane_field(a_point: list,b_point: list,c_point: list,input_file: str='
     ## Plot the surface
     plt.contour(xx,yy,grd,1)
     plt.show()
-#------------------------------------------------------------------------------
+
+
 def plot_active_plane(cube_size: list,cube_origin: list,tolerance: float=1E-4,input_file: str='LOCPOT', grad_calc: bool= False) -> None:
     '''
     Plot the active plane with contour and planar average of the electric field and potential.
