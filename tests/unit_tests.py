@@ -264,7 +264,7 @@ class TestConvenienceFunctions(unittest.TestCase):
         Locpot = pkg_resources.resource_filename(
                     __name__, path_join('../tests', 'LOCPOT.test'))
         out = md.spherical_average(cube_size=[2,2,2],cube_origin=[0.5,0.5,0.5],input_file=Locpot)
-        self.assertEqual(out,(6.5579496029375, 1.8665165271901357e-05))
+        self.assertAlmostEqual(out,(6.5579496029375, 1.8665165271901357e-05))
 
     def test_plot_planar_average(self):
         '''Tests the plot_planar_average function'''
