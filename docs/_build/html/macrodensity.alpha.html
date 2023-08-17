@@ -328,7 +328,6 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.alpha.matched_spline_generate"><code class="docutils literal notranslate"><span class="pre">matched_spline_generate()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.alpha.moving_cube"><code class="docutils literal notranslate"><span class="pre">moving_cube()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.alpha.points_2_plane"><code class="docutils literal notranslate"><span class="pre">points_2_plane()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.alpha.read_cube_density"><code class="docutils literal notranslate"><span class="pre">read_cube_density()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.alpha.scissors_shift"><code class="docutils literal notranslate"><span class="pre">scissors_shift()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.alpha.sort_potential"><code class="docutils literal notranslate"><span class="pre">sort_potential()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.alpha.spherical_average"><code class="docutils literal notranslate"><span class="pre">spherical_average()</span></code></a></li>
@@ -597,25 +596,6 @@ potential values at each position are plotted, and the data is saved to a CSV fi
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="macrodensity.alpha.read_cube_density">
-<span class="sig-prename descclassname"><span class="pre">macrodensity.alpha.</span></span><span class="sig-name descname"><span class="pre">read_cube_density</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">FILE</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#macrodensity.alpha.read_cube_density" title="Permalink to this definition">#</a></dt>
-<dd><p>Reads a cube density file and extracts relevant information.</p>
-<dl>
-<dt>Parameters:</dt><dd><p>FILE (str): The path to the cube density file.</p>
-</dd>
-<dt>Returns:</dt><dd><p>numpy.ndarray: A 3x3 numpy array representing the lattice.</p>
-</dd>
-<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">file_path</span> <span class="o">=</span> <span class="s1">&#39;path/to/your/cube_density_file.cube&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Read the cube density file and get the lattice</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">lattice</span> <span class="o">=</span> <span class="n">read_cube_density</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">lattice</span><span class="p">)</span>
-</pre></div>
-</div>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
 <dt class="sig sig-object py" id="macrodensity.alpha.scissors_shift">
 <span class="sig-prename descclassname"><span class="pre">macrodensity.alpha.</span></span><span class="sig-name descname"><span class="pre">scissors_shift</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">potential</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#macrodensity.alpha.scissors_shift" title="Permalink to this definition">#</a></dt>
 <dd><p>Shift the potential values by a constant amount.</p>
@@ -804,7 +784,6 @@ within the spherical region.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.alpha.matched_spline_generate"><code class="docutils literal notranslate"><span class="pre">matched_spline_generate()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.alpha.moving_cube"><code class="docutils literal notranslate"><span class="pre">moving_cube()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.alpha.points_2_plane"><code class="docutils literal notranslate"><span class="pre">points_2_plane()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.alpha.read_cube_density"><code class="docutils literal notranslate"><span class="pre">read_cube_density()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.alpha.scissors_shift"><code class="docutils literal notranslate"><span class="pre">scissors_shift()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.alpha.sort_potential"><code class="docutils literal notranslate"><span class="pre">sort_potential()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.alpha.spherical_average"><code class="docutils literal notranslate"><span class="pre">spherical_average()</span></code></a></li>

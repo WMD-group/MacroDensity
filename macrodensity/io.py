@@ -8,6 +8,88 @@ import math
 from itertools import chain
 
 
+def read_gulp_potential(gulpfile: str='gulp.out') -> tuple:
+    """
+    Read electrostatic potential data from a GULP output file.
+
+    Parameters:
+        gulpfile (str, optional): Path to the GULP output file (gulp.out). Default is 'gulp.out'.
+
+    Returns:
+        tuple: A tuple containing:
+            - np.ndarray: 1D array representing the electrostatic potential data.
+            - int: Number of grid points along the x-axis (NGX).
+            - int: Number of grid points along the y-axis (NGY).
+            - int: Number of grid points along the z-axis (NGZ).
+            - np.ndarray: 3x3 array representing the Cartesian lattice vectors.
+    
+    Example:
+        >>> gulpfile = 'path/to/gulp.out'
+        >>> potential, NGX, NGY, NGZ, lattice = read_gulp_potential(gulpfile)
+        >>> print("Electrostatic Potential Data:", potential)
+        >>> print("Number of Grid Points (NGX, NGY, NGZ):", NGX, NGY, NGZ)
+        >>> print("Lattice Vectors:")
+        >>> print(lattice)
+    """
+    potential = []
+
+    try:
+        file_handle=open(gulpfile)
+    except IOError:
+        print("File not found or path is incorrect")
+
+    lines = file_handle.readlines()
+    for n, line in enumerate(lines):
+        if line.rfind('Cartesian lattice vectors') > -1:
+            lattice = np.zeros(shape=(3, 3))
+            for r in range(3):
+                lattice[r] = lines[n + 2 + r].split()
+            break
+
+    for n, line in enumerate(lines):
+        if line.rfind('Electrostatic potential on a grid') > -1:
+            NGX = int(lines[n + 3].split()[3])
+            NGY = int(lines[n + 3].split()[5])
+            NGZ = int(lines[n + 3].split()[7])
+            break
+
+    for n, line in enumerate(lines):
+        if line.rfind('Electrostatic potential on a grid') > -1:
+            for k in reversed(range(9, NGX*NGY*NGZ + 9)):
+                potential.append(float(lines[n + k].split()[3]))
+
+
+    return np.asarray(potential), NGX, NGY, NGZ, lattice
+
+
+def read_cube_density(FILE: str) -> np.ndarray:
+    """
+    Reads a cube density file and extracts relevant information.
+
+    Parameters:
+        FILE (str): The path to the cube density file.
+
+    Returns:
+        numpy.ndarray: A 3x3 numpy array representing the lattice.
+
+    Example:
+        >>> file_path = 'path/to/your/cube_density_file.cube'
+        >>> # Read the cube density file and get the lattice
+        >>> lattice = read_cube_density(file_path)
+        >>> print(lattice)
+    """
+    f = open(FILE,"r")
+    lines = f.readlines()
+    f.close()
+    lattice = np.zeros(shape=(3,3))
+    for line in lines:
+        inp = line.split()
+        if inp == []:
+            continue
+        if len(inp) == 4:
+            natms = inp[0]  
+            
+
 def _read_partial_density(FILE: str, use_pandas: bool, num_atoms: int, NGX: int, NGY: int, NGZ: int, spin: int=0) -> np.ndarray:
     """
     This function is used internally within the read_casp_parchg, reading partial density data from a VASP-PARCHG file.
@@ -343,86 +425,52 @@ def read_vasp_density(FILE: str, use_pandas: bool=None, quiet: bool=False) -> tu
     if not quiet:
         print("Average of the potential = ", np.average(Potential))
 
-    return Potential, NGX, NGY, NGZ, lattice
+    return Potential, NGX, NGY, NGZ, lattice          
+            
 
+def get_band_extrema(input_file: str)->list:
+    '''
+    Get the valence band maximum and conduction band minimum from VASP OUTCAR.
 
-def read_gulp_potential(gulpfile: str='gulp.out') -> tuple:
-    """
-    Read electrostatic potential data from a GULP output file.
+    This function reads the VASP OUTCAR file and extracts the valence band maximum (VBM) and
+    conduction band minimum (CBM). It also checks for partial occupancy and prints a warning
+    message if found.
 
-    Parameters:
-        gulpfile (str, optional): Path to the GULP output file (gulp.out). Default is 'gulp.out'.
-
-    Returns:
-        tuple: A tuple containing:
-            - np.ndarray: 1D array representing the electrostatic potential data.
-            - int: Number of grid points along the x-axis (NGX).
-            - int: Number of grid points along the y-axis (NGY).
-            - int: Number of grid points along the z-axis (NGZ).
-            - np.ndarray: 3x3 array representing the Cartesian lattice vectors.
-    
-    Example:
-        >>> gulpfile = 'path/to/gulp.out'
-        >>> potential, NGX, NGY, NGZ, lattice = read_gulp_potential(gulpfile)
-        >>> print("Electrostatic Potential Data:", potential)
-        >>> print("Number of Grid Points (NGX, NGY, NGZ):", NGX, NGY, NGZ)
-        >>> print("Lattice Vectors:")
-        >>> print(lattice)
-    """
-    potential = []
-
-    try:
-        file_handle=open(gulpfile)
-    except IOError:
-        print("File not found or path is incorrect")
-
-    lines = file_handle.readlines()
-    for n, line in enumerate(lines):
-        if line.rfind('Cartesian lattice vectors') > -1:
-            lattice = np.zeros(shape=(3, 3))
-            for r in range(3):
-                lattice[r] = lines[n + 2 + r].split()
-            break
-
-    for n, line in enumerate(lines):
-        if line.rfind('Electrostatic potential on a grid') > -1:
-            NGX = int(lines[n + 3].split()[3])
-            NGY = int(lines[n + 3].split()[5])
-            NGZ = int(lines[n + 3].split()[7])
-            break
-
-    for n, line in enumerate(lines):
-        if line.rfind('Electrostatic potential on a grid') > -1:
-            for k in reversed(range(9, NGX*NGY*NGZ + 9)):
-                potential.append(float(lines[n + k].split()[3]))
-
-
-    return np.asarray(potential), NGX, NGY, NGZ, lattice
-
-
-def read_cube_density(FILE: str) -> np.ndarray:
-    """
-    Reads a cube density file and extracts relevant information.
-
-    Parameters:
-        FILE (str): The path to the cube density file.
+    Args:
+        input_file (str): The path to the VASP OUTCAR file.
 
     Returns:
-        numpy.ndarray: A 3x3 numpy array representing the lattice.
+        list: A list containing the valence band maximum (VBM) and conduction band minimum (CBM).
+              list[0] = VBM, list[1] = CBM.
 
     Example:
-        >>> file_path = 'path/to/your/cube_density_file.cube'
-        >>> # Read the cube density file and get the lattice
-        >>> lattice = read_cube_density(file_path)
-        >>> print(lattice)
-    """
-    f = open(FILE,"r")
-    lines = f.readlines()
-    f.close()
-    lattice = np.zeros(shape=(3,3))
+        >>> input_file = 'path/to/OUTCAR'
+        >>> band_extrema = get_band_extrema(input_file)
+        >>> print("Valence Band Maximum (VBM):", band_extrema[0])
+        >>> print("Conduction Band Minimum (CBM):", band_extrema[1])
+    '''
+    lines = open(input_file, 'r').readlines()
     for line in lines:
-        inp = line.split()
-        if inp == []:
-            continue
-        if len(inp) == 4:
-            natms = inp[0]
+        if line.rfind('NKPTS') > -1:
+            nkpts = int(line.split()[3])
+        if line.rfind('ISPIN') > -1:
+            ispin = int(line.split()[2])
+        if line.rfind('NELECT') > -1:
+            nelect = float(line.split()[2])
+    if ispin == 1:
+        top_band = int(nelect/2)
+    else:
+        top_band = int(nelect)
+
+    vbm = []
+    cbm = []
+    for i, line in enumerate(lines):
+        if line.rfind('No.') > -1:
+            vbm.append(lines[i + top_band].split()[1])
+            cbm.append(lines[i + top_band + 1].split()[1])
+            if (float(lines[i + top_band].split()[2]) != 1.00 and
+                float(lines[i + top_band].split()[2]) != 2.000):
+                print('Partial occupancy, be aware!',
+                      lines[i + top_band].split()[2])
+
+    return [float(max(vbm)), float(min(cbm))]
