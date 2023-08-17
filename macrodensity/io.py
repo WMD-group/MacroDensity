@@ -398,3 +398,31 @@ def read_vasp_density(FILE: str, use_pandas: bool=None, quiet: bool=False) -> tu
         print("Average of the potential = ", np.average(Potential))
 
     return Potential, NGX, NGY, NGZ, lattice
+
+
+def read_cube_density(FILE: str) -> np.ndarray:
+    """
+    Reads a cube density file and extracts relevant information.
+
+    Parameters:
+        FILE (str): The path to the cube density file.
+
+    Returns:
+        numpy.ndarray: A 3x3 numpy array representing the lattice.
+
+    Example:
+        >>> file_path = 'path/to/your/cube_density_file.cube'
+        >>> # Read the cube density file and get the lattice
+        >>> lattice = read_cube_density(file_path)
+        >>> print(lattice)
+    """
+    f = open(FILE,"r")
+    lines = f.readlines()
+    f.close()
+    lattice = np.zeros(shape=(3,3))
+    for line in lines:
+        inp = line.split()
+        if inp == []:
+            continue
+        if len(inp) == 4:
+            natms = inp[0]
