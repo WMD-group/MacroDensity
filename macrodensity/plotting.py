@@ -5,7 +5,8 @@ such as band alignment diagrams and potentials at different grid points.
 
 from __future__ import division, print_function
 
-import ase 
+import ase
+from ase.io import vasp, cube
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
@@ -16,15 +17,14 @@ from scipy.interpolate import interp1d
 from macrodensity.alpha import points_2_plane, create_plotting_mesh
 from macrodensity.density import (
     density_2_grid,
-    matrix_2_abc,
     numbers_2_grid,
     volume_average,
     density_2_grid_gulp,
     macroscopic_average,
-    matrix_2_abc,
     planar_average,
 )
 from macrodensity.io import read_vasp_density, read_gulp_potential
+from macrodensity.utils import matrix_2_abc
 
 
 def energy_band_alignment_diagram(energies: list, materials:list, limit:float=8., width:float=1.,
@@ -354,7 +354,7 @@ def plot_on_site_potential(species: str,sample_cube: list,potential_file: str='L
     resolution_z = vector_c/NGZ
     grid_pot, electrons = density_2_grid(vasp_pot,NGX,NGY,NGZ)
     grad_x,grad_y,grad_z = np.gradient(grid_pot[:,:,:],resolution_x,resolution_y,resolution_z)
-    coords = ase.io.vasp.read_vasp(coordinate_file)
+    coords = vasp.read_vasp(coordinate_file)
     scaled_coords = coords.get_scaled_positions()
     symbols = coords.get_chemical_symbols()
     ox_coords = []
@@ -480,7 +480,7 @@ def plot_planar_cube(input_file: str,lattice_vector: float,output_file: str='Pla
    
 
     # GETTING POTENTIAL
-    potential, atoms = ase.io.cube.read_cube_data(input_file)
+    potential, atoms = cube.read_cube_data(input_file)
     vector_a = np.linalg.norm(atoms.cell[1])
     vector_b = np.linalg.norm(atoms.cell[1])
     vector_c = np.linalg.norm(atoms.cell[2])

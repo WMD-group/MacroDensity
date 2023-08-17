@@ -7,7 +7,6 @@ import macrodensity as md
 import pkg_resources
 from os.path import join as path_join
 
-
 try:
     import pandas
     has_pandas = True
