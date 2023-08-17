@@ -15,12 +15,12 @@ from scipy.interpolate import interp1d
 
 from macrodensity.density import (
     density_2_grid,
-    matrix_2_abc,
     volume_average,
-    matrix_2_abc, 
     travelling_volume_average,
-    vector_2_abscissa,)
+    vector_2_abscissa,
+)
 from macrodensity.io import read_vasp_density, get_band_extrema
+from macrodensity.utils import matrix_2_abc
 
 
 def bulk_interstitial_alignment(
