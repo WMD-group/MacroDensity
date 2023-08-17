@@ -3,7 +3,6 @@
 macrodensity.alpha contains functions to read and manipulate the electronic density data from a material.
 These functions are complementary to the functions in macrodensity.vasp and macrodensity.density, which retrieve and manipulate the electronic density data from a VASP LOCPOT file.
 """
-#[[[[IMPORTS]]]
 
 from __future__ import division
 
