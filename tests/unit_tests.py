@@ -292,7 +292,7 @@ class TestConvenienceFunctions(unittest.TestCase):
         '''Tests the plot_gulp_potential function'''
         gulpcar = pkg_resources.resource_filename(
                     __name__, path_join('../tests', 'gulp.out'))
-        out = md.plot_gulp_potential(lattice_vector=3.0,input_file=gulpcar)
+        out = md.plot_planar_average(lattice_vector=3.0,input_file=gulpcar)
         self.assertEqual(out[0][0],-23.16678352)
         self.assertAlmostEqual(out[0][10],-1.59508152)
         self.assertEqual(out[0][-1],-23.16678352)
@@ -307,13 +307,13 @@ class TestConvenienceFunctions(unittest.TestCase):
         self.assertEqual(out,(17, 4079))
 
     def test_plot_planar_cube(self):
-        '''Tests the plot_planar_cube function'''
+        '''Tests the plot_planar_average function'''
         Density = pkg_resources.resource_filename(
                     __name__, path_join('../tests', 'cube_001_spin_density.cube'))
         Potential = pkg_resources.resource_filename(
                     __name__, path_join('../tests', 'cube_002_hartree_potential.cube'))
-        outden = md.plot_planar_cube(input_file=Density,lattice_vector=4.75)
-        outpot = md.plot_planar_cube(input_file=Potential,lattice_vector=4.75)
+        outden = md.plot_planar_average(input_file=Density,lattice_vector=4.75)
+        outpot = md.plot_planar_average(input_file=Potential,lattice_vector=4.75)
         self.assertEqual(outden[0][0],0.0200083723051778)
         self.assertEqual(outden[0][-1],0.019841719274268536)
         self.assertEqual(outpot[0][0],-0.562656062923066)

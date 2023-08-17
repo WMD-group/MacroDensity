@@ -381,7 +381,7 @@ def plot_planar_average(lattice_vector: float,input_file: str=' ',output_file: s
         df = df.transpose()
         df.to_csv(output_file)
 
-    elif filetype == 'gulp':
+    elif 'gulp' in input_file or '.out' in input_file:
         output_file = 'PlanarGulp.csv'
         img_file = 'PlanarGulp.png'
 
@@ -418,7 +418,7 @@ def plot_planar_average(lattice_vector: float,input_file: str=' ',output_file: s
         df.to_csv(output_file)
 
     
-    elif filetype == 'vasp':
+    elif 'vasp' in input_file or 'LOCPOT' in input_file:
         output_file = 'PlanarVasp.csv'
         img_file = 'PlanarVasp.png'
         pot, NGX, NGY, NGZ, Lattice = read_vasp_density(input_file)
