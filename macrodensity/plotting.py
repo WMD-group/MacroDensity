@@ -16,14 +16,13 @@ from macrodensity.density import (
     density_2_grid,
     matrix_2_abc,
     numbers_2_grid,
-    read_vasp_density,
     volume_average,
     density_2_grid_gulp,
     macroscopic_average,
     matrix_2_abc,
     planar_average,
-    read_gulp_potential
 )
+from macrodensity.io import read_vasp_density, read_gulp_potential
 
 
 def energy_band_alignment_diagram(energies: list, materials:list, limit:float=8., width:float=1.,

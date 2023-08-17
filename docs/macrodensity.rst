@@ -16,3 +16,4 @@ Submodules
    macrodensity.density
    macrodensity.plotting 
    macrodensity.vasp 
+   macrodensity.io

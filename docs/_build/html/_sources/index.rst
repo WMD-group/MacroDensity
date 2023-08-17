@@ -6,9 +6,7 @@
 Welcome to MacroDensity
 =======================
 
-Summary
-=======
-``MacroDensity`` is a Python package to read and process electrostatic potential and 
+``MacroDensity`` is a Python package to post-process electrostatic potential and 
 electron density files from electronic structure calculations and plot in a number of ways, including:
 
 1. Planar average
