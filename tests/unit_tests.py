@@ -270,7 +270,7 @@ class TestConvenienceFunctions(unittest.TestCase):
         '''Tests the plot_planar_average function'''
         Locpot = pkg_resources.resource_filename(
                     __name__, path_join('../tests', 'LOCPOT.test'))
-        out = md.plot_planar_average(lattice_vector=5.41,input_file=Locpot)
+        out = md.plot_planar_average(lattice_vector=5.41,input_file=Locpot)[0]
         self.assertAlmostEqual(out[0][0],0.14555565)
         self.assertAlmostEqual(out[0][10],4.61454537)
         self.assertAlmostEqual(out[0][-1],-0.87290696)
@@ -283,7 +283,7 @@ class TestConvenienceFunctions(unittest.TestCase):
                     __name__, path_join('../tests', 'LOCPOT.test'))
         Poscar = pkg_resources.resource_filename(
                     __name__, path_join('../tests', 'POSCAR.test'))
-        out = md.plot_on_site_potential(species='Zn',sample_cube=[5,5,5],potential_file=Locpot,coordinate_file=Poscar)
+        out = md.plot_on_site_potential(species='Zn',sample_cube=[5,5,5],potential_file=Locpot,coordinate_file=Poscar)[0]
         self.assertEqual(out,[-6.545211257074241])
         self.addCleanup(os.remove, 'OnSitePotential.csv')
         self.addCleanup(os.remove, 'OnSitePotential.png')
@@ -292,7 +292,7 @@ class TestConvenienceFunctions(unittest.TestCase):
         '''Tests the plot_gulp_potential function'''
         gulpcar = pkg_resources.resource_filename(
                     __name__, path_join('../tests', 'gulp.out'))
-        out = md.plot_planar_average(lattice_vector=3.0,input_file=gulpcar)
+        out = md.plot_planar_average(lattice_vector=3.0,input_file=gulpcar)[0]
         self.assertEqual(out[0][0],-23.16678352)
         self.assertAlmostEqual(out[0][10],-1.59508152)
         self.assertEqual(out[0][-1],-23.16678352)

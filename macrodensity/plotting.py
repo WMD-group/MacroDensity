@@ -382,6 +382,7 @@ def plot_planar_average(lattice_vector: float,input_file: str=' ',output_file: s
         df.to_csv(output_file)
 
     elif 'gulp' in input_file or '.out' in input_file:
+        interpolated_potential = []
         output_file = 'PlanarGulp.csv'
         img_file = 'PlanarGulp.png'
 
@@ -417,6 +418,7 @@ def plot_planar_average(lattice_vector: float,input_file: str=' ',output_file: s
         df = df.transpose()
         df.to_csv(output_file)
 
+        return planar, macro, fig, interpolated_potential
     
     elif 'vasp' in input_file or 'LOCPOT' in input_file:
         output_file = 'PlanarVasp.csv'
@@ -451,7 +453,7 @@ def plot_planar_average(lattice_vector: float,input_file: str=' ',output_file: s
         print('Filetype not recognised')
 
 
-    return planar, macro, interpolated_potential, fig
+    return planar, macro, fig
 
 
 def plot_field_at_point(a_point: list,b_point: list,c_point: list,input_file: str='LOCPOT', grad_calc: bool=False) -> plt.figure:
