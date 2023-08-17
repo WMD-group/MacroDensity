@@ -12,4 +12,4 @@ from macrodensity.density import *
 from macrodensity.alpha import *
 from macrodensity.plotting import *
 from macrodensity.io import *
-
+from macrodensity.utils import *

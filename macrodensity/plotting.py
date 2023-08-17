@@ -2,6 +2,7 @@
 macrodensity.plotting contains different types of plotting functions 
 such as band alignment diagrams and potentials at different grid points.
 """
+
 from __future__ import division, print_function
 
 import ase 

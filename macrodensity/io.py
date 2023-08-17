@@ -258,60 +258,6 @@ def read_vasp_parchg(FILE: str, use_pandas: bool=None, quiet: bool=False, spin: 
     return density, NGX, NGY, NGZ, lattice
 
 
-def read_gulp_potential(gulpfile: str='gulp.out') -> tuple:
-    """
-    Read electrostatic potential data from a GULP output file.
-
-    Parameters:
-        gulpfile (str, optional): Path to the GULP output file (gulp.out). Default is 'gulp.out'.
-
-    Returns:
-        tuple: A tuple containing:
-            - np.ndarray: 1D array representing the electrostatic potential data.
-            - int: Number of grid points along the x-axis (NGX).
-            - int: Number of grid points along the y-axis (NGY).
-            - int: Number of grid points along the z-axis (NGZ).
-            - np.ndarray: 3x3 array representing the Cartesian lattice vectors.
-    
-    Example:
-        >>> gulpfile = 'path/to/gulp.out'
-        >>> potential, NGX, NGY, NGZ, lattice = read_gulp_potential(gulpfile)
-        >>> print("Electrostatic Potential Data:", potential)
-        >>> print("Number of Grid Points (NGX, NGY, NGZ):", NGX, NGY, NGZ)
-        >>> print("Lattice Vectors:")
-        >>> print(lattice)
-    """
-    potential = []
-
-    try:
-        file_handle=open(gulpfile)
-    except IOError:
-        print("File not found or path is incorrect")
-
-    lines = file_handle.readlines()
-    for n, line in enumerate(lines):
-        if line.rfind('Cartesian lattice vectors') > -1:
-            lattice = np.zeros(shape=(3, 3))
-            for r in range(3):
-                lattice[r] = lines[n + 2 + r].split()
-            break
-
-    for n, line in enumerate(lines):
-        if line.rfind('Electrostatic potential on a grid') > -1:
-            NGX = int(lines[n + 3].split()[3])
-            NGY = int(lines[n + 3].split()[5])
-            NGZ = int(lines[n + 3].split()[7])
-            break
-
-    for n, line in enumerate(lines):
-        if line.rfind('Electrostatic potential on a grid') > -1:
-            for k in reversed(range(9, NGX*NGY*NGZ + 9)):
-                potential.append(float(lines[n + k].split()[3]))
-
-
-    return np.asarray(potential), NGX, NGY, NGZ, lattice
-
-
 def read_vasp_density(FILE: str, use_pandas: bool=None, quiet: bool=False) -> tuple:
     """
     Read density data from a VASP CHGCAR-like file.
@@ -398,6 +344,60 @@ def read_vasp_density(FILE: str, use_pandas: bool=None, quiet: bool=False) -> tu
         print("Average of the potential = ", np.average(Potential))
 
     return Potential, NGX, NGY, NGZ, lattice
+
+
+def read_gulp_potential(gulpfile: str='gulp.out') -> tuple:
+    """
+    Read electrostatic potential data from a GULP output file.
+
+    Parameters:
+        gulpfile (str, optional): Path to the GULP output file (gulp.out). Default is 'gulp.out'.
+
+    Returns:
+        tuple: A tuple containing:
+            - np.ndarray: 1D array representing the electrostatic potential data.
+            - int: Number of grid points along the x-axis (NGX).
+            - int: Number of grid points along the y-axis (NGY).
+            - int: Number of grid points along the z-axis (NGZ).
+            - np.ndarray: 3x3 array representing the Cartesian lattice vectors.
+    
+    Example:
+        >>> gulpfile = 'path/to/gulp.out'
+        >>> potential, NGX, NGY, NGZ, lattice = read_gulp_potential(gulpfile)
+        >>> print("Electrostatic Potential Data:", potential)
+        >>> print("Number of Grid Points (NGX, NGY, NGZ):", NGX, NGY, NGZ)
+        >>> print("Lattice Vectors:")
+        >>> print(lattice)
+    """
+    potential = []
+
+    try:
+        file_handle=open(gulpfile)
+    except IOError:
+        print("File not found or path is incorrect")
+
+    lines = file_handle.readlines()
+    for n, line in enumerate(lines):
+        if line.rfind('Cartesian lattice vectors') > -1:
+            lattice = np.zeros(shape=(3, 3))
+            for r in range(3):
+                lattice[r] = lines[n + 2 + r].split()
+            break
+
+    for n, line in enumerate(lines):
+        if line.rfind('Electrostatic potential on a grid') > -1:
+            NGX = int(lines[n + 3].split()[3])
+            NGY = int(lines[n + 3].split()[5])
+            NGZ = int(lines[n + 3].split()[7])
+            break
+
+    for n, line in enumerate(lines):
+        if line.rfind('Electrostatic potential on a grid') > -1:
+            for k in reversed(range(9, NGX*NGY*NGZ + 9)):
+                potential.append(float(lines[n + k].split()[3]))
+
+
+    return np.asarray(potential), NGX, NGY, NGZ, lattice
 
 
 def read_cube_density(FILE: str) -> np.ndarray:
