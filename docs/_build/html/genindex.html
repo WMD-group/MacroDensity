@@ -41,7 +41,6 @@
     <script src="_static/underscore.js"></script>
     <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'genindex';</script>
@@ -139,6 +138,7 @@
 <li class="toctree-l3"><a class="reference internal" href="macrodensity.density.html">macrodensity.density module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="macrodensity.plotting.html">macrodensity.plotting module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="macrodensity.io.html">macrodensity.io module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="macrodensity.utils.html">macrodensity.utils module</a></li>
 </ul>
 </li>
 </ul>
@@ -271,9 +271,7 @@ document.write(`
 <h1 id="index">Index</h1>
 
 <div class="genindex-jumpbox">
- <a href="#B"><strong>B</strong></a>
- | <a href="#C"><strong>C</strong></a>
- | <a href="#D"><strong>D</strong></a>
+ <a href="#D"><strong>D</strong></a>
  | <a href="#E"><strong>E</strong></a>
  | <a href="#G"><strong>G</strong></a>
  | <a href="#I"><strong>I</strong></a>
@@ -288,36 +286,10 @@ document.write(`
  | <a href="#V"><strong>V</strong></a>
  
 </div>
-<h2 id="B">B</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="macrodensity.alpha.html#macrodensity.alpha.bulk_interstitial_alignment">bulk_interstitial_alignment() (in module macrodensity.alpha)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="macrodensity.alpha.html#macrodensity.alpha.bulk_vac">bulk_vac() (in module macrodensity.alpha)</a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="C">C</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="macrodensity.alpha.html#macrodensity.alpha.create_plotting_mesh">create_plotting_mesh() (in module macrodensity.alpha)</a>
-</li>
-  </ul></td>
-</tr></table>
-
 <h2 id="D">D</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="macrodensity.density.html#macrodensity.density.density_2_grid">density_2_grid() (in module macrodensity.density)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="macrodensity.density.html#macrodensity.density.density_2_grid_gulp">density_2_grid_gulp() (in module macrodensity.density)</a>
-</li>
-      <li><a href="macrodensity.alpha.html#macrodensity.alpha.diff_potentials">diff_potentials() (in module macrodensity.alpha)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -331,20 +303,20 @@ document.write(`
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="macrodensity.plotting.html#macrodensity.plotting.energy_band_alignment_diagram">energy_band_alignment_diagram() (in module macrodensity.plotting)</a>
 </li>
-      <li><a href="macrodensity.alpha.html#macrodensity.alpha.extend_potential">extend_potential() (in module macrodensity.alpha)</a>
-</li>
   </ul></td>
 </tr></table>
 
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="macrodensity.io.html#macrodensity.io.get_band_extrema">get_band_extrema() (in module macrodensity.io)</a>
+      <li><a href="macrodensity.utils.html#macrodensity.utils.GCD">GCD() (in module macrodensity.utils)</a>
 </li>
-      <li><a href="macrodensity.alpha.html#macrodensity.alpha.get_third_coordinate">get_third_coordinate() (in module macrodensity.alpha)</a>
+      <li><a href="macrodensity.utils.html#macrodensity.utils.GCD_List">GCD_List() (in module macrodensity.utils)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="macrodensity.io.html#macrodensity.io.get_band_extrema">get_band_extrema() (in module macrodensity.io)</a>
+</li>
       <li><a href="macrodensity.density.html#macrodensity.density.get_volume">get_volume() (in module macrodensity.density)</a>
 </li>
       <li><a href="macrodensity.density.html#macrodensity.density.gradient_magnitude">gradient_magnitude() (in module macrodensity.density)</a>
@@ -371,13 +343,6 @@ document.write(`
 </li>
       </ul></li>
       <li>
-    macrodensity.alpha
-
-      <ul>
-        <li><a href="macrodensity.alpha.html#module-macrodensity.alpha">module</a>
-</li>
-      </ul></li>
-      <li>
     macrodensity.density
 
       <ul>
@@ -398,15 +363,18 @@ document.write(`
         <li><a href="macrodensity.plotting.html#module-macrodensity.plotting">module</a>
 </li>
       </ul></li>
-      <li><a href="macrodensity.density.html#macrodensity.density.macroscopic_average">macroscopic_average() (in module macrodensity.density)</a>
+      <li>
+    macrodensity.utils
+
+      <ul>
+        <li><a href="macrodensity.utils.html#module-macrodensity.utils">module</a>
 </li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="macrodensity.alpha.html#macrodensity.alpha.match_resolution">match_resolution() (in module macrodensity.alpha)</a>
+      <li><a href="macrodensity.density.html#macrodensity.density.macroscopic_average">macroscopic_average() (in module macrodensity.density)</a>
 </li>
-      <li><a href="macrodensity.alpha.html#macrodensity.alpha.matched_spline_generate">matched_spline_generate() (in module macrodensity.alpha)</a>
-</li>
-      <li><a href="macrodensity.density.html#macrodensity.density.matrix_2_abc">matrix_2_abc() (in module macrodensity.density)</a>
+      <li><a href="macrodensity.utils.html#macrodensity.utils.matrix_2_abc">matrix_2_abc() (in module macrodensity.utils)</a>
 </li>
       <li>
     module
@@ -414,19 +382,17 @@ document.write(`
       <ul>
         <li><a href="macrodensity.html#module-macrodensity">macrodensity</a>
 </li>
-        <li><a href="macrodensity.alpha.html#module-macrodensity.alpha">macrodensity.alpha</a>
-</li>
         <li><a href="macrodensity.density.html#module-macrodensity.density">macrodensity.density</a>
 </li>
         <li><a href="macrodensity.io.html#module-macrodensity.io">macrodensity.io</a>
 </li>
         <li><a href="macrodensity.plotting.html#module-macrodensity.plotting">macrodensity.plotting</a>
 </li>
+        <li><a href="macrodensity.utils.html#module-macrodensity.utils">macrodensity.utils</a>
+</li>
         <li><a href="setup.html#module-setup">setup</a>
 </li>
       </ul></li>
-      <li><a href="macrodensity.alpha.html#macrodensity.alpha.moving_cube">moving_cube() (in module macrodensity.alpha)</a>
-</li>
   </ul></td>
 </tr></table>
 
@@ -461,21 +427,15 @@ document.write(`
 </li>
       <li><a href="macrodensity.plotting.html#macrodensity.plotting.plot_active_space">plot_active_space() (in module macrodensity.plotting)</a>
 </li>
-      <li><a href="macrodensity.plotting.html#macrodensity.plotting.plot_field_at_point">plot_field_at_point() (in module macrodensity.plotting)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="macrodensity.plotting.html#macrodensity.plotting.plot_gulp_potential">plot_gulp_potential() (in module macrodensity.plotting)</a>
+      <li><a href="macrodensity.plotting.html#macrodensity.plotting.plot_field_at_point">plot_field_at_point() (in module macrodensity.plotting)</a>
 </li>
       <li><a href="macrodensity.plotting.html#macrodensity.plotting.plot_on_site_potential">plot_on_site_potential() (in module macrodensity.plotting)</a>
 </li>
       <li><a href="macrodensity.plotting.html#macrodensity.plotting.plot_planar_average">plot_planar_average() (in module macrodensity.plotting)</a>
 </li>
-      <li><a href="macrodensity.plotting.html#macrodensity.plotting.plot_planar_cube">plot_planar_cube() (in module macrodensity.plotting)</a>
-</li>
       <li><a href="macrodensity.plotting.html#macrodensity.plotting.plot_plane_field">plot_plane_field() (in module macrodensity.plotting)</a>
-</li>
-      <li><a href="macrodensity.alpha.html#macrodensity.alpha.points_2_plane">points_2_plane() (in module macrodensity.alpha)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -501,8 +461,6 @@ document.write(`
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="macrodensity.alpha.html#macrodensity.alpha.scissors_shift">scissors_shift() (in module macrodensity.alpha)</a>
-</li>
       <li>
     setup
 
@@ -511,24 +469,10 @@ document.write(`
 </li>
       </ul></li>
   </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="macrodensity.alpha.html#macrodensity.alpha.sort_potential">sort_potential() (in module macrodensity.alpha)</a>
-</li>
-      <li><a href="macrodensity.alpha.html#macrodensity.alpha.spherical_average">spherical_average() (in module macrodensity.alpha)</a>
-</li>
-      <li><a href="macrodensity.alpha.html#macrodensity.alpha.spline_generate">spline_generate() (in module macrodensity.alpha)</a>
-</li>
-      <li><a href="macrodensity.alpha.html#macrodensity.alpha.subs_potentials">subs_potentials() (in module macrodensity.alpha)</a>
-</li>
-  </ul></td>
 </tr></table>
 
 <h2 id="T">T</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="macrodensity.alpha.html#macrodensity.alpha.translate_grid">translate_grid() (in module macrodensity.alpha)</a>
-</li>
-  </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="macrodensity.density.html#macrodensity.density.travelling_volume_average">travelling_volume_average() (in module macrodensity.density)</a>
 </li>

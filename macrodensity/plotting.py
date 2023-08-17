@@ -24,7 +24,6 @@ from macrodensity.density import (
     density_2_grid,
     numbers_2_grid,
     volume_average,
-    density_2_grid_gulp,
     macroscopic_average,
     planar_average,
 )
@@ -391,7 +390,7 @@ def plot_planar_average(lattice_vector: float,input_file: str=' ',output_file: s
         resolution_x = vector_a/NGX
         resolution_y = vector_b/NGY
         resolution_z = vector_c/NGZ
-        grid_pot = density_2_grid_gulp(pot, NGX, NGY, NGZ)
+        grid_pot = density_2_grid(pot, NGX, NGY, NGZ)
 
         ## POTENTIAL PLANAR AVERAGE
         planar = planar_average(grid_pot, NGX, NGY, NGZ)
@@ -427,7 +426,7 @@ def plot_planar_average(lattice_vector: float,input_file: str=' ',output_file: s
         resolution_x = vector_a/NGX
         resolution_y = vector_b/NGY
         resolution_z = vector_c/NGZ
-        grid_pot, electrons = density_2_grid_vasp(pot, NGX, NGY, NGZ)
+        grid_pot, electrons = density_2_grid(pot, NGX, NGY, NGZ)
 
         ## PLANAR AVERAGE
         planar = planar_average(grid_pot,NGX,NGY,NGZ)

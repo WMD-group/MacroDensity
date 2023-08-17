@@ -42,7 +42,6 @@
     <script src="_static/underscore.js"></script>
     <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'macrodensity.density';</script>
@@ -142,6 +141,7 @@
 <li class="toctree-l3 current active"><a class="current reference internal" href="#">macrodensity.density module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="macrodensity.plotting.html">macrodensity.plotting module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="macrodensity.io.html">macrodensity.io module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="macrodensity.utils.html">macrodensity.utils module</a></li>
 </ul>
 </li>
 </ul>
@@ -316,25 +316,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-macrodensity.density">Module Description</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.density_2_grid"><code class="docutils literal notranslate"><span class="pre">density_2_grid()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.density_2_grid_gulp"><code class="docutils literal notranslate"><span class="pre">density_2_grid_gulp()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.element_vol"><code class="docutils literal notranslate"><span class="pre">element_vol()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.get_volume"><code class="docutils literal notranslate"><span class="pre">get_volume()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.gradient_magnitude"><code class="docutils literal notranslate"><span class="pre">gradient_magnitude()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.inverse_participation_ratio"><code class="docutils literal notranslate"><span class="pre">inverse_participation_ratio()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.macroscopic_average"><code class="docutils literal notranslate"><span class="pre">macroscopic_average()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.matrix_2_abc"><code class="docutils literal notranslate"><span class="pre">matrix_2_abc()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.number_in_field"><code class="docutils literal notranslate"><span class="pre">number_in_field()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.numbers_2_grid"><code class="docutils literal notranslate"><span class="pre">numbers_2_grid()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.one_2_2d"><code class="docutils literal notranslate"><span class="pre">one_2_2d()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.planar_average"><code class="docutils literal notranslate"><span class="pre">planar_average()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.planar_average_charge"><code class="docutils literal notranslate"><span class="pre">planar_average_charge()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.travelling_volume_average"><code class="docutils literal notranslate"><span class="pre">travelling_volume_average()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.vector_2_abscissa"><code class="docutils literal notranslate"><span class="pre">vector_2_abscissa()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.volume_average"><code class="docutils literal notranslate"><span class="pre">volume_average()</span></code></a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-macrodensity.density">Module Description</a></li>
 </ul>
             </nav>
         </div>
@@ -353,15 +335,16 @@ document.write(`
 <p>macrodensity.density contains functions to calculate the electron density of a structure, as well as functions to calculate the electrostatic potential and the electrostatic potential gradients of a structure.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="macrodensity.density.density_2_grid">
-<span class="sig-prename descclassname"><span class="pre">macrodensity.density.</span></span><span class="sig-name descname"><span class="pre">density_2_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Density</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ny</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nz</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Charge</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Volume</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span></span></span><a class="headerlink" href="#macrodensity.density.density_2_grid" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">macrodensity.density.</span></span><span class="sig-name descname"><span class="pre">density_2_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Density</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ny</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nz</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Charge</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Volume</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span></span></span><a class="headerlink" href="#macrodensity.density.density_2_grid" title="Permalink to this definition">#</a></dt>
 <dd><p>Convert density data to a 3D grid.</p>
 <dl>
-<dt>Parameters:</dt><dd><p>Density (np.ndarray): 1D array representing the density data.</p>
-<p>nx (int): Number of grid points along the x-axis.</p>
-<p>ny (int): Number of grid points along the y-axis.</p>
-<p>nz (int): Number of grid points along the z-axis.</p>
-<p>Charge (bool, optional): If True, convert charge density to the number of electrons. Default is False.</p>
-<p>Volume (float, optional): Volume of the grid cell. Used to convert charge density to electrons. Default is 1.</p>
+<dt>Parameters:</dt><dd><p>Format (str): Format of the density data (e.g., ‘VASP’, ‘GULP’).
+Density (np.ndarray): 1D array representing the density data.
+nx (int): Number of grid points along the x-axis.
+ny (int): Number of grid points along the y-axis.
+nz (int): Number of grid points along the z-axis.
+Charge (bool, optional): If True, convert charge density to the number of electrons. Default is False.
+Volume (float, optional): Volume of the grid cell. Used to convert charge density to electrons. Default is 1.</p>
 </dd>
 <dt>Returns:</dt><dd><dl class="simple">
 <dt>tuple: A tuple containing:</dt><dd><ul class="simple">
@@ -380,28 +363,6 @@ document.write(`
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">potential_grid</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">Charge</span><span class="p">:</span>
 <span class="go">        print(&quot;Total Electrons:&quot;, total_electrons)</span>
-</pre></div>
-</div>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="macrodensity.density.density_2_grid_gulp">
-<span class="sig-prename descclassname"><span class="pre">macrodensity.density.</span></span><span class="sig-name descname"><span class="pre">density_2_grid_gulp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Density</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ny</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nz</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#macrodensity.density.density_2_grid_gulp" title="Permalink to this definition">#</a></dt>
-<dd><p>Convert density data to a 3D grid in the GULP format.</p>
-<dl>
-<dt>Parameters:</dt><dd><p>Density (np.ndarray): 1D array representing the density data.</p>
-<p>nx (int): Number of grid points along the x-axis.</p>
-<p>ny (int): Number of grid points along the y-axis.</p>
-<p>nz (int): Number of grid points along the z-axis.</p>
-</dd>
-<dt>Returns:</dt><dd><p>np.ndarray: 3D array representing the potential grid in GULP format.</p>
-</dd>
-<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Density</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">nx</span> <span class="o">*</span> <span class="n">ny</span> <span class="o">*</span> <span class="n">nz</span><span class="p">)</span>  <span class="c1"># Replace this with actual density data</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">potential_grid_gulp</span> <span class="o">=</span> <span class="n">density_2_grid_gulp</span><span class="p">(</span><span class="n">Density</span><span class="p">,</span> <span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="n">nz</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Potential Grid in GULP format:&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">potential_grid_gulp</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd>
@@ -510,28 +471,6 @@ document.write(`
 <span class="gp">&gt;&gt;&gt; </span><span class="n">macro_avg_result</span> <span class="o">=</span> <span class="n">macroscopic_average</span><span class="p">(</span><span class="n">potential</span><span class="p">,</span> <span class="n">periodicity</span><span class="p">,</span> <span class="n">resolution</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Macroscopic Average Result:&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">macro_avg_result</span><span class="p">)</span>
-</pre></div>
-</div>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="macrodensity.density.matrix_2_abc">
-<span class="sig-prename descclassname"><span class="pre">macrodensity.density.</span></span><span class="sig-name descname"><span class="pre">matrix_2_abc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Lattice:</span> <span class="pre">~numpy.ndarray)</span> <span class="pre">-&gt;</span> <span class="pre">(&lt;class</span> <span class="pre">'float'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">&lt;class</span> <span class="pre">'float'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">&lt;class</span> <span class="pre">'float'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">&lt;class</span> <span class="pre">'float'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">&lt;class</span> <span class="pre">'float'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">&lt;class</span> <span class="pre">'float'&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#macrodensity.density.matrix_2_abc" title="Permalink to this definition">#</a></dt>
-<dd><p>Extract lattice parameters and vectors from a 3x3 matrix representing a lattice.</p>
-<dl>
-<dt>Parameters:</dt><dd><p>Lattice (np.ndarray): 3x3 matrix representing the lattice.</p>
-</dd>
-<dt>Returns:</dt><dd><p>tuple: A tuple containing the lattice parameters a, b, c and lattice vectors a_vec, b_vec, c_vec.</p>
-</dd>
-<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Lattice</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">]])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">a_vec</span><span class="p">,</span> <span class="n">b_vec</span><span class="p">,</span> <span class="n">c_vec</span> <span class="o">=</span> <span class="n">matrix_2_abc</span><span class="p">(</span><span class="n">Lattice</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Lattice parameters:&quot;</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Lattice vectors:&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">a_vec</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">b_vec</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">c_vec</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd>
@@ -763,25 +702,7 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-macrodensity.density">Module Description</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.density_2_grid"><code class="docutils literal notranslate"><span class="pre">density_2_grid()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.density_2_grid_gulp"><code class="docutils literal notranslate"><span class="pre">density_2_grid_gulp()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.element_vol"><code class="docutils literal notranslate"><span class="pre">element_vol()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.get_volume"><code class="docutils literal notranslate"><span class="pre">get_volume()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.gradient_magnitude"><code class="docutils literal notranslate"><span class="pre">gradient_magnitude()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.inverse_participation_ratio"><code class="docutils literal notranslate"><span class="pre">inverse_participation_ratio()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.macroscopic_average"><code class="docutils literal notranslate"><span class="pre">macroscopic_average()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.matrix_2_abc"><code class="docutils literal notranslate"><span class="pre">matrix_2_abc()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.number_in_field"><code class="docutils literal notranslate"><span class="pre">number_in_field()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.numbers_2_grid"><code class="docutils literal notranslate"><span class="pre">numbers_2_grid()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.one_2_2d"><code class="docutils literal notranslate"><span class="pre">one_2_2d()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.planar_average"><code class="docutils literal notranslate"><span class="pre">planar_average()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.planar_average_charge"><code class="docutils literal notranslate"><span class="pre">planar_average_charge()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.travelling_volume_average"><code class="docutils literal notranslate"><span class="pre">travelling_volume_average()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.vector_2_abscissa"><code class="docutils literal notranslate"><span class="pre">vector_2_abscissa()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macrodensity.density.volume_average"><code class="docutils literal notranslate"><span class="pre">volume_average()</span></code></a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-macrodensity.density">Module Description</a></li>
 </ul>
   </nav></div>
 

@@ -15,7 +15,7 @@ electron density files from electronic structure calculations and plot in a numb
 
 Statement of Need
 -----------------
-To assess the potential utility of novel semiconducting devices (like p-n juntions, heterostructures, surface terminations), 
+To assess the potential utility of novel semiconducting devices (like p-n junctions, heterostructures, surface terminations), 
 it is key to understand how the electrostatic potential and electron density change across the system. 
 However, extraction and useful presentation of this data from the raw output of the simulation can prove cumbersome and often requires the use of visualisation software followed by manual data extraction. 
 This can result in bottlenecks in high throughput screening projects, where the same data extraction procedure is repeatedly applied to large databases of candidate structures.
@@ -93,8 +93,11 @@ License and citation
 
 If you use it in your research, please cite:
 
-* Method: Harnett-Caulfield, L., & Walsh, A. [`Assessment of interstitial potentials for rapid prediction of absolute band energies in crystals.`](https://doi.org/10.1063/5.0056141)_ *Journal of Chemical Physics*, 155(2). **2021**
+* Method: Harnett-Caulfield, L., & Walsh, A. `Assessment of interstitial potentials for rapid prediction of absolute band energies in crystals.`_ *Journal of Chemical Physics*, 155(2). **2021**
 * Code: JOSS paper
+
+.. _Assessment of interstitial potentials for rapid prediction of absolute band energies in crystals.: https://doi.org/10.1063/5.0056141
+
 
 Indices and tables
 ==================
