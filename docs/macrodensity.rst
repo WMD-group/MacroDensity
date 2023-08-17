@@ -15,5 +15,4 @@ Submodules
    macrodensity.alpha
    macrodensity.density
    macrodensity.plotting 
-   macrodensity.vasp 
    macrodensity.io

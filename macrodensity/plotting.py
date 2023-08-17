@@ -12,6 +12,7 @@ import numpy as np
 from matplotlib import cm
 import pandas as pd
 from scipy.interpolate import interp1d
+
 from macrodensity.alpha import points_2_plane, create_plotting_mesh
 from macrodensity.density import (
     density_2_grid,

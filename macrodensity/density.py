@@ -4,7 +4,6 @@ macrodensity.density contains functions to calculate the electron density of a s
 
 from __future__ import division, print_function
 
-from functools import reduce
 import numpy as np
 
 

@@ -6,12 +6,13 @@ These functions are complementary to the functions in macrodensity.vasp and macr
 #[[[[IMPORTS]]]
 
 from __future__ import division
-import ase
-import numpy as np
+
 import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
-from ase.io import cube, vasp
 from scipy.interpolate import interp1d
+
+
 from macrodensity.density import (
     density_2_grid,
     matrix_2_abc,
@@ -19,8 +20,7 @@ from macrodensity.density import (
     matrix_2_abc, 
     travelling_volume_average,
     vector_2_abscissa,)
-from macrodensity.io import read_vasp_density
-from macrodensity.vasp import get_band_extrema
+from macrodensity.io import read_vasp_density, get_band_extrema
 
 
 def bulk_interstitial_alignment(
