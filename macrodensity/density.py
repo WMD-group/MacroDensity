@@ -410,18 +410,18 @@ def numbers_2_grid(a: tuple,NGX: int,NGY: int,NGZ: int) -> np.ndarray:
     return a_grid
 #------------------------------------------------------------------------------
 
-def density_2_grid(Format: str, Density: np.ndarray, nx: int, ny: int, nz: int, Charge: bool=False, Volume: float=1) -> tuple:
+def density_2_grid(Density: np.ndarray, nx: int, ny: int, nz: int, Charge: bool=False, Volume: float=1, Format: str = 'GULP') -> tuple:
     """
     Convert density data to a 3D grid.
 
     Parameters:
-        Format (str): Format of the density data (e.g., 'VASP', 'GULP').
         Density (np.ndarray): 1D array representing the density data.
         nx (int): Number of grid points along the x-axis.
         ny (int): Number of grid points along the y-axis.
         nz (int): Number of grid points along the z-axis.
         Charge (bool, optional): If True, convert charge density to the number of electrons. Default is False.
         Volume (float, optional): Volume of the grid cell. Used to convert charge density to electrons. Default is 1.
+        Format (str, optional): Format of the density data (e.g., 'VASP', 'GULP'). Default is 'GULP'.
 
     Returns:
         tuple: A tuple containing:
