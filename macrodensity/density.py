@@ -410,29 +410,24 @@ def numbers_2_grid(a: tuple,NGX: int,NGY: int,NGZ: int) -> np.ndarray:
     return a_grid
 #------------------------------------------------------------------------------
 
-
-def density_2_grid(Density: np.ndarray, nx: int, ny: int, nz: int, Charge: bool=False, Volume: float=1) -> tuple:
+def density_2_grid(Format: str, Density: np.ndarray, nx: int, ny: int, nz: int, Charge: bool=False, Volume: float=1) -> tuple:
     """
     Convert density data to a 3D grid.
 
     Parameters:
+        Format (str): Format of the density data (e.g., 'VASP', 'GULP').
         Density (np.ndarray): 1D array representing the density data.
-
         nx (int): Number of grid points along the x-axis.
-
         ny (int): Number of grid points along the y-axis.
-
         nz (int): Number of grid points along the z-axis.
-
         Charge (bool, optional): If True, convert charge density to the number of electrons. Default is False.
-
         Volume (float, optional): Volume of the grid cell. Used to convert charge density to electrons. Default is 1.
 
     Returns:
         tuple: A tuple containing:
             - np.ndarray: 3D array representing the potential grid.
             - float: Total number of electrons in the grid (if Charge is True).
-    
+
     Example:
         >>> Density = np.random.rand(NGX * NGY * NGZ)  # Replace this with actual density data
         >>> nx, ny, nz = NGX, NGY, NGZ
@@ -447,53 +442,28 @@ def density_2_grid(Density: np.ndarray, nx: int, ny: int, nz: int, Charge: bool=
     l = 0
     Potential_grid = np.zeros(shape=(nx,ny,nz))
     total_electrons = 0
-    for k in range(nz):
-        for j in range(ny):
-            for i in range(nx):
-                Potential_grid[i,j,k] = Density[l] / Volume
-                if Charge == True:
-                    # Convert the charge density to a number of electrons
-                    point_volume = Volume / (nx*ny*nz)
-                    Potential_grid[i,j,k] = Potential_grid[i,j,k]*point_volume
-                total_electrons = total_electrons + Density[l]
-                l = l + 1
-    if Charge == True:
+    if Format != 'GULP':
+        for k in range(nz):
+            for j in range(ny):
+                for i in range(nx):
+                    Potential_grid[i,j,k] = Density[l]/Volume
+                    if Charge == True:
+                        # Convert the charge density to a number of electrons
+                        point_volume = Volume / (nx*ny*nz)
+                        Potential_grid[i,j,k] = Potential_grid[i,j,k]*point_volume
+                    total_electrons = total_electrons + Density[l]
+                    l = l + 1
+    else:
+        for k in range(nx):
+            for j in range(ny):
+                for i in range(nz):
+                    Potential_grid[k,j,i] = Density[l]
+                    l = l + 1
+
+    if Charge == True and Format != 'GULP':
         print("Total electrons: ", total_electrons / (nx * ny * nz))
     total_electrons = total_electrons / (nx * ny * nz)
     return Potential_grid, total_electrons
-
-
-def density_2_grid_gulp(Density: np.ndarray, nx: int, ny: int, nz: int) -> np.ndarray:
-    """
-    Convert density data to a 3D grid in the GULP format.
-
-    Parameters:
-        Density (np.ndarray): 1D array representing the density data.
-
-        nx (int): Number of grid points along the x-axis.
-
-        ny (int): Number of grid points along the y-axis.
-
-        nz (int): Number of grid points along the z-axis.
-
-    Returns:
-        np.ndarray: 3D array representing the potential grid in GULP format.
-
-    Example:
-        >>> Density = np.random.rand(nx * ny * nz)  # Replace this with actual density data
-        >>> potential_grid_gulp = density_2_grid_gulp(Density, nx, ny, nz)
-        >>> print("Potential Grid in GULP format:")
-        >>> print(potential_grid_gulp)
-    """
-    l = 0
-    Potential_grid = np.zeros(shape=(nx,ny,nz))
-    for k in range(nx):
-        for j in range(ny):
-            for i in range(nz):
-                Potential_grid[k,j,i] = Density[l]
-                l = l + 1
-    return Potential_grid
-
 
 def inverse_participation_ratio(density: np.ndarray) -> float:
     """
