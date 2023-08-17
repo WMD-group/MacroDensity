@@ -410,7 +410,7 @@ def numbers_2_grid(a: tuple,NGX: int,NGY: int,NGZ: int) -> np.ndarray:
     return a_grid
 #------------------------------------------------------------------------------
 
-def density_2_grid(Density: np.ndarray, nx: int, ny: int, nz: int, Charge: bool=False, Volume: float=1, Format: str = 'GULP') -> tuple:
+def density_2_grid(Density: np.ndarray, nx: int, ny: int, nz: int, Charge: bool=False, Volume: float=1, Format: str = 'VASP') -> tuple:
     """
     Convert density data to a 3D grid.
 
