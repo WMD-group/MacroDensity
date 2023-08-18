@@ -335,33 +335,33 @@ document.write(`
 <p>macrodensity.density contains functions to calculate the electron density of a structure, as well as functions to calculate the electrostatic potential and the electrostatic potential gradients of a structure.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="macrodensity.density.density_2_grid">
-<span class="sig-prename descclassname"><span class="pre">macrodensity.density.</span></span><span class="sig-name descname"><span class="pre">density_2_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Density</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ny</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nz</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Charge</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Volume</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'VASP'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span></span></span><a class="headerlink" href="#macrodensity.density.density_2_grid" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">macrodensity.density.</span></span><span class="sig-name descname"><span class="pre">density_2_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">density</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ny</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nz</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charge</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">volume</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'VASP'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span></span></span><a class="headerlink" href="#macrodensity.density.density_2_grid" title="Permalink to this definition">#</a></dt>
 <dd><p>Convert density data to a 3D grid.</p>
 <dl>
-<dt>Parameters:</dt><dd><p>Density (np.ndarray): 1D array representing the density data.
+<dt>Parameters:</dt><dd><p>density (np.ndarray): 1D array representing the density data.
 nx (int): Number of grid points along the x-axis.
 ny (int): Number of grid points along the y-axis.
 nz (int): Number of grid points along the z-axis.
-Charge (bool, optional): If True, convert charge density to the number of electrons. Default is False.
-Volume (float, optional): Volume of the grid cell. Used to convert charge density to electrons. Default is 1.
+charge (bool, optional): If True, convert charge density to the number of electrons. Default is False.
+volume (float, optional): volume of the grid cell. Used to convert charge density to electrons. Default is 1.
 Format (str, optional): Format of the density data (e.g., ‘VASP’, ‘GULP’). Default is ‘VASP’.</p>
 </dd>
 <dt>Returns:</dt><dd><dl class="simple">
 <dt>tuple: A tuple containing:</dt><dd><ul class="simple">
 <li><p>np.ndarray: 3D array representing the potential grid.</p></li>
-<li><p>float: Total number of electrons in the grid (if Charge is True).</p></li>
+<li><p>float: Total number of electrons in the grid (if charge is True).</p></li>
 </ul>
 </dd>
 </dl>
 </dd>
-<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Density</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">NGX</span> <span class="o">*</span> <span class="n">NGY</span> <span class="o">*</span> <span class="n">NGZ</span><span class="p">)</span>  <span class="c1"># Replace this with actual density data</span>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">density</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">NGX</span> <span class="o">*</span> <span class="n">NGY</span> <span class="o">*</span> <span class="n">NGZ</span><span class="p">)</span>  <span class="c1"># Replace this with actual density data</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="n">nz</span> <span class="o">=</span> <span class="n">NGX</span><span class="p">,</span> <span class="n">NGY</span><span class="p">,</span> <span class="n">NGZ</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">Charge</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># Set to True if Density represents charge density</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">Volume</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># Volume of the grid cell (if Charge is True)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">potential_grid</span><span class="p">,</span> <span class="n">total_electrons</span> <span class="o">=</span> <span class="n">density_2_grid</span><span class="p">(</span><span class="n">Density</span><span class="p">,</span> <span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="n">nz</span><span class="p">,</span> <span class="n">Charge</span><span class="p">,</span> <span class="n">Volume</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">charge</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># Set to True if density represents charge density</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">volume</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># volume of the grid cell (if charge is True)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">potential_grid</span><span class="p">,</span> <span class="n">total_electrons</span> <span class="o">=</span> <span class="n">density_2_grid</span><span class="p">(</span><span class="n">density</span><span class="p">,</span> <span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="n">nz</span><span class="p">,</span> <span class="n">charge</span><span class="p">,</span> <span class="n">volume</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Potential Grid:&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">potential_grid</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">Charge</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">charge</span><span class="p">:</span>
 <span class="go">        print(&quot;Total Electrons:&quot;, total_electrons)</span>
 </pre></div>
 </div>
@@ -379,12 +379,12 @@ Format (str, optional): Format of the density data (e.g., ‘VASP’, ‘GULP’
 <p>ny (int): Number of elements along the y-axis.</p>
 <p>nz (int): Number of elements along the z-axis.</p>
 </dd>
-<dt>Returns:</dt><dd><p>float: Volume of each individual element in the grid.</p>
+<dt>Returns:</dt><dd><p>float: volume of each individual element in the grid.</p>
 </dd>
 <dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">volume</span> <span class="o">=</span> <span class="mf">10.0</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="n">nz</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">element_volume</span> <span class="o">=</span> <span class="n">element_vol</span><span class="p">(</span><span class="n">volume</span><span class="p">,</span> <span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="n">nz</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Volume of Each Element:&quot;</span><span class="p">,</span> <span class="n">element_volume</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;volume of Each Element:&quot;</span><span class="p">,</span> <span class="n">element_volume</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd>
@@ -400,13 +400,13 @@ Format (str, optional): Format of the density data (e.g., ‘VASP’, ‘GULP’
 <p>b (np.ndarray): 1D array representing vector b.</p>
 <p>c (np.ndarray): 1D array representing vector c.</p>
 </dd>
-<dt>Returns:</dt><dd><p>float: Volume of the parallelepiped defined by the three vectors.</p>
+<dt>Returns:</dt><dd><p>float: volume of the parallelepiped defined by the three vectors.</p>
 </dd>
 <dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">volume</span> <span class="o">=</span> <span class="n">get_volume</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Volume of parallelepiped:&quot;</span><span class="p">,</span> <span class="n">volume</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;volume of parallelepiped:&quot;</span><span class="p">,</span> <span class="n">volume</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd>
@@ -589,7 +589,7 @@ Format (str, optional): Format of the density data (e.g., ‘VASP’, ‘GULP’
 <dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">vector</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">magnitude</span> <span class="o">=</span> <span class="mi">5</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">travelling_avg</span> <span class="o">=</span> <span class="n">travelling_volume_average</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">cube</span><span class="p">,</span> <span class="n">origin</span><span class="p">,</span> <span class="n">vector</span><span class="p">,</span> <span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="n">nz</span><span class="p">,</span> <span class="n">magnitude</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Travelling Volume Average:&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Travelling volume Average:&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">travelling_avg</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -618,7 +618,7 @@ Format (str, optional): Format of the density data (e.g., ‘VASP’, ‘GULP’
 <span class="gp">&gt;&gt;&gt; </span><span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="n">nz</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">travelled</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">avg</span><span class="p">,</span> <span class="n">variance</span> <span class="o">=</span> <span class="n">volume_average</span><span class="p">(</span><span class="n">origin</span><span class="p">,</span> <span class="n">cube</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="n">nz</span><span class="p">,</span> <span class="n">travelled</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Volume Average:&quot;</span><span class="p">,</span> <span class="n">avg</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;volume Average:&quot;</span><span class="p">,</span> <span class="n">avg</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Variance:&quot;</span><span class="p">,</span> <span class="n">variance</span><span class="p">)</span>
 </pre></div>
 </div>
