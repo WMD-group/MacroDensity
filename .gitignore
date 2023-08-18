@@ -155,3 +155,7 @@ docs/_build/*
 docs/_build/doctrees/*
 docs/_build/html/*
 docs/_build/_sources/*
+
+# Misc
+tests/__pycache__/*
+macrodensity/__pycache__/*
