@@ -271,10 +271,9 @@ class TestConvenienceFunctions(unittest.TestCase):
         Locpot = pkg_resources.resource_filename(
                     __name__, path_join('../tests', 'LOCPOT.test'))
         out = md.plot_planar_average(lattice_vector=5.41,input_file=Locpot)
-        res = out[0]
-        self.assertAlmostEqual(res[0][0],0.14555565)
-        self.assertAlmostEqual(res[0][10],4.61454537)
-        self.assertAlmostEqual(res[0][-1],-0.87290696)
+        self.assertAlmostEqual(out[0][0],0.14555565)
+        self.assertAlmostEqual(out[0][10],4.61454537)
+        self.assertAlmostEqual(out[0][-1],-0.87290696)
         self.addCleanup(os.remove, 'PlanarAverage.csv')
         self.addCleanup(os.remove, 'PlanarAverage.png')
 
@@ -294,10 +293,9 @@ class TestConvenienceFunctions(unittest.TestCase):
         gulpcar = pkg_resources.resource_filename(
                     __name__, path_join('../tests', 'gulp.out'))
         out = md.plot_planar_average(lattice_vector=3.0,input_file=gulpcar)
-        res = out[0]
-        self.assertEqual(res[0][0],-23.16678352)
-        self.assertAlmostEqual(res[0][10],-1.59508152)
-        self.assertEqual(res[0][-1],-23.16678352)
+        self.assertEqual(out[0][0],-23.16678352)
+        self.assertAlmostEqual(out[0][10],-1.59508152)
+        self.assertEqual(out[0][-1],-23.16678352)
         self.addCleanup(os.remove, 'GulpPotential.csv')
         self.addCleanup(os.remove, 'GulpPotential.png')
 
