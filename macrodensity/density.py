@@ -449,8 +449,7 @@ def density_2_grid(
                 print("Total Electrons:", total_electrons)
     """
     l = 0
-    Potential_grid = np.zeros(shape=(nx,ny,nz))
-    total_electrons = 0
+    Potential_grid = np.zeros(shape=(nx, ny, nz))
     
     if Format.lower() == "gulp":
         for k in range(nx):
@@ -461,6 +460,7 @@ def density_2_grid(
         return Potential_grid
     
     elif Format.lower() == "vasp":
+        total_electrons = 0
         for k in range(nz):
             for j in range(ny):
                 for i in range(nx):

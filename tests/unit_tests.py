@@ -299,9 +299,9 @@ class TestConvenienceFunctions(unittest.TestCase):
             output_file="GulpPotential.csv",
             img_file='GulpPotential.png',
         )
-        self.assertEqual(out[0][0][0], -23.16678352)
-        self.assertAlmostEqual(out[0][0][10], -1.59508152)
-        self.assertEqual(out[0][0][-1], -23.16678352)
+        self.assertEqual(out[0][0],-23.16678352)
+        self.assertAlmostEqual(out[0][10],-1.59508152)
+        self.assertEqual(out[0][-1],-23.16678352)
         self.addCleanup(os.remove, 'GulpPotential.csv')
         self.addCleanup(os.remove, 'GulpPotential.png')
 

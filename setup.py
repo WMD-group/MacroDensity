@@ -30,7 +30,7 @@ if __name__ == "__main__":
         license='MIT License',
         packages=['macrodensity'],
         zip_safe=False,
-        install_requires=['scipy', 'numpy', 'spglib', 'ase'],
+        install_requires=['scipy', 'numpy', 'spglib', 'ase', "pandas"],
         classifiers=['Programming Language :: Python',
                      'Development Status :: 5 - Production/Stable',
                      'Intended Audience :: Science/Research',
