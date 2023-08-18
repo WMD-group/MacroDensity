@@ -422,7 +422,7 @@ def plot_planar_average(lattice_vector: float,input_file: str=' ',output_file: s
     
     elif 'vasp' in input_file or 'LOCPOT' in input_file:
         output_file = 'PlanarAverage.csv'
-        img_file = 'PLanarAverage.png'
+        img_file = 'PlanarAverage.png'
         pot, NGX, NGY, NGZ, Lattice = read_vasp_density(input_file)
         vector_a, vector_b, vector_c, av, bv, cv = matrix_2_abc(Lattice)
         resolution_x = vector_a/NGX
