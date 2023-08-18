@@ -331,7 +331,13 @@ def plot_on_site_potential(species: str,sample_cube: list,potential_file: str='L
     return potentials_list, fig 
 
 
-def plot_planar_average(lattice_vector: float,input_file: str=' ',output_file: str=' ',img_file: str=' ',new_resolution: int = 3000) -> tuple:
+def plot_planar_average(
+    lattice_vector: float,
+    input_file: str='LOCPOT', # VASP potential file by default
+    output_file: str='planar_average.csv',
+    img_file: str='planar_average.png',
+    new_resolution: int = 3000
+) -> tuple:
     """
     Calculate planar and macroscopic averages of potential data from different filetypes like gulp, cube, and vasp.
     
@@ -391,7 +397,11 @@ def plot_planar_average(lattice_vector: float,input_file: str=' ',output_file: s
         resolution_x = vector_a/NGX
         resolution_y = vector_b/NGY
         resolution_z = vector_c/NGZ
-        grid_pot = density_2_grid(pot, NGX, NGY, NGZ)
+        # TODO: Update Format parameter in density_2_grid to be consistent with
+        # code naming in other functions (e.g. if here we use GULP to refer to GULP, 
+        # should do the same in other functions)
+        # Also use lower case for format variable following python conventions (eg Format -> format)
+        grid_pot = density_2_grid(pot, NGX, NGY, NGZ, Format="GULP")
 
         ## POTENTIAL PLANAR AVERAGE
         planar = planar_average(grid_pot, NGX, NGY, NGZ)
@@ -414,10 +424,15 @@ def plot_planar_average(lattice_vector: float,input_file: str=' ',output_file: s
         plt.savefig(img_file)
 
         ## SAVING
-        df = pd.DataFrame.from_dict({'Planar':planar,'Macroscopic':macro,'Interpolated':interpolated_potential},orient='index')
+        df = pd.DataFrame.from_dict(
+            {'Planar':planar, 'Macroscopic':macro,'Interpolated':interpolated_potential},orient='index'
+        )
         df = df.transpose()
         df.to_csv(output_file)
 
+        # TODO: Dont return planar, macro or interpolated_potential, 
+        # since they are already saved to df/csv file!
+        # So best to return df, fig
         return planar, macro, interpolated_potential, fig
     
     elif 'vasp' in input_file or 'LOCPOT' in input_file:
