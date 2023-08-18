@@ -59,7 +59,7 @@ def bulk_interstitial_alignment(
     resolution_x = vector_a/NGX
     resolution_y = vector_b/NGY
     resolution_z = vector_c/NGZ
-    grid_pot, electrons = density_2_grid(vasp_pot,NGX,NGY,NGZ)
+    grid_pot, electrons = density_2_grid(vasp_pot,NGX,NGY,NGZ,Format="VASP")
 
     ## GETTING BAND EDGES
     band_extrema = get_band_extrema(outcar)
@@ -145,7 +145,7 @@ def moving_cube(
     resolution_x = vector_a/NGX
     resolution_y = vector_b/NGY
     resolution_z = vector_c/NGZ
-    grid_pot, electrons = density_2_grid(vasp_pot,NGX,NGY,NGZ)
+    grid_pot, electrons = density_2_grid(vasp_pot,NGX,NGY,NGZ,Format="VASP")
     cubes_potential = travelling_volume_average(grid_pot,cube,origin,vector,NGX,NGY,NGZ,magnitude)
     abscissa = vector_2_abscissa(vector,magnitude,resolution_x,resolution_y,resolution_z)
 
@@ -200,7 +200,7 @@ def spherical_average(
     resolution_x = vector_a/NGX
     resolution_y = vector_b/NGY
     resolution_z = vector_c/NGZ
-    grid_pot, electrons = density_2_grid(vasp_pot,NGX,NGY,NGZ)
+    grid_pot, electrons = density_2_grid(vasp_pot,NGX,NGY,NGZ,Format="VASP")
 
     cube = cube_size
     origin = cube_origin

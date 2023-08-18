@@ -190,11 +190,10 @@ def plot_active_space(cube_size: list,cube_origin: list,tolerance: float=1E-4,in
     resolution_x = vector_a/NGX
     resolution_y = vector_b/NGY
     resolution_z = vector_c/NGZ
-    grid_pot, electrons = density_2_grid(vasp_pot,NGX,NGY,NGZ)
+    grid_pot, electrons = density_2_grid(vasp_pot, NGX, NGY, NGZ, Format="VASP")
     cutoff_variance = tolerance
     #grad_x,grad_y,grad_z = np.gradient(grid_pot[:,:,:],resolution_x,resolution_y,resolution_z)
     #travelled = [0,0,0]
-
 
     ## DISTNGUISHING VACUUM FROM NON_VACUUM
     vacuum = []
@@ -515,7 +514,7 @@ def plot_field_at_point(a_point: list,b_point: list,c_point: list,input_file: st
     resolution_x = vector_a/NGX
     resolution_y = vector_b/NGY
     resolution_z = vector_c/NGZ
-    grid_pot, electrons = density_2_grid(vasp_pot,NGX,NGY,NGZ)
+    grid_pot, electrons = density_2_grid(vasp_pot,NGX,NGY,NGZ,Format="VASP")
     ## Get the gradiens (Field), if required.
     ## Comment out if not required, due to compuational expense.
     if grad_calc == True:
@@ -611,7 +610,7 @@ def plot_plane_field(a_point: list,b_point: list,c_point: list,input_file: str='
     resolution_x = vector_a/NGX
     resolution_y = vector_b/NGY
     resolution_z = vector_c/NGZ
-    grid_pot, electrons = density_2_grid(vasp_pot,NGX,NGY,NGZ)
+    grid_pot, electrons = density_2_grid(vasp_pot,NGX,NGY,NGZ,Format="VASP")
     ## Get the gradiens (Field), if required.
     ## Comment out if not required, due to compuational expense.
     grad_x,grad_y,grad_z = np.gradient(grid_pot[:,:,:],resolution_x,resolution_y,resolution_z)
@@ -673,7 +672,7 @@ def plot_active_plane(cube_size: list,cube_origin: list,tolerance: float=1E-4,in
     resolution_x = vector_a/NGX
     resolution_y = vector_b/NGY
     resolution_z = vector_c/NGZ
-    grid_pot, electrons = density_2_grid(vasp_pot,NGX,NGY,NGZ)
+    grid_pot, electrons = density_2_grid(vasp_pot,NGX,NGY,NGZ,Format="VASP")
 
     potential_variance = np.var(grid_pot)
     cutoff_variance = tolerance
