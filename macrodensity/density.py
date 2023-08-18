@@ -421,7 +421,7 @@ def density_2_grid(Density: np.ndarray, nx: int, ny: int, nz: int, Charge: bool=
         nz (int): Number of grid points along the z-axis.
         Charge (bool, optional): If True, convert charge density to the number of electrons. Default is False.
         Volume (float, optional): Volume of the grid cell. Used to convert charge density to electrons. Default is 1.
-        Format (str, optional): Format of the density data (e.g., 'VASP', 'GULP'). Default is 'GULP'.
+        Format (str, optional): Format of the density data (e.g., 'VASP', 'GULP'). Default is 'VASP'.
 
     Returns:
         tuple: A tuple containing:
