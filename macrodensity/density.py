@@ -384,7 +384,7 @@ def density_2_grid(
     nz: int, 
     charge: bool=False, 
     volume: float=1, 
-    format: str = 'VASP'
+    Format: str = 'VASP'
 ) -> tuple:
     """
     Convert density data to a 3D grid.
@@ -396,7 +396,7 @@ def density_2_grid(
         nz (int): Number of grid points along the z-axis.
         charge (bool, optional): If True, convert charge density to the number of electrons. Default is False.
         volume (float, optional): volume of the grid cell. Used to convert charge density to electrons. Default is 1.
-        format (str, optional): format of the density data (e.g., 'VASP', 'GULP'). Default is 'VASP'.
+        Format (str, optional): Format of the density data (e.g., 'VASP', 'GULP'). Default is 'VASP'.
 
     Returns:
         tuple: A tuple containing:
@@ -417,7 +417,7 @@ def density_2_grid(
     l = 0
     Potential_grid = np.zeros(shape=(nx, ny, nz))
     
-    if format.lower() == "gulp":
+    if Format.lower() == "gulp":
         for k in range(nx):
             for j in range(ny):
                 for i in range(nz):
@@ -425,7 +425,7 @@ def density_2_grid(
                     l = l + 1
         return Potential_grid
     
-    elif format.lower() == "vasp":
+    elif Format.lower() == "vasp":
         total_electrons = 0
         for k in range(nz):
             for j in range(ny):
@@ -444,7 +444,7 @@ def density_2_grid(
         return Potential_grid, total_electrons
     
     else:
-        raise ValueError("Invalid format. format must be 'VASP' or 'GULP'.")
+        raise ValueError("Invalid Format. Format must be 'VASP' or 'GULP'.")
 
 
 def inverse_participation_ratio(density: np.ndarray) -> float:

@@ -41,7 +41,7 @@ def energy_band_alignment_diagram(energies: list, materials:list, limit:float=8.
     Plot an energy band alignment diagram for a list of materials.
 
     Parameters:
-        energies (list): A list of tuples containing the ionization potential (IP) and electron affinity (EA) of each material. The format is [(IP_1, EA_1), ...].
+        energies (list): A list of tuples containing the ionization potential (IP) and electron affinity (EA) of each material. The Format is [(IP_1, EA_1), ...].
 
         materials (list): A list of material names corresponding to each set of energies.
 
@@ -57,7 +57,7 @@ def energy_band_alignment_diagram(energies: list, materials:list, limit:float=8.
 
         outfile (str, optional): The base name for the output file (both .eps and .png files will be saved). Default is 'BandAlignment'.
 
-        references (list, optional): A list of reference points (as tuples) to be shown as dashed lines on the plot. Each tuple should be in the format (reference_value, label). Default is an empty list.
+        references (list, optional): A list of reference points (as tuples) to be shown as dashed lines on the plot. Each tuple should be in the Format (reference_value, label). Default is an empty list.
 
         edge (None or str, optional): The edge color for the bars. If None, there will be no edge color. Default is None.
 
@@ -195,7 +195,7 @@ def plot_active_space(cube_size: list,
     resolution_x = vector_a/NGX
     resolution_y = vector_b/NGY
     resolution_z = vector_c/NGZ
-    grid_pot, electrons = density_2_grid(vasp_pot, NGX, NGY, NGZ, format="VASP")
+    grid_pot, electrons = density_2_grid(vasp_pot, NGX, NGY, NGZ, Format="VASP")
     cutoff_variance = tolerance
     #grad_x,grad_y,grad_z = np.gradient(grid_pot[:,:,:],resolution_x,resolution_y,resolution_z)
     #travelled = [0,0,0]
@@ -304,7 +304,7 @@ def plot_on_site_potential(
     resolution_x = vector_a/NGX
     resolution_y = vector_b/NGY
     resolution_z = vector_c/NGZ
-    grid_pot, electrons = density_2_grid(vasp_pot, NGX, NGY, NGZ, format="VASP")
+    grid_pot, electrons = density_2_grid(vasp_pot, NGX, NGY, NGZ, Format="VASP")
     grad_x, grad_y, grad_z = np.gradient(grid_pot[:,:,:],resolution_x,resolution_y,resolution_z)
     coords = vasp.read_vasp(coordinate_file)
     scaled_coords = coords.get_scaled_positions()
@@ -409,11 +409,11 @@ def plot_planar_average(
         resolution_x = vector_a/NGX
         resolution_y = vector_b/NGY
         resolution_z = vector_c/NGZ
-        # TODO: Update format parameter in density_2_grid to be consistent with
+        # TODO: Update Format parameter in density_2_grid to be consistent with
         # code naming in other functions (e.g. if here we use GULP to refer to GULP, 
         # should do the same in other functions)
-        # Also use lower case for format variable following python conventions (eg format -> format)
-        grid_pot = density_2_grid(pot, NGX, NGY, NGZ, format="GULP")
+        # Also use lower case for Format variable following python conventions (eg Format -> Format)
+        grid_pot = density_2_grid(pot, NGX, NGY, NGZ, Format="GULP")
 
         ## POTENTIAL PLANAR AVERAGE
         planar = planar_average(grid_pot, NGX, NGY, NGZ)
@@ -455,7 +455,7 @@ def plot_planar_average(
         resolution_x = vector_a/NGX
         resolution_y = vector_b/NGY
         resolution_z = vector_c/NGZ
-        grid_pot, electrons = density_2_grid(pot, NGX, NGY, NGZ, format="VASP")
+        grid_pot, electrons = density_2_grid(pot, NGX, NGY, NGZ, Format="VASP")
 
         ## PLANAR AVERAGE
         planar = planar_average(grid_pot,NGX,NGY,NGZ)
@@ -524,7 +524,7 @@ def plot_field_at_point(a_point: list,
     resolution_x = vector_a/NGX
     resolution_y = vector_b/NGY
     resolution_z = vector_c/NGZ
-    grid_pot, electrons = density_2_grid(vasp_pot,NGX,NGY,NGZ,format="VASP")
+    grid_pot, electrons = density_2_grid(vasp_pot,NGX,NGY,NGZ,Format="VASP")
     ## Get the gradiens (Field), if required.
     ## Comment out if not required, due to compuational expense.
     if grad_calc == True:
@@ -623,7 +623,7 @@ def plot_plane_field(a_point: list,
     resolution_x = vector_a/NGX
     resolution_y = vector_b/NGY
     resolution_z = vector_c/NGZ
-    grid_pot, electrons = density_2_grid(vasp_pot,NGX,NGY,NGZ,format="VASP")
+    grid_pot, electrons = density_2_grid(vasp_pot,NGX,NGY,NGZ,Format="VASP")
     ## Get the gradiens (Field), if required.
     ## Comment out if not required, due to compuational expense.
     grad_x,grad_y,grad_z = np.gradient(grid_pot[:,:,:],resolution_x,resolution_y,resolution_z)
@@ -689,7 +689,7 @@ def plot_active_plane(cube_size: list,
     resolution_x = vector_a/NGX
     resolution_y = vector_b/NGY
     resolution_z = vector_c/NGZ
-    grid_pot, electrons = density_2_grid(vasp_pot,NGX,NGY,NGZ,format="VASP")
+    grid_pot, electrons = density_2_grid(vasp_pot,NGX,NGY,NGZ,Format="VASP")
 
     potential_variance = np.var(grid_pot)
     cutoff_variance = tolerance
