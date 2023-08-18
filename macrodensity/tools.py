@@ -52,8 +52,8 @@ def bulk_interstitial_alignment(
     """ 
     
     ## GETTING POTENTIAL
-    vasp_pot, NGX, NGY, NGZ, Lattice = read_vasp_density(locpot,quiet=True)
-    vector_a,vector_b,vector_c,av,bv,cv = matrix_2_abc(Lattice)
+    vasp_pot, NGX, NGY, NGZ, lattice = read_vasp_density(locpot,quiet=True)
+    vector_a,vector_b,vector_c,av,bv,cv = matrix_2_abc(lattice)
     resolution_x = vector_a/NGX
     resolution_y = vector_b/NGY
     resolution_z = vector_c/NGZ
@@ -138,8 +138,8 @@ def moving_cube(
         >>> potential_values = moving_cube(cube_size, vector, origin, magnitude, input_file, output_file, img_file)
     '''
     ## GETTING POTENTIAL
-    vasp_pot, NGX, NGY, NGZ, Lattice = read_vasp_density(input_file)
-    vector_a,vector_b,vector_c,av,bv,cv = matrix_2_abc(Lattice)
+    vasp_pot, NGX, NGY, NGZ, lattice = read_vasp_density(input_file)
+    vector_a,vector_b,vector_c,av,bv,cv = matrix_2_abc(lattice)
     resolution_x = vector_a/NGX
     resolution_y = vector_b/NGY
     resolution_z = vector_c/NGZ
@@ -193,8 +193,8 @@ def spherical_average(
     '''
     
     ## GETTING POTENTIAL
-    vasp_pot, NGX, NGY, NGZ, Lattice = read_vasp_density(input_file)
-    vector_a,vector_b,vector_c,av,bv,cv = matrix_2_abc(Lattice)
+    vasp_pot, NGX, NGY, NGZ, lattice = read_vasp_density(input_file)
+    vector_a,vector_b,vector_c,av,bv,cv = matrix_2_abc(lattice)
     resolution_x = vector_a/NGX
     resolution_y = vector_b/NGY
     resolution_z = vector_c/NGZ

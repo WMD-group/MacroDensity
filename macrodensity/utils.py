@@ -5,32 +5,32 @@ from functools import reduce
 import numpy as np
 
 
-def matrix_2_abc(Lattice: np.ndarray) -> (float, float, float, float, float, float):
+def matrix_2_abc(lattice: np.ndarray) -> (float, float, float, float, float, float):
     """
     Extract lattice parameters and vectors from a 3x3 matrix representing a lattice.
 
     Parameters:
-        Lattice (np.ndarray): 3x3 matrix representing the lattice.
+        lattice (np.ndarray): 3x3 matrix representing the lattice.
 
     Returns:
         tuple: A tuple containing the lattice parameters a, b, c and lattice vectors a_vec, b_vec, c_vec.
 
     Example:
-        >>> Lattice = np.array([[1, 0, 0], [0, 2, 0], [0, 0, 3]])
-        >>> a, b, c, a_vec, b_vec, c_vec = matrix_2_abc(Lattice)
-        >>> print("Lattice parameters:", a, b, c)
-        >>> print("Lattice vectors:")
+        >>> lattice = np.array([[1, 0, 0], [0, 2, 0], [0, 0, 3]])
+        >>> a, b, c, a_vec, b_vec, c_vec = matrix_2_abc(lattice)
+        >>> print("lattice parameters:", a, b, c)
+        >>> print("lattice vectors:")
         >>> print(a_vec)
         >>> print(b_vec)
         >>> print(c_vec)
     """
-    a = np.sqrt(Lattice[0,0]**2+Lattice[0,1]**2+Lattice[0,2]**2)
-    b = np.sqrt(Lattice[1,0]**2+Lattice[1,1]**2+Lattice[1,2]**2)
-    c = np.sqrt(Lattice[2,0]**2+Lattice[2,1]**2+Lattice[2,2]**2)
+    a = np.sqrt(lattice[0,0]**2+lattice[0,1]**2+lattice[0,2]**2)
+    b = np.sqrt(lattice[1,0]**2+lattice[1,1]**2+lattice[1,2]**2)
+    c = np.sqrt(lattice[2,0]**2+lattice[2,1]**2+lattice[2,2]**2)
 
-    a_vec = Lattice[0,:]
-    b_vec = Lattice[1,:]
-    c_vec = Lattice[2,:]
+    a_vec = lattice[0,:]
+    b_vec = lattice[1,:]
+    c_vec = lattice[2,:]
 
     return a,b,c,a_vec,b_vec,c_vec
 

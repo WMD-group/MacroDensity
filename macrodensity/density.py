@@ -81,13 +81,13 @@ def element_vol(vol: float, nx: int, ny: int, nz: int) -> float:
         nz (int): Number of elements along the z-axis.
 
     Returns:
-        float: Volume of each individual element in the grid.
+        float: volume of each individual element in the grid.
 
     Example:
         >>> volume = 10.0
         >>> nx, ny, nz = 5, 5, 5
         >>> element_volume = element_vol(volume, nx, ny, nz)
-        >>> print("Volume of Each Element:", element_volume)
+        >>> print("volume of Each Element:", element_volume)
 
     """
     number_of_elements = nx * ny * nz
@@ -205,7 +205,7 @@ def volume_average(origin: tuple, cube: tuple, grid: np.ndarray, nx: int, ny: in
         >>> nx, ny, nz = 10, 10, 10
         >>> travelled = [1, 2, 3]
         >>> avg, variance = volume_average(origin, cube, grid, nx, ny, nz, travelled)
-        >>> print("Volume Average:", avg)
+        >>> print("volume Average:", avg)
         >>> print("Variance:", variance)
 
     """
@@ -259,7 +259,7 @@ def travelling_volume_average(grid: np.ndarray, cube: tuple, origin: tuple, vect
         >>> vector = (0.1, 0.2, 0.3)
         >>> magnitude = 5
         >>> travelling_avg = travelling_volume_average(grid, cube, origin, vector, nx, ny, nz, magnitude)
-        >>> print("Travelling Volume Average:")
+        >>> print("Travelling volume Average:")
         >>> print(travelling_avg)
     """
    plotting_average = np.zeros(shape=(magnitude))
@@ -332,14 +332,14 @@ def get_volume(a: np.ndarray,b: np.ndarray,c: np.ndarray) -> float:
         c (np.ndarray): 1D array representing vector c.
 
     Returns:
-        float: Volume of the parallelepiped defined by the three vectors.
+        float: volume of the parallelepiped defined by the three vectors.
 
     Example:
         >>> a = np.array([1, 0, 0])
         >>> b = np.array([0, 1, 0])
         >>> c = np.array([0, 0, 1])
         >>> volume = get_volume(a, b, c)
-        >>> print("Volume of parallelepiped:", volume)
+        >>> print("volume of parallelepiped:", volume)
     """
     volume = np.dot(a,np.cross(b,c))
 
@@ -378,73 +378,73 @@ def numbers_2_grid(a: tuple,NGX: int,NGY: int,NGZ: int) -> np.ndarray:
 
 # TODO: Update variables here to be lower case following python convention
 def density_2_grid(
-    Density: np.ndarray, 
+    density: np.ndarray, 
     nx: int, 
     ny: int, 
     nz: int, 
-    Charge: bool=False, 
-    Volume: float=1, 
-    Format: str = 'VASP'
+    charge: bool=False, 
+    volume: float=1, 
+    format: str = 'VASP'
 ) -> tuple:
     """
     Convert density data to a 3D grid.
 
     Parameters:
-        Density (np.ndarray): 1D array representing the density data.
+        density (np.ndarray): 1D array representing the density data.
         nx (int): Number of grid points along the x-axis.
         ny (int): Number of grid points along the y-axis.
         nz (int): Number of grid points along the z-axis.
-        Charge (bool, optional): If True, convert charge density to the number of electrons. Default is False.
-        Volume (float, optional): Volume of the grid cell. Used to convert charge density to electrons. Default is 1.
-        Format (str, optional): Format of the density data (e.g., 'VASP', 'GULP'). Default is 'VASP'.
+        charge (bool, optional): If True, convert charge density to the number of electrons. Default is False.
+        volume (float, optional): volume of the grid cell. Used to convert charge density to electrons. Default is 1.
+        format (str, optional): format of the density data (e.g., 'VASP', 'GULP'). Default is 'VASP'.
 
     Returns:
         tuple: A tuple containing:
             - np.ndarray: 3D array representing the potential grid.
-            - float: Total number of electrons in the grid (if Charge is True).
+            - float: Total number of electrons in the grid (if charge is True).
 
     Example:
-        >>> Density = np.random.rand(NGX * NGY * NGZ)  # Replace this with actual density data
+        >>> density = np.random.rand(NGX * NGY * NGZ)  # Replace this with actual density data
         >>> nx, ny, nz = NGX, NGY, NGZ
-        >>> Charge = False  # Set to True if Density represents charge density
-        >>> Volume = 1.0  # Volume of the grid cell (if Charge is True)
-        >>> potential_grid, total_electrons = density_2_grid(Density, nx, ny, nz, Charge, Volume)
+        >>> charge = False  # Set to True if density represents charge density
+        >>> volume = 1.0  # volume of the grid cell (if charge is True)
+        >>> potential_grid, total_electrons = density_2_grid(density, nx, ny, nz, charge, volume)
         >>> print("Potential Grid:")
         >>> print(potential_grid)
-        >>> if Charge:
+        >>> if charge:
                 print("Total Electrons:", total_electrons)
     """
     l = 0
     Potential_grid = np.zeros(shape=(nx, ny, nz))
     
-    if Format.lower() == "gulp":
+    if format.lower() == "gulp":
         for k in range(nx):
             for j in range(ny):
                 for i in range(nz):
-                    Potential_grid[k,j,i] = Density[l]
+                    Potential_grid[k,j,i] = density[l]
                     l = l + 1
         return Potential_grid
     
-    elif Format.lower() == "vasp":
+    elif format.lower() == "vasp":
         total_electrons = 0
         for k in range(nz):
             for j in range(ny):
                 for i in range(nx):
-                    Potential_grid[i,j,k] = Density[l]/Volume
-                    if Charge == True:
+                    Potential_grid[i,j,k] = density[l]/volume
+                    if charge == True:
                         # Convert the charge density to a number of electrons
-                        point_volume = Volume / (nx*ny*nz)
+                        point_volume = volume / (nx*ny*nz)
                         Potential_grid[i,j,k] = Potential_grid[i,j,k]*point_volume
-                    total_electrons = total_electrons + Density[l]
+                    total_electrons = total_electrons + density[l]
                     l = l + 1
                     
         total_electrons = total_electrons / (nx * ny * nz)
-        if Charge == True:
+        if charge == True:
             print("Total electrons: ", total_electrons)    
         return Potential_grid, total_electrons
     
     else:
-        raise ValueError("Invalid format. Format must be 'VASP' or 'GULP'.")
+        raise ValueError("Invalid format. format must be 'VASP' or 'GULP'.")
 
 
 def inverse_participation_ratio(density: np.ndarray) -> float:

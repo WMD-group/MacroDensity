@@ -301,9 +301,9 @@ def read_vasp_parchg(FILE: str,
         >>> if isinstance(density, list):
                 print("Spin-polarized Partial Densities:")
                 for i, spin_density in enumerate(density):
-                    print(f"Spin {i+1} Density Data:", spin_density)
+                    print(f"Spin {i+1} density Data:", spin_density)
         >>> else:
-                print("Total Density Data:", density)
+                print("Total density Data:", density)
         >>> print("Number of Grid Points (NGX, NGY, NGZ):", NGX, NGY, NGZ)
         >>> print("Lattice Vectors:")
         >>> print(lattice)
