@@ -293,9 +293,9 @@ class TestConvenienceFunctions(unittest.TestCase):
         gulpcar = pkg_resources.resource_filename(
                     __name__, path_join('../tests', 'gulp.out'))
         out = md.plot_planar_average(lattice_vector=3.0,input_file=gulpcar)
-        self.assertEqual(out[0][0],-23.16678352)
-        self.assertAlmostEqual(out[0][10],-1.59508152)
-        self.assertEqual(out[0][-1],-23.16678352)
+        self.assertEqual(out[0][0][0],-23.16678352)
+        self.assertAlmostEqual(out[0][0][10],-1.59508152)
+        self.assertEqual(out[0][0][-1],-23.16678352)
         self.addCleanup(os.remove, 'GulpPotential.csv')
         self.addCleanup(os.remove, 'GulpPotential.png')
 
