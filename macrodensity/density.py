@@ -96,12 +96,12 @@ def element_vol(vol: float, nx: int, ny: int, nz: int) -> float:
     return ele_vol
 
 
-def one_2_2d(Array: np.ndarray, resolution: float, vector: np.ndarray) -> np.ndarray:
+def one_2_2d(array: np.ndarray, resolution: float, vector: np.ndarray) -> np.ndarray:
     """
     Transform a 1D array to a 2D array with abscissa values based on the given resolution and vector.
 
     Parameters:
-        Array (np.ndarray): 1D array to be transformed.
+        array (np.ndarray): 1D array to be transformed.
 
         resolution (float): Spacing between abscissa values.
 
@@ -119,11 +119,11 @@ def one_2_2d(Array: np.ndarray, resolution: float, vector: np.ndarray) -> np.nda
         >>> print(transformed_array)
     """
     length = np.sqrt(vector.dot(vector))
-    New_array = np.zeros(shape=(len(Array) - 1, 2))
-    resolution = length / len(Array)
-    for i in range(len(Array) - 1):
-        New_array[i,0] = i*resolution
-        New_array[i,1] = Array[i]
+    new_array = np.zeros(shape=(len(array) - 1, 2))
+    resolution = length / len(array)
+    for i in range(len(array) - 1):
+        new_array[i,0] = i*resolution
+        new_array[i,1] = array[i]
 
     return New_array
 

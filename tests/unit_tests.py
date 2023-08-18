@@ -1,11 +1,14 @@
 from __future__ import print_function
-import unittest
-import sys
+
 import os
-import numpy as np
-import macrodensity as md
-import pkg_resources
+import sys
+import unittest
 from os.path import join as path_join
+
+import numpy as np
+import pkg_resources
+
+import macrodensity as md
 
 try:
     import pandas

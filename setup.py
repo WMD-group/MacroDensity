@@ -7,9 +7,10 @@ __maintainer__ = "Keith T. Butler"
 __email__ = "k.t.butler@ucl.ac.uk"
 __date__ = "17 July 2023"
 
-from setuptools import setup
 import os
 import unittest
+
+from setuptools import setup
 
 module_dir = os.path.dirname(os.path.abspath(__file__))
 

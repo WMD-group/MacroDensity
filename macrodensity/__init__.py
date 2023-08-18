@@ -8,7 +8,7 @@ import numpy as np
 from scipy import interpolate
 
 from macrodensity.density import *
-from macrodensity.tools import *
-from macrodensity.plotting import *
 from macrodensity.io import *
+from macrodensity.plotting import *
+from macrodensity.tools import *
 from macrodensity.utils import *

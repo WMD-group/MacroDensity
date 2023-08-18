@@ -3,10 +3,9 @@ Module containing functions to read output files
 from VASP, GULP and FHI-AIMS.
 """
 
+import numpy as np
 import math
 from itertools import chain
-
-import numpy as np
 
 
 def read_gulp_potential(gulpfile: str='gulp.out') -> tuple:
@@ -27,7 +26,7 @@ def read_gulp_potential(gulpfile: str='gulp.out') -> tuple:
     Example:
         >>> gulpfile = 'path/to/gulp.out'
         >>> potential, NGX, NGY, NGZ, lattice = read_gulp_potential(gulpfile)
-        >>> print("Electrostatic Potential Data:", potential)
+        >>> print("Electrostatic potential Data:", potential)
         >>> print("Number of Grid Points (NGX, NGY, NGZ):", NGX, NGY, NGZ)
         >>> print("Lattice Vectors:")
         >>> print(lattice)
@@ -91,7 +90,13 @@ def read_cube_density(FILE: str) -> np.ndarray:
             natms = inp[0]  
             
 
-def _read_partial_density(FILE: str, use_pandas: bool, num_atoms: int, NGX: int, NGY: int, NGZ: int, spin: int=0) -> np.ndarray:
+def _read_partial_density(FILE: str, 
+                          use_pandas: bool, 
+                          num_atoms: int, 
+                          NGX: int, 
+                          NGY: int, 
+                          NGZ: int, 
+                          spin: int=0) -> np.ndarray:
     """
     This function is used internally within the read_casp_parchg, reading partial density data from a VASP-PARCHG file.
 
@@ -191,7 +196,7 @@ def _read_vasp_density_fromlines(lines: list) -> tuple:
     lattice = np.zeros(shape=(3,3))
     upper_limit, num_species, scale_factor = 0, 0, 0
     num_atoms = 1 # First test needs to fail until headers have been read
-    Potential, Coordinates = np.zeros(1), np.zeros(1)
+    potential, coordinates = np.zeros(1), np.zeros(1)
 
     for line in lines:
         inp = line.split()
@@ -202,7 +207,7 @@ def _read_vasp_density_fromlines(lines: list) -> tuple:
             i += 1
         if i > (num_atoms + 9) and i < (num_atoms + 10 + upper_limit):
             for m, val in enumerate(inp):
-                Potential[k + m] = val
+                potential[k + m] = val
             k = k + 5
             if math.fmod(k, 100000) == 0:
                 print("Reading potential at point", k)
@@ -218,25 +223,25 @@ def _read_vasp_density_fromlines(lines: list) -> tuple:
             num_atoms = sum(int(x) for x in num_type)
         elif i == 8:
             coord_type = inp
-            Coordinates = np.zeros(shape=(num_atoms,3))
+            coordinates = np.zeros(shape=(num_atoms,3))
         elif i >= 9 and i <= num_atoms + 8:
-            Coordinates[i-9,0] = float(inp[0])
-            Coordinates[i-9,1] = float(inp[1])
-            Coordinates[i-9,2] = float(inp[2])
+            coordinates[i-9,0] = float(inp[0])
+            coordinates[i-9,1] = float(inp[1])
+            coordinates[i-9,2] = float(inp[2])
         elif i == num_atoms + 9:
             NGX = int(inp[0])
             NGY = int(inp[1])
             NGZ = int(inp[2])
-            Potential = np.zeros(shape=(NGX * NGY * NGZ))
+            potential = np.zeros(shape=(NGX * NGY * NGZ))
             # Read in the potential data
             upper_limit = (int(NGX * NGY * NGZ / 5) +
                            np.mod(NGX * NGY * NGZ, 5))
 
-    print("Average of the potential = ", np.average(Potential))
+    print("Average of the potential = ", np.average(potential))
 
     lattice = lattice * scale_factor
 
-    return Potential, NGX, NGY, NGZ, lattice
+    return potential, NGX, NGY, NGZ, lattice
 
 
 def read_vasp_density_classic(FILE: str) -> tuple:
@@ -256,7 +261,7 @@ def read_vasp_density_classic(FILE: str) -> tuple:
     Example:
         >>> FILE = "path/to/classic-VASP-density-file"
         >>> potential, NGX, NGY, NGZ, lattice = read_vasp_density_classic(FILE)
-        >>> print("Potential Data:", potential)
+        >>> print("potential Data:", potential)
         >>> print("Number of Grid Points (NGX, NGY, NGZ):", NGX, NGY, NGZ)
         >>> print("Lattice Vectors:")
         >>> print(lattice)
@@ -266,7 +271,10 @@ def read_vasp_density_classic(FILE: str) -> tuple:
     return _read_vasp_density_fromlines(lines)
 
 
-def read_vasp_parchg(FILE: str, use_pandas: bool=None, quiet: bool=False, spin: bool=False) -> tuple:
+def read_vasp_parchg(FILE: str, 
+                     use_pandas: bool=None, 
+                     quiet: bool=False, 
+                     spin: bool=False) -> tuple:
     """
     Read density data or spin-polarized partial density data from a VASP PARCHG-like file.
 
@@ -331,9 +339,9 @@ def read_vasp_parchg(FILE: str, use_pandas: bool=None, quiet: bool=False, spin: 
         else:
             densities = []
             densities.append(_read_partial_density(FILE, use_pandas, num_atoms, NGX, NGY, NGZ
-                , spin=0))
+                                                   , spin=0))
             densities.append(_read_partial_density(FILE, use_pandas, num_atoms, NGX, NGY, NGZ
-                , spin=1))
+                                                    , spin=1))
             alpha = densities[0] + densities[1]
             beta = densities[0] - densities[1]
             density = [alpha, beta]
@@ -341,7 +349,9 @@ def read_vasp_parchg(FILE: str, use_pandas: bool=None, quiet: bool=False, spin: 
     return density, NGX, NGY, NGZ, lattice
 
 
-def read_vasp_density(FILE: str, use_pandas: bool=None, quiet: bool=False) -> tuple:
+def read_vasp_density(FILE: str, 
+                      use_pandas: bool=None, 
+                      quiet: bool=False) -> tuple:
     """
     Read density data from a VASP CHGCAR-like file.
 
@@ -363,7 +373,7 @@ def read_vasp_density(FILE: str, use_pandas: bool=None, quiet: bool=False) -> tu
     Example:
         >>> FILE = "path/to/your/CHGCAR_file"
         >>> potential_data, NGX, NGY, NGZ, lattice = read_vasp_density(FILE)
-        >>> print("Potential Data:")
+        >>> print("potential Data:")
         >>> print(potential_data)
         >>> print("Number of grid points along x, y, z axes:", NGX, NGY, NGZ)
         >>> print("Lattice Vectors:")
@@ -412,21 +422,21 @@ def read_vasp_density(FILE: str, use_pandas: bool=None, quiet: bool=False) -> tu
             dat = pandas_read_table(FILE, delim_whitespace=True,
                                     skiprows=skiprows, header=None,
                                     nrows=readrows)
-            Potential = dat.iloc[:readrows, :5].values.flatten()
+            potential = dat.iloc[:readrows, :5].values.flatten()
             remainder = (NGX * NGY * NGZ) % 5
             if remainder > 0:
-                Potential = Potential[:(-5 + remainder)]
+                potential = potential[:(-5 + remainder)]
 
         else:
             print("Reading 3D data...")
-            Potential = (f.readline().split()
-                             for i in range(int(math.ceil(NGX * NGY * NGZ / 5))))
-            Potential = np.fromiter(chain.from_iterable(Potential), float)
+            potential = (f.readline().split()
+                        for i in range(int(math.ceil(NGX * NGY * NGZ / 5))))
+            potential = np.fromiter(chain.from_iterable(potential), float)
 
     if not quiet:
-        print("Average of the potential = ", np.average(Potential))
+        print("Average of the potential = ", np.average(potential))
 
-    return Potential, NGX, NGY, NGZ, lattice          
+    return potential, NGX, NGY, NGZ, lattice          
             
 
 def get_band_extrema(input_file: str)->list:

@@ -6,8 +6,8 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-import os 
-import sys 
+import os
+import sys
 
 from recommonmark.transform import AutoStructify
 

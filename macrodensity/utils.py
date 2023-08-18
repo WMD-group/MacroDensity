@@ -1,6 +1,7 @@
 """General utility functions."""
 
 from functools import reduce
+
 import numpy as np
 
 
