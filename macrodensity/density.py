@@ -442,7 +442,16 @@ def density_2_grid(Density: np.ndarray, nx: int, ny: int, nz: int, Charge: bool=
     l = 0
     Potential_grid = np.zeros(shape=(nx,ny,nz))
     total_electrons = 0
-    if Format != 'GULP':
+    
+    if Format.lower() == "gulp":
+        for k in range(nx):
+            for j in range(ny):
+                for i in range(nz):
+                    Potential_grid[k,j,i] = Density[l]
+                    l = l + 1
+        return Potential_grid
+    
+    elif Format.lower() != "vasp":
         for k in range(nz):
             for j in range(ny):
                 for i in range(nx):
@@ -453,17 +462,15 @@ def density_2_grid(Density: np.ndarray, nx: int, ny: int, nz: int, Charge: bool=
                         Potential_grid[i,j,k] = Potential_grid[i,j,k]*point_volume
                     total_electrons = total_electrons + Density[l]
                     l = l + 1
+                    
+        total_electrons = total_electrons / (nx * ny * nz)
+        if Charge == True:
+            print("Total electrons: ", total_electrons)    
+        return Potential_grid, total_electrons
+    
     else:
-        for k in range(nx):
-            for j in range(ny):
-                for i in range(nz):
-                    Potential_grid[k,j,i] = Density[l]
-                    l = l + 1
+        raise ValueError("Invalid format. Format must be 'VASP' or 'GULP'.")
 
-    if Charge == True and Format != 'GULP':
-        print("Total electrons: ", total_electrons / (nx * ny * nz))
-    total_electrons = total_electrons / (nx * ny * nz)
-    return Potential_grid, total_electrons
 
 def inverse_participation_ratio(density: np.ndarray) -> float:
     """
