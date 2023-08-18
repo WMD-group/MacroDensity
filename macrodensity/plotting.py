@@ -5,32 +5,31 @@ such as band alignment diagrams and potentials at different grid points.
 
 from __future__ import division, print_function
 
-import os 
+import os
+
 import ase
-from ase.io import vasp, cube
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
-from matplotlib import cm
 import pandas as pd
+from ase.io import cube, vasp
+from matplotlib import cm
 from scipy.interpolate import interp1d
 
 MODULE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 plt.style.use(f"{MODULE_DIR}/macrodensity.mplstyle")
 
-from macrodensity.tools import points_2_plane, create_plotting_mesh
 from macrodensity.density import (
     density_2_grid,
-    numbers_2_grid,
-    volume_average,
     macroscopic_average,
+    numbers_2_grid,
     planar_average,
+    volume_average,
 )
-from macrodensity.io import read_vasp_density, read_gulp_potential
+from macrodensity.io import read_gulp_potential, read_vasp_density
+from macrodensity.tools import create_plotting_mesh, points_2_plane
 from macrodensity.utils import matrix_2_abc
-
-
 
 
 def energy_band_alignment_diagram(energies: list, materials:list, limit:float=8., width:float=1.,
@@ -149,7 +148,13 @@ def energy_band_alignment_diagram(energies: list, materials:list, limit:float=8.
 
     return fig
 
-def plot_active_space(cube_size: list,cube_origin: list,tolerance: float=1E-4,input_file='LOCPOT',print_output=True, plot_pot= False) -> tuple: 
+def plot_active_space(cube_size: list,
+                      cube_origin: list,
+                      tolerance: float=1E-4,
+                      input_file='LOCPOT',
+                      print_output=True, 
+                      plot_pot= False
+) -> tuple: 
     '''
     Plot the active space (vacuum and non-vacuum regions) based on potential variations.
 
@@ -185,12 +190,12 @@ def plot_active_space(cube_size: list,cube_origin: list,tolerance: float=1E-4,in
     
     '''
     ## GETTING POTENTIAL
-    vasp_pot, NGX, NGY, NGZ, Lattice = read_vasp_density(input_file)
-    vector_a,vector_b,vector_c,av,bv,cv = matrix_2_abc(Lattice)
+    vasp_pot, NGX, NGY, NGZ, lattice = read_vasp_density(input_file)
+    vector_a,vector_b,vector_c,av,bv,cv = matrix_2_abc(lattice)
     resolution_x = vector_a/NGX
     resolution_y = vector_b/NGY
     resolution_z = vector_c/NGZ
-    grid_pot, electrons = density_2_grid(vasp_pot, NGX, NGY, NGZ, Format="VASP")
+    grid_pot, electrons = density_2_grid(vasp_pot, NGX, NGY, NGZ, format="VASP")
     cutoff_variance = tolerance
     #grad_x,grad_y,grad_z = np.gradient(grid_pot[:,:,:],resolution_x,resolution_y,resolution_z)
     #travelled = [0,0,0]
@@ -294,12 +299,12 @@ def plot_on_site_potential(
     '''
 
     ## GETTING POTENTIALS
-    vasp_pot, NGX, NGY, NGZ, Lattice = read_vasp_density(potential_file)
-    vector_a,vector_b,vector_c,av,bv,cv = matrix_2_abc(Lattice)
+    vasp_pot, NGX, NGY, NGZ, lattice = read_vasp_density(potential_file)
+    vector_a,vector_b,vector_c,av,bv,cv = matrix_2_abc(lattice)
     resolution_x = vector_a/NGX
     resolution_y = vector_b/NGY
     resolution_z = vector_c/NGZ
-    grid_pot, electrons = density_2_grid(vasp_pot, NGX, NGY, NGZ, Format="VASP")
+    grid_pot, electrons = density_2_grid(vasp_pot, NGX, NGY, NGZ, format="VASP")
     grad_x, grad_y, grad_z = np.gradient(grid_pot[:,:,:],resolution_x,resolution_y,resolution_z)
     coords = vasp.read_vasp(coordinate_file)
     scaled_coords = coords.get_scaled_positions()
@@ -399,16 +404,16 @@ def plot_planar_average(
         output_file = 'GulpPotential.csv'
         img_file = 'GulpPotential.png'
 
-        pot, NGX, NGY, NGZ, Lattice = read_gulp_potential(input_file)
-        vector_a, vector_b, vector_c, av, bv, cv = matrix_2_abc(Lattice)
+        pot, NGX, NGY, NGZ, lattice = read_gulp_potential(input_file)
+        vector_a, vector_b, vector_c, av, bv, cv = matrix_2_abc(lattice)
         resolution_x = vector_a/NGX
         resolution_y = vector_b/NGY
         resolution_z = vector_c/NGZ
-        # TODO: Update Format parameter in density_2_grid to be consistent with
+        # TODO: Update format parameter in density_2_grid to be consistent with
         # code naming in other functions (e.g. if here we use GULP to refer to GULP, 
         # should do the same in other functions)
-        # Also use lower case for format variable following python conventions (eg Format -> format)
-        grid_pot = density_2_grid(pot, NGX, NGY, NGZ, Format="GULP")
+        # Also use lower case for format variable following python conventions (eg format -> format)
+        grid_pot = density_2_grid(pot, NGX, NGY, NGZ, format="GULP")
 
         ## POTENTIAL PLANAR AVERAGE
         planar = planar_average(grid_pot, NGX, NGY, NGZ)
@@ -445,12 +450,12 @@ def plot_planar_average(
     elif 'vasp' in input_file or 'LOCPOT' in input_file:
         output_file = 'PlanarAverage.csv'
         img_file = 'PlanarAverage.png'
-        pot, NGX, NGY, NGZ, Lattice = read_vasp_density(input_file)
-        vector_a, vector_b, vector_c, av, bv, cv = matrix_2_abc(Lattice)
+        pot, NGX, NGY, NGZ, lattice = read_vasp_density(input_file)
+        vector_a, vector_b, vector_c, av, bv, cv = matrix_2_abc(lattice)
         resolution_x = vector_a/NGX
         resolution_y = vector_b/NGY
         resolution_z = vector_c/NGZ
-        grid_pot, electrons = density_2_grid(pot, NGX, NGY, NGZ, Format="VASP")
+        grid_pot, electrons = density_2_grid(pot, NGX, NGY, NGZ, format="VASP")
 
         ## PLANAR AVERAGE
         planar = planar_average(grid_pot,NGX,NGY,NGZ)
@@ -478,7 +483,12 @@ def plot_planar_average(
     return planar, macro, fig
 
 
-def plot_field_at_point(a_point: list,b_point: list,c_point: list,input_file: str='LOCPOT', grad_calc: bool=False) -> plt.figure:
+def plot_field_at_point(a_point: list,
+                        b_point: list,
+                        c_point: list,
+                        input_file: str='LOCPOT', 
+                        grad_calc: bool=False
+) -> plt.figure:
     '''
     Plot the electric field magnitude and direction on a user-defined plane.
 
@@ -509,12 +519,12 @@ def plot_field_at_point(a_point: list,b_point: list,c_point: list,input_file: st
     #------------------------------------------------------------------
     # Get the potential
     #------------------------------------------------------------------
-    vasp_pot, NGX, NGY, NGZ, Lattice = read_vasp_density(input_file)
-    vector_a,vector_b,vector_c,av,bv,cv = matrix_2_abc(Lattice)
+    vasp_pot, NGX, NGY, NGZ, lattice = read_vasp_density(input_file)
+    vector_a,vector_b,vector_c,av,bv,cv = matrix_2_abc(lattice)
     resolution_x = vector_a/NGX
     resolution_y = vector_b/NGY
     resolution_z = vector_c/NGZ
-    grid_pot, electrons = density_2_grid(vasp_pot,NGX,NGY,NGZ,Format="VASP")
+    grid_pot, electrons = density_2_grid(vasp_pot,NGX,NGY,NGZ,format="VASP")
     ## Get the gradiens (Field), if required.
     ## Comment out if not required, due to compuational expense.
     if grad_calc == True:
@@ -579,7 +589,10 @@ def plot_field_at_point(a_point: list,b_point: list,c_point: list,input_file: st
 
     return fig
 
-def plot_plane_field(a_point: list,b_point: list,c_point: list,input_file: str='LOCPOT') -> plt.figure:
+def plot_plane_field(a_point: list,
+                     b_point: list,
+                     c_point: list,
+                     input_file: str='LOCPOT') -> plt.figure:
     '''
     Plot the electric field on a user-defined plane and display it as a contour plot.
 
@@ -605,12 +618,12 @@ def plot_plane_field(a_point: list,b_point: list,c_point: list,input_file: str='
     #------------------------------------------------------------------
     # Get the potential
     #------------------------------------------------------------------
-    vasp_pot, NGX, NGY, NGZ, Lattice = read_vasp_density(input_file)
-    vector_a,vector_b,vector_c,av,bv,cv = matrix_2_abc(Lattice)
+    vasp_pot, NGX, NGY, NGZ, lattice = read_vasp_density(input_file)
+    vector_a,vector_b,vector_c,av,bv,cv = matrix_2_abc(lattice)
     resolution_x = vector_a/NGX
     resolution_y = vector_b/NGY
     resolution_z = vector_c/NGZ
-    grid_pot, electrons = density_2_grid(vasp_pot,NGX,NGY,NGZ,Format="VASP")
+    grid_pot, electrons = density_2_grid(vasp_pot,NGX,NGY,NGZ,format="VASP")
     ## Get the gradiens (Field), if required.
     ## Comment out if not required, due to compuational expense.
     grad_x,grad_y,grad_z = np.gradient(grid_pot[:,:,:],resolution_x,resolution_y,resolution_z)
@@ -639,7 +652,11 @@ def plot_plane_field(a_point: list,b_point: list,c_point: list,input_file: str='
     return fig
 
 
-def plot_active_plane(cube_size: list,cube_origin: list,tolerance: float=1E-4,input_file: str='LOCPOT', grad_calc: bool= False) -> plt.figure:
+def plot_active_plane(cube_size: list,
+                      cube_origin: list,
+                      tolerance: float=1E-4,
+                      input_file: str='LOCPOT', 
+                      grad_calc: bool= False) -> plt.figure:
     '''
     Plot the active plane with contour and planar average of the electric field and potential.
 
@@ -667,12 +684,12 @@ def plot_active_plane(cube_size: list,cube_origin: list,tolerance: float=1E-4,in
     #------------------------------------------------------------------
     # Get the potential
     #------------------------------------------------------------------
-    vasp_pot, NGX, NGY, NGZ, Lattice = read_vasp_density(input_file)
-    vector_a,vector_b,vector_c,av,bv,cv = matrix_2_abc(Lattice)
+    vasp_pot, NGX, NGY, NGZ, lattice = read_vasp_density(input_file)
+    vector_a,vector_b,vector_c,av,bv,cv = matrix_2_abc(lattice)
     resolution_x = vector_a/NGX
     resolution_y = vector_b/NGY
     resolution_z = vector_c/NGZ
-    grid_pot, electrons = density_2_grid(vasp_pot,NGX,NGY,NGZ,Format="VASP")
+    grid_pot, electrons = density_2_grid(vasp_pot,NGX,NGY,NGZ,format="VASP")
 
     potential_variance = np.var(grid_pot)
     cutoff_variance = tolerance

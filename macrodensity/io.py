@@ -3,9 +3,10 @@ Module containing functions to read output files
 from VASP, GULP and FHI-AIMS.
 """
 
-import numpy as np
 import math
 from itertools import chain
+
+import numpy as np
 
 
 def read_gulp_potential(gulpfile: str='gulp.out') -> tuple:
