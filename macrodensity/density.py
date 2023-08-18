@@ -7,7 +7,6 @@ from __future__ import division, print_function
 import numpy as np
 
 
-
 def gradient_magnitude(gx: np.ndarray, gy: np.ndarray, gz: np.ndarray) -> np.ndarray:
     """
     Calculate the magnitude of the gradient at each point in a 3D field.

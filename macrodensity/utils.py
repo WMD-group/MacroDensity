@@ -3,6 +3,7 @@
 from functools import reduce
 import numpy as np
 
+
 def matrix_2_abc(Lattice: np.ndarray) -> (float, float, float, float, float, float):
     """
     Extract lattice parameters and vectors from a 3x3 matrix representing a lattice.
@@ -31,6 +32,39 @@ def matrix_2_abc(Lattice: np.ndarray) -> (float, float, float, float, float, flo
     c_vec = Lattice[2,:]
 
     return a,b,c,a_vec,b_vec,c_vec
+
+
+def vector_2_abscissa(vector:list, magnitude: float, dx: float, dy: float, dz: float) -> np.ndarray:
+    """
+    Convert a 3D vector to an array of abscissa values.
+
+    Parameters:
+        vector (list): 3D vector represented as (x, y, z).
+
+        magnitude (float): Magnitude of the vector.
+
+        dx (float): Spacing along the x-axis.
+
+        dy (float): Spacing along the y-axis.
+
+        dz (float): Spacing along the z-axis.
+
+    Returns:
+        np.ndarray: 1D array containing abscissa values based on the vector and spacing.
+
+    Example:
+        >>> vector = (1, 2, 3)
+        >>> magnitude = 5.0
+        >>> dx, dy, dz = 0.1, 0.2, 0.3
+        >>> abscissa_array = vector_2_abscissa(vector, magnitude, dx, dy, dz)
+        >>> print("Abscissa Array:")
+        >>> print(abscissa_array)
+        
+    """
+    vec_mag = np.linalg.norm([vector[0] * dx, vector[1] * dy, vector[2] * dz])
+    abscissa = [i * vec_mag for i in range(magnitude)]
+
+    return np.asarray(abscissa)
 
 
 def GCD(a: int,b: int) -> int:
