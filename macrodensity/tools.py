@@ -16,10 +16,9 @@ from macrodensity.density import (
     density_2_grid,
     volume_average,
     travelling_volume_average,
-    vector_2_abscissa,
 )
 from macrodensity.io import read_vasp_density, get_band_extrema
-from macrodensity.utils import matrix_2_abc
+from macrodensity.utils import matrix_2_abc, vector_2_abscissa
 
 
 def bulk_interstitial_alignment(
