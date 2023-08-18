@@ -251,7 +251,15 @@ def plot_active_space(cube_size: list,cube_origin: list,tolerance: float=1E-4,in
 
     return len(vacuum), len(non_vacuum)
 
-def plot_on_site_potential(species: str,sample_cube: list,potential_file: str='LOCPOT',coordinate_file: str='POSCAR',output_file: str='OnSitePotential.csv',img_file: str='OnSitePotential.png') -> tuple:
+
+def plot_on_site_potential(
+    species: str,
+    sample_cube: list,
+    potential_file: str='LOCPOT',
+    coordinate_file: str='POSCAR',
+    output_file: str='OnSitePotential.csv',
+    img_file: str='OnSitePotential.png'
+) -> tuple:
     '''
     Plot on-site electrostatic potential for a specific species.
 
@@ -292,8 +300,8 @@ def plot_on_site_potential(species: str,sample_cube: list,potential_file: str='L
     resolution_x = vector_a/NGX
     resolution_y = vector_b/NGY
     resolution_z = vector_c/NGZ
-    grid_pot, electrons = density_2_grid(vasp_pot,NGX,NGY,NGZ)
-    grad_x,grad_y,grad_z = np.gradient(grid_pot[:,:,:],resolution_x,resolution_y,resolution_z)
+    grid_pot, electrons = density_2_grid(vasp_pot, NGX, NGY, NGZ, Format="VASP")
+    grad_x, grad_y, grad_z = np.gradient(grid_pot[:,:,:],resolution_x,resolution_y,resolution_z)
     coords = vasp.read_vasp(coordinate_file)
     scaled_coords = coords.get_scaled_positions()
     symbols = coords.get_chemical_symbols()
@@ -325,7 +333,7 @@ def plot_on_site_potential(species: str,sample_cube: list,potential_file: str='L
     plt.savefig(img_file)
 
     ## SAVING
-    df = pd.DataFrame.from_dict({'Potential':potentials_list},orient='index')
+    df = pd.DataFrame.from_dict({'Potential':potentials_list}, orient='index')
     df = df.transpose()
     df.to_csv(output_file)
     return potentials_list, fig 
@@ -443,7 +451,7 @@ def plot_planar_average(
         resolution_x = vector_a/NGX
         resolution_y = vector_b/NGY
         resolution_z = vector_c/NGZ
-        grid_pot, electrons = density_2_grid(pot, NGX, NGY, NGZ)
+        grid_pot, electrons = density_2_grid(pot, NGX, NGY, NGZ, Format="VASP")
 
         ## PLANAR AVERAGE
         planar = planar_average(grid_pot,NGX,NGY,NGZ)
