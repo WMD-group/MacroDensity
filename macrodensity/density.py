@@ -7,7 +7,7 @@ from __future__ import division, print_function
 import numpy as np
 
 
-#------------------------------------------------------------------------------
+
 def gradient_magnitude(gx: np.ndarray, gy: np.ndarray, gz: np.ndarray) -> np.ndarray:
     """
     Calculate the magnitude of the gradient at each point in a 3D field.
@@ -40,7 +40,7 @@ def gradient_magnitude(gx: np.ndarray, gy: np.ndarray, gz: np.ndarray) -> np.nda
                                           gz[i,j,k]**2)
 
     return grad_mag
-#------------------------------------------------------------------------------
+
 
 def vector_2_abscissa(vector:list, magnitude: float, dx: float, dy: float, dz: float) -> np.ndarray:
     """
@@ -73,7 +73,7 @@ def vector_2_abscissa(vector:list, magnitude: float, dx: float, dy: float, dz: f
     abscissa = [i * vec_mag for i in range(magnitude)]
 
     return np.asarray(abscissa)
-#------------------------------------------------------------------------------
+
 
 def number_in_field(gradients: np.ndarray, cutoff: float) -> int:
     """
@@ -99,7 +99,7 @@ def number_in_field(gradients: np.ndarray, cutoff: float) -> int:
             number_of_elements += 1
 
     return number_of_elements
-#------------------------------------------------------------------------------
+
 
 def element_vol(vol: float, nx: int, ny: int, nz: int) -> float:
     """
@@ -128,7 +128,7 @@ def element_vol(vol: float, nx: int, ny: int, nz: int) -> float:
     ele_vol = vol / number_of_elements
 
     return ele_vol
-#------------------------------------------------------------------------------
+
 
 def one_2_2d(Array: np.ndarray, resolution: float, vector: np.ndarray) -> np.ndarray:
     """
@@ -160,7 +160,7 @@ def one_2_2d(Array: np.ndarray, resolution: float, vector: np.ndarray) -> np.nda
         New_array[i,1] = Array[i]
 
     return New_array
-#------------------------------------------------------------------------------
+
 
 def macroscopic_average(potential: np.ndarray, periodicity: float, resolution: float) -> np.ndarray:
     """
@@ -208,7 +208,7 @@ def macroscopic_average(potential: np.ndarray, periodicity: float, resolution: f
     print("Average of the average = ", np.average(macro_average))
 
     return macro_average
-#------------------------------------------------------------------------------
+
 
 def volume_average(origin: tuple, cube: tuple, grid: np.ndarray, nx: int, ny: int, nz: int, travelled: list=[0, 0, 0]) -> tuple:
     """
@@ -263,7 +263,7 @@ def volume_average(origin: tuple, cube: tuple, grid: np.ndarray, nx: int, ny: in
                 potential_cube[x,y,z] = grid[int(xv),int(yv),int(zv)]
 
     return potential_cube.mean(), np.var(potential_cube)
-#------------------------------------------------------------------------------
+
 
 def travelling_volume_average(grid: np.ndarray, cube: tuple, origin: tuple, vector: list, nx: int, ny: int, nz: int, magnitude: int) -> np.ndarray:
    """
@@ -306,7 +306,7 @@ def travelling_volume_average(grid: np.ndarray, cube: tuple, origin: tuple, vect
          i = i + 1
 
    return plotting_average
-#------------------------------------------------------------------------------
+
 
 def planar_average(grid: np.ndarray, nx: int, ny: int, nz: int, axis: str='z') -> np.ndarray:
     """
@@ -352,7 +352,7 @@ def planar_average(grid: np.ndarray, nx: int, ny: int, nz: int, axis: str='z') -
             Average[z_value] = z_plane.mean()
 
     return Average
-#------------------------------------------------------------------------------
+
 
 def get_volume(a: np.ndarray,b: np.ndarray,c: np.ndarray) -> float:
     """
@@ -378,7 +378,7 @@ def get_volume(a: np.ndarray,b: np.ndarray,c: np.ndarray) -> float:
     volume = np.dot(a,np.cross(b,c))
 
     return volume
-#------------------------------------------------------------------------------
+
 
 def numbers_2_grid(a: tuple,NGX: int,NGY: int,NGZ: int) -> np.ndarray:
     """
@@ -408,9 +408,17 @@ def numbers_2_grid(a: tuple,NGX: int,NGY: int,NGZ: int) -> np.ndarray:
     a_grid[2] = round(float(a[2])*NGZ)
 
     return a_grid
-#------------------------------------------------------------------------------
 
-def density_2_grid(Density: np.ndarray, nx: int, ny: int, nz: int, Charge: bool=False, Volume: float=1, Format: str = 'VASP') -> tuple:
+
+def density_2_grid(
+    Density: np.ndarray, 
+    nx: int, 
+    ny: int, 
+    nz: int, 
+    Charge: bool=False, 
+    Volume: float=1, 
+    Format: str = 'VASP'
+) -> tuple:
     """
     Convert density data to a 3D grid.
 
@@ -494,7 +502,12 @@ def inverse_participation_ratio(density: np.ndarray) -> float:
     return fr / sq**2
 
 
-def planar_average_charge(grid: np.ndarray,nx: int,ny: int,nz: int,vector: np.ndarray) -> np.ndarray:
+def planar_average_charge(
+    grid: np.ndarray,
+    nx: int,
+    ny: int,nz: int,
+    vector: np.ndarray
+) -> np.ndarray:
 
     a, b = 0, 0
     axis = ""
