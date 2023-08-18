@@ -410,6 +410,7 @@ def numbers_2_grid(a: tuple,NGX: int,NGY: int,NGZ: int) -> np.ndarray:
     return a_grid
 
 
+# TODO: Update variables here to be lower case following python convention
 def density_2_grid(
     Density: np.ndarray, 
     nx: int, 
@@ -459,7 +460,7 @@ def density_2_grid(
                     l = l + 1
         return Potential_grid
     
-    elif Format.lower() != "vasp":
+    elif Format.lower() == "vasp":
         for k in range(nz):
             for j in range(ny):
                 for i in range(nx):
