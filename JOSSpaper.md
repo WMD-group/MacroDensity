@@ -5,11 +5,10 @@ tags:
   - Density Functional Theory
   - DFT
   - electrostatic potentials
-  - galactic dynamics
-  - milky way
+  - electron density 
 authors:
-  - name: Adrian M. Price-Whelan
-    orcid: 0000-0000-0000-0000
+  - name: Calysta A. Tesiman
+    orcid: 0009-0008-7784-4320
     equal-contrib: true
     affiliation: "1, 2" # (Multiple affiliations must be quoted)
   - name: Author Without ORCID
@@ -52,25 +51,19 @@ performing numerical orbit integration).
 
 # Statement of need
 
-`Gala` is an Astropy-affiliated Python package for galactic dynamics. Python
-enables wrapping low-level languages (e.g., C) for speed without losing
-flexibility or ease-of-use in the user-interface. The API for `Gala` was
-designed to provide a class-based and user-friendly interface to fast (C or
-Cython-optimized) implementations of common operations such as gravitational
-potential and force evaluation, orbit integration, dynamical transformations,
-and chaos indicators for nonlinear dynamics. `Gala` also relies heavily on and
-interfaces well with the implementations of physical units and astronomical
-coordinate systems in the `Astropy` package [@astropy] (`astropy.units` and
-`astropy.coordinates`).
+When assessing the potential utility of novel semiconducting devices (p-n juntions, 
+heterostructures, surface terminations) through simulation, an understanding of the 
+variation in the electrostatic potential and electron density across the system is key. 
+However, extraction and useful presentation of this data from the raw output of the 
+simulation can prove cumbersome and often requires the use of visualisation software followed 
+by manual data extraction. This can result in bottlenecks in high throughput screening projects, 
+where the same data extraction procedure is repeatedly applied to large databases of candidate structures.
 
-`Gala` was designed to be used by both astronomical researchers and by
-students in courses on gravitational dynamics or astronomy. It has already been
-used in a number of scientific publications [@Pearson:2017] and has also been
-used in graduate courses on Galactic dynamics to, e.g., provide interactive
-visualizations of textbook material [@Binney:2008]. The combination of speed,
-design, and support for Astropy functionality in `Gala` will enable exciting
-scientific explorations of forthcoming data releases from the *Gaia* mission
-[@gaia] by students and experts alike.
+To address this, the ``Macrodensity`` package has been developed as a VASP, FHI-AIMS and 
+GULP post-processing tool. The package contains functions that enable the user to format 
+the data from the VASP LOCPOT and CHGCAR files, the FHI-AIMS *.cube file, and GULP *.out 
+file into physically meaningful quantities, which can then be plotted for user interpretation.
+The code has been used to rapidly generate data for these publications: 1,2, amongst others.
 
 # Mathematics
 
