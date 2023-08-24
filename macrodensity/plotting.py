@@ -148,6 +148,7 @@ def energy_band_alignment_diagram(energies: list, materials:list, limit:float=8.
 
     return fig
 
+
 def plot_active_space(cube_size: list,
                       cube_origin: list,
                       tolerance: float=1E-4,
@@ -391,8 +392,7 @@ def plot_planar_average(
         ax.set_xlabel('Grid Position')
         ax.plot(planar)
         ax.plot(macro)
-        plt.savefig(img_file)
-
+        fig.savefig(img_file)
 
         ## SAVING
         df = pd.DataFrame.from_dict({'Planar':planar,'Macroscopic':macro},orient='index')
@@ -588,6 +588,7 @@ def plot_field_at_point(a_point: list,
     plt.show()
 
     return fig
+
 
 def plot_plane_field(a_point: list,
                      b_point: list,
