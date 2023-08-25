@@ -6,6 +6,7 @@ tags:
   - DFT
   - electrostatic potentials
   - electron density 
+  - ab initio
 authors:
   - name: Calysta A. Tesiman
     orcid: 0009-0008-7784-4320
@@ -39,15 +40,7 @@ aas-journal: Astrophysical Journal <- The name of the AAS journal.
 
 # Summary
 
-The forces on stars, galaxies, and dark matter under external gravitational
-fields lead to the dynamical evolution of structures in the universe. The orbits
-of these bodies are therefore key to understanding the formation, history, and
-future state of galaxies. The field of "galactic dynamics," which aims to model
-the gravitating components of galaxies to study their structure and evolution,
-is now well-established, commonly taught, and frequently used in astronomy.
-Aside from toy problems and demonstrations, the majority of problems require
-efficient numerical tools, many of which require the same base code (e.g., for
-performing numerical orbit integration).
+Summary 
 
 # Statement of need
 
@@ -59,28 +52,20 @@ simulation can prove cumbersome and often requires the use of visualisation soft
 by manual data extraction. This can result in bottlenecks in high throughput screening projects, 
 where the same data extraction procedure is repeatedly applied to large databases of candidate structures.
 
-To address this, the ``Macrodensity`` package has been developed as a VASP, FHI-AIMS and 
-GULP post-processing tool. The package contains functions that enable the user to format 
-the data from the VASP LOCPOT and CHGCAR files, the FHI-AIMS *.cube file, and GULP *.out 
-file into physically meaningful quantities, which can then be plotted for user interpretation.
-The code has been used to rapidly generate data for these publications: 1,2, amongst others.
+To address this, ``MacroDensity`` was developed to simplify the data extraction and visualisation processes. 
+By using the landscape of electrostatic potentials and electronic density within a system seperated by grid points,
+it becomes trivial to produce meaningful analysis and plots for visualisation. 
 
-# Mathematics
+# MacroDensity
 
-Single dollars ($) are required for inline mathematics e.g. $f(x) = e^{\pi/x}$
+MacroDensity is a set of Python modules developed to read and analyse electrostatic potentials and electron 
+density data from electronic structure calculations derived from Density Functional Theory (DFT). The package 
+allows users to read from VASP LOCPOT, CHGCAR files,  FHI-AIMS *.cube file, and GULP *.out 
+file and format the data into physically meaningful quantities, which can then be plotted for user interpretation.
+The code has been used to rapidly generate data for these publications: 1,2, amongst others. 
 
-Double dollars make self-standing equations:
-
-$$\Theta(x) = \left\{\begin{array}{l}
-0\textrm{ if } x < 0\cr
-1\textrm{ else}
-\end{array}\right.$$
-
-You can also use plain \LaTeX for equations
-\begin{equation}\label{eq:fourier}
-\hat f(\omega) = \int_{-\infty}^{\infty} f(x) e^{i\omega x} dx
-\end{equation}
-and refer to \autoref{eq:fourier} from text.
+The package reads the electron density values from each grid point and averages it along a user defined vector
+or plane. 
 
 # Citations
 
@@ -107,5 +92,3 @@ Figure sizes can be customized by adding an optional second parameter:
 
 # Acknowledgements
 
-We acknowledge contributions from Brigitta Sipocz, Syrtis Major, and Semyeong
-Oh, and support from Kathryn Johnston during the genesis of this project.
