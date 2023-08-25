@@ -1,12 +1,14 @@
 from __future__ import print_function
-import unittest
-import sys
+
 import os
-import numpy as np
-import macrodensity as md
-import pkg_resources
+import sys
+import unittest
 from os.path import join as path_join
 
+import numpy as np
+import pkg_resources
+
+import macrodensity as md
 
 try:
     import pandas
@@ -265,7 +267,7 @@ class TestConvenienceFunctions(unittest.TestCase):
         Locpot = pkg_resources.resource_filename(
                     __name__, path_join('../tests', 'LOCPOT.test'))
         out = md.spherical_average(cube_size=[2,2,2],cube_origin=[0.5,0.5,0.5],input_file=Locpot)
-        self.assertEqual(out,(6.5579496029375, 1.8665165271901357e-05))
+        self.assertAlmostEqual(out,(6.5579496029375, 1.8665165271901357e-05))
 
     def test_plot_planar_average(self):
         '''Tests the plot_planar_average function'''
@@ -284,7 +286,7 @@ class TestConvenienceFunctions(unittest.TestCase):
                     __name__, path_join('../tests', 'LOCPOT.test'))
         Poscar = pkg_resources.resource_filename(
                     __name__, path_join('../tests', 'POSCAR.test'))
-        out = md.plot_on_site_potential(species='Zn',sample_cube=[5,5,5],potential_file=Locpot,coordinate_file=Poscar)
+        out = md.plot_on_site_potential(species='Zn',sample_cube=[5,5,5],potential_file=Locpot,coordinate_file=Poscar)[0]
         self.assertEqual(out,[-6.545211257074241])
         self.addCleanup(os.remove, 'OnSitePotential.csv')
         self.addCleanup(os.remove, 'OnSitePotential.png')
@@ -292,8 +294,14 @@ class TestConvenienceFunctions(unittest.TestCase):
     def test_plot_gulp_potential(self):
         '''Tests the plot_gulp_potential function'''
         gulpcar = pkg_resources.resource_filename(
-                    __name__, path_join('../tests', 'gulp.out'))
-        out = md.plot_gulp_potential(lattice_vector=3.0,input_file=gulpcar)
+                    __name__, path_join('../tests', 'gulp.out')
+        )
+        out = md.plot_planar_average(
+            lattice_vector=3.0,
+            input_file=gulpcar,
+            output_file="GulpPotential.csv",
+            img_file='GulpPotential.png',
+        )
         self.assertEqual(out[0][0],-23.16678352)
         self.assertAlmostEqual(out[0][10],-1.59508152)
         self.assertEqual(out[0][-1],-23.16678352)
@@ -308,13 +316,13 @@ class TestConvenienceFunctions(unittest.TestCase):
         self.assertEqual(out,(17, 4079))
 
     def test_plot_planar_cube(self):
-        '''Tests the plot_planar_cube function'''
+        '''Tests the plot_planar_average function'''
         Density = pkg_resources.resource_filename(
                     __name__, path_join('../tests', 'cube_001_spin_density.cube'))
         Potential = pkg_resources.resource_filename(
                     __name__, path_join('../tests', 'cube_002_hartree_potential.cube'))
-        outden = md.plot_planar_cube(input_file=Density,lattice_vector=4.75)
-        outpot = md.plot_planar_cube(input_file=Potential,lattice_vector=4.75)
+        outden = md.plot_planar_average(input_file=Density,lattice_vector=4.75)
+        outpot = md.plot_planar_average(input_file=Potential,lattice_vector=4.75)
         self.assertEqual(outden[0][0],0.0200083723051778)
         self.assertEqual(outden[0][-1],0.019841719274268536)
         self.assertEqual(outpot[0][0],-0.562656062923066)

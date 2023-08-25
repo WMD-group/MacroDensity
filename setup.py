@@ -7,9 +7,10 @@ __maintainer__ = "Keith T. Butler"
 __email__ = "k.t.butler@ucl.ac.uk"
 __date__ = "17 July 2023"
 
-from setuptools import setup
 import os
 import unittest
+
+from setuptools import setup
 
 module_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -30,7 +31,7 @@ if __name__ == "__main__":
         license='MIT License',
         packages=['macrodensity'],
         zip_safe=False,
-        install_requires=['scipy', 'numpy', 'spglib', 'ase'],
+        install_requires=['scipy', 'numpy', 'spglib', 'ase', "pandas"],
         classifiers=['Programming Language :: Python',
                      'Development Status :: 5 - Production/Stable',
                      'Intended Audience :: Science/Research',

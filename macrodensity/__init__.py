@@ -1,24 +1,14 @@
-###############################################################################
-# Copyright Keith Butler(2014)                                                #
-#                                                                             #
-# This file MacroDensity.__init__.py is free software: you can                #
-# redistribute it and/or modify it under the terms of the GNU General Public  #
-# License as published by the Free Software Foundation, either version 3 of   #
-# the License, or (at your option) any later version.                         #
-# This program is distributed in the hope that it will be useful, but WITHOUT #
-# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or       #
-# FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for    #
-# more details.                                                               #
-# You should have received a copy of the GNU General Public License along with#
-# this program. If not, see <http://www.gnu.org/licenses/>.                   #
-#                                                                             #
-###############################################################################
-
-import numpy
-import numpy as np
+"""
+MacroDensity is a package to read, process and plot electrostatic potential and electron density 
+files from electronic structure calculations.
+"""
 import math
+
+import numpy as np
 from scipy import interpolate
-from macrodensity import vasp_tools
-from macrodensity import plotting_tools
-from macrodensity.density_tools import *
-from macrodensity.alpha_tools import *
+
+from macrodensity.density import *
+from macrodensity.io import *
+from macrodensity.plotting import *
+from macrodensity.tools import *
+from macrodensity.utils import *
