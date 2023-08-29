@@ -12,7 +12,7 @@
         2. Python API for main functions (main_functions.rst)
         3. A good tutorial (as Jupyter Notebook) exemplifying the main functions & workflow
             * The notebook should combine `Markdown` and `Code` cells to explain the workflow, showing the outputs/plots etc
-- [ ] Publish docs in `Readthedocs`
+- [x] Publish docs in `Readthedocs`
 - [x] Installation
   - [x] Enable `pip` install: this requires adding package to [pypi](https://pypi.org/)
 - [x] Update tutorial 1 to rewrite long code snippets as functions
