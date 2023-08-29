@@ -1,5 +1,5 @@
 ---
-title: 'MacroDensity: Understanding The Electrostatic Potential and Density Landscapes within Systems from Quantum Mechanical Sumulations'
+title: 'MacroDensity: Understanding The Electrostatic Potential and Electron Density Landscapes within Systems of Quantum Mechanical Simulations'
 tags:
   - Python
   - Density Functional Theory
@@ -57,12 +57,19 @@ it becomes trivial to produce meaningful analysis and plots for visualisation.
 
 MacroDensity is a set of Python modules developed to read and analyse electrostatic potentials and electron 
 density data from electronic structure calculations derived from Density Functional Theory (DFT). The package 
-allows users to read from VASP LOCPOT, CHGCAR files,  FHI-AIMS *.cube file, and GULP *.out 
+allows users to read from VASP LOCPOT [@vasp], CHGCAR files, FHI-AIMS [@fhi_aims] , *.cube file, and GULP *.out 
 file and format the data into physically meaningful quantities, which can then be plotted for user interpretation.
-The code has been used to rapidly generate data for these publications: 1,2, amongst others. 
 
-The package reads the electron density values from each grid point and averages it along a user defined vector
-or plane. 
+(MOVE ME TO ANOTHER SECTION)
+#The code has been used to rapidly generate data for these publications: 1,2, amongst others.# 
+
+The package formats datasets containing information about a system's lattice parameters electron density, and 
+electrostatic potentials. ``MacroDensity`` contains some high-level tools and functions to calculate
+the planar and macroscopic average (as defined in Jackson's Electrodynamics [@Jackson:1999]), the spherical average 
+around a user-defined point, and calculates band energy offsets, deformation potential, and volume changes of a system. 
+``MacroDensity`` can also calculate the localised potential around a certain atomic nucleus of a system. The approach
+to calculating this on site (Hartree) potential is similar to calculating the Madelung potential. this is useful for 
+electron energy level predictions [@aron:2014]. 
 
 # Citations
 
