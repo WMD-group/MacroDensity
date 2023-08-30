@@ -32,10 +32,18 @@ from macrodensity.tools import create_plotting_mesh, points_2_plane
 from macrodensity.utils import matrix_2_abc
 
 
-def energy_band_alignment_diagram(energies: list, materials:list, limit:float=8., width:float=1.,
-                                  cols: list=['#74356C','#efce19'], textsize: int=22,
-                                  arrowhead: float=0.7, outfile:str ='BandAlignment',
-                                  references: list=[], edge=None) -> plt.figure:
+def energy_band_alignment_diagram(
+    energies: list, 
+    materials:list, 
+    limit:float=8., 
+    width:float=1.,
+    cols: list=['#74356C','#efce19'], 
+    textsize: int=22,
+    arrowhead: float=0.7, 
+    outfile:str ='BandAlignment',
+    references: list=[], 
+    edge=None
+) -> plt.figure:
    
     """
     Plot an energy band alignment diagram for a list of materials.
@@ -306,7 +314,7 @@ def plot_on_site_potential(
     resolution_y = vector_b/NGY
     resolution_z = vector_c/NGZ
     grid_pot, electrons = density_2_grid(vasp_pot, NGX, NGY, NGZ, Format="VASP")
-    grad_x, grad_y, grad_z = np.gradient(grid_pot[:,:,:],resolution_x,resolution_y,resolution_z)
+    grad_x, grad_y, grad_z = np.gradient(grid_pot[:,:,:], resolution_x, resolution_y,resolution_z)
     coords = vasp.read_vasp(coordinate_file)
     scaled_coords = coords.get_scaled_positions()
     symbols = coords.get_chemical_symbols()
@@ -380,7 +388,11 @@ def plot_planar_average(
     def _save_df(planar, macro, output_file, interpolated_potential=None):
         if interpolated_potential:
             df = pd.DataFrame.from_dict(
-                {'Planar': planar, 'Macroscopic': macro,'Interpolated': interpolated_potential},
+                {
+                    'Planar': planar, 
+                    'Macroscopic': macro, 
+                    'Interpolated': interpolated_potential,
+                },
                 orient='index'
             )
         else:

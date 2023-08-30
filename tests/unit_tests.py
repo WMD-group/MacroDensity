@@ -271,14 +271,14 @@ class TestConvenienceFunctions(unittest.TestCase):
 
     def test_plot_planar_average(self):
         '''Tests the plot_planar_average function'''
-        Locpot = pkg_resources.resource_filename(
+        locpot = pkg_resources.resource_filename(
                     __name__, path_join('../tests', 'LOCPOT.test'))
-        out = md.plot_planar_average(lattice_vector=5.41,input_file=Locpot)
-        self.assertAlmostEqual(out[0][0],0.14555565)
-        self.assertAlmostEqual(out[0][10],4.61454537)
-        self.assertAlmostEqual(out[0][-1],-0.87290696)
-        self.addCleanup(os.remove, 'PlanarAverage.csv')
-        self.addCleanup(os.remove, 'PlanarAverage.png')
+        df, fig = md.plot_planar_average(lattice_vector=5.41, input_file=locpot)
+        self.assertAlmostEqual(df['Planar'].tolist()[0], 0.14555565)
+        self.assertAlmostEqual(df['Planar'].tolist()[10], 4.61454537)
+        self.assertAlmostEqual(df['Planar'].tolist()[-1], -0.87290696)
+        self.addCleanup(os.remove, 'planar_average.csv')
+        self.addCleanup(os.remove, 'planar_average.png')
 
     def test_plot_on_site_potential(self):
         '''Tests the plot_on_site_potential function'''
@@ -286,8 +286,13 @@ class TestConvenienceFunctions(unittest.TestCase):
                     __name__, path_join('../tests', 'LOCPOT.test'))
         Poscar = pkg_resources.resource_filename(
                     __name__, path_join('../tests', 'POSCAR.test'))
-        out = md.plot_on_site_potential(species='Zn',sample_cube=[5,5,5],potential_file=Locpot,coordinate_file=Poscar)[0]
-        self.assertEqual(out,[-6.545211257074241])
+        out = md.plot_on_site_potential(
+            species='Zn',
+            sample_cube=[5,5,5],
+            potential_file=Locpot,
+            coordinate_file=Poscar
+        )[0]
+        self.assertEqual(out, [-6.545211257074241])
         self.addCleanup(os.remove, 'OnSitePotential.csv')
         self.addCleanup(os.remove, 'OnSitePotential.png')
 
@@ -296,15 +301,16 @@ class TestConvenienceFunctions(unittest.TestCase):
         gulpcar = pkg_resources.resource_filename(
                     __name__, path_join('../tests', 'gulp.out')
         )
-        out = md.plot_planar_average(
+        df, fig = md.plot_planar_average(
             lattice_vector=3.0,
             input_file=gulpcar,
             output_file="GulpPotential.csv",
             img_file='GulpPotential.png',
         )
-        self.assertEqual(out[0][0],-23.16678352)
-        self.assertAlmostEqual(out[0][10],-1.59508152)
-        self.assertEqual(out[0][-1],-23.16678352)
+        planar = df['Planar'].dropna()
+        self.assertEqual(planar.tolist()[0], -23.16678352)
+        self.assertAlmostEqual(planar.tolist()[10], -1.59508152)
+        self.assertAlmostEqual(planar.tolist()[-1], -23.16678352)
         self.addCleanup(os.remove, 'GulpPotential.csv')
         self.addCleanup(os.remove, 'GulpPotential.png')
 
@@ -317,18 +323,18 @@ class TestConvenienceFunctions(unittest.TestCase):
 
     def test_plot_planar_cube(self):
         '''Tests the plot_planar_average function'''
-        Density = pkg_resources.resource_filename(
+        density = pkg_resources.resource_filename(
                     __name__, path_join('../tests', 'cube_001_spin_density.cube'))
-        Potential = pkg_resources.resource_filename(
+        potential = pkg_resources.resource_filename(
                     __name__, path_join('../tests', 'cube_002_hartree_potential.cube'))
-        outden = md.plot_planar_average(input_file=Density,lattice_vector=4.75)
-        outpot = md.plot_planar_average(input_file=Potential,lattice_vector=4.75)
-        self.assertEqual(outden[0][0],0.0200083723051778)
-        self.assertEqual(outden[0][-1],0.019841719274268536)
-        self.assertEqual(outpot[0][0],-0.562656062923066)
-        self.assertEqual(outpot[0][-1],-0.581089179258661)
-        self.addCleanup(os.remove, 'PlanarCube.csv')
-        self.addCleanup(os.remove, 'PlanarCube.png')
+        dfden, _ = md.plot_planar_average(input_file=density, lattice_vector=4.75)
+        dfpot, _ = md.plot_planar_average(input_file=potential, lattice_vector=4.75)
+        self.assertEqual(dfden['Planar'].tolist()[0], 0.0200083723051778)
+        self.assertEqual(dfden['Planar'].tolist()[-1], 0.019841719274268536)
+        self.assertEqual(dfpot['Planar'].tolist()[0], -0.562656062923066)
+        self.assertEqual(dfpot['Planar'].tolist()[-1], -0.581089179258661)
+        self.addCleanup(os.remove, 'planar_average.csv')
+        self.addCleanup(os.remove, 'planar_average.png')
 
 if __name__ == '__main__':
     unittest.main()
