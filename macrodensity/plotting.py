@@ -35,13 +35,13 @@ from macrodensity.utils import matrix_2_abc
 def energy_band_alignment_diagram(
     energies: list, 
     materials: list, 
-    limit: float=8., 
+    ylims: list=(-8, 0), 
     width: float=1.,
     cols: list=['#74356C','#efce19'], 
     textsize: int=22,
-    arrowhead: float=0.7, 
+    arrowhead: float=0.4, 
     outfile: str='BandAlignment',
-    references: list=[], 
+    references: dict={}, 
     edge=None
 ) -> plt.figure:
    
@@ -53,7 +53,7 @@ def energy_band_alignment_diagram(
 
         materials (list): A list of material names corresponding to each set of energies.
 
-        limit (float, optional): The limit for the energy axis (in eV). Default is 8.0.
+        ylims (tuple, optional): The limits for the energy/y axis (in eV). Default is (-8.0, 0.0)
 
         width (float, optional): The width of the bars representing IP and EA. Default is 1.0.
 
@@ -65,7 +65,8 @@ def energy_band_alignment_diagram(
 
         outfile (str, optional): The base name for the output file (both .eps and .png files will be saved). Default is 'BandAlignment'.
 
-        references (list, optional): A list of reference points (as tuples) to be shown as dashed lines on the plot. Each tuple should be in the Format (reference_value, label). Default is an empty list.
+        references (dict, optional): A dictionary of reference points to be shown as dashed lines on the plot. 
+            Each tuple should be in the Format (reference_value, label). Default is an empty dictionary.
 
         edge (None or str, optional): The edge color for the bars. If None, there will be no edge color. Default is None.
 
@@ -75,7 +76,7 @@ def energy_band_alignment_diagram(
     Example:
         >>> energies = [(5.2, 2.8), (4.9, 3.1), (5.5, 2.6)]
         >>> materials = ['Material A', 'Material B', 'Material C']
-        >>> energy_band_alignment_diagram(energies, materials, limit=8.0, width=0.8,
+        >>> energy_band_alignment_diagram(energies, materials, ylims=(-9.0, 0.0), width=0.8,
                                     cols=['#74356C', '#efce19'], textsize=18,
                                     arrowhead=0.5, outfile='BandAlignment',
                                     references=[(3.0, 'Reference 1'), (4.0, 'Reference 2')],
@@ -84,7 +85,7 @@ def energy_band_alignment_diagram(
     assert len(energies) == len(materials), "The number of materials and energies must be the same."
     
     fig, ax1 = plt.subplots(1, 1, sharex=True)
-    fig.set_size_inches(len(energies) * 3, limit * 0.75)
+    fig.set_size_inches(len(energies) * 3, abs(ylims[0]) * 0.75)
     mpl.rcParams['xtick.labelsize'] = textsize
     mpl.rcParams['ytick.labelsize'] = textsize
     mpl.rcParams['ytick.direction'] = 'in'
@@ -98,7 +99,7 @@ def energy_band_alignment_diagram(
 
     ## Bars for the IP and background colour
     for i in ind:
-        ax1.bar(i, -limit, width, edgecolor=None)
+        ax1.bar(i, ylims[0], width, edgecolor=None)
         ax1.bar(i, -energies[i][1], width, color='w', edgecolor=None)
 
     ## Reset the colours back to the start and plot the EA
@@ -107,16 +108,16 @@ def energy_band_alignment_diagram(
         ax1.bar(i,-energies[i][0], width, edgecolor=None, alpha=0.8)
 
     ## Set the limits of the axes
-    ax1.set_ylim(-limit,0)
-    ax2.set_ylim(-limit,0)
-    ax1.set_xlim(-0.5,len(energies)-0.5)
+    ax1.set_ylim(ylims[0], ylims[1])
+    ax2.set_ylim(ylims[0], ylims[1])
+    ax1.set_xlim(-0.5, len(energies)-0.5)
 
     ## Set the names
     ax1.set_xticks(ind)
     ax1.set_xticklabels(materials, size=textsize)
-    ran = [ str(k) for k in np.arange(0,limit+2,2)]
+    ran = [str(k) for k in np.arange(0, abs(ylims[0])+2, 2)]
     ax1.set_yticklabels(ran[::-1], size=textsize)
-    ran = [ '' for k in np.arange(0,limit+2,2)]
+    ran = ['' for k in np.arange(0, abs(ylims[0])+2, 2)]
     ran[0] = 'Vacuum Level'
     ax2.set_yticklabels(ran[::-1], size=textsize)
     ax1.set_ylabel('Energy (eV)', size=textsize)
@@ -143,10 +144,10 @@ def energy_band_alignment_diagram(
         ax1.tick_params(axis='x',which='minor',bottom='off')
         ax2.minorticks_on()
 
-    for ref in references:
-        ax1.hlines(-ref[1], -0.5, len(energies) - 0.5,
+    for label, value in references.items():
+        ax1.hlines(-value, -0.5, len(energies) - 0.5,
                    linestyles='--', colors='r')
-        ax1.text(len(energies) - 0.45, -ref[1] - 0.1, ref[0],
+        ax1.text(len(energies) - 0.45, -value - 0.1, label,
                  fontsize=textsize, color='r')
 
     fig.savefig(f'{outfile}.pdf', bbox_inches='tight')
