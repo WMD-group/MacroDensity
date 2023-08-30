@@ -364,8 +364,30 @@ def plot_planar_average(
     Returns:
         tuple: A tuple containing planar average, macroscopic average, interpolated potential, and figure object.
     """
-
+    def _plot(planar, macro, img_file):
+        fig, ax = plt.subplots()
+        ax.set_ylabel('V (V)')
+        ax.set_xlabel('Grid Position')
+        ax.plot(planar, label="Planar")
+        ax.plot(macro, label="Macroscopic")
+        ax.legend(frameon=True)
+        fig.savefig(img_file)
+        return fig
+    
+    def _save_df(planar, macro, output_file, interpolated_potential=None):
+        if interpolated_potential:
+            df = pd.DataFrame.from_dict(
+                {'Planar': planar, 'Macroscopic': macro,'Interpolated': interpolated_potential},
+                orient='index'
+            )
+        else:
+            df = pd.DataFrame.from_dict({'Planar': planar, 'Macroscopic': macro}, orient='index')
+        df = df.transpose()
+        df.to_csv(output_file)
+        return df
+       
     filetype = input_file.split('.')[-1]
+    
     if filetype == 'cube':
         output_file = 'PlanarCube.csv'
         img_file = 'PlanarCube.png'
@@ -387,17 +409,10 @@ def plot_planar_average(
         macro  = macroscopic_average(planar,lattice_vector,resolution_z)
 
         ## PLOTTING
-        fig, ax = plt.subplots()
-        ax.set_ylabel('V/V')
-        ax.set_xlabel('Grid Position')
-        ax.plot(planar)
-        ax.plot(macro)
-        fig.savefig(img_file)
+        fig = _plot(planar, macro, img_file)
 
         ## SAVING
-        df = pd.DataFrame.from_dict({'Planar':planar,'Macroscopic':macro},orient='index')
-        df = df.transpose()
-        df.to_csv(output_file)
+        df = _save_df(planar, macro, output_file)
 
     elif 'gulp' in input_file or '.out' in input_file:
         interpolated_potential = []
@@ -426,28 +441,17 @@ def plot_planar_average(
         macro  = macroscopic_average(planar, lattice_vector, vector_c/new_resolution)
 
         ## PLOTTING
-        fig, ax1 = plt.subplots()
-        ax1.set_ylabel('V/V')
-        ax1.set_xlabel('Grid Position')
-        ax1.plot(planar,linestyle = ' ',marker = 'o')
-        ax1.plot(macro)
-        ax2 = ax1.twiny()
-        ax2.plot(interpolated_potential)
-        plt.savefig(img_file)
+        fig = _plot(planar, macro, img_file)
 
         ## SAVING
-        df = pd.DataFrame.from_dict(
-            {'Planar':planar, 'Macroscopic':macro,'Interpolated':interpolated_potential},orient='index'
-        )
-        df = df.transpose()
-        df.to_csv(output_file)
+        df = _save_df(planar, macro, output_file, interpolated_potential)
 
         # TODO: Dont return planar, macro or interpolated_potential, 
         # since they are already saved to df/csv file!
         # So best to return df, fig
         return planar, macro, interpolated_potential, fig
     
-    elif 'vasp' in input_file or 'LOCPOT' in input_file:
+    elif 'vasp' in input_file or 'LOCPOT' in input_file or "CHGCAR" in input_file:
         output_file = 'PlanarAverage.csv'
         img_file = 'PlanarAverage.png'
         pot, NGX, NGY, NGZ, lattice = read_vasp_density(input_file)
@@ -458,26 +462,18 @@ def plot_planar_average(
         grid_pot, electrons = density_2_grid(pot, NGX, NGY, NGZ, Format="VASP")
 
         ## PLANAR AVERAGE
-        planar = planar_average(grid_pot,NGX,NGY,NGZ)
-
+        planar = planar_average(grid_pot ,NGX, NGY, NGZ)
         ## MACROSCOPIC AVERAGE
-        macro = macroscopic_average(planar,lattice_vector,resolution_z)
+        macro = macroscopic_average(planar, lattice_vector, resolution_z)
 
         ## PLOTTING
-        fig, ax = plt.subplots()
-        ax.set_ylabel('V/V')
-        ax.set_xlabel('Grid Position')
-        ax.plot(planar)
-        ax.plot(macro)
-        plt.savefig(img_file)
+        fig = _plot(planar, macro, img_file)
 
         ## SAVING
-        df = pd.DataFrame.from_dict({'Planar':planar,'Macroscopic':macro},orient='index')
-        df = df.transpose()
-        df.to_csv(output_file)
+        df = _save_df(planar, macro, output_file)
     
     else:
-        print('Filetype not recognised')
+        raise ValueError(f'File {input_file} not recognised!')
 
 
     return planar, macro, fig
