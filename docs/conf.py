@@ -9,14 +9,11 @@
 import os
 import sys
 
-
-
 from recommonmark.transform import AutoStructify
 
 sys.path.insert(0, os.path.abspath(".."))
 
 master_doc = 'index'
-
 
 
 project = 'macrodensity'
@@ -33,13 +30,13 @@ release = '0.0.0'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    'nbsphinx',
     'sphinx.ext.autodoc',
     'sphinx.ext.intersphinx',
-    'sphinx.ext.mathjax',
+    'sphinx.ext.mathjax',  # to show equations in html output
     'sphinx.ext.githubpages',
     'sphinx.ext.doctest', 
     'sphinx_autodoc_annotation', 
-    'nbsphinx',
     'myst_nb',  # for jupyter notebooks
 ]
 
