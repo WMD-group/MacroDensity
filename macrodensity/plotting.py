@@ -447,7 +447,7 @@ def plot_planar_average(
         # So best to return df, fig
         return planar, macro, interpolated_potential, fig
     
-    elif 'vasp' in input_file or 'LOCPOT' in input_file:
+    elif 'vasp' in input_file or 'LOCPOT' in input_file or "CHGCAR" in input_file:":
         output_file = 'PlanarAverage.csv'
         img_file = 'PlanarAverage.png'
         pot, NGX, NGY, NGZ, lattice = read_vasp_density(input_file)
