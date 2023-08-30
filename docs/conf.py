@@ -50,7 +50,8 @@ source_suffix = {
 }
 
 myst_enable_extensions = [
-    "html_admonition",
+    "html_admonition", 
+    "amsmath"
 ]
 
 # -- Options for HTML output -------------------------------------------------
