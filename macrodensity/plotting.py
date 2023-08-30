@@ -16,10 +16,6 @@ from ase.io import cube, vasp
 from matplotlib import cm
 from scipy.interpolate import interp1d
 
-MODULE_DIR = os.path.dirname(os.path.abspath(__file__))
-
-plt.style.use(f"{MODULE_DIR}/macrodensity.mplstyle")
-
 from macrodensity.density import (
     density_2_grid,
     macroscopic_average,
@@ -30,6 +26,9 @@ from macrodensity.density import (
 from macrodensity.io import read_gulp_potential, read_vasp_density
 from macrodensity.tools import create_plotting_mesh, points_2_plane
 from macrodensity.utils import matrix_2_abc
+
+MODULE_DIR = os.path.dirname(os.path.abspath(__file__))
+plt.style.use(f"{MODULE_DIR}/macrodensity.mplstyle")
 
 
 def energy_band_alignment_diagram(
@@ -52,22 +51,30 @@ def energy_band_alignment_diagram(
          containing its ionization potential (IP) and electron affinity
          (EA) (e.g. {"CdS": (4.4, 7.7), ...}).
 
-        ylims (tuple, optional): The limits for the energy/y axis (in eV). Default is (-8.0, 0.0)
+        ylims (tuple, optional): The limits for the energy/y axis (in eV).
+            Default is (-8.0, 0.0)
 
-        width (float, optional): The width of the bars representing IP and EA. Default is 1.0.
+        width (float, optional): The width of the bars representing IP and EA.
+            Default is 1.0.
 
-        cols (list, optional): A list of colors to use for the bars. Default is ['#74356C','#efce19'].
+        cols (list, optional): A list of colors to use for the bars.
+            Default is ['#74356C','#efce19'].
 
-        textsize (int, optional): The font size for the text in the plot. Default is 22.
+        textsize (int, optional): The font size for the text in the plot.
+            Default is 22.
         
-        arrowhead (float, optional): The size of the arrowhead for the energy arrows. Default is 0.7.
+        arrowhead (float, optional): The size of the arrowhead for the energy arrows.
+            Default is 0.7.
 
-        outfile (str, optional): The base name for the output file (both .eps and .png files will be saved). Default is 'BandAlignment'.
+        outfile (str, optional): The base name for the output file to be saved.
+            Default is 'BandAlignment'.
 
-        references (dict, optional): A dictionary of reference points to be shown as dashed lines on the plot. 
-            Each tuple should be in the Format (reference_value, label). Default is an empty dictionary.
+        references (dict, optional): A dictionary of reference points to be
+            shown as dashed lines on the plot (e.g. {label: reference_value}. 
+            Default is an empty dictionary.
 
-        edge (None or str, optional): The edge color for the bars. If None, there will be no edge color. Default is None.
+        edge (None or str, optional): The edge color for the bars.
+            If None, there will be no edge color. Default is None.
 
     Returns:
         Figure: A matplotlib figure object containing the energy band alignment diagram.
@@ -78,7 +85,7 @@ def energy_band_alignment_diagram(
         >>> energy_band_alignment_diagram(energies, materials, ylims=(-9.0, 0.0), width=0.8,
                                     cols=['#74356C', '#efce19'], textsize=18,
                                     arrowhead=0.5, outfile='BandAlignment',
-                                    references=[(3.0, 'Reference 1'), (4.0, 'Reference 2')],
+                                    references={'Reference 1': 3.0, 'Reference 1', 'Reference 2': 4.0},
                                     edge='black')
     """
     energies_list = list(energies.values())
