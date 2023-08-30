@@ -124,11 +124,12 @@ def one_2_2d(array: np.ndarray, resolution: float, vector: np.ndarray) -> np.nda
     for i in range(len(array) - 1):
         new_array[i,0] = i*resolution
         new_array[i,1] = array[i]
+    return new_array
 
-    return New_array
 
-
-def macroscopic_average(potential: np.ndarray, periodicity: float, resolution: float) -> np.ndarray:
+def macroscopic_average(
+    potential: np.ndarray, periodicity: float, resolution: float
+) -> np.ndarray:
     """
     Calculate the macroscopic average of a 1D potential field with periodicity.
 
