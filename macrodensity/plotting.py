@@ -387,6 +387,7 @@ def plot_planar_average(
         return df
        
     filetype = input_file.split('.')[-1]
+    
     if filetype == 'cube':
         output_file = 'PlanarCube.csv'
         img_file = 'PlanarCube.png'
