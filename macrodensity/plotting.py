@@ -365,7 +365,7 @@ def plot_planar_average(
         new_resolution (int): New resolution for interpolation.
         
     Returns:
-        tuple: A tuple containing planar average, macroscopic average, interpolated potential, and figure object.
+        tuple: A tuple containing a dataframe with the planar average and macroscopic average and a figure object.
     """
     def _plot(planar, macro, img_file):
         fig, ax = plt.subplots()
@@ -446,11 +446,6 @@ def plot_planar_average(
         fig = _plot(planar, macro, img_file)
         ## SAVING
         df = _save_df(planar, macro, output_file, interpolated_potential)
-
-        # TODO: Dont return planar, macro or interpolated_potential, 
-        # since they are already saved to df/csv file!
-        # So best to return df, fig
-        return planar, macro, interpolated_potential, fig
     
     elif 'vasp' in input_file or 'LOCPOT' in input_file or "CHGCAR" in input_file:
         pot, NGX, NGY, NGZ, lattice = read_vasp_density(input_file)
@@ -476,7 +471,7 @@ def plot_planar_average(
         raise ValueError(f'File {input_file} not recognised!')
 
 
-    return planar, macro, fig
+    return df, fig
 
 
 def plot_field_at_point(a_point: list,
