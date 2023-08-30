@@ -347,6 +347,7 @@ def plot_on_site_potential(
 def plot_planar_average(
     lattice_vector: float,
     input_file: str='LOCPOT', # VASP potential file by default
+    axis: str='z',
     output_file: str='planar_average.csv',
     img_file: str='planar_average.png',
     new_resolution: int = 3000
@@ -357,6 +358,8 @@ def plot_planar_average(
     Args:
         lattice_vector (float): The lattice vector value.
         input_file (str): Path to the input potential file.
+        axis (str, Optional): Axis along which to calculate the 
+            average ('x', 'y', or 'z'). Default is "z".
         output_file (str): Path to save the output CSV file.
         img_file (str): Path to save the output image file.
         new_resolution (int): New resolution for interpolation.
@@ -388,6 +391,10 @@ def plot_planar_average(
        
     filetype = input_file.split('.')[-1]
     
+    # Check axis is valid
+    if axis not in ['x', 'y', 'z']:
+        raise ValueError(f'Axis {axis} not recognised! Must be "x", "y", or "z".')
+    
     if filetype == 'cube':
         potential, atoms = cube.read_cube_data(input_file)
         vector_a = np.linalg.norm(atoms.cell[1])
@@ -401,19 +408,17 @@ def plot_planar_average(
         resolution_z = vector_c/NGZ
 
         ## PLANAR AVERAGE
-        planar = planar_average(potential, NGX, NGY, NGZ)
+        planar = planar_average(potential, NGX, NGY, NGZ, axis=axis)
         ## MACROSCOPIC AVERAGE
-        macro  = macroscopic_average(planar, lattice_vector, resolution_z)
+        axis_to_resolution = {'x': resolution_x, 'y': resolution_y, 'z': resolution_z}
+        macro  = macroscopic_average(planar, lattice_vector, axis_to_resolution[axis])
 
         ## PLOTTING
         fig = _plot(planar, macro, img_file)
-
         ## SAVING
         df = _save_df(planar, macro, output_file)
 
     elif 'gulp' in input_file or '.out' in input_file:
-        interpolated_potential = []
-
         pot, NGX, NGY, NGZ, lattice = read_gulp_potential(input_file)
         vector_a, vector_b, vector_c, av, bv, cv = matrix_2_abc(lattice)
         resolution_x = vector_a/NGX
@@ -422,22 +427,23 @@ def plot_planar_average(
         # TODO: Update Format parameter in density_2_grid to be consistent with
         # code naming in other functions (e.g. if here we use GULP to refer to GULP, 
         # should do the same in other functions)
-        # Also use lower case for Format variable following python conventions (eg Format -> Format)
+        # Also use lower case for Format variable following python conventions (eg Format -> format)
         grid_pot = density_2_grid(pot, NGX, NGY, NGZ, Format="GULP")
 
         ## POTENTIAL PLANAR AVERAGE
-        planar = planar_average(grid_pot, NGX, NGY, NGZ)
+        planar = planar_average(grid_pot, NGX, NGY, NGZ, axis=axis)
         np.savetxt(output_file, planar)
 
         ## MACROSCOPIC AVERAGE
-        new_abscissa = np.linspace(0, NGZ - 1, new_resolution)
-        f = interp1d(range(NGZ), planar, kind='cubic')
+        axis_to_ng = {"x": NGX, "y": NGY, "z": NGZ}
+        axis_to_vector = {"x": vector_a, "y": vector_b, "z": vector_c}
+        new_abscissa = np.linspace(0, axis_to_ng[axis] - 1, new_resolution)
+        f = interp1d(range(axis_to_ng[axis]), planar, kind='cubic')
         interpolated_potential = [f(i) for i in new_abscissa]
-        macro = macroscopic_average(planar, lattice_vector, vector_c/new_resolution)
+        macro = macroscopic_average(planar, lattice_vector, axis_to_vector[axis]/new_resolution)
 
         ## PLOTTING
         fig = _plot(planar, macro, img_file)
-
         ## SAVING
         df = _save_df(planar, macro, output_file, interpolated_potential)
 
@@ -455,9 +461,10 @@ def plot_planar_average(
         grid_pot, electrons = density_2_grid(pot, NGX, NGY, NGZ, Format="VASP")
 
         ## PLANAR AVERAGE
-        planar = planar_average(grid_pot ,NGX, NGY, NGZ)
+        planar = planar_average(grid_pot, NGX, NGY, NGZ, axis=axis)
         ## MACROSCOPIC AVERAGE
-        macro = macroscopic_average(planar, lattice_vector, resolution_z)
+        axis_to_resolution = {'x': resolution_x, 'y': resolution_y, 'z': resolution_z}
+        macro  = macroscopic_average(planar, lattice_vector, axis_to_resolution[axis])
 
         ## PLOTTING
         fig = _plot(planar, macro, img_file)
