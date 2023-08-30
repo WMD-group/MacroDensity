@@ -288,7 +288,8 @@ def planar_average(grid: np.ndarray, nx: int, ny: int, nz: int, axis: str='z') -
 
         nz (int): Number of points along the z-axis in the grid.
 
-        axis (str, optional): Axis along which to calculate the average ('x', 'y', or 'z'). Default is 'z'.
+        axis (str, optional): Axis along which to calculate the average ('x', 'y', or 'z'). 
+            Default is 'z'.
 
     Returns:
         np.ndarray: 1D array containing the planar average along the specified axis.
@@ -301,27 +302,27 @@ def planar_average(grid: np.ndarray, nx: int, ny: int, nz: int, axis: str='z') -
     """
     if axis == 'x':
         x_plane = np.zeros(shape=(ny, nz))
-        Average = np.zeros(shape=(nx))
+        average = np.zeros(shape=(nx))
         for x_value in range(nx):
             x_plane[:,:] = grid[x_value,:,:]
-            Average[x_value] = x_plane.mean()
+            average[x_value] = x_plane.mean()
     if axis == 'y':
-        Average = np.zeros(shape=(ny))
+        average = np.zeros(shape=(ny))
         y_plane = np.zeros(shape=(nx,nz))
         for y_value in range(ny):
             y_plane[:,:] = grid[:,y_value,:]
-            Average[y_value] = y_plane.mean()
+            average[y_value] = y_plane.mean()
     if axis == 'z':
-        Average = np.zeros(shape=(nz))
+        average = np.zeros(shape=(nz))
         z_plane = np.zeros(shape=(nx,ny))
         for z_value in range(nz):
             z_plane[:,:] = grid[:,:,z_value]
-            Average[z_value] = z_plane.mean()
+            average[z_value] = z_plane.mean()
 
-    return Average
+    return average
 
 
-def get_volume(a: np.ndarray,b: np.ndarray,c: np.ndarray) -> float:
+def get_volume(a: np.ndarray, b: np.ndarray, c: np.ndarray) -> float:
     """
     Calculate the volume of a parallelepiped defined by three vectors a, b, and c.
 
