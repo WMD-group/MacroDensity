@@ -22,3 +22,4 @@
   - Some examples here: 
     - [Example1](https://joss.theoj.org/papers/10.21105/joss.04817)
     - [Example2](https://joss.theoj.org/papers/10.21105/joss.03171)
+- [] Update conda installation instructions
