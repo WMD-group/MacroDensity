@@ -34,13 +34,13 @@ from macrodensity.utils import matrix_2_abc
 
 def energy_band_alignment_diagram(
     energies: list, 
-    materials:list, 
-    limit:float=8., 
-    width:float=1.,
+    materials: list, 
+    limit: float=8., 
+    width: float=1.,
     cols: list=['#74356C','#efce19'], 
     textsize: int=22,
     arrowhead: float=0.7, 
-    outfile:str ='BandAlignment',
+    outfile: str='BandAlignment',
     references: list=[], 
     edge=None
 ) -> plt.figure:
@@ -81,6 +81,8 @@ def energy_band_alignment_diagram(
                                     references=[(3.0, 'Reference 1'), (4.0, 'Reference 2')],
                                     edge='black')
     """
+    assert len(energies) == len(materials), "The number of materials and energies must be the same."
+    
     fig, ax1 = plt.subplots(1, 1, sharex=True)
     fig.set_size_inches(len(energies) * 3, limit * 0.75)
     mpl.rcParams['xtick.labelsize'] = textsize
@@ -90,20 +92,19 @@ def energy_band_alignment_diagram(
     mpl.rcParams['ytick.major.size'] = 7
     mpl.rcParams['ytick.minor.size'] = 4
     mpl.rcParams['axes.linewidth'] = 3
-
-    ax1.set_color_cycle(cols)
     ax2 = ax1.twinx()
     ind = np.arange(len(energies))
+    ax1.set_prop_cycle(color=cols)
 
     ## Bars for the IP and background colour
     for i in ind:
-        ax1.bar(i,-limit, width, edgecolor=None)
-        ax1.bar(i,-energies[i][1], width, color='w', edgecolor=None)
+        ax1.bar(i, -limit, width, edgecolor=None)
+        ax1.bar(i, -energies[i][1], width, color='w', edgecolor=None)
 
     ## Reset the colours back to the start and plot the EA
-    ax1.set_color_cycle(cols)
+    ax1.set_prop_cycle(color=cols)
     for i in ind:
-        ax1.bar(i,-energies[i][0], width, edgecolor=None,alpha=0.8)
+        ax1.bar(i,-energies[i][0], width, edgecolor=None, alpha=0.8)
 
     ## Set the limits of the axes
     ax1.set_ylim(-limit,0)
@@ -112,15 +113,15 @@ def energy_band_alignment_diagram(
 
     ## Set the names
     ax1.set_xticks(ind)
-    ax1.set_xticklabels(materials,size=textsize)
+    ax1.set_xticklabels(materials, size=textsize)
     ran = [ str(k) for k in np.arange(0,limit+2,2)]
-    ax1.set_yticklabels(ran[::-1],size=textsize)
+    ax1.set_yticklabels(ran[::-1], size=textsize)
     ran = [ '' for k in np.arange(0,limit+2,2)]
     ran[0] = 'Vacuum Level'
-    ax2.set_yticklabels(ran[::-1],size=textsize)
+    ax2.set_yticklabels(ran[::-1], size=textsize)
     ax1.set_ylabel('Energy (eV)', size=textsize)
 
-
+    # Offsets
     os1 = 0.15   # Offset of the text 'IP' in the plot
     os2 = 0.2    # Offset of the text 'EA' in the plot
 
@@ -148,12 +149,9 @@ def energy_band_alignment_diagram(
         ax1.text(len(energies) - 0.45, -ref[1] - 0.1, ref[0],
                  fontsize=textsize, color='r')
 
-    fig.savefig('%s.eps'%outfile,bbox_inches='tight')
-    fig.savefig('%s.png'%outfile,bbox_inches='tight')
-    plt.show()
-    print("Figure saved as %s.eps and %s.png"%(outfile, outfile))
+    fig.savefig(f'{outfile}.pdf', bbox_inches='tight')
+    print(f"Figure saved as {outfile}.pdf")
     plt.close(fig)
-
     return fig
 
 
