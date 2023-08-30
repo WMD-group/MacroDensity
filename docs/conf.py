@@ -51,7 +51,8 @@ source_suffix = {
 
 myst_enable_extensions = [
     "html_admonition", 
-    "amsmath"
+    "amsmath",
+    "dollarmath", # to recognize latex $$ syntax
 ]
 
 # -- Options for HTML output -------------------------------------------------
