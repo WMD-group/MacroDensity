@@ -389,8 +389,6 @@ def plot_planar_average(
     filetype = input_file.split('.')[-1]
     
     if filetype == 'cube':
-        output_file = 'PlanarCube.csv'
-        img_file = 'PlanarCube.png'
         potential, atoms = cube.read_cube_data(input_file)
         vector_a = np.linalg.norm(atoms.cell[1])
         vector_b = np.linalg.norm(atoms.cell[1])
@@ -403,10 +401,9 @@ def plot_planar_average(
         resolution_z = vector_c/NGZ
 
         ## PLANAR AVERAGE
-        planar = planar_average(potential,NGX,NGY,NGZ)
-
+        planar = planar_average(potential, NGX, NGY, NGZ)
         ## MACROSCOPIC AVERAGE
-        macro  = macroscopic_average(planar,lattice_vector,resolution_z)
+        macro  = macroscopic_average(planar, lattice_vector, resolution_z)
 
         ## PLOTTING
         fig = _plot(planar, macro, img_file)
@@ -416,8 +413,6 @@ def plot_planar_average(
 
     elif 'gulp' in input_file or '.out' in input_file:
         interpolated_potential = []
-        output_file = 'GulpPotential.csv'
-        img_file = 'GulpPotential.png'
 
         pot, NGX, NGY, NGZ, lattice = read_gulp_potential(input_file)
         vector_a, vector_b, vector_c, av, bv, cv = matrix_2_abc(lattice)
@@ -438,7 +433,7 @@ def plot_planar_average(
         new_abscissa = np.linspace(0, NGZ - 1, new_resolution)
         f = interp1d(range(NGZ), planar, kind='cubic')
         interpolated_potential = [f(i) for i in new_abscissa]
-        macro  = macroscopic_average(planar, lattice_vector, vector_c/new_resolution)
+        macro = macroscopic_average(planar, lattice_vector, vector_c/new_resolution)
 
         ## PLOTTING
         fig = _plot(planar, macro, img_file)
@@ -452,8 +447,6 @@ def plot_planar_average(
         return planar, macro, interpolated_potential, fig
     
     elif 'vasp' in input_file or 'LOCPOT' in input_file or "CHGCAR" in input_file:
-        output_file = 'PlanarAverage.csv'
-        img_file = 'PlanarAverage.png'
         pot, NGX, NGY, NGZ, lattice = read_vasp_density(input_file)
         vector_a, vector_b, vector_c, av, bv, cv = matrix_2_abc(lattice)
         resolution_x = vector_a/NGX
