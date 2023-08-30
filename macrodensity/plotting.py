@@ -33,15 +33,14 @@ from macrodensity.utils import matrix_2_abc
 
 
 def energy_band_alignment_diagram(
-    energies: list, 
-    materials: list, 
-    ylims: list=(-8, 0), 
-    width: float=1.,
-    cols: list=['#74356C','#efce19'], 
-    textsize: int=22,
-    arrowhead: float=0.4, 
-    outfile: str='BandAlignment',
-    references: dict={}, 
+    energies: dict, 
+    ylims: list = (-8, 0), 
+    width: float = 1.,
+    cols: list = ['#74356C','#efce19'], 
+    textsize: int = 24,
+    arrowhead: float = 0.4, 
+    outfile: str = 'BandAlignment',
+    references: dict = {}, 
     edge=None
 ) -> plt.figure:
    
@@ -49,9 +48,9 @@ def energy_band_alignment_diagram(
     Plot an energy band alignment diagram for a list of materials.
 
     Parameters:
-        energies (list): A list of tuples containing the ionization potential (IP) and electron affinity (EA) of each material. The Format is [(IP_1, EA_1), ...].
-
-        materials (list): A list of material names corresponding to each set of energies.
+        energies (dict): A dictionary mapping each material name to a tuple
+         containing its ionization potential (IP) and electron affinity
+         (EA) (e.g. {"CdS": (4.4, 7.7), ...}).
 
         ylims (tuple, optional): The limits for the energy/y axis (in eV). Default is (-8.0, 0.0)
 
@@ -82,7 +81,8 @@ def energy_band_alignment_diagram(
                                     references=[(3.0, 'Reference 1'), (4.0, 'Reference 2')],
                                     edge='black')
     """
-    assert len(energies) == len(materials), "The number of materials and energies must be the same."
+    energies_list = list(energies.values())
+    materials = list(energies.keys())
     
     fig, ax1 = plt.subplots(1, 1, sharex=True)
     fig.set_size_inches(len(energies) * 3, abs(ylims[0]) * 0.75)
@@ -94,30 +94,33 @@ def energy_band_alignment_diagram(
     mpl.rcParams['ytick.minor.size'] = 4
     mpl.rcParams['axes.linewidth'] = 3
     ax2 = ax1.twinx()
-    ind = np.arange(len(energies))
+    ind = np.arange(len(energies_list))
     ax1.set_prop_cycle(color=cols)
 
-    ## Bars for the IP and background colour
+    # Bars for the IP and background colour
     for i in ind:
         ax1.bar(i, ylims[0], width, edgecolor=None)
-        ax1.bar(i, -energies[i][1], width, color='w', edgecolor=None)
+        ax1.bar(i, -energies_list[i][1], width, color='w', edgecolor=None)
 
-    ## Reset the colours back to the start and plot the EA
+    # Reset the colours back to the start and plot the EA
     ax1.set_prop_cycle(color=cols)
     for i in ind:
-        ax1.bar(i,-energies[i][0], width, edgecolor=None, alpha=0.8)
+        ax1.bar(i, -energies_list[i][0], width, edgecolor=None, alpha=0.8)
 
-    ## Set the limits of the axes
+    # Set the limits of the axes
     ax1.set_ylim(ylims[0], ylims[1])
     ax2.set_ylim(ylims[0], ylims[1])
-    ax1.set_xlim(-0.5, len(energies)-0.5)
+    ax1.set_xlim(-0.5, len(energies_list)-0.5)
 
-    ## Set the names
+    # Set the names
     ax1.set_xticks(ind)
     ax1.set_xticklabels(materials, size=textsize)
-    ran = [str(k) for k in np.arange(0, abs(ylims[0])+2, 2)]
+    ran = [float(k) for k in np.arange(0, abs(ylims[0])+2, 2)]
+    ax1.set_yticks([float(k) for k in np.arange(ylims[0], 2, 2)])
     ax1.set_yticklabels(ran[::-1], size=textsize)
+    # Add tick for vacuum level
     ran = ['' for k in np.arange(0, abs(ylims[0])+2, 2)]
+    ax2.set_yticks([float(k) for k in np.arange(ylims[0], 2, 2)])
     ran[0] = 'Vacuum Level'
     ax2.set_yticklabels(ran[::-1], size=textsize)
     ax1.set_ylabel('Energy (eV)', size=textsize)
@@ -126,28 +129,27 @@ def energy_band_alignment_diagram(
     os1 = 0.15   # Offset of the text 'IP' in the plot
     os2 = 0.2    # Offset of the text 'EA' in the plot
 
-    for i, en in enumerate(energies):
-        ax1.arrow(i-0.25,-en[0],0, en[0]-arrowhead, width=0.005,
-                  head_length=arrowhead,head_width=0.07, fc='black',ec='None')
-        ax1.arrow(i-0.25,0,0, -en[1]+arrowhead, width=0.005,
-                  head_length=arrowhead,head_width=0.07, fc='black',ec='None')
-        ax1.arrow(i-0.25,0,0, -en[0]+arrowhead, width=0.005,
-                  head_length=arrowhead,head_width=0.07, fc='black',ec='None')
+    for i, en in enumerate(energies_list):
+        ax1.arrow(i-0.25, -en[0], 0, en[0]-arrowhead, width=0.005,
+                  head_length=arrowhead, head_width=0.07, fc='black', ec='None')
+        ax1.arrow(i-0.25, 0, 0, -en[1]+arrowhead, width=0.005,
+                  head_length=arrowhead, head_width=0.07, fc='black', ec='None')
+        ax1.arrow(i-0.25, 0, 0, -en[0]+arrowhead, width=0.005,
+                  head_length=arrowhead, head_width=0.07, fc='black', ec='None')
         loc_ip = -(en[0] + en[1]) / 2
-        ax1.text(i-os1,loc_ip,"IP  %3.1f"%en[1],fontsize=textsize)
+        ax1.text(i-os1, loc_ip, "IP  %3.1f"%en[1], fontsize=textsize)
 
         loc_ea = -en[0] / 2
-        ax1.text(i-os2,loc_ea,"EA %3.1f"%en[0],fontsize=textsize)
+        ax1.text(i-os2, loc_ea, "EA %3.1f"%en[0], fontsize=textsize)
 
-        ax1.minorticks_on()
         # Don't show minor ticks on x-axis
-        ax1.tick_params(axis='x',which='minor',bottom='off')
-        ax2.minorticks_on()
+        ax1.tick_params(axis='x', which='minor', bottom='off')
+        ax2.tick_params(axis='x', which='minor', bottom='off')
 
     for label, value in references.items():
-        ax1.hlines(-value, -0.5, len(energies) - 0.5,
+        ax1.hlines(-value, -0.5, len(energies_list) - 0.5,
                    linestyles='--', colors='r')
-        ax1.text(len(energies) - 0.45, -value - 0.1, label,
+        ax1.text(len(energies_list) - 0.45, -value - 0.1, label,
                  fontsize=textsize, color='r')
 
     fig.savefig(f'{outfile}.pdf', bbox_inches='tight')
