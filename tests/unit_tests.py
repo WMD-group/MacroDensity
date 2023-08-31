@@ -282,17 +282,19 @@ class TestConvenienceFunctions(unittest.TestCase):
 
     def test_plot_on_site_potential(self):
         '''Tests the plot_on_site_potential function'''
-        Locpot = pkg_resources.resource_filename(
-                    __name__, path_join('../tests', 'LOCPOT.test'))
-        Poscar = pkg_resources.resource_filename(
-                    __name__, path_join('../tests', 'POSCAR.test'))
-        out = md.plot_on_site_potential(
+        locpot = pkg_resources.resource_filename(
+                    __name__, path_join('../tests', 'LOCPOT.test')
+        )
+        poscar = pkg_resources.resource_filename(
+                    __name__, path_join('../tests', 'POSCAR.test')
+        )
+        df = md.plot_on_site_potential(
             species='Zn',
-            sample_cube=[5,5,5],
-            potential_file=Locpot,
-            coordinate_file=Poscar
+            sample_cube=[5, 5, 5],
+            potential_file=locpot,
+            coordinate_file=poscar
         )[0]
-        self.assertEqual(out, [-6.545211257074241])
+        self.assertEqual(df.Potential.tolist(), [-6.545211257074241])
         self.addCleanup(os.remove, 'OnSitePotential.csv')
         self.addCleanup(os.remove, 'OnSitePotential.png')
 

@@ -323,9 +323,9 @@ def plot_on_site_potential(
         ... (plot generated and on-site potential data saved to 'OnSitePotential.png' and 'OnSitePotential.csv')
     '''
 
-    ## GETTING POTENTIALS
+    # Get potential
     vasp_pot, NGX, NGY, NGZ, lattice = read_vasp_density(potential_file)
-    vector_a,vector_b,vector_c,av,bv,cv = matrix_2_abc(lattice)
+    vector_a, vector_b, vector_c, av, bv, cv = matrix_2_abc(lattice)
     resolution_x = vector_a/NGX
     resolution_y = vector_b/NGY
     resolution_z = vector_c/NGZ
@@ -349,8 +349,7 @@ def plot_on_site_potential(
         grid_position[1] = coord[1]
         grid_position[2] = coord[2]
         cube = sample_cube
-        origin = [grid_position[0]-2,grid_position[1]-2,grid_position[2]-1]
-        travelled = [0, 0, 0]
+        origin = [grid_position[0]-2, grid_position[1]-2, grid_position[2]-1]
         cube_potential, cube_var = volume_average(origin, cube, grid_pot, NGX, NGY, NGZ)
         potentials_list.append(cube_potential)
 
@@ -362,10 +361,10 @@ def plot_on_site_potential(
     plt.savefig(img_file)
 
     ## SAVING
-    df = pd.DataFrame.from_dict({'Potential':potentials_list}, orient='index')
+    df = pd.DataFrame.from_dict({'Potential': potentials_list}, orient='index')
     df = df.transpose()
     df.to_csv(output_file)
-    return potentials_list, fig 
+    return df, fig 
 
 
 def plot_planar_average(
