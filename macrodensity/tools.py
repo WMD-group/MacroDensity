@@ -159,66 +159,6 @@ def moving_cube(
     return cubes_potential
 
 
-def spherical_average(
-    cube_size: list,
-    cube_origin: list,
-    input_file: str='LOCPOT',
-    print_output: bool=True
-) -> (float, float):
-    '''
-    Calculate the volume average of the electronic potential within a spherical region.
-
-    This function calculates the volume average of the electronic potential within a spherical region
-    defined by a specific size and origin. The size of the spherical region is specified by the cube_size
-    parameter, which determines the number of mesh points along each direction (NGX/Y/Z). The origin of the
-    sphere is given by the cube_origin parameter, specified in fractional coordinates. The function reads the
-    electronic potential data from the specified input file (e.g., LOCPOT) and calculates the potential and variance
-    within the spherical region.
-
-    Parameters:
-        cube_size (:obj:`list`): The size of the spherical region in units of mesh points (NGX/Y/Z).
-
-        cube_origin (:obj:`list`): The origin of the spherical region in fractional coordinates.
-
-        input_file (:obj:`str`, optional): The filename of the file containing the electronic potential (e.g., LOCPOT). Default is 'LOCPOT'.
-
-        print_output (:obj:`bool`, optional): If True, the function prints the calculated potential and variance. Default is True.
-
-    Returns:
-        :obj:`tuple`: A tuple containing the volume-averaged potential and the variance within the spherical region.
-
-    Outputs:
-        cube_potential, cube_variance
-    '''
-    
-    ## GETTING POTENTIAL
-    vasp_pot, NGX, NGY, NGZ, lattice = read_vasp_density(input_file)
-    vector_a,vector_b,vector_c,av,bv,cv = matrix_2_abc(lattice)
-    resolution_x = vector_a/NGX
-    resolution_y = vector_b/NGY
-    resolution_z = vector_c/NGZ
-    grid_pot, electrons = density_2_grid(vasp_pot, NGX, NGY, NGZ, Format="VASP")
-
-    cube = cube_size
-    origin = cube_origin
-    travelled = [0,0,0]
-    cube_pot, cube_var = volume_average(
-        origin=cube_origin,
-        cube=cube_size,
-        grid=grid_pot,
-        nx=NGX,ny=NGY,
-        nz=NGZ,
-        travelled=[0,0,0]
-    )
-
-    ## PRINTING
-    if print_output == True:
-        print("Potential            Variance")
-        print("--------------------------------")
-        print(cube_pot,"   ", cube_var)
-    return cube_pot, cube_var
-
-
 def subs_potentials(A: np.ndarray,B: np.ndarray,tol: float) -> np.ndarray:
     """
     Subtract potentials between two datasets based on a tolerance value.
@@ -328,7 +268,7 @@ def match_resolution(A: np.ndarray, B: np.ndarray) -> tuple:
 
     return A_new, B_new
 
-#------------------------------------------------------------------------------
+
 def spline_generate(A: np.ndarray,new_res_factor: int) -> np.ndarray:
     """
     Generate a new dataset with higher resolution using cubic spline interpolation.
@@ -420,7 +360,7 @@ def matched_spline_generate(A: np.ndarray,B: np.ndarray, V_A: np.ndarray, V_B: n
         TD_B[i,0] = i*res_b
     return TD_A, TD_B
 
-#--------------------------------------------------------------------------
+
 def scissors_shift(potential: np.ndarray,delta: float) -> np.ndarray:
     """
     Shift the potential values by a constant amount.
@@ -447,7 +387,7 @@ def scissors_shift(potential: np.ndarray,delta: float) -> np.ndarray:
 
     return shifted_potential
 
-#------------------------------------------------------------------------------
+
 def extend_potential(potential: np.ndarray,extension: float,vector: list) -> np.ndarray:
     """
     Extend a dataset by duplicating potential values along a specified vector direction.

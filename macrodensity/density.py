@@ -240,7 +240,76 @@ def volume_average(
     return potential_cube.mean(), np.var(potential_cube)
 
 
-def travelling_volume_average(grid: np.ndarray, cube: tuple, origin: tuple, vector: list, nx: int, ny: int, nz: int, magnitude: int) -> np.ndarray:
+def spherical_average(
+    cube_size: list,
+    cube_origin: list,
+    input_file: str='LOCPOT',
+    print_output: bool=True
+) -> (float, float):
+    '''
+    Calculate the volume average of the electronic potential within a spherical region.
+
+    This function calculates the volume average of the electronic potential within a spherical region
+    defined by a specific size and origin. The size of the spherical region is specified by the cube_size
+    parameter, which determines the number of mesh points along each direction (NGX/Y/Z). The origin of the
+    sphere is given by the cube_origin parameter, specified in fractional coordinates. The function reads the
+    electronic potential data from the specified input file (e.g., LOCPOT) and calculates the potential and variance
+    within the spherical region.
+
+    Parameters:
+        cube_size (:obj:`list`): The size of the spherical region in units of mesh points (NGX/Y/Z).
+
+        cube_origin (:obj:`list`): The origin of the spherical region in fractional coordinates.
+
+        input_file (:obj:`str`, optional): The filename of the file containing the electronic potential (e.g., LOCPOT). Default is 'LOCPOT'.
+
+        print_output (:obj:`bool`, optional): If True, the function prints the calculated potential and variance. Default is True.
+
+    Returns:
+        :obj:`tuple`: A tuple containing the volume-averaged potential and the variance within the spherical region.
+
+    Outputs:
+        cube_potential, cube_variance
+    '''
+    
+    ## GETTING POTENTIAL
+    vasp_pot, NGX, NGY, NGZ, lattice = read_vasp_density(input_file)
+    vector_a,vector_b,vector_c,av,bv,cv = matrix_2_abc(lattice)
+    resolution_x = vector_a/NGX
+    resolution_y = vector_b/NGY
+    resolution_z = vector_c/NGZ
+    grid_pot, electrons = density_2_grid(vasp_pot, NGX, NGY, NGZ, Format="VASP")
+
+    cube = cube_size
+    origin = cube_origin
+    travelled = [0,0,0]
+    cube_pot, cube_var = volume_average(
+        origin=cube_origin,
+        cube=cube_size,
+        grid=grid_pot,
+        nx=NGX,ny=NGY,
+        nz=NGZ,
+        travelled=[0,0,0]
+    )
+
+    ## PRINTING
+    if print_output == True:
+        print("Potential            Variance")
+        print("--------------------------------")
+        print(cube_pot,"   ", cube_var)
+    return cube_pot, cube_var
+
+
+def travelling_volume_average(
+    grid: np.ndarray, 
+    cube: tuple, 
+    origin: tuple, 
+    vector: list, 
+    nx: int, 
+    ny: int, 
+    nz: int, 
+    magnitude: int
+) -> np.ndarray:
    """
     Calculate the volume average at multiple positions along a given vector.
 
@@ -275,9 +344,9 @@ def travelling_volume_average(grid: np.ndarray, cube: tuple, origin: tuple, vect
    i = 0
    while i < magnitude:
          travelled = np.multiply(i, vector)
-         plotting_average[i], varience = volume_average(origin,
-                                                        cube, grid,
-                                                        nx, ny, nz, travelled)
+         plotting_average[i], varience = volume_average(
+             origin, cube, grid, nx, ny, nz, travelled
+        )
          i = i + 1
 
    return plotting_average
