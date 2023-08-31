@@ -672,3 +672,34 @@ def get_third_coordinate(plane_coeff: np.ndarray,NGX: int,NGY: int) -> list:
                 zz.append(-(plane_coeff[0]*i+plane_coeff[1]*j)/plane_coeff[2])
 
     return zz
+
+
+def one_2_2d(array: np.ndarray, resolution: float, vector: np.ndarray) -> np.ndarray:
+    """
+    Transform a 1D array to a 2D array with abscissa values based on the given resolution and vector.
+
+    Parameters:
+        array (np.ndarray): 1D array to be transformed.
+
+        resolution (float): Spacing between abscissa values.
+
+        vector (np.ndarray): 3D vector used for the transformation.
+
+    Returns:
+        np.ndarray: 2D array with abscissa values and the corresponding Array values.
+
+    Example:
+        >>> Array = np.random.rand(10)
+        >>> resolution = 0.5
+        >>> vector = np.array([1, 2, 3])
+        >>> transformed_array = one_2_2d(Array, resolution, vector)
+        >>> print("Transformed Array:")
+        >>> print(transformed_array)
+    """
+    length = np.sqrt(vector.dot(vector))
+    new_array = np.zeros(shape=(len(array) - 1, 2))
+    resolution = length / len(array)
+    for i in range(len(array) - 1):
+        new_array[i,0] = i*resolution
+        new_array[i,1] = array[i]
+    return new_array
