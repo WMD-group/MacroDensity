@@ -243,8 +243,13 @@ class TestConvenienceFunctions(unittest.TestCase):
                     __name__, path_join('../tests', 'LOCPOT.test'))
         Outcar = pkg_resources.resource_filename(
                     __name__, path_join('../tests', 'OUTCAR.test'))
-        out = md.bulk_interstitial_alignment(interstices=([0.5,0.5,0.5],[0.25,0.25,0.25]),outcar=Outcar,locpot=Locpot,cube_size=[2,2,2])
-        self.assertEqual(out,(-3.24, -1.72, [1.8665165271901357e-05, 6.277207757909537e-06]))
+        out = md.bulk_interstitial_alignment(
+            interstices=([0.5,0.5,0.5],[0.25,0.25,0.25]),
+            outcar=Outcar,
+            locpot=Locpot,
+            cube_size=[2,2,2]
+        )
+        self.assertEqual(out, (-3.24, -1.72, [1.8665165271901357e-05, 6.277207757909537e-06]))
 
     def test_moving_cube(self):
         '''Tests the moving_cube function'''

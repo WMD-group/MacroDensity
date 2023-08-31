@@ -187,3 +187,38 @@ def numbers_2_grid(a: tuple, NGX: int, NGY: int, NGZ: int) -> np.ndarray:
     a_grid[2] = round(float(a[2])*NGZ)
 
     return a_grid
+
+
+def points_2_plane(a: np.ndarray, b: np.ndarray, c: np.ndarray) -> np.ndarray:
+    """
+    Calculates the plane coefficients from three points in space.
+
+    Parameters:
+        a (numpy.ndarray): First point with shape (3,).
+
+        b (numpy.ndarray): Second point with shape (3,).
+
+        c (numpy.ndarray): Third point with shape (3,).
+
+    Returns:
+        numpy.ndarray: An array containing the plane coefficients with shape (4,).
+
+    Example:
+        >>> # Sample points in space
+        >>> a = np.array([0, 0, 0])
+        >>> b = np.array([1, 0, 0])
+        >>> c = np.array([0, 1, 0])
+        >>> # Calculate plane coefficients
+        >>> plane_coefficients = points_2_plane(a, b, c)
+        >>> print(plane_coefficients)
+    """
+    coefficients = np.zeros(shape=(4))
+
+    ca = c - a
+    ba = b - a
+    normal = np.cross(ba,ca)
+    d = -np.dot(normal,a)
+    A, B, C = normal[0], normal[1], normal[2]
+    D = d
+    coefficients = np.array([A, B, C, D])
+    return coefficients

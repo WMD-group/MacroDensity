@@ -51,12 +51,9 @@ def bulk_interstitial_alignment(
     """ 
     
     ## GETTING POTENTIAL
-    vasp_pot, NGX, NGY, NGZ, lattice = read_vasp_density(locpot,quiet=True)
-    vector_a,vector_b,vector_c,av,bv,cv = matrix_2_abc(lattice)
-    resolution_x = vector_a/NGX
-    resolution_y = vector_b/NGY
-    resolution_z = vector_c/NGZ
-    grid_pot, electrons = density_2_grid(vasp_pot,NGX,NGY,NGZ,Format="VASP")
+    vasp_pot, NGX, NGY, NGZ, lattice = read_vasp_density(locpot, quiet=True)
+    vector_a, vector_b, vector_c, av, bv, cv = matrix_2_abc(lattice)
+    grid_pot, electrons = density_2_grid(vasp_pot, NGX, NGY, NGZ, Format="VASP")
 
     ## GETTING BAND EDGES
     band_extrema = get_band_extrema(outcar)
@@ -67,7 +64,9 @@ def bulk_interstitial_alignment(
     interstitial_potentials = []
     interstitial_variances = []
     for interstice in interstices:
-        locpot_extract = volume_average(origin=interstice,cube=cube_size,grid=grid_pot,nx=NGX,ny=NGY,nz=NGZ)
+        locpot_extract = volume_average(
+            origin=interstice, cube=cube_size, grid=grid_pot, nx=NGX, ny=NGY, nz=NGZ
+        )
         interstitial_potentials.append(locpot_extract[0])
         interstitial_variances.append(locpot_extract[1])
 
@@ -75,23 +74,23 @@ def bulk_interstitial_alignment(
     sum_interstitial_potential = 0
     for ele in interstitial_potentials:
         sum_interstitial_potential += ele
-    average_interstitial_potential = sum_interstitial_potential/len(interstitial_potentials)
-    VB_aligned = round(VB_eigenvalue - average_interstitial_potential,2)
-    CB_aligned = round(CB_eigenvalue - average_interstitial_potential,2)
+    average_interstitial_potential = sum_interstitial_potential / len(interstitial_potentials)
+    VB_aligned = round(VB_eigenvalue - average_interstitial_potential, 2)
+    CB_aligned = round(CB_eigenvalue - average_interstitial_potential, 2)
 
     ## PRINTING
-    if print_output == True:
+    if print_output:
         print("Reading band edges from file: "+str(outcar))
         print("Reading potential from file: "+str(locpot))
         print("Interstital variances: "+str(interstitial_variances))
         print("VB_aligned      CB_aligned")
         print("--------------------------------")
-        print(VB_aligned,"         ",CB_aligned)
+        print(VB_aligned, "         ", CB_aligned)
 
-    return VB_aligned, CB_aligned, interstitial_variances
+    return (VB_aligned, CB_aligned, interstitial_variances)
 
 
-def subs_potentials(A: np.ndarray,B: np.ndarray,tol: float) -> np.ndarray:
+def subs_potentials(A: np.ndarray, B: np.ndarray, tol: float) -> np.ndarray:
     """
     Subtract potentials between two datasets based on a tolerance value.
 
@@ -201,7 +200,7 @@ def match_resolution(A: np.ndarray, B: np.ndarray) -> tuple:
     return A_new, B_new
 
 
-def spline_generate(A: np.ndarray,new_res_factor: int) -> np.ndarray:
+def spline_generate(A: np.ndarray, new_res_factor: int) -> np.ndarray:
     """
     Generate a new dataset with higher resolution using cubic spline interpolation.
 
@@ -232,7 +231,7 @@ def spline_generate(A: np.ndarray,new_res_factor: int) -> np.ndarray:
     return B
 
 
-def matched_spline_generate(A: np.ndarray,B: np.ndarray, V_A: np.ndarray, V_B: np.ndarray) -> tuple:
+def matched_spline_generate(A: np.ndarray, B: np.ndarray, V_A: np.ndarray, V_B: np.ndarray) -> tuple:
     """
     Generate matched datasets with the same resolution using cubic spline interpolation.
 
@@ -293,7 +292,7 @@ def matched_spline_generate(A: np.ndarray,B: np.ndarray, V_A: np.ndarray, V_B: n
     return TD_A, TD_B
 
 
-def scissors_shift(potential: np.ndarray,delta: float) -> np.ndarray:
+def scissors_shift(potential: np.ndarray, delta: float) -> np.ndarray:
     """
     Shift the potential values by a constant amount.
 
@@ -320,7 +319,7 @@ def scissors_shift(potential: np.ndarray,delta: float) -> np.ndarray:
     return shifted_potential
 
 
-def extend_potential(potential: np.ndarray,extension: float,vector: list) -> np.ndarray:
+def extend_potential(potential: np.ndarray, extension: float, vector: list) -> np.ndarray:
     """
     Extend a dataset by duplicating potential values along a specified vector direction.
 
@@ -393,7 +392,7 @@ def sort_potential(potential: np.ndarray) -> np.ndarray:
     return sorted_potential
 
 
-def diff_potentials(potential_a: np.ndarray, potential_b: np.ndarray,start: float,end: float,tol: float=0.04) -> np.ndarray:
+def diff_potentials(potential_a: np.ndarray, potential_b: np.ndarray,start: float, end: float, tol: float=0.04) -> np.ndarray:
     """
     Subtract potential values between two datasets within a specified range.
 
@@ -482,7 +481,7 @@ def translate_grid(potential: np.ndarray, translation: float, periodic: bool=Fal
     return sorted_potential_trans
 
 
-def create_plotting_mesh(NGX: int,NGY: int,NGZ: int,pc: np.ndarray,grad: np.ndarray) -> np.ndarray:
+def create_plotting_mesh(NGX: int, NGY: int, NGZ: int, pc: np.ndarray, grad: np.ndarray) -> np.ndarray:
     """
     Creates a plotting mesh based on the given grid data and plane coefficients.
 
@@ -532,42 +531,7 @@ def create_plotting_mesh(NGX: int,NGY: int,NGZ: int,pc: np.ndarray,grad: np.ndar
     return plane
 
 
-def points_2_plane(a: np.ndarray, b: np.ndarray, c: np.ndarray) -> np.ndarray:
-    """
-    Calculates the plane coefficients from three points in space.
-
-    Parameters:
-        a (numpy.ndarray): First point with shape (3,).
-
-        b (numpy.ndarray): Second point with shape (3,).
-
-        c (numpy.ndarray): Third point with shape (3,).
-
-    Returns:
-        numpy.ndarray: An array containing the plane coefficients with shape (4,).
-
-    Example:
-        >>> # Sample points in space
-        >>> a = np.array([0, 0, 0])
-        >>> b = np.array([1, 0, 0])
-        >>> c = np.array([0, 1, 0])
-        >>> # Calculate plane coefficients
-        >>> plane_coefficients = points_2_plane(a, b, c)
-        >>> print(plane_coefficients)
-    """
-    coefficients = np.zeros(shape=(4))
-
-    ca = c - a
-    ba = b - a
-    normal = np.cross(ba,ca)
-    d = -np.dot(normal,a)
-    A, B, C = normal[0], normal[1], normal[2]
-    D = d
-    coefficients = np.array([A, B, C, D])
-    return coefficients
-
-
-def get_third_coordinate(plane_coeff: np.ndarray,NGX: int,NGY: int) -> list:
+def get_third_coordinate(plane_coeff: np.ndarray, NGX: int, NGY: int) -> list:
     """
     Computes the third coordinate of the plane for given plane coefficients.
 

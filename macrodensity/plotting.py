@@ -25,8 +25,8 @@ from macrodensity.density import (
     gradient_magnitude
 )
 from macrodensity.io import read_gulp_potential, read_vasp_density
-from macrodensity.tools import create_plotting_mesh, points_2_plane
-from macrodensity.utils import matrix_2_abc, vector_2_abscissa, numbers_2_grid
+from macrodensity.tools import create_plotting_mesh
+from macrodensity.utils import matrix_2_abc, vector_2_abscissa, numbers_2_grid, points_2_plane
 
 MODULE_DIR = os.path.dirname(os.path.abspath(__file__))
 plt.style.use(f"{MODULE_DIR}/macrodensity.mplstyle")
