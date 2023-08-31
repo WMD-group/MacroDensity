@@ -222,3 +222,35 @@ def points_2_plane(a: np.ndarray, b: np.ndarray, c: np.ndarray) -> np.ndarray:
     D = d
     coefficients = np.array([A, B, C, D])
     return coefficients
+
+
+def subs_potentials(A: np.ndarray, B: np.ndarray, tol: float) -> np.ndarray:
+    """
+    Subtract potentials between two datasets based on a tolerance value.
+
+    Parameters:
+        A (:obj:`numpy.ndarray`): The first dataset containing potential values in the format (x, potential).
+
+        B (:obj:`numpy.ndarray`): The second dataset containing potential values in the format (x, potential).
+
+        tol (:obj:`float`): The tolerance value for potential subtraction.
+
+    Returns:
+        C (:obj:`numpy.ndarray`): The resulting dataset containing the subtracted potentials in the format (x, potential).
+
+    Example:
+        >>> A = np.array([[0, 1], [1, 2], [2, 3], [3, 4]])
+        >>> B = np.array([[0, 1], [1, 3], [2, 2], [3, 4]])
+        >>> tolerance = 1e-2
+        >>> C = subs_potentials(A, B, tolerance)
+        >>> print(C)
+    """
+    C = A
+    for i in range(len(A)):
+        C[i,0] = A[i,0]
+        if abs(A[i,1] - B[i,1]) <= tol:
+            C[i,1] = 0
+        else:
+            C[i,1] = A[i,1] - B[i,1]
+
+    return C
