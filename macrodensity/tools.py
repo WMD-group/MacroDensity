@@ -51,12 +51,9 @@ def bulk_interstitial_alignment(
     """ 
     
     ## GETTING POTENTIAL
-    vasp_pot, NGX, NGY, NGZ, lattice = read_vasp_density(locpot,quiet=True)
-    vector_a,vector_b,vector_c,av,bv,cv = matrix_2_abc(lattice)
-    resolution_x = vector_a/NGX
-    resolution_y = vector_b/NGY
-    resolution_z = vector_c/NGZ
-    grid_pot, electrons = density_2_grid(vasp_pot,NGX,NGY,NGZ,Format="VASP")
+    vasp_pot, NGX, NGY, NGZ, lattice = read_vasp_density(locpot, quiet=True)
+    vector_a, vector_b, vector_c, av, bv, cv = matrix_2_abc(lattice)
+    grid_pot, electrons = density_2_grid(vasp_pot, NGX, NGY, NGZ, Format="VASP")
 
     ## GETTING BAND EDGES
     band_extrema = get_band_extrema(outcar)
@@ -67,7 +64,9 @@ def bulk_interstitial_alignment(
     interstitial_potentials = []
     interstitial_variances = []
     for interstice in interstices:
-        locpot_extract = volume_average(origin=interstice,cube=cube_size,grid=grid_pot,nx=NGX,ny=NGY,nz=NGZ)
+        locpot_extract = volume_average(
+            origin=interstice, cube=cube_size, grid=grid_pot, nx=NGX, ny=NGY, nz=NGZ
+        )
         interstitial_potentials.append(locpot_extract[0])
         interstitial_variances.append(locpot_extract[1])
 
@@ -75,144 +74,23 @@ def bulk_interstitial_alignment(
     sum_interstitial_potential = 0
     for ele in interstitial_potentials:
         sum_interstitial_potential += ele
-    average_interstitial_potential = sum_interstitial_potential/len(interstitial_potentials)
-    VB_aligned = round(VB_eigenvalue - average_interstitial_potential,2)
-    CB_aligned = round(CB_eigenvalue - average_interstitial_potential,2)
+    average_interstitial_potential = sum_interstitial_potential / len(interstitial_potentials)
+    VB_aligned = round(VB_eigenvalue - average_interstitial_potential, 2)
+    CB_aligned = round(CB_eigenvalue - average_interstitial_potential, 2)
 
     ## PRINTING
-    if print_output == True:
+    if print_output:
         print("Reading band edges from file: "+str(outcar))
         print("Reading potential from file: "+str(locpot))
         print("Interstital variances: "+str(interstitial_variances))
         print("VB_aligned      CB_aligned")
         print("--------------------------------")
-        print(VB_aligned,"         ",CB_aligned)
+        print(VB_aligned, "         ", CB_aligned)
 
-    return VB_aligned, CB_aligned, interstitial_variances
-
-
-def moving_cube(
-    cube=[1,1,1],
-    vector=[1,1,1],
-    origin=[0,0,0],
-    magnitude = 280,
-    input_file='LOCPOT',
-    output_file='MovingCube.csv',
-    img_file='MovingCube.png'
-) -> list:
-    '''
-    Calculate the travelling volume average of the electronic potential along a specific vector.
-
-    This function calculates the volume average of the electronic potential as a function of the position along the specified
-    vector. The volume average is performed by moving a cube of specified dimensions along the vector from the specified
-    origin position. The magnitude parameter determines the distance covered in each direction from the origin. The resulting
-    potential values at each position are plotted, and the data is saved to a CSV file.
-
-    Parameters:
-        cube (:obj:`list`, optional): The size of the cube used for volume averaging in units of mesh points (NGX/Y/Z). Default is [1, 1, 1].
-
-        vector (:obj:`list`, optional): The vector along which the cube moves for volume averaging. Default is [1, 1, 1].
-
-        origin (:obj:`list`, optional): The starting position of the cube in fractional coordinates. Default is [0, 0, 0].
-
-        magnitude (:obj:`float`, optional): The distance covered by the cube in each direction from the origin along the vector (in Angstroms). Default is 280.
-
-        input_file (:obj:`str`, optional): The filename of the file containing the electronic potential (e.g., LOCPOT). Default is 'LOCPOT'.
-
-        output_file (:obj:`str,` optional): Name of the output data file to store the volume-averaged potential data. Default is 'MovingCube.csv'.
-
-        img_file (:obj:`str`, optional): Name of the output image file for the potential plot. Default is 'MovingCube.png'.
-
-    Returns:
-        :obj:`list`: A list containing the volume-averaged potential values at each position along the vector.
-
-    Example:
-        >>> cube_size = [2, 2, 2]
-        >>> vector = [1, 0, 0]
-        >>> origin = [0.5, 0.5, 0.5]
-        >>> magnitude = 280
-        >>> input_file = 'LOCPOT'
-        >>> output_file = 'MovingCube.csv'
-        >>> img_file = 'MovingCube.png'
-        >>> potential_values = moving_cube(cube_size, vector, origin, magnitude, input_file, output_file, img_file)
-    '''
-    ## GETTING POTENTIAL
-    vasp_pot, NGX, NGY, NGZ, lattice = read_vasp_density(input_file)
-    vector_a,vector_b,vector_c,av,bv,cv = matrix_2_abc(lattice)
-    resolution_x = vector_a/NGX
-    resolution_y = vector_b/NGY
-    resolution_z = vector_c/NGZ
-    grid_pot, electrons = density_2_grid(vasp_pot,NGX,NGY,NGZ,Format="VASP")
-    cubes_potential = travelling_volume_average(grid_pot,cube,origin,vector,NGX,NGY,NGZ,magnitude)
-    abscissa = vector_2_abscissa(vector,magnitude,resolution_x,resolution_y,resolution_z)
-
-    ## PLOTTING
-    plt.plot(abscissa, cubes_potential)
-    plt.xlabel("$z (\AA)$")
-    plt.ylabel("Potential (eV)")
-    plt.savefig(img_file)
-
-    ##SAVING
-    df = pd.DataFrame.from_dict({'Potential':cubes_potential},orient='index')
-    df = df.transpose()
-    df.to_csv(output_file)
-    return cubes_potential
+    return (VB_aligned, CB_aligned, interstitial_variances)
 
 
-def spherical_average(
-    cube_size: list,
-    cube_origin: list,
-    input_file: str='LOCPOT',
-    print_output: bool=True
-) -> (float, float):
-    '''
-    Calculate the volume average of the electronic potential within a spherical region.
-
-    This function calculates the volume average of the electronic potential within a spherical region
-    defined by a specific size and origin. The size of the spherical region is specified by the cube_size
-    parameter, which determines the number of mesh points along each direction (NGX/Y/Z). The origin of the
-    sphere is given by the cube_origin parameter, specified in fractional coordinates. The function reads the
-    electronic potential data from the specified input file (e.g., LOCPOT) and calculates the potential and variance
-    within the spherical region.
-
-    Parameters:
-        cube_size (:obj:`list`): The size of the spherical region in units of mesh points (NGX/Y/Z).
-
-        cube_origin (:obj:`list`): The origin of the spherical region in fractional coordinates.
-
-        input_file (:obj:`str`, optional): The filename of the file containing the electronic potential (e.g., LOCPOT). Default is 'LOCPOT'.
-
-        print_output (:obj:`bool`, optional): If True, the function prints the calculated potential and variance. Default is True.
-
-    Returns:
-        :obj:`tuple`: A tuple containing the volume-averaged potential and the variance within the spherical region.
-
-    Outputs:
-        cube_potential, cube_variance
-    '''
-    
-    ## GETTING POTENTIAL
-    vasp_pot, NGX, NGY, NGZ, lattice = read_vasp_density(input_file)
-    vector_a,vector_b,vector_c,av,bv,cv = matrix_2_abc(lattice)
-    resolution_x = vector_a/NGX
-    resolution_y = vector_b/NGY
-    resolution_z = vector_c/NGZ
-    grid_pot, electrons = density_2_grid(vasp_pot,NGX,NGY,NGZ,Format="VASP")
-
-    cube = cube_size
-    origin = cube_origin
-    travelled = [0,0,0]
-    cube_pot, cube_var = volume_average(origin=cube_origin,cube=cube_size,grid=grid_pot,nx=NGX,ny=NGY,nz=NGZ,travelled=[0,0,0])
-
-    ## PRINTING
-    if print_output == True:
-        print("Potential            Variance")
-        print("--------------------------------")
-        print(cube_pot,"   ", cube_var)
-    return cube_pot, cube_var
-
-
-def subs_potentials(A: np.ndarray,B: np.ndarray,tol: float) -> np.ndarray:
+def subs_potentials(A: np.ndarray, B: np.ndarray, tol: float) -> np.ndarray:
     """
     Subtract potentials between two datasets based on a tolerance value.
 
@@ -321,8 +199,8 @@ def match_resolution(A: np.ndarray, B: np.ndarray) -> tuple:
 
     return A_new, B_new
 
-#------------------------------------------------------------------------------
-def spline_generate(A: np.ndarray,new_res_factor: int) -> np.ndarray:
+
+def spline_generate(A: np.ndarray, new_res_factor: int) -> np.ndarray:
     """
     Generate a new dataset with higher resolution using cubic spline interpolation.
 
@@ -353,7 +231,7 @@ def spline_generate(A: np.ndarray,new_res_factor: int) -> np.ndarray:
     return B
 
 
-def matched_spline_generate(A: np.ndarray,B: np.ndarray, V_A: np.ndarray, V_B: np.ndarray) -> tuple:
+def matched_spline_generate(A: np.ndarray, B: np.ndarray, V_A: np.ndarray, V_B: np.ndarray) -> tuple:
     """
     Generate matched datasets with the same resolution using cubic spline interpolation.
 
@@ -413,8 +291,8 @@ def matched_spline_generate(A: np.ndarray,B: np.ndarray, V_A: np.ndarray, V_B: n
         TD_B[i,0] = i*res_b
     return TD_A, TD_B
 
-#--------------------------------------------------------------------------
-def scissors_shift(potential: np.ndarray,delta: float) -> np.ndarray:
+
+def scissors_shift(potential: np.ndarray, delta: float) -> np.ndarray:
     """
     Shift the potential values by a constant amount.
 
@@ -440,8 +318,8 @@ def scissors_shift(potential: np.ndarray,delta: float) -> np.ndarray:
 
     return shifted_potential
 
-#------------------------------------------------------------------------------
-def extend_potential(potential: np.ndarray,extension: float,vector: list) -> np.ndarray:
+
+def extend_potential(potential: np.ndarray, extension: float, vector: list) -> np.ndarray:
     """
     Extend a dataset by duplicating potential values along a specified vector direction.
 
@@ -514,7 +392,7 @@ def sort_potential(potential: np.ndarray) -> np.ndarray:
     return sorted_potential
 
 
-def diff_potentials(potential_a: np.ndarray, potential_b: np.ndarray,start: float,end: float,tol: float=0.04) -> np.ndarray:
+def diff_potentials(potential_a: np.ndarray, potential_b: np.ndarray,start: float, end: float, tol: float=0.04) -> np.ndarray:
     """
     Subtract potential values between two datasets within a specified range.
 
@@ -603,7 +481,7 @@ def translate_grid(potential: np.ndarray, translation: float, periodic: bool=Fal
     return sorted_potential_trans
 
 
-def create_plotting_mesh(NGX: int,NGY: int,NGZ: int,pc: np.ndarray,grad: np.ndarray) -> np.ndarray:
+def create_plotting_mesh(NGX: int, NGY: int, NGZ: int, pc: np.ndarray, grad: np.ndarray) -> np.ndarray:
     """
     Creates a plotting mesh based on the given grid data and plane coefficients.
 
@@ -653,42 +531,7 @@ def create_plotting_mesh(NGX: int,NGY: int,NGZ: int,pc: np.ndarray,grad: np.ndar
     return plane
 
 
-def points_2_plane(a: np.ndarray, b: np.ndarray, c: np.ndarray) -> np.ndarray:
-    """
-    Calculates the plane coefficients from three points in space.
-
-    Parameters:
-        a (numpy.ndarray): First point with shape (3,).
-
-        b (numpy.ndarray): Second point with shape (3,).
-
-        c (numpy.ndarray): Third point with shape (3,).
-
-    Returns:
-        numpy.ndarray: An array containing the plane coefficients with shape (4,).
-
-    Example:
-        >>> # Sample points in space
-        >>> a = np.array([0, 0, 0])
-        >>> b = np.array([1, 0, 0])
-        >>> c = np.array([0, 1, 0])
-        >>> # Calculate plane coefficients
-        >>> plane_coefficients = points_2_plane(a, b, c)
-        >>> print(plane_coefficients)
-    """
-    coefficients = np.zeros(shape=(4))
-
-    ca = c - a
-    ba = b - a
-    normal = np.cross(ba,ca)
-    d = -np.dot(normal,a)
-    A, B, C = normal[0], normal[1], normal[2]
-    D = d
-    coefficients = np.array([A, B, C, D])
-    return coefficients
-
-
-def get_third_coordinate(plane_coeff: np.ndarray,NGX: int,NGY: int) -> list:
+def get_third_coordinate(plane_coeff: np.ndarray, NGX: int, NGY: int) -> list:
     """
     Computes the third coordinate of the plane for given plane coefficients.
 
@@ -725,3 +568,34 @@ def get_third_coordinate(plane_coeff: np.ndarray,NGX: int,NGY: int) -> list:
                 zz.append(-(plane_coeff[0]*i+plane_coeff[1]*j)/plane_coeff[2])
 
     return zz
+
+
+def one_2_2d(array: np.ndarray, resolution: float, vector: np.ndarray) -> np.ndarray:
+    """
+    Transform a 1D array to a 2D array with abscissa values based on the given resolution and vector.
+
+    Parameters:
+        array (np.ndarray): 1D array to be transformed.
+
+        resolution (float): Spacing between abscissa values.
+
+        vector (np.ndarray): 3D vector used for the transformation.
+
+    Returns:
+        np.ndarray: 2D array with abscissa values and the corresponding Array values.
+
+    Example:
+        >>> Array = np.random.rand(10)
+        >>> resolution = 0.5
+        >>> vector = np.array([1, 2, 3])
+        >>> transformed_array = one_2_2d(Array, resolution, vector)
+        >>> print("Transformed Array:")
+        >>> print(transformed_array)
+    """
+    length = np.sqrt(vector.dot(vector))
+    new_array = np.zeros(shape=(len(array) - 1, 2))
+    resolution = length / len(array)
+    for i in range(len(array) - 1):
+        new_array[i,0] = i*resolution
+        new_array[i,1] = array[i]
+    return new_array

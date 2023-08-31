@@ -22,6 +22,8 @@
   - Some examples here: 
     - [Example1](https://joss.theoj.org/papers/10.21105/joss.04817)
     - [Example2](https://joss.theoj.org/papers/10.21105/joss.03171)
+- [] Update `tools.spherical_average` and `plotting.plot_on_site_potential` to handle different output files rather than just `LOCPOT`. 
 - [] Update conda installation instructions
 - [] Improve aesthetics of plots
 - [] Automatically get lattice vector from POSCAR file, rather than taking it from user input
+- [] Docstring for `plot_variation_along_vector`

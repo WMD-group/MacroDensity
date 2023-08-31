@@ -96,37 +96,6 @@ def element_vol(vol: float, nx: int, ny: int, nz: int) -> float:
     return ele_vol
 
 
-def one_2_2d(array: np.ndarray, resolution: float, vector: np.ndarray) -> np.ndarray:
-    """
-    Transform a 1D array to a 2D array with abscissa values based on the given resolution and vector.
-
-    Parameters:
-        array (np.ndarray): 1D array to be transformed.
-
-        resolution (float): Spacing between abscissa values.
-
-        vector (np.ndarray): 3D vector used for the transformation.
-
-    Returns:
-        np.ndarray: 2D array with abscissa values and the corresponding Array values.
-
-    Example:
-        >>> Array = np.random.rand(10)
-        >>> resolution = 0.5
-        >>> vector = np.array([1, 2, 3])
-        >>> transformed_array = one_2_2d(Array, resolution, vector)
-        >>> print("Transformed Array:")
-        >>> print(transformed_array)
-    """
-    length = np.sqrt(vector.dot(vector))
-    new_array = np.zeros(shape=(len(array) - 1, 2))
-    resolution = length / len(array)
-    for i in range(len(array) - 1):
-        new_array[i,0] = i*resolution
-        new_array[i,1] = array[i]
-    return new_array
-
-
 def macroscopic_average(
     potential: np.ndarray, periodicity: float, resolution: float
 ) -> np.ndarray:
@@ -177,7 +146,15 @@ def macroscopic_average(
     return macro_average
 
 
-def volume_average(origin: tuple, cube: tuple, grid: np.ndarray, nx: int, ny: int, nz: int, travelled: list=[0, 0, 0]) -> tuple:
+def volume_average(
+    origin: tuple, 
+    cube: tuple, 
+    grid: np.ndarray, 
+    nx: int, 
+    ny: int, 
+    nz: int, 
+    travelled: list=[0, 0, 0],
+) -> tuple:
     """
     Calculate the volume average and variance of a cube in a 3D grid.
 
@@ -232,7 +209,76 @@ def volume_average(origin: tuple, cube: tuple, grid: np.ndarray, nx: int, ny: in
     return potential_cube.mean(), np.var(potential_cube)
 
 
-def travelling_volume_average(grid: np.ndarray, cube: tuple, origin: tuple, vector: list, nx: int, ny: int, nz: int, magnitude: int) -> np.ndarray:
+def spherical_average(
+    cube_size: list,
+    cube_origin: list,
+    input_file: str='LOCPOT',
+    print_output: bool=True
+) -> (float, float):
+    '''
+    Calculate the volume average of the electronic potential within a spherical region.
+
+    This function calculates the volume average of the electronic potential within a spherical region
+    defined by a specific size and origin. The size of the spherical region is specified by the cube_size
+    parameter, which determines the number of mesh points along each direction (NGX/Y/Z). The origin of the
+    sphere is given by the cube_origin parameter, specified in fractional coordinates. The function reads the
+    electronic potential data from the specified input file (e.g., LOCPOT) and calculates the potential and variance
+    within the spherical region.
+
+    Parameters:
+        cube_size (:obj:`list`): The size of the spherical region in units of mesh points (NGX/Y/Z).
+
+        cube_origin (:obj:`list`): The origin of the spherical region in fractional coordinates.
+
+        input_file (:obj:`str`, optional): The filename of the file containing the electronic potential (e.g., LOCPOT). Default is 'LOCPOT'.
+
+        print_output (:obj:`bool`, optional): If True, the function prints the calculated potential and variance. Default is True.
+
+    Returns:
+        :obj:`tuple`: A tuple containing the volume-averaged potential and the variance within the spherical region.
+
+    Outputs:
+        cube_potential, cube_variance
+    '''
+    
+    ## GETTING POTENTIAL
+    vasp_pot, NGX, NGY, NGZ, lattice = read_vasp_density(input_file)
+    vector_a,vector_b,vector_c,av,bv,cv = matrix_2_abc(lattice)
+    resolution_x = vector_a/NGX
+    resolution_y = vector_b/NGY
+    resolution_z = vector_c/NGZ
+    grid_pot, electrons = density_2_grid(vasp_pot, NGX, NGY, NGZ, Format="VASP")
+
+    cube = cube_size
+    origin = cube_origin
+    travelled = [0,0,0]
+    cube_pot, cube_var = volume_average(
+        origin=cube_origin,
+        cube=cube_size,
+        grid=grid_pot,
+        nx=NGX,ny=NGY,
+        nz=NGZ,
+        travelled=[0,0,0]
+    )
+
+    ## PRINTING
+    if print_output == True:
+        print("Potential            Variance")
+        print("--------------------------------")
+        print(cube_pot, "   ", cube_var)
+    return cube_pot, cube_var
+
+
+def travelling_volume_average(
+    grid: np.ndarray, 
+    cube: tuple, 
+    origin: tuple, 
+    vector: list, 
+    nx: int, 
+    ny: int, 
+    nz: int, 
+    magnitude: int
+) -> np.ndarray:
    """
     Calculate the volume average at multiple positions along a given vector.
 
@@ -267,9 +313,9 @@ def travelling_volume_average(grid: np.ndarray, cube: tuple, origin: tuple, vect
    i = 0
    while i < magnitude:
          travelled = np.multiply(i, vector)
-         plotting_average[i], varience = volume_average(origin,
-                                                        cube, grid,
-                                                        nx, ny, nz, travelled)
+         plotting_average[i], varience = volume_average(
+             origin, cube, grid, nx, ny, nz, travelled
+        )
          i = i + 1
 
    return plotting_average
@@ -320,62 +366,6 @@ def planar_average(grid: np.ndarray, nx: int, ny: int, nz: int, axis: str='z') -
             average[z_value] = z_plane.mean()
 
     return average
-
-
-def get_volume(a: np.ndarray, b: np.ndarray, c: np.ndarray) -> float:
-    """
-    Calculate the volume of a parallelepiped defined by three vectors a, b, and c.
-
-    Parameters:
-        a (np.ndarray): 1D array representing vector a.
-
-        b (np.ndarray): 1D array representing vector b.
-
-        c (np.ndarray): 1D array representing vector c.
-
-    Returns:
-        float: volume of the parallelepiped defined by the three vectors.
-
-    Example:
-        >>> a = np.array([1, 0, 0])
-        >>> b = np.array([0, 1, 0])
-        >>> c = np.array([0, 0, 1])
-        >>> volume = get_volume(a, b, c)
-        >>> print("volume of parallelepiped:", volume)
-    """
-    volume = np.dot(a,np.cross(b,c))
-
-    return volume
-
-
-def numbers_2_grid(a: tuple,NGX: int,NGY: int,NGZ: int) -> np.ndarray:
-    """
-    Convert fractional coordinates to grid point coordinates.
-
-    Parameters:
-        a (tuple): Fractional coordinates (x, y, z).
-
-        NGX (int): Number of grid points along the x-axis.
-
-        NGY (int): Number of grid points along the y-axis.
-
-        NGZ (int): Number of grid points along the z-axis.
-
-    Returns:
-        np.ndarray: 1D array containing the grid point coordinates (x, y, z).
-
-    Example:
-        >>> fractional_coords = [0.3, 0.4, 0.5]
-        >>> NGX, NGY, NGZ = 10, 10, 10
-        >>> grid_coords = numbers_2_grid(fractional_coords, NGX, NGY, NGZ)
-        >>> print("Grid Point Coordinates:", grid_coords)
-    """
-    a_grid = np.zeros(shape=(3))
-    a_grid[0] = round(float(a[0])*NGX)
-    a_grid[1] = round(float(a[1])*NGY)
-    a_grid[2] = round(float(a[2])*NGZ)
-
-    return a_grid
 
 
 # TODO: Update variables here to be lower case following python convention
@@ -449,32 +439,11 @@ def density_2_grid(
         raise ValueError("Invalid Format. Format must be 'VASP' or 'GULP'.")
 
 
-def inverse_participation_ratio(density: np.ndarray) -> float:
-    """
-    Calculate the inverse participation ratio (IPR) for a given density.
-
-    Parameters:
-        density (np.ndarray): List or 1D array representing the density data.
-
-    Returns:
-        float: The inverse participation ratio value.
-    
-    Example:
-        >>> density = np.array([0.2, 0.4, 0.6, 0.8])
-        >>> ipr = inverse_participation_ratio(density)
-        >>> print("Inverse Participation Ratio (IPR) for the density:", ipr)
-    """
-    sq = sum(i**2 for i in density)
-    fr = sum(i**4 for i in density)
-    ifr = 1 / (len(density) * fr)
-    isq = 1 / (len(density) * sq)
-    return fr / sq**2
-
-
 def planar_average_charge(
     grid: np.ndarray,
     nx: int,
-    ny: int,nz: int,
+    ny: int,
+    nz: int,
     vector: np.ndarray
 ) -> np.ndarray:
 

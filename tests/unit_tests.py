@@ -9,12 +9,7 @@ import numpy as np
 import pkg_resources
 
 import macrodensity as md
-
-try:
-    import pandas
-    has_pandas = True
-except ImportError:
-    has_pandas = False
+import pandas as pd
 
 test_dir = os.path.abspath(os.path.dirname(__file__))
 
@@ -166,14 +161,14 @@ class TestAveragingFunctions(unittest.TestCase):
         self.assertAlmostEqual(variance, 3.6296296296296298)
 
     def test_ipr(self):
-        '''Test the ipr function'''
+        '''Test the inverse_participation_ratio function'''
 
         parchg = pkg_resources.resource_filename(
                     __name__, path_join('../tests', 'CHGCAR.test'))
 
         dens, ngx, ngy, ngz, lattice = md.read_vasp_density(parchg,
                                                            quiet=True)
-        self.assertAlmostEqual(md.inverse_participation_ratio(dens),
+        self.assertAlmostEqual(md.utils.inverse_participation_ratio(dens),
                 1.407e-5)
 
 class TestGeometryFunctions(unittest.TestCase):
@@ -248,17 +243,31 @@ class TestConvenienceFunctions(unittest.TestCase):
                     __name__, path_join('../tests', 'LOCPOT.test'))
         Outcar = pkg_resources.resource_filename(
                     __name__, path_join('../tests', 'OUTCAR.test'))
-        out = md.bulk_interstitial_alignment(interstices=([0.5,0.5,0.5],[0.25,0.25,0.25]),outcar=Outcar,locpot=Locpot,cube_size=[2,2,2])
-        self.assertEqual(out,(-3.24, -1.72, [1.8665165271901357e-05, 6.277207757909537e-06]))
+        out = md.bulk_interstitial_alignment(
+            interstices=([0.5,0.5,0.5],[0.25,0.25,0.25]),
+            outcar=Outcar,
+            locpot=Locpot,
+            cube_size=[2,2,2]
+        )
+        self.assertEqual(out, (-3.24, -1.72, [1.8665165271901357e-05, 6.277207757909537e-06]))
 
     def test_moving_cube(self):
         '''Tests the moving_cube function'''
         Locpot = pkg_resources.resource_filename(
                     __name__, path_join('../tests', 'LOCPOT.test'))
-        out = md.moving_cube(cube=[1,1,1],vector=[1,1,1],origin=[0.17,0.17,0.17],magnitude=16,input_file=Locpot)
-        self.assertAlmostEqual(out[0],3.99827598)
-        self.assertAlmostEqual(out[10],6.53774638)
-        self.assertAlmostEqual(out[-1],3.97265811)
+        fig = md.moving_cube(
+            cube=[1, 1, 1],
+            vector=[1, 1, 1],
+            origin=[0.17, 0.17, 0.17],
+            magnitude=16,
+            input_file=Locpot,
+            output_file="potential_variation.csv",
+        )
+        df = pd.read_csv("potential_variation.csv")
+        out = df.Potential.tolist()
+        self.assertAlmostEqual(out[0], 3.99827598)
+        self.assertAlmostEqual(out[10], 6.53774638)
+        self.assertAlmostEqual(out[-1], 3.97265811)
         self.addCleanup(os.remove, 'MovingCube.csv')
         self.addCleanup(os.remove, 'MovingCube.png')
 
@@ -266,8 +275,8 @@ class TestConvenienceFunctions(unittest.TestCase):
         '''Tests the spherical_average function'''
         Locpot = pkg_resources.resource_filename(
                     __name__, path_join('../tests', 'LOCPOT.test'))
-        out = md.spherical_average(cube_size=[2,2,2],cube_origin=[0.5,0.5,0.5],input_file=Locpot)
-        self.assertAlmostEqual(out,(6.5579496029375, 1.8665165271901357e-05))
+        out = md.spherical_average(cube_size=[2,2,2], cube_origin=[0.5,0.5,0.5], input_file=Locpot)
+        self.assertAlmostEqual(out, (6.5579496029375, 1.8665165271901357e-05))
 
     def test_plot_planar_average(self):
         '''Tests the plot_planar_average function'''
@@ -282,17 +291,19 @@ class TestConvenienceFunctions(unittest.TestCase):
 
     def test_plot_on_site_potential(self):
         '''Tests the plot_on_site_potential function'''
-        Locpot = pkg_resources.resource_filename(
-                    __name__, path_join('../tests', 'LOCPOT.test'))
-        Poscar = pkg_resources.resource_filename(
-                    __name__, path_join('../tests', 'POSCAR.test'))
-        out = md.plot_on_site_potential(
+        locpot = pkg_resources.resource_filename(
+                    __name__, path_join('../tests', 'LOCPOT.test')
+        )
+        poscar = pkg_resources.resource_filename(
+                    __name__, path_join('../tests', 'POSCAR.test')
+        )
+        df = md.plot_on_site_potential(
             species='Zn',
-            sample_cube=[5,5,5],
-            potential_file=Locpot,
-            coordinate_file=Poscar
+            sample_cube=[5, 5, 5],
+            potential_file=locpot,
+            coordinate_file=poscar
         )[0]
-        self.assertEqual(out, [-6.545211257074241])
+        self.assertEqual(df.Potential.tolist(), [-6.545211257074241])
         self.addCleanup(os.remove, 'OnSitePotential.csv')
         self.addCleanup(os.remove, 'OnSitePotential.png')
 

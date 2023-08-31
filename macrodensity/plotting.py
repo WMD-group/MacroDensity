@@ -19,13 +19,14 @@ from scipy.interpolate import interp1d
 from macrodensity.density import (
     density_2_grid,
     macroscopic_average,
-    numbers_2_grid,
     planar_average,
     volume_average,
+    travelling_volume_average,
+    gradient_magnitude
 )
 from macrodensity.io import read_gulp_potential, read_vasp_density
-from macrodensity.tools import create_plotting_mesh, points_2_plane
-from macrodensity.utils import matrix_2_abc
+from macrodensity.tools import create_plotting_mesh
+from macrodensity.utils import matrix_2_abc, vector_2_abscissa, numbers_2_grid, points_2_plane
 
 MODULE_DIR = os.path.dirname(os.path.abspath(__file__))
 plt.style.use(f"{MODULE_DIR}/macrodensity.mplstyle")
@@ -165,12 +166,13 @@ def energy_band_alignment_diagram(
     return fig
 
 
-def plot_active_space(cube_size: list,
-                      cube_origin: list,
-                      tolerance: float=1E-4,
-                      input_file='LOCPOT',
-                      print_output=True, 
-                      plot_pot= False
+def plot_active_space(
+    cube_size: list,
+    cube_origin: list,
+    tolerance: float=1E-4,
+    input_file='LOCPOT',
+    print_output=True, 
+    plot_pot= False
 ) -> tuple: 
     '''
     Plot the active space (vacuum and non-vacuum regions) based on potential variations.
@@ -178,7 +180,6 @@ def plot_active_space(cube_size: list,
     This function analyzes the potential variations within the specified cubes of the given size
     and determines whether each cube belongs to the vacuum or non-vacuum region based on the provided tolerance. 
     This function also plots the cube potentials of vacuum and non vacuum cubes.
-
 
     Parameters:
         cube_size (list of int): The size of the cubes in units of mesh points (NGX/Y/Z) for analysis.
@@ -208,7 +209,7 @@ def plot_active_space(cube_size: list,
     '''
     ## GETTING POTENTIAL
     vasp_pot, NGX, NGY, NGZ, lattice = read_vasp_density(input_file)
-    vector_a,vector_b,vector_c,av,bv,cv = matrix_2_abc(lattice)
+    vector_a, vector_b, vector_c, av, bv, cv = matrix_2_abc(lattice)
     resolution_x = vector_a/NGX
     resolution_y = vector_b/NGY
     resolution_z = vector_c/NGZ
@@ -223,11 +224,19 @@ def plot_active_space(cube_size: list,
     non_vacuum = []
     nvac_pot = []
 
-    for i in range(0,NGX,cube_size[0]):
-        for j in range(0,NGY,cube_size[1]):
-            for k in range(0,NGZ,cube_size[2]):
-                sub_origin = [float(i)/NGX,float(j)/NGY,float(k)/NGZ]
-                cube_pot, cube_var = volume_average(origin=sub_origin,cube=cube_size,grid=grid_pot,nx=NGX,ny=NGY,nz=NGZ,travelled=[0,0,0])
+    for i in range(0, NGX, cube_size[0]):
+        for j in range(0, NGY, cube_size[1]):
+            for k in range(0, NGZ, cube_size[2]):
+                sub_origin = [float(i)/NGX, float(j)/NGY, float(k)/NGZ]
+                cube_pot, cube_var = volume_average(
+                    origin=sub_origin,
+                    cube=cube_size,
+                    grid=grid_pot,
+                    nx=NGX,
+                    ny=NGY,
+                    nz=NGZ,
+                    travelled=[0,0,0]
+                )
                 if cube_var <= cutoff_variance:
                     vacuum.append(sub_origin)
                     vac_pot.append(cube_pot)
@@ -315,9 +324,9 @@ def plot_on_site_potential(
         ... (plot generated and on-site potential data saved to 'OnSitePotential.png' and 'OnSitePotential.csv')
     '''
 
-    ## GETTING POTENTIALS
+    # Get potential
     vasp_pot, NGX, NGY, NGZ, lattice = read_vasp_density(potential_file)
-    vector_a,vector_b,vector_c,av,bv,cv = matrix_2_abc(lattice)
+    vector_a, vector_b, vector_c, av, bv, cv = matrix_2_abc(lattice)
     resolution_x = vector_a/NGX
     resolution_y = vector_b/NGY
     resolution_z = vector_c/NGZ
@@ -341,9 +350,8 @@ def plot_on_site_potential(
         grid_position[1] = coord[1]
         grid_position[2] = coord[2]
         cube = sample_cube
-        origin = [grid_position[0]-2,grid_position[1]-2,grid_position[2]-1]
-        travelled = [0,0,0]
-        cube_potential, cube_var = volume_average(origin,cube,grid_pot,NGX,NGY,NGZ)
+        origin = [grid_position[0]-2, grid_position[1]-2, grid_position[2]-1]
+        cube_potential, cube_var = volume_average(origin, cube, grid_pot, NGX, NGY, NGZ)
         potentials_list.append(cube_potential)
 
     ## PLOTTING
@@ -354,10 +362,10 @@ def plot_on_site_potential(
     plt.savefig(img_file)
 
     ## SAVING
-    df = pd.DataFrame.from_dict({'Potential':potentials_list}, orient='index')
+    df = pd.DataFrame.from_dict({'Potential': potentials_list}, orient='index')
     df = df.transpose()
     df.to_csv(output_file)
-    return potentials_list, fig 
+    return df, fig 
 
 
 def plot_planar_average(
@@ -759,4 +767,113 @@ def plot_active_plane(cube_size: list,
     plt.savefig('Planar.eps')
     plt.show()
 
+    return fig
+
+
+def plot_variation_along_vector(
+    vector: list=[1, 1, 1], 
+    cube_size: list=[1, 1, 1],
+    origin_point: list=[0, 0, 0],
+    vector_magnitude: int=280,
+    input_file: str="LOCPOT",
+    show_electric_field: bool=True,
+    img_file: str="potential_variation.png",
+    output_file: str="potential_variation.csv",
+):
+    """
+    Plot the potential and field variation along a specified vector.
+
+    This function calculates the volume average of the electronic potential as
+    function of the position along the specified vector. The volume average is
+    performed by moving a cube of specified dimensions along the vector from the
+    specified origin position. The magnitude parameter determines the distance
+    covered in each direction from the origin. The resulting potential values
+    at each position are plotted, and the data is saved to a CSV file.
+
+    Parameters:
+        vector (:obj:`list`, optional): The vector along which the cube moves
+            for volume averaging. Default is [1, 1, 1].
+        
+        cube_size (:obj:`list`, optional): The size of the cube used for
+            volume averaging in units of mesh points (NGX/Y/Z). Default is [1, 1, 1].
+
+        origin_point (:obj:`list`, optional): The starting position of the cube
+            in fractional coordinates. Default is [0, 0, 0].
+
+        magnitude (:obj:`float`, optional): The distance covered by the cube in
+            each direction from the origin along the vector (in Angstroms).
+            Default is 280.
+
+        input_file (:obj:`str`, optional): The filename of the file containing 
+            the electronic potential (e.g., LOCPOT). Default is 'LOCPOT'.
+
+        output_file (:obj:`str,` optional): Name of the output data file to store
+            the volume-averaged potential data. Default is 'MovingCube.csv'.
+
+        img_file (:obj:`str`, optional): Name of the output image file for the
+            potential plot. Default is 'MovingCube.png'.
+
+    Returns:
+        :obj:`fig`: A figure showing the volume-averaged potential values 
+        at each position along the vector.
+    """
+    vasp_pot, NGX, NGY, NGZ, lattice = read_vasp_density(input_file)
+    vector_a, vector_b, vector_c, av, bv, cv = matrix_2_abc(lattice)
+    resolution_x = vector_a/NGX
+    resolution_y = vector_b/NGY
+    resolution_z = vector_c/NGZ
+    grid_pot, electrons = density_2_grid(vasp_pot, NGX, NGY, NGZ)
+    grad_x, grad_y, grad_z = np.gradient(
+        grid_pot[:,:,:], resolution_x, resolution_y, resolution_z
+    )
+    
+    # Average along vector
+    cubes_potential = travelling_volume_average(
+        grid=grid_pot,
+        cube=cube_size,
+        origin=origin_point,
+        vector=vector,
+        nx=NGX,
+        ny=NGY,
+        nz=NGZ,
+        magnitude=vector_magnitude,
+    )
+    abscissa = vector_2_abscissa(
+        vector, 
+        vector_magnitude,
+        resolution_x,
+        resolution_y,
+        resolution_z,
+    )
+
+    # Plotting potential
+    fig, ax = plt.subplots()
+    ax.plot(abscissa, cubes_potential)
+    ax.set_xlabel("$z (\AA)$")
+    ax.set_ylabel("Potential (V)") 
+    # Plot field
+    if show_electric_field:
+        # Getting the field and plotting it
+        grad_mag = gradient_magnitude(grad_x, grad_y, grad_z)
+        cubes_field = travelling_volume_average(
+            grid=grad_mag,
+            cube=cube_size,
+            origin=origin_point,
+            vector=vector,
+            nx=NGX,
+            ny=NGY,
+            nz=NGZ,
+            magnitude=vector_magnitude
+        )
+        ax.plot(abscissa, cubes_field)
+        ax.set_ylabel("Magnitude") 
+        ax.legend(["Potential (eV)", "Field Magnitude (eV/$\AA$))"], frameon=True)
+        
+    fig.savefig(img_file)
+
+    # Save dataframe
+    df = pd.DataFrame.from_dict({'Potential': cubes_potential}, orient='index')
+    df = df.transpose()
+    df.to_csv(output_file)
+    
     return fig
