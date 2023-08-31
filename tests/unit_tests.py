@@ -11,6 +11,13 @@ import pkg_resources
 import macrodensity as md
 import pandas as pd
 
+try:
+    import pandas
+    has_pandas = True
+except ImportError:
+    has_pandas = False
+
+
 test_dir = os.path.abspath(os.path.dirname(__file__))
 
 class TestDensityReadingFunctions(unittest.TestCase):
