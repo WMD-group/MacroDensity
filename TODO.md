@@ -26,4 +26,3 @@
 - [] Update conda installation instructions
 - [] Improve aesthetics of plots
 - [] Automatically get lattice vector from POSCAR file, rather than taking it from user input
-- [] Docstring for `plot_variation_along_vector`

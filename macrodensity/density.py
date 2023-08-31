@@ -6,6 +6,9 @@ from __future__ import division, print_function
 
 import numpy as np
 
+from macrodensity.io import read_vasp_density
+from macrodensity.utils import matrix_2_abc
+
 
 def gradient_magnitude(gx: np.ndarray, gy: np.ndarray, gz: np.ndarray) -> np.ndarray:
     """
