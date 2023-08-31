@@ -90,6 +90,90 @@ def bulk_interstitial_alignment(
     return (VB_aligned, CB_aligned, interstitial_variances)
 
 
+def _find_active_space(
+    cube_size: list,
+    cube_origin: list,
+    tolerance: float=1E-4,
+    input_file='LOCPOT',
+    print_output=True, 
+    show_plot=True,
+) -> tuple: 
+    '''
+    Plot the active space (vacuum and non-vacuum regions) based on potential variations.
+
+    This function analyzes the potential variations within the specified cubes of the given size
+    and determines whether each cube belongs to the vacuum or non-vacuum region based on the provided tolerance. 
+    This function also plots the cube potentials of vacuum and non vacuum cubes.
+
+    Parameters:
+        cube_size (list of int): The size of the cubes in units of mesh points (NGX/Y/Z) for analysis.
+
+        cube_origin (list of float): The starting point (origin) of the cubes in fractional coordinates (range [0, 1]).
+
+        tolerance (float, optional): The cutoff variance value to distinguish vacuum from non-vacuum cubes. Default is 1E-4.
+
+        input_file (str, optional): The file with VASP output for potential. Default is 'LOCPOT'.
+
+        print_output (bool, optional): Whether to print the analysis results. Default is True.
+
+    Returns:
+        dict: A dictionary containing the potentials for the vacuum and non-vacuum regions.
+
+    Note:
+        The function calculates the potential variation within each cube and compares it to the tolerance value.
+        Cubes with potential variations below the tolerance are considered vacuum regions, while others are non-vacuum regions.
+
+    Example:
+        >>> cube_size = [2, 2, 2]
+        >>> cube_origin = [0.0, 0.0, 0.0]
+        >>> find_active_space(cube_size, cube_origin, tolerance=1E-5)
+    
+    '''    
+    # Get potential
+    vasp_pot, NGX, NGY, NGZ, lattice = read_vasp_density(input_file)
+    vector_a, vector_b, vector_c, av, bv, cv = matrix_2_abc(lattice)
+    grid_pot, electrons = density_2_grid(vasp_pot, NGX, NGY, NGZ, Format="VASP")
+    cutoff_variance = tolerance
+
+    # Distinguish vacuum from non-vacuum
+    vacuum = []
+    vac_pot = []
+    non_vacuum = []
+    nvac_pot = []
+
+    for i in range(0, NGX, cube_size[0]):
+        for j in range(0, NGY, cube_size[1]):
+            for k in range(0, NGZ, cube_size[2]):
+                sub_origin = [float(i)/NGX, float(j)/NGY, float(k)/NGZ]
+                cube_pot, cube_var = volume_average(
+                    origin=sub_origin,
+                    cube=cube_size,
+                    grid=grid_pot,
+                    nx=NGX,
+                    ny=NGY,
+                    nz=NGZ,
+                    travelled=[0,0,0]
+                )
+                if cube_var <= cutoff_variance:
+                    vacuum.append(sub_origin)
+                    vac_pot.append(cube_pot)
+                else:
+                    non_vacuum.append(sub_origin)
+                    nvac_pot.append(cube_pot)
+
+    if print_output:
+        len_vac, len_non_vac = len(vacuum), len(non_vacuum)
+        print("Number of vacuum cubes: ", len_vac)
+        print("Number of non-vacuum cubes: ", len_non_vac)
+        print("Percentage of vacuum cubes: ", round((len_vac/(len_vac + len_non_vac)*100.), 1), "%")
+        print("Percentage of non-vacuum cubes: ", round((len_non_vac/(len_vac + len_non_vac)*100.), 1), "%")
+
+    return {
+        "Vacuum": vacuum, "Vacuum Potential": vac_pot,
+        "Non-vacuum": non_vacuum,  "Non-vacuum Potential": nvac_pot,
+    }
+
+
 def bulk_vac(bulk: np.ndarray, slab: np.ndarray) -> np.ndarray:
     """
     Subtract potentials between a bulk dataset and a slab dataset based on their positions.
@@ -402,6 +486,38 @@ def diff_potentials(potential_a: np.ndarray, potential_b: np.ndarray,start: floa
     return new_potential
 
 
+def subs_potentials(A: np.ndarray, B: np.ndarray, tol: float) -> np.ndarray:
+    """
+    Subtract potentials between two datasets based on a tolerance value.
+
+    Parameters:
+        A (:obj:`numpy.ndarray`): The first dataset containing potential values in the format (x, potential).
+
+        B (:obj:`numpy.ndarray`): The second dataset containing potential values in the format (x, potential).
+
+        tol (:obj:`float`): The tolerance value for potential subtraction.
+
+    Returns:
+        C (:obj:`numpy.ndarray`): The resulting dataset containing the subtracted potentials in the format (x, potential).
+
+    Example:
+        >>> A = np.array([[0, 1], [1, 2], [2, 3], [3, 4]])
+        >>> B = np.array([[0, 1], [1, 3], [2, 2], [3, 4]])
+        >>> tolerance = 1e-2
+        >>> C = subs_potentials(A, B, tolerance)
+        >>> print(C)
+    """
+    C = A
+    for i in range(len(A)):
+        C[i,0] = A[i,0]
+        if abs(A[i,1] - B[i,1]) <= tol:
+            C[i,1] = 0
+        else:
+            C[i,1] = A[i,1] - B[i,1]
+
+    return C
+
+
 def translate_grid(potential: np.ndarray, translation: float, periodic: bool=False,
                    vector: list=[0,0,0], boundary_shift: float=0.0) -> np.ndarray:
     """
@@ -497,73 +613,3 @@ def create_plotting_mesh(NGX: int, NGY: int, NGZ: int, pc: np.ndarray, grad: np.
                 pass
 
     return plane
-
-
-def get_third_coordinate(plane_coeff: np.ndarray, NGX: int, NGY: int) -> list:
-    """
-    Computes the third coordinate of the plane for given plane coefficients.
-
-    Parameters:
-        plane_coeff (numpy.ndarray): An array containing the plane coefficients with shape (4,).
-
-        NGX (int): Number of grid points along the x-direction.
-
-        NGY (int): Number of grid points along the y-direction.
-
-    Returns:
-        list: A list of third coordinates for the plane.
-
-    Example:
-        >>> # Sample plane coefficients and grid dimensions
-        >>> plane_coeff = np.array([1, 1, 1, 5])
-        >>> NGX, NGY = 10, 10
-        >>> # Calculate the third coordinate of the plane
-        >>> third_coordinates = get_third_coordinate(plane_coeff, NGX, NGY)
-        >>> print(third_coordinates)
-    """
-    zz = []
-    i = j = 0
-    while i <= NGX:
-        i = i + 1
-        j = 0
-        while j <= NGY:
-            j = j + 1
-            rounded = round(((plane_coeff[0]*j+plane_coeff[1]*i) /
-                             plane_coeff[2]))
-            standard = ((plane_coeff[0]*j+plane_coeff[1]*i) /
-                        plane_coeff[2])
-            if rounded == standard:   # Is it a whole number?
-                zz.append(-(plane_coeff[0]*i+plane_coeff[1]*j)/plane_coeff[2])
-
-    return zz
-
-
-def one_2_2d(array: np.ndarray, resolution: float, vector: np.ndarray) -> np.ndarray:
-    """
-    Transform a 1D array to a 2D array with abscissa values based on the given resolution and vector.
-
-    Parameters:
-        array (np.ndarray): 1D array to be transformed.
-
-        resolution (float): Spacing between abscissa values.
-
-        vector (np.ndarray): 3D vector used for the transformation.
-
-    Returns:
-        np.ndarray: 2D array with abscissa values and the corresponding Array values.
-
-    Example:
-        >>> Array = np.random.rand(10)
-        >>> resolution = 0.5
-        >>> vector = np.array([1, 2, 3])
-        >>> transformed_array = one_2_2d(Array, resolution, vector)
-        >>> print("Transformed Array:")
-        >>> print(transformed_array)
-    """
-    length = np.sqrt(vector.dot(vector))
-    new_array = np.zeros(shape=(len(array) - 1, 2))
-    resolution = length / len(array)
-    for i in range(len(array) - 1):
-        new_array[i,0] = i*resolution
-        new_array[i,1] = array[i]
-    return new_array

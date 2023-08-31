@@ -2,7 +2,7 @@ Tutorials
 ============
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    
    ../tutorials/MD_workbook.ipynb
    ../tutorials/Slab/SlabCalculation.ipynb

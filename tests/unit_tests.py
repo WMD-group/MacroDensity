@@ -329,8 +329,14 @@ class TestConvenienceFunctions(unittest.TestCase):
         '''Tests the plot_active_space function'''
         Locpot = pkg_resources.resource_filename(
                     __name__, path_join('../tests', 'LOCPOT.test'))
-        out = md.plot_active_space(cube_size=[2,2,2],cube_origin=[0.5,0.5,0.5],tolerance=1E-4,input_file=Locpot)
-        self.assertEqual(out,(17, 4079))
+        dict_output = md._find_active_space(
+            cube_size=[2, 2, 2],
+            cube_origin=[0.5, 0.5, 0.5],
+            tolerance=1E-4,
+            input_file=Locpot
+        )
+        vacuum, non_vacuum = dict_output["Vacuum"], dict_output["Non-vacuum"]
+        self.assertEqual((len(vacuum), len(non_vacuum)), (17, 4079))
 
     def test_plot_planar_cube(self):
         '''Tests the plot_planar_average function'''

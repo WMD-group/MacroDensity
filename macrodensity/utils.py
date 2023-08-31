@@ -68,6 +68,37 @@ def vector_2_abscissa(vector:list, magnitude: float, dx: float, dy: float, dz: f
     return np.asarray(abscissa)
 
 
+def one_2_2d(array: np.ndarray, resolution: float, vector: np.ndarray) -> np.ndarray:
+    """
+    Transform a 1D array to a 2D array with abscissa values based on the given resolution and vector.
+
+    Parameters:
+        array (np.ndarray): 1D array to be transformed.
+
+        resolution (float): Spacing between abscissa values.
+
+        vector (np.ndarray): 3D vector used for the transformation.
+
+    Returns:
+        np.ndarray: 2D array with abscissa values and the corresponding Array values.
+
+    Example:
+        >>> Array = np.random.rand(10)
+        >>> resolution = 0.5
+        >>> vector = np.array([1, 2, 3])
+        >>> transformed_array = one_2_2d(Array, resolution, vector)
+        >>> print("Transformed Array:")
+        >>> print(transformed_array)
+    """
+    length = np.sqrt(vector.dot(vector))
+    new_array = np.zeros(shape=(len(array) - 1, 2))
+    resolution = length / len(array)
+    for i in range(len(array) - 1):
+        new_array[i,0] = i*resolution
+        new_array[i,1] = array[i]
+    return new_array
+
+
 def GCD(a: int,b: int) -> int:
     """
     Compute the Greatest Common Divisor (GCD) of two integers a and b.
@@ -224,38 +255,6 @@ def points_2_plane(a: np.ndarray, b: np.ndarray, c: np.ndarray) -> np.ndarray:
     return coefficients
 
 
-def subs_potentials(A: np.ndarray, B: np.ndarray, tol: float) -> np.ndarray:
-    """
-    Subtract potentials between two datasets based on a tolerance value.
-
-    Parameters:
-        A (:obj:`numpy.ndarray`): The first dataset containing potential values in the format (x, potential).
-
-        B (:obj:`numpy.ndarray`): The second dataset containing potential values in the format (x, potential).
-
-        tol (:obj:`float`): The tolerance value for potential subtraction.
-
-    Returns:
-        C (:obj:`numpy.ndarray`): The resulting dataset containing the subtracted potentials in the format (x, potential).
-
-    Example:
-        >>> A = np.array([[0, 1], [1, 2], [2, 3], [3, 4]])
-        >>> B = np.array([[0, 1], [1, 3], [2, 2], [3, 4]])
-        >>> tolerance = 1e-2
-        >>> C = subs_potentials(A, B, tolerance)
-        >>> print(C)
-    """
-    C = A
-    for i in range(len(A)):
-        C[i,0] = A[i,0]
-        if abs(A[i,1] - B[i,1]) <= tol:
-            C[i,1] = 0
-        else:
-            C[i,1] = A[i,1] - B[i,1]
-
-    return C
-
-
 def number_in_field(gradients: np.ndarray, cutoff: float) -> int:
     """
     Count the number of elements in a field that have a value greater than or equal to the cutoff.
@@ -280,3 +279,42 @@ def number_in_field(gradients: np.ndarray, cutoff: float) -> int:
             number_of_elements += 1
 
     return number_of_elements
+
+
+def get_third_coordinate(plane_coeff: np.ndarray, NGX: int, NGY: int) -> list:
+    """
+    Computes the third coordinate of the plane for given plane coefficients.
+
+    Parameters:
+        plane_coeff (numpy.ndarray): An array containing the plane coefficients with shape (4,).
+
+        NGX (int): Number of grid points along the x-direction.
+
+        NGY (int): Number of grid points along the y-direction.
+
+    Returns:
+        list: A list of third coordinates for the plane.
+
+    Example:
+        >>> # Sample plane coefficients and grid dimensions
+        >>> plane_coeff = np.array([1, 1, 1, 5])
+        >>> NGX, NGY = 10, 10
+        >>> # Calculate the third coordinate of the plane
+        >>> third_coordinates = get_third_coordinate(plane_coeff, NGX, NGY)
+        >>> print(third_coordinates)
+    """
+    zz = []
+    i = j = 0
+    while i <= NGX:
+        i = i + 1
+        j = 0
+        while j <= NGY:
+            j = j + 1
+            rounded = round(((plane_coeff[0]*j+plane_coeff[1]*i) /
+                             plane_coeff[2]))
+            standard = ((plane_coeff[0]*j+plane_coeff[1]*i) /
+                        plane_coeff[2])
+            if rounded == standard:   # Is it a whole number?
+                zz.append(-(plane_coeff[0]*i+plane_coeff[1]*j)/plane_coeff[2])
+
+    return zz
