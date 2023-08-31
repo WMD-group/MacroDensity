@@ -18,7 +18,7 @@
 - [x] Update tutorial 1 to rewrite long code snippets as functions
 - [x] Checking code & docstrings formatting with linters
     * Using the packages `isort`, `black`, `pycodestyle`, `flake8`
-- [ ] Write up `JOSS` paper
+- [x] Write up `JOSS` paper
   - Some examples here: 
     - [Example1](https://joss.theoj.org/papers/10.21105/joss.04817)
     - [Example2](https://joss.theoj.org/papers/10.21105/joss.03171)
