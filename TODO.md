@@ -27,3 +27,4 @@
 - [ ] Automatically publish version to pypi when a new release is made on GitHub
 - [ ] Improve aesthetics of plots
 - [ ] Automatically get lattice vector from POSCAR file, rather than taking it from user input
+- [ ] update plot_onsite_potential function to fix histogram function
