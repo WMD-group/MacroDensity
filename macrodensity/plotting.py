@@ -320,12 +320,34 @@ def plot_on_site_potential(
     '''
 
     # Get potential
-    vasp_pot, NGX, NGY, NGZ, lattice = read_vasp_density(potential_file)
-    vector_a, vector_b, vector_c, av, bv, cv = matrix_2_abc(lattice)
-    resolution_x = vector_a/NGX
-    resolution_y = vector_b/NGY
-    resolution_z = vector_c/NGZ
-    grid_pot, electrons = density_2_grid(vasp_pot, NGX, NGY, NGZ, Format="VASP")
+    if 'vasp' in potential_file or 'LOCPOT' in potential_file or "CHGCAR" in potential_file:
+        vasp_pot, NGX, NGY, NGZ, lattice = read_vasp_density(potential_file)
+        vector_a, vector_b, vector_c, av, bv, cv = matrix_2_abc(lattice)
+        resolution_x = vector_a/NGX
+        resolution_y = vector_b/NGY
+        resolution_z = vector_c/NGZ
+        grid_pot, electrons = density_2_grid(vasp_pot, NGX, NGY, NGZ, Format="VASP")
+    if 'cube' in potential_file:
+        grid_pot, atoms = read_cube_density(potential_file)
+        vector_a = np.linalg.norm(atoms.cell[1])
+        vector_b = np.linalg.norm(atoms.cell[1])
+        vector_c = np.linalg.norm(atoms.cell[2])
+        NGX = len(grid_pot)
+        NGY = len(grid_pot[0])
+        NGZ = len(grid_pot[0][0])
+        resolution_x = vector_a/NGX
+        resolution_y = vector_b/NGY
+        resolution_z = vector_c/NGZ
+    if 'gulp' in potential_file or '.out' in potential_file:
+        gulp_pot, NGX, NGY, NGZ, lattice = read_gulp_potential(potential_file)
+        vector_a, vector_b, vector_c, av, bv, cv = matrix_2_abc(lattice)
+        resolution_x = vector_a/NGX
+        resolution_y = vector_b/NGY
+        resolution_z = vector_c/NGZ
+        grid_pot = density_2_grid(gulp_pot, NGX, NGY, NGZ, Format="GULP")
+    else:
+        raise ValueError(f'File {potential_file} not recognised!')
+
     grad_x, grad_y, grad_z = np.gradient(grid_pot[:,:,:], resolution_x, resolution_y,resolution_z)
     coords = vasp.read_vasp(coordinate_file)
     scaled_coords = coords.get_scaled_positions()
@@ -418,8 +440,8 @@ def plot_planar_average(
     if axis not in ['x', 'y', 'z']:
         raise ValueError(f'Axis {axis} not recognised! Must be "x", "y", or "z".')
     
-    if filetype == 'cube':
-        potential, atoms = cube.read_cube_data(input_file)
+    if 'cube' in input_file:
+        potential, atoms = read_cube_density(input_file)
         vector_a = np.linalg.norm(atoms.cell[1])
         vector_b = np.linalg.norm(atoms.cell[1])
         vector_c = np.linalg.norm(atoms.cell[2])

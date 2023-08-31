@@ -485,3 +485,27 @@ def get_band_extrema(input_file: str)->list:
                       lines[i + top_band].split()[2])
 
     return [float(max(vbm)), float(min(cbm))]
+
+def _get_lattice_vectors_poscar(input_file: str)->np.ndarray:
+    '''
+    Get the lattice vectors from VASP POSCAR or CONTCAR.
+
+    Args:
+        input_file (str): The path to the VASP POSCAR or CONTCAR file.
+
+    Returns:
+        np.ndarray: A 3x3 numpy array representing the lattice vectors.
+    '''
+
+    if 'POSCAR' in input_file or 'CONTCAR' in input_file':
+        with open(input_file, "r") as f:
+            lines = f.readlines()
+
+            lattice_vectors =[]
+            for i in range(2,5):
+                components = lines[i].split()
+                vector = [float(components) for components in components]
+                lattice_vectors.append(vector)
+            
+        return np.array(lattice_vectors)
+    

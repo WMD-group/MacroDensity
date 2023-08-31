@@ -81,14 +81,6 @@ The package formats datasets containing information about a system's lattice par
 ``MacroDensity`` has been used to rapidly generate data for the publications @Bulter:2014 and @Walsh:2013 amongst others. 
 
 ![Example analysis done with the package for AlAs, CsPbI<sub>3</sub>, and MgO: a) plots of the planar (blue) and macroscopic (orange) averages of the potential, b) plots of the mean potential along the [111] vector, c) onsite (Hartree) potentials of the constituent atoms of the compounds analysed. \label{fig1}](figure.png){ width=20% }
-# Figures
-
-Figures can be included like this:
-![Caption for example figure.\label{fig:example}](figure.png)
-and referenced from text using \autoref{fig:example}.
-
-Figure sizes can be customized by adding an optional second parameter:
-![Caption for example figure.](figure.png){ width=20% }
 
 # Acknowledgements
 

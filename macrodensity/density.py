@@ -217,15 +217,30 @@ def spherical_average(
     Outputs:
         cube_potential, cube_variance
     '''
-    
-    ## GETTING POTENTIAL
-    vasp_pot, NGX, NGY, NGZ, lattice = read_vasp_density(input_file)
-    vector_a,vector_b,vector_c,av,bv,cv = matrix_2_abc(lattice)
-    resolution_x = vector_a/NGX
-    resolution_y = vector_b/NGY
-    resolution_z = vector_c/NGZ
-    grid_pot, electrons = density_2_grid(vasp_pot, NGX, NGY, NGZ, Format="VASP")
-
+     ## GETTING POTENTIAL
+    if 'cube' in input_file:
+        cube_pot, NGX, NGY, NGZ, lattice = read_cube_density(input_file)
+        vector_a,vector_b,vector_c,av,bv,cv = matrix_2_abc(lattice)
+        resolution_x = vector_a/NGX
+        resolution_y = vector_b/NGY
+        resolution_z = vector_c/NGZ
+        grid_pot, electrons = density_2_grid(cube_pot, NGX, NGY, NGZ, Format="CUBE")
+    if 'vasp' in input_file or 'LOCPOT' in input_file or 'CHGCAR' in input_file:
+        vasp_pot, NGX, NGY, NGZ, lattice = read_vasp_density(input_file)
+        vector_a,vector_b,vector_c,av,bv,cv = matrix_2_abc(lattice)
+        resolution_x = vector_a/NGX
+        resolution_y = vector_b/NGY
+        resolution_z = vector_c/NGZ
+        grid_pot, electrons = density_2_grid(vasp_pot, NGX, NGY, NGZ, Format="VASP")
+    if 'gulp' in input_file or '.out' in input_file: 
+        gulp_pot, NGX, NGY, NGZ, lattice = read_gulp_density(input_file)
+        vector_a,vector_b,vector_c,av,bv,cv = matrix_2_abc(lattice)
+        resolution_x = vector_a/NGX
+        resolution_y = vector_b/NGY
+        resolution_z = vector_c/NGZ
+        grid_pot, electrons = density_2_grid(gulp_pot, NGX, NGY, NGZ, Format="GULP")
+    else:
+        raise ValueError("Invalid input file. File must be in VASP, GULP, or CUBE format.")
     cube = cube_size
     origin = cube_origin
     travelled = [0,0,0]
