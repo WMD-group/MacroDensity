@@ -208,7 +208,7 @@ def plot_active_space(cube_size: list,
     '''
     ## GETTING POTENTIAL
     vasp_pot, NGX, NGY, NGZ, lattice = read_vasp_density(input_file)
-    vector_a,vector_b,vector_c,av,bv,cv = matrix_2_abc(lattice)
+    vector_a, vector_b, vector_c, av, bv, cv = matrix_2_abc(lattice)
     resolution_x = vector_a/NGX
     resolution_y = vector_b/NGY
     resolution_z = vector_c/NGZ
@@ -223,11 +223,19 @@ def plot_active_space(cube_size: list,
     non_vacuum = []
     nvac_pot = []
 
-    for i in range(0,NGX,cube_size[0]):
-        for j in range(0,NGY,cube_size[1]):
-            for k in range(0,NGZ,cube_size[2]):
-                sub_origin = [float(i)/NGX,float(j)/NGY,float(k)/NGZ]
-                cube_pot, cube_var = volume_average(origin=sub_origin,cube=cube_size,grid=grid_pot,nx=NGX,ny=NGY,nz=NGZ,travelled=[0,0,0])
+    for i in range(0, NGX, cube_size[0]):
+        for j in range(0, NGY, cube_size[1]):
+            for k in range(0, NGZ, cube_size[2]):
+                sub_origin = [float(i)/NGX, float(j)/NGY, float(k)/NGZ]
+                cube_pot, cube_var = volume_average(
+                    origin=sub_origin,
+                    cube=cube_size,
+                    grid=grid_pot,
+                    nx=NGX,
+                    ny=NGY,
+                    nz=NGZ,
+                    travelled=[0,0,0]
+                )
                 if cube_var <= cutoff_variance:
                     vacuum.append(sub_origin)
                     vac_pot.append(cube_pot)
@@ -342,8 +350,8 @@ def plot_on_site_potential(
         grid_position[2] = coord[2]
         cube = sample_cube
         origin = [grid_position[0]-2,grid_position[1]-2,grid_position[2]-1]
-        travelled = [0,0,0]
-        cube_potential, cube_var = volume_average(origin,cube,grid_pot,NGX,NGY,NGZ)
+        travelled = [0, 0, 0]
+        cube_potential, cube_var = volume_average(origin, cube, grid_pot, NGX, NGY, NGZ)
         potentials_list.append(cube_potential)
 
     ## PLOTTING

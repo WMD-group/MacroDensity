@@ -153,7 +153,7 @@ def moving_cube(
     plt.savefig(img_file)
 
     ##SAVING
-    df = pd.DataFrame.from_dict({'Potential':cubes_potential},orient='index')
+    df = pd.DataFrame.from_dict({'Potential': cubes_potential}, orient='index')
     df = df.transpose()
     df.to_csv(output_file)
     return cubes_potential
@@ -197,12 +197,19 @@ def spherical_average(
     resolution_x = vector_a/NGX
     resolution_y = vector_b/NGY
     resolution_z = vector_c/NGZ
-    grid_pot, electrons = density_2_grid(vasp_pot,NGX,NGY,NGZ,Format="VASP")
+    grid_pot, electrons = density_2_grid(vasp_pot, NGX, NGY, NGZ, Format="VASP")
 
     cube = cube_size
     origin = cube_origin
     travelled = [0,0,0]
-    cube_pot, cube_var = volume_average(origin=cube_origin,cube=cube_size,grid=grid_pot,nx=NGX,ny=NGY,nz=NGZ,travelled=[0,0,0])
+    cube_pot, cube_var = volume_average(
+        origin=cube_origin,
+        cube=cube_size,
+        grid=grid_pot,
+        nx=NGX,ny=NGY,
+        nz=NGZ,
+        travelled=[0,0,0]
+    )
 
     ## PRINTING
     if print_output == True:

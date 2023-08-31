@@ -177,7 +177,15 @@ def macroscopic_average(
     return macro_average
 
 
-def volume_average(origin: tuple, cube: tuple, grid: np.ndarray, nx: int, ny: int, nz: int, travelled: list=[0, 0, 0]) -> tuple:
+def volume_average(
+    origin: tuple, 
+    cube: tuple, 
+    grid: np.ndarray, 
+    nx: int, 
+    ny: int, 
+    nz: int, 
+    travelled: list=[0, 0, 0],
+) -> tuple:
     """
     Calculate the volume average and variance of a cube in a 3D grid.
 
@@ -322,33 +330,7 @@ def planar_average(grid: np.ndarray, nx: int, ny: int, nz: int, axis: str='z') -
     return average
 
 
-def get_volume(a: np.ndarray, b: np.ndarray, c: np.ndarray) -> float:
-    """
-    Calculate the volume of a parallelepiped defined by three vectors a, b, and c.
-
-    Parameters:
-        a (np.ndarray): 1D array representing vector a.
-
-        b (np.ndarray): 1D array representing vector b.
-
-        c (np.ndarray): 1D array representing vector c.
-
-    Returns:
-        float: volume of the parallelepiped defined by the three vectors.
-
-    Example:
-        >>> a = np.array([1, 0, 0])
-        >>> b = np.array([0, 1, 0])
-        >>> c = np.array([0, 0, 1])
-        >>> volume = get_volume(a, b, c)
-        >>> print("volume of parallelepiped:", volume)
-    """
-    volume = np.dot(a,np.cross(b,c))
-
-    return volume
-
-
-def numbers_2_grid(a: tuple,NGX: int,NGY: int,NGZ: int) -> np.ndarray:
+def numbers_2_grid(a: tuple, NGX: int, NGY: int, NGZ: int) -> np.ndarray:
     """
     Convert fractional coordinates to grid point coordinates.
 
@@ -474,7 +456,8 @@ def inverse_participation_ratio(density: np.ndarray) -> float:
 def planar_average_charge(
     grid: np.ndarray,
     nx: int,
-    ny: int,nz: int,
+    ny: int,
+    nz: int,
     vector: np.ndarray
 ) -> np.ndarray:
 

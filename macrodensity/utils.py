@@ -109,3 +109,29 @@ def GCD_List(list: list) -> int:
         >>> print("GCD of", numbers, "is:", gcd)
     """
     return reduce(GCD, list)
+
+
+def get_volume(a: np.ndarray, b: np.ndarray, c: np.ndarray) -> float:
+    """
+    Calculate the volume of a parallelepiped defined by three vectors a, b, and c.
+
+    Parameters:
+        a (np.ndarray): 1D array representing vector a.
+
+        b (np.ndarray): 1D array representing vector b.
+
+        c (np.ndarray): 1D array representing vector c.
+
+    Returns:
+        float: volume of the parallelepiped defined by the three vectors.
+
+    Example:
+        >>> a = np.array([1, 0, 0])
+        >>> b = np.array([0, 1, 0])
+        >>> c = np.array([0, 0, 1])
+        >>> volume = get_volume(a, b, c)
+        >>> print("volume of parallelepiped:", volume)
+    """
+    volume = np.dot(a, np.cross(b, c))
+
+    return volume
