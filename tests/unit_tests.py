@@ -11,6 +11,13 @@ import pkg_resources
 import macrodensity as md
 import pandas as pd
 
+try:
+    import pandas
+    has_pandas = True
+except ImportError:
+    has_pandas = False
+
+
 test_dir = os.path.abspath(os.path.dirname(__file__))
 
 class TestDensityReadingFunctions(unittest.TestCase):
@@ -255,11 +262,11 @@ class TestConvenienceFunctions(unittest.TestCase):
         '''Tests the moving_cube function'''
         Locpot = pkg_resources.resource_filename(
                     __name__, path_join('../tests', 'LOCPOT.test'))
-        fig = md.moving_cube(
-            cube=[1, 1, 1],
+        _ = md.plotting.plot_variation_along_vector(
+            cube_size=[1, 1, 1],
             vector=[1, 1, 1],
-            origin=[0.17, 0.17, 0.17],
-            magnitude=16,
+            origin_point=[0.17, 0.17, 0.17],
+            vector_magnitude=16,
             input_file=Locpot,
             output_file="potential_variation.csv",
         )
@@ -268,8 +275,8 @@ class TestConvenienceFunctions(unittest.TestCase):
         self.assertAlmostEqual(out[0], 3.99827598)
         self.assertAlmostEqual(out[10], 6.53774638)
         self.assertAlmostEqual(out[-1], 3.97265811)
-        self.addCleanup(os.remove, 'MovingCube.csv')
-        self.addCleanup(os.remove, 'MovingCube.png')
+        self.addCleanup(os.remove, "potential_variation.csv")
+        self.addCleanup(os.remove, "potential_variation.png")
 
     def test_spherical_average(self):
         '''Tests the spherical_average function'''
@@ -329,8 +336,14 @@ class TestConvenienceFunctions(unittest.TestCase):
         '''Tests the plot_active_space function'''
         Locpot = pkg_resources.resource_filename(
                     __name__, path_join('../tests', 'LOCPOT.test'))
-        out = md.plot_active_space(cube_size=[2,2,2],cube_origin=[0.5,0.5,0.5],tolerance=1E-4,input_file=Locpot)
-        self.assertEqual(out,(17, 4079))
+        dict_output = md.tools._find_active_space(
+            cube_size=[2, 2, 2],
+            cube_origin=[0.5, 0.5, 0.5],
+            tolerance=1E-4,
+            input_file=Locpot
+        )
+        vacuum, non_vacuum = dict_output["Vacuum"], dict_output["Non-vacuum"]
+        self.assertEqual((len(vacuum), len(non_vacuum)), (17, 4079))
 
     def test_plot_planar_cube(self):
         '''Tests the plot_planar_average function'''

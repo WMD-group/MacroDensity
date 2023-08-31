@@ -6,6 +6,9 @@ from __future__ import division, print_function
 
 import numpy as np
 
+from macrodensity.io import read_vasp_density
+from macrodensity.utils import matrix_2_abc
+
 
 def gradient_magnitude(gx: np.ndarray, gy: np.ndarray, gz: np.ndarray) -> np.ndarray:
     """
@@ -39,32 +42,6 @@ def gradient_magnitude(gx: np.ndarray, gy: np.ndarray, gz: np.ndarray) -> np.nda
                                           gz[i,j,k]**2)
 
     return grad_mag
-
-
-def number_in_field(gradients: np.ndarray, cutoff: float) -> int:
-    """
-    Count the number of elements in a field that have a value greater than or equal to the cutoff.
-
-    Parameters:
-        gradients (np.ndarray): 3D array representing the field.
-
-        cutoff (float): Threshold value for counting elements.
-
-    Returns:
-        int: Number of elements in the field satisfying the cutoff condition.
-
-    Example:
-        >>> gradients_field = np.random.rand(4, 4, 4)
-        >>> cutoff_value = 0.5
-        >>> num_elements_above_cutoff = number_in_field(gradients_field, cutoff_value)
-        >>> print("Number of Elements Above Cutoff:", num_elements_above_cutoff)
-    """
-    number_of_elements = 0
-    for element in np.nditer(gradients):
-        if element >= cutoff:
-            number_of_elements += 1
-
-    return number_of_elements
 
 
 def element_vol(vol: float, nx: int, ny: int, nz: int) -> float:

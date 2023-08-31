@@ -25,7 +25,7 @@ from macrodensity.density import (
     gradient_magnitude
 )
 from macrodensity.io import read_gulp_potential, read_vasp_density
-from macrodensity.tools import create_plotting_mesh
+from macrodensity.tools import create_plotting_mesh, _find_active_space
 from macrodensity.utils import matrix_2_abc, vector_2_abscissa, numbers_2_grid, points_2_plane
 
 MODULE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -172,7 +172,6 @@ def plot_active_space(
     tolerance: float=1E-4,
     input_file='LOCPOT',
     print_output=True, 
-    plot_pot= False
 ) -> tuple: 
     '''
     Plot the active space (vacuum and non-vacuum regions) based on potential variations.
@@ -192,8 +191,6 @@ def plot_active_space(
 
         print_output (bool, optional): Whether to print the analysis results. Default is True.
 
-        plot_pot (bool, optional): Whether to plot vacuum and non vacuum potential in a scatter (VOXEL) plot. Default is False.
-
     Returns:
         tuple: A tuple containing the number of cubes identified as vacuum and non-vacuum regions.
 
@@ -207,79 +204,77 @@ def plot_active_space(
         >>> plot_active_space(cube_size, cube_origin, tolerance=1E-5)
     
     '''
-    ## GETTING POTENTIAL
-    vasp_pot, NGX, NGY, NGZ, lattice = read_vasp_density(input_file)
-    vector_a, vector_b, vector_c, av, bv, cv = matrix_2_abc(lattice)
-    resolution_x = vector_a/NGX
-    resolution_y = vector_b/NGY
-    resolution_z = vector_c/NGZ
-    grid_pot, electrons = density_2_grid(vasp_pot, NGX, NGY, NGZ, Format="VASP")
-    cutoff_variance = tolerance
-    #grad_x,grad_y,grad_z = np.gradient(grid_pot[:,:,:],resolution_x,resolution_y,resolution_z)
-    #travelled = [0,0,0]
-
-    ## DISTNGUISHING VACUUM FROM NON_VACUUM
-    vacuum = []
-    vac_pot = []
-    non_vacuum = []
-    nvac_pot = []
-
-    for i in range(0, NGX, cube_size[0]):
-        for j in range(0, NGY, cube_size[1]):
-            for k in range(0, NGZ, cube_size[2]):
-                sub_origin = [float(i)/NGX, float(j)/NGY, float(k)/NGZ]
-                cube_pot, cube_var = volume_average(
-                    origin=sub_origin,
-                    cube=cube_size,
-                    grid=grid_pot,
-                    nx=NGX,
-                    ny=NGY,
-                    nz=NGZ,
-                    travelled=[0,0,0]
-                )
-                if cube_var <= cutoff_variance:
-                    vacuum.append(sub_origin)
-                    vac_pot.append(cube_pot)
-                else:
-                    non_vacuum.append(sub_origin)
-                    nvac_pot.append(cube_pot)
-
-    if print_output == True:
-        print("Number of vacuum cubes: ", len(vacuum))
-        print("Number of non-vacuum cubes: ", len(non_vacuum))
-        print("Percentage of vacuum cubes: ",(float(len(vacuum))/(float(len(vacuum))+float(len(non_vacuum)))*100.))
-        print("Percentage of non-vacuum cubes: ",(float(len(non_vacuum))/(float(len(vacuum))+float(len(non_vacuum)))*100.))
-    
-
-    ## PLOTTING FUNCTIONS (CALYSTA ADDED)
-    def plot_cube_potentials(coords, potentials, color_map='viridis', alpha=0.5):
-        fig = plt.figure()
-        ax = fig.add_subplot(111, projection='3d')
-        
-        x, y, z = zip(*coords)
-
-        norm_pots = (potentials - np.min(potentials))/(np.max(potentials) - np.min(potentials))
-
+    def _plot_cube_potentials(
+        coords_vac, 
+        potential_vac, 
+        coords_non_vac, 
+        potential_non_vac,
+        color_map='viridis', 
+        alpha=0.5
+    ):
+        fig = plt.figure(figsize=plt.figaspect(0.4))
+        # First ax
+        ax = fig.add_subplot(121, projection='3d')
+        x, y, z = zip(*coords_vac)
+        norm_pots = (potential_vac - np.min(potential_vac))/(np.max(potential_vac) - np.min(potential_vac))
         cmap = plt.get_cmap(color_map)
         colors = cmap(norm_pots)
-
         ax.scatter(x, y, z, c= colors, alpha=alpha)
-
         ax.set_xlabel('X')
         ax.set_ylabel('Y')
         ax.set_zlabel('Z')
-
-        plt.show()
-
+        ax.set_title('Vacuum region')
+        
+        # set up the axes for the second plot
+        ax2 = fig.add_subplot(1, 2, 2, projection='3d')
+        x, y, z = zip(*coords_non_vac)
+        norm_pots = (potential_non_vac - np.min(potential_non_vac)) / (
+            np.max(potential_non_vac) - np.min(potential_non_vac)
+        )
+        cmap = plt.get_cmap(color_map)
+        colors = cmap(norm_pots)
+        ax2.scatter(x, y, z, c=colors, alpha=alpha)
+        ax2.set_xlabel('X')
+        ax2.set_ylabel('Y')
+        ax2.set_zlabel('Z')
+        ax2.set_title('Non-vacuum region')
+        
+        norm = plt.Normalize(
+            vmin=np.min(potential_vac), vmax=np.max(potential_vac)
+        )
+        fig.colorbar(
+            cm.ScalarMappable(norm=norm, cmap=cmap), 
+            ax=[ax, ax2],
+            fraction=0.08, 
+            pad=0.08,
+            shrink=0.5
+        )
+        
         return fig
     
-    if plot_pot == True:
-        plot_cube_potentials(vacuum, vac_pot, color_map= 'viridis')
-        plot_cube_potentials(non_vacuum, nvac_pot, color_map= 'viridis')
-    else:
-        pass 
+    dict_output = _find_active_space(
+        input_file=input_file,
+        cube_size=cube_size,
+        cube_origin=cube_origin,
+        tolerance=tolerance,
+        print_output=True,
+    )
+    vacuum, non_vacuum, vac_pot, nvac_pot = (
+        dict_output["Vacuum"],
+        dict_output["Non-vacuum"],
+        dict_output["Vacuum Potential"],
+        dict_output["Non-vacuum Potential"],
+    )
+    
+    fig = _plot_cube_potentials(
+        coords_vac=vacuum, 
+        potential_vac=vac_pot, 
+        coords_non_vac=non_vacuum, 
+        potential_non_vac=nvac_pot, 
+        color_map='viridis'
+    )
 
-    return len(vacuum), len(non_vacuum)
+    return fig
 
 
 def plot_on_site_potential(
