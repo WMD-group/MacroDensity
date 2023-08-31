@@ -9,12 +9,7 @@ import numpy as np
 import pkg_resources
 
 import macrodensity as md
-
-try:
-    import pandas
-    has_pandas = True
-except ImportError:
-    has_pandas = False
+import pandas as pd
 
 test_dir = os.path.abspath(os.path.dirname(__file__))
 
@@ -255,10 +250,19 @@ class TestConvenienceFunctions(unittest.TestCase):
         '''Tests the moving_cube function'''
         Locpot = pkg_resources.resource_filename(
                     __name__, path_join('../tests', 'LOCPOT.test'))
-        out = md.moving_cube(cube=[1,1,1],vector=[1,1,1],origin=[0.17,0.17,0.17],magnitude=16,input_file=Locpot)
-        self.assertAlmostEqual(out[0],3.99827598)
-        self.assertAlmostEqual(out[10],6.53774638)
-        self.assertAlmostEqual(out[-1],3.97265811)
+        fig = md.moving_cube(
+            cube=[1, 1, 1],
+            vector=[1, 1, 1],
+            origin=[0.17, 0.17, 0.17],
+            magnitude=16,
+            input_file=Locpot,
+            output_file="potential_variation.csv",
+        )
+        df = pd.read_csv("potential_variation.csv")
+        out = df.Potential.tolist()
+        self.assertAlmostEqual(out[0], 3.99827598)
+        self.assertAlmostEqual(out[10], 6.53774638)
+        self.assertAlmostEqual(out[-1], 3.97265811)
         self.addCleanup(os.remove, 'MovingCube.csv')
         self.addCleanup(os.remove, 'MovingCube.png')
 
