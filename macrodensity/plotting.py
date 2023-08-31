@@ -772,10 +772,10 @@ def plot_active_plane(cube_size: list,
 
 
 def plot_variation_along_vector(
-    vector: list, 
+    vector: list=[1, 1, 1], 
     cube_size: list=[1, 1, 1],
     origin_point: list=[0, 0, 0],
-    vector_magnitude: int=10,
+    vector_magnitude: int=280,
     input_file: str="LOCPOT",
     show_electric_field: bool=True,
     img_file: str="potential_variation.png",
@@ -783,10 +783,40 @@ def plot_variation_along_vector(
 ):
     """
     Plot the potential and field variation along a specified vector.
-    
+
+    This function calculates the volume average of the electronic potential as
+    function of the position along the specified vector. The volume average is
+    performed by moving a cube of specified dimensions along the vector from the
+    specified origin position. The magnitude parameter determines the distance
+    covered in each direction from the origin. The resulting potential values
+    at each position are plotted, and the data is saved to a CSV file.
+
     Parameters:
-    
+        vector (:obj:`list`, optional): The vector along which the cube moves
+            for volume averaging. Default is [1, 1, 1].
+        
+        cube_size (:obj:`list`, optional): The size of the cube used for
+            volume averaging in units of mesh points (NGX/Y/Z). Default is [1, 1, 1].
+
+        origin_point (:obj:`list`, optional): The starting position of the cube
+            in fractional coordinates. Default is [0, 0, 0].
+
+        magnitude (:obj:`float`, optional): The distance covered by the cube in
+            each direction from the origin along the vector (in Angstroms).
+            Default is 280.
+
+        input_file (:obj:`str`, optional): The filename of the file containing 
+            the electronic potential (e.g., LOCPOT). Default is 'LOCPOT'.
+
+        output_file (:obj:`str,` optional): Name of the output data file to store
+            the volume-averaged potential data. Default is 'MovingCube.csv'.
+
+        img_file (:obj:`str`, optional): Name of the output image file for the
+            potential plot. Default is 'MovingCube.png'.
+
     Returns:
+        :obj:`fig`: A figure showing the volume-averaged potential values 
+        at each position along the vector.
     """
     vasp_pot, NGX, NGY, NGZ, lattice = read_vasp_density(input_file)
     vector_a, vector_b, vector_c, av, bv, cv = matrix_2_abc(lattice)
