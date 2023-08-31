@@ -22,10 +22,11 @@ from macrodensity.density import (
     numbers_2_grid,
     planar_average,
     volume_average,
+    travelling_volume_average
 )
 from macrodensity.io import read_gulp_potential, read_vasp_density
 from macrodensity.tools import create_plotting_mesh, points_2_plane
-from macrodensity.utils import matrix_2_abc
+from macrodensity.utils import matrix_2_abc, vector_2_abscissa
 
 MODULE_DIR = os.path.dirname(os.path.abspath(__file__))
 plt.style.use(f"{MODULE_DIR}/macrodensity.mplstyle")
@@ -766,4 +767,58 @@ def plot_active_plane(cube_size: list,
     plt.savefig('Planar.eps')
     plt.show()
 
+    return fig
+
+
+def plot_variation_along_vector(
+    vector: list, 
+    cube_size: list=[1, 1, 1],
+    origin_point: list=[0, 0, 0],
+    vector_magnitude: int=10,
+    input_file: str="LOCPOT",
+    img_file="potential_variation.png",
+    output_file="potential_variation.csv",
+):
+    """
+    Plot the potential variation along a specified vector.
+    
+    Parameters:
+    
+    Returns:
+    """
+    vasp_pot, NGX, NGY, NGZ, lattice = read_vasp_density(input_file)
+    vector_a, vector_b, vector_c, av, bv, cv = matrix_2_abc(lattice)
+    resolution_x = vector_a/NGX
+    resolution_y = vector_b/NGY
+    resolution_z = vector_c/NGZ
+    grid_pot, electrons = density_2_grid(vasp_pot, NGX, NGY, NGZ)
+    cubes_potential = travelling_volume_average(
+        grid=grid_pot,
+        cube=cube_size,
+        origin=origin_point,
+        vector=vector,
+        nx=NGX,
+        ny=NGY,
+        nz=NGZ,
+        magnitude=vector_magnitude,
+    )
+    abscissa = vector_2_abscissa(
+        vector, 
+        vector_magnitude,
+        resolution_x,
+        resolution_y,
+        resolution_z,
+    )
+    # Plotting
+    fig, ax = plt.subplots()
+    ax.plot(abscissa, cubes_potential)
+    ax.set_xlabel("$z (\AA)$")
+    ax.set_ylabel("Potential (V)") 
+    fig.savefig(img_file)
+
+    ##SAVING
+    df = pd.DataFrame.from_dict({'Potential': cubes_potential}, orient='index')
+    df = df.transpose()
+    df.to_csv(output_file)
+    
     return fig
