@@ -5,9 +5,9 @@ Tutorials
    :maxdepth: 1
    .. :caption: Tutorial Notebook
 
-   doctests/Slab/SlabCalculation.ipynb
-   doctests/Porous/Porous.ipynb
-   doctests/MDTutorials_1.ipynb
-   doctests/Band_Alignment/Band_Alignment.ipynb
-   .. doctests/HeteroJunction/HeteroJunction.ipynb 
+   ../tutorials/Slab/SlabCalculation.ipynb
+   ../tutorials/Porous/Porous.ipynb
+   ../tutorials/MDTutorials_1.ipynb
+   ../tutorials/Band_Alignment/Band_Alignment.ipynb
+   .. ../tutorials/HeteroJunction/HeteroJunction.ipynb 
 
