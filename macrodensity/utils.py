@@ -68,6 +68,37 @@ def vector_2_abscissa(vector:list, magnitude: float, dx: float, dy: float, dz: f
     return np.asarray(abscissa)
 
 
+def one_2_2d(array: np.ndarray, resolution: float, vector: np.ndarray) -> np.ndarray:
+    """
+    Transform a 1D array to a 2D array with abscissa values based on the given resolution and vector.
+
+    Parameters:
+        array (np.ndarray): 1D array to be transformed.
+
+        resolution (float): Spacing between abscissa values.
+
+        vector (np.ndarray): 3D vector used for the transformation.
+
+    Returns:
+        np.ndarray: 2D array with abscissa values and the corresponding Array values.
+
+    Example:
+        >>> Array = np.random.rand(10)
+        >>> resolution = 0.5
+        >>> vector = np.array([1, 2, 3])
+        >>> transformed_array = one_2_2d(Array, resolution, vector)
+        >>> print("Transformed Array:")
+        >>> print(transformed_array)
+    """
+    length = np.sqrt(vector.dot(vector))
+    new_array = np.zeros(shape=(len(array) - 1, 2))
+    resolution = length / len(array)
+    for i in range(len(array) - 1):
+        new_array[i,0] = i*resolution
+        new_array[i,1] = array[i]
+    return new_array
+
+
 def GCD(a: int,b: int) -> int:
     """
     Compute the Greatest Common Divisor (GCD) of two integers a and b.
@@ -109,3 +140,181 @@ def GCD_List(list: list) -> int:
         >>> print("GCD of", numbers, "is:", gcd)
     """
     return reduce(GCD, list)
+
+
+def get_volume(a: np.ndarray, b: np.ndarray, c: np.ndarray) -> float:
+    """
+    Calculate the volume of a parallelepiped defined by three vectors a, b, and c.
+
+    Parameters:
+        a (np.ndarray): 1D array representing vector a.
+
+        b (np.ndarray): 1D array representing vector b.
+
+        c (np.ndarray): 1D array representing vector c.
+
+    Returns:
+        float: volume of the parallelepiped defined by the three vectors.
+
+    Example:
+        >>> a = np.array([1, 0, 0])
+        >>> b = np.array([0, 1, 0])
+        >>> c = np.array([0, 0, 1])
+        >>> volume = get_volume(a, b, c)
+        >>> print("volume of parallelepiped:", volume)
+    """
+    volume = np.dot(a, np.cross(b, c))
+
+    return volume
+
+
+def inverse_participation_ratio(density: np.ndarray) -> float:
+    """
+    Calculate the inverse participation ratio (IPR) for a given density.
+
+    Parameters:
+        density (np.ndarray): List or 1D array representing the density data.
+
+    Returns:
+        float: The inverse participation ratio value.
+    
+    Example:
+        >>> density = np.array([0.2, 0.4, 0.6, 0.8])
+        >>> ipr = inverse_participation_ratio(density)
+        >>> print("Inverse Participation Ratio (IPR) for the density:", ipr)
+    """
+    sq = sum(i**2 for i in density)
+    fr = sum(i**4 for i in density)
+    ifr = 1 / (len(density) * fr)
+    isq = 1 / (len(density) * sq)
+    return fr / sq**2
+
+
+def numbers_2_grid(a: tuple, NGX: int, NGY: int, NGZ: int) -> np.ndarray:
+    """
+    Convert fractional coordinates to grid point coordinates.
+
+    Parameters:
+        a (tuple): Fractional coordinates (x, y, z).
+
+        NGX (int): Number of grid points along the x-axis.
+
+        NGY (int): Number of grid points along the y-axis.
+
+        NGZ (int): Number of grid points along the z-axis.
+
+    Returns:
+        np.ndarray: 1D array containing the grid point coordinates (x, y, z).
+
+    Example:
+        >>> fractional_coords = [0.3, 0.4, 0.5]
+        >>> NGX, NGY, NGZ = 10, 10, 10
+        >>> grid_coords = numbers_2_grid(fractional_coords, NGX, NGY, NGZ)
+        >>> print("Grid Point Coordinates:", grid_coords)
+    """
+    a_grid = np.zeros(shape=(3))
+    a_grid[0] = round(float(a[0])*NGX)
+    a_grid[1] = round(float(a[1])*NGY)
+    a_grid[2] = round(float(a[2])*NGZ)
+
+    return a_grid
+
+
+def points_2_plane(a: np.ndarray, b: np.ndarray, c: np.ndarray) -> np.ndarray:
+    """
+    Calculates the plane coefficients from three points in space.
+
+    Parameters:
+        a (numpy.ndarray): First point with shape (3,).
+
+        b (numpy.ndarray): Second point with shape (3,).
+
+        c (numpy.ndarray): Third point with shape (3,).
+
+    Returns:
+        numpy.ndarray: An array containing the plane coefficients with shape (4,).
+
+    Example:
+        >>> # Sample points in space
+        >>> a = np.array([0, 0, 0])
+        >>> b = np.array([1, 0, 0])
+        >>> c = np.array([0, 1, 0])
+        >>> # Calculate plane coefficients
+        >>> plane_coefficients = points_2_plane(a, b, c)
+        >>> print(plane_coefficients)
+    """
+    coefficients = np.zeros(shape=(4))
+
+    ca = c - a
+    ba = b - a
+    normal = np.cross(ba,ca)
+    d = -np.dot(normal,a)
+    A, B, C = normal[0], normal[1], normal[2]
+    D = d
+    coefficients = np.array([A, B, C, D])
+    return coefficients
+
+
+def number_in_field(gradients: np.ndarray, cutoff: float) -> int:
+    """
+    Count the number of elements in a field that have a value greater than or equal to the cutoff.
+
+    Parameters:
+        gradients (np.ndarray): 3D array representing the field.
+
+        cutoff (float): Threshold value for counting elements.
+
+    Returns:
+        int: Number of elements in the field satisfying the cutoff condition.
+
+    Example:
+        >>> gradients_field = np.random.rand(4, 4, 4)
+        >>> cutoff_value = 0.5
+        >>> num_elements_above_cutoff = number_in_field(gradients_field, cutoff_value)
+        >>> print("Number of Elements Above Cutoff:", num_elements_above_cutoff)
+    """
+    number_of_elements = 0
+    for element in np.nditer(gradients):
+        if element >= cutoff:
+            number_of_elements += 1
+
+    return number_of_elements
+
+
+def get_third_coordinate(plane_coeff: np.ndarray, NGX: int, NGY: int) -> list:
+    """
+    Computes the third coordinate of the plane for given plane coefficients.
+
+    Parameters:
+        plane_coeff (numpy.ndarray): An array containing the plane coefficients with shape (4,).
+
+        NGX (int): Number of grid points along the x-direction.
+
+        NGY (int): Number of grid points along the y-direction.
+
+    Returns:
+        list: A list of third coordinates for the plane.
+
+    Example:
+        >>> # Sample plane coefficients and grid dimensions
+        >>> plane_coeff = np.array([1, 1, 1, 5])
+        >>> NGX, NGY = 10, 10
+        >>> # Calculate the third coordinate of the plane
+        >>> third_coordinates = get_third_coordinate(plane_coeff, NGX, NGY)
+        >>> print(third_coordinates)
+    """
+    zz = []
+    i = j = 0
+    while i <= NGX:
+        i = i + 1
+        j = 0
+        while j <= NGY:
+            j = j + 1
+            rounded = round(((plane_coeff[0]*j+plane_coeff[1]*i) /
+                             plane_coeff[2]))
+            standard = ((plane_coeff[0]*j+plane_coeff[1]*i) /
+                        plane_coeff[2])
+            if rounded == standard:   # Is it a whole number?
+                zz.append(-(plane_coeff[0]*i+plane_coeff[1]*j)/plane_coeff[2])
+
+    return zz

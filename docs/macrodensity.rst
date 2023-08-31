@@ -12,7 +12,7 @@ Module contents
 Submodules
 ------------
 .. toctree::
-   macrodensity.alpha
+   macrodensity.tools
    macrodensity.density
    macrodensity.plotting 
    macrodensity.io

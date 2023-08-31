@@ -3,11 +3,8 @@ Tutorials
 
 .. toctree::
    :maxdepth: 2
-   :caption: Tutorial Notebook
-
-   doctests/MDTutorials_1.ipynb
-   doctests/HeteroJunction/HeteroJunction.ipynb
-   doctests/Plotting/Plotting.ipynb
-   doctests/Porous/Porous.ipynb
-   doctests/Slab/SlabCalculation.ipynb
-
+   
+   ../tutorials/MD_workbook.ipynb
+   ../tutorials/Slab/SlabCalculation.ipynb
+   ../tutorials/Porous/Porous.ipynb
+   ../tutorials/Band_Alignment/Band_Alignment.ipynb
