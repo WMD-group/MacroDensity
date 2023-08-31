@@ -497,7 +497,7 @@ def _get_lattice_vectors_poscar(input_file: str)->np.ndarray:
         np.ndarray: A 3x3 numpy array representing the lattice vectors.
     '''
 
-    if 'POSCAR' in input_file or 'CONTCAR' in input_file':
+    if 'POSCAR' in input_file or 'CONTCAR' in input_file:
         with open(input_file, "r") as f:
             lines = f.readlines()
 
