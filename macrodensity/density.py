@@ -368,36 +368,6 @@ def planar_average(grid: np.ndarray, nx: int, ny: int, nz: int, axis: str='z') -
     return average
 
 
-def numbers_2_grid(a: tuple, NGX: int, NGY: int, NGZ: int) -> np.ndarray:
-    """
-    Convert fractional coordinates to grid point coordinates.
-
-    Parameters:
-        a (tuple): Fractional coordinates (x, y, z).
-
-        NGX (int): Number of grid points along the x-axis.
-
-        NGY (int): Number of grid points along the y-axis.
-
-        NGZ (int): Number of grid points along the z-axis.
-
-    Returns:
-        np.ndarray: 1D array containing the grid point coordinates (x, y, z).
-
-    Example:
-        >>> fractional_coords = [0.3, 0.4, 0.5]
-        >>> NGX, NGY, NGZ = 10, 10, 10
-        >>> grid_coords = numbers_2_grid(fractional_coords, NGX, NGY, NGZ)
-        >>> print("Grid Point Coordinates:", grid_coords)
-    """
-    a_grid = np.zeros(shape=(3))
-    a_grid[0] = round(float(a[0])*NGX)
-    a_grid[1] = round(float(a[1])*NGY)
-    a_grid[2] = round(float(a[2])*NGZ)
-
-    return a_grid
-
-
 # TODO: Update variables here to be lower case following python convention
 def density_2_grid(
     density: np.ndarray, 
@@ -467,28 +437,6 @@ def density_2_grid(
     
     else:
         raise ValueError("Invalid Format. Format must be 'VASP' or 'GULP'.")
-
-
-def inverse_participation_ratio(density: np.ndarray) -> float:
-    """
-    Calculate the inverse participation ratio (IPR) for a given density.
-
-    Parameters:
-        density (np.ndarray): List or 1D array representing the density data.
-
-    Returns:
-        float: The inverse participation ratio value.
-    
-    Example:
-        >>> density = np.array([0.2, 0.4, 0.6, 0.8])
-        >>> ipr = inverse_participation_ratio(density)
-        >>> print("Inverse Participation Ratio (IPR) for the density:", ipr)
-    """
-    sq = sum(i**2 for i in density)
-    fr = sum(i**4 for i in density)
-    ifr = 1 / (len(density) * fr)
-    isq = 1 / (len(density) * sq)
-    return fr / sq**2
 
 
 def planar_average_charge(

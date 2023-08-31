@@ -161,14 +161,14 @@ class TestAveragingFunctions(unittest.TestCase):
         self.assertAlmostEqual(variance, 3.6296296296296298)
 
     def test_ipr(self):
-        '''Test the ipr function'''
+        '''Test the inverse_participation_ratio function'''
 
         parchg = pkg_resources.resource_filename(
                     __name__, path_join('../tests', 'CHGCAR.test'))
 
         dens, ngx, ngy, ngz, lattice = md.read_vasp_density(parchg,
                                                            quiet=True)
-        self.assertAlmostEqual(md.inverse_participation_ratio(dens),
+        self.assertAlmostEqual(md.utils.inverse_participation_ratio(dens),
                 1.407e-5)
 
 class TestGeometryFunctions(unittest.TestCase):
