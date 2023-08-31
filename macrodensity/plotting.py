@@ -22,7 +22,8 @@ from macrodensity.density import (
     numbers_2_grid,
     planar_average,
     volume_average,
-    travelling_volume_average
+    travelling_volume_average,
+    gradient_magnitude
 )
 from macrodensity.io import read_gulp_potential, read_vasp_density
 from macrodensity.tools import create_plotting_mesh, points_2_plane
@@ -166,12 +167,13 @@ def energy_band_alignment_diagram(
     return fig
 
 
-def plot_active_space(cube_size: list,
-                      cube_origin: list,
-                      tolerance: float=1E-4,
-                      input_file='LOCPOT',
-                      print_output=True, 
-                      plot_pot= False
+def plot_active_space(
+    cube_size: list,
+    cube_origin: list,
+    tolerance: float=1E-4,
+    input_file='LOCPOT',
+    print_output=True, 
+    plot_pot= False
 ) -> tuple: 
     '''
     Plot the active space (vacuum and non-vacuum regions) based on potential variations.
@@ -179,7 +181,6 @@ def plot_active_space(cube_size: list,
     This function analyzes the potential variations within the specified cubes of the given size
     and determines whether each cube belongs to the vacuum or non-vacuum region based on the provided tolerance. 
     This function also plots the cube potentials of vacuum and non vacuum cubes.
-
 
     Parameters:
         cube_size (list of int): The size of the cubes in units of mesh points (NGX/Y/Z) for analysis.
@@ -776,11 +777,12 @@ def plot_variation_along_vector(
     origin_point: list=[0, 0, 0],
     vector_magnitude: int=10,
     input_file: str="LOCPOT",
-    img_file="potential_variation.png",
-    output_file="potential_variation.csv",
+    show_electric_field: bool=True,
+    img_file: str="potential_variation.png",
+    output_file: str="potential_variation.csv",
 ):
     """
-    Plot the potential variation along a specified vector.
+    Plot the potential and field variation along a specified vector.
     
     Parameters:
     
@@ -792,6 +794,11 @@ def plot_variation_along_vector(
     resolution_y = vector_b/NGY
     resolution_z = vector_c/NGZ
     grid_pot, electrons = density_2_grid(vasp_pot, NGX, NGY, NGZ)
+    grad_x, grad_y, grad_z = np.gradient(
+        grid_pot[:,:,:], resolution_x, resolution_y, resolution_z
+    )
+    
+    # Average along vector
     cubes_potential = travelling_volume_average(
         grid=grid_pot,
         cube=cube_size,
@@ -809,14 +816,33 @@ def plot_variation_along_vector(
         resolution_y,
         resolution_z,
     )
-    # Plotting
+
+    # Plotting potential
     fig, ax = plt.subplots()
     ax.plot(abscissa, cubes_potential)
     ax.set_xlabel("$z (\AA)$")
     ax.set_ylabel("Potential (V)") 
+    # Plot field
+    if show_electric_field:
+        # Getting the field and plotting it
+        grad_mag = gradient_magnitude(grad_x, grad_y, grad_z)
+        cubes_field = travelling_volume_average(
+            grid=grad_mag,
+            cube=cube_size,
+            origin=origin_point,
+            vector=vector,
+            nx=NGX,
+            ny=NGY,
+            nz=NGZ,
+            magnitude=vector_magnitude
+        )
+        ax.plot(abscissa, cubes_field)
+        ax.set_ylabel("Magnitude") 
+        ax.legend(["Potential (eV)", "Field Magnitude (eV/$\AA$))"], frameon=True)
+        
     fig.savefig(img_file)
 
-    ##SAVING
+    # Save dataframe
     df = pd.DataFrame.from_dict({'Potential': cubes_potential}, orient='index')
     df = df.transpose()
     df.to_csv(output_file)
