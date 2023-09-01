@@ -327,7 +327,7 @@ def plot_on_site_potential(
         resolution_y = vector_b/NGY
         resolution_z = vector_c/NGZ
         grid_pot, electrons = density_2_grid(vasp_pot, NGX, NGY, NGZ, Format="VASP")
-    if 'cube' in potential_file:
+    elif 'cube' in potential_file:
         grid_pot, atoms = cube.read_cube_data(potential_file)
         vector_a = np.linalg.norm(atoms.cell[1])
         vector_b = np.linalg.norm(atoms.cell[1])
@@ -338,7 +338,7 @@ def plot_on_site_potential(
         resolution_x = vector_a/NGX
         resolution_y = vector_b/NGY
         resolution_z = vector_c/NGZ
-    if 'gulp' in potential_file or '.out' in potential_file:
+    elif 'gulp' in potential_file or '.out' in potential_file:
         gulp_pot, NGX, NGY, NGZ, lattice = read_gulp_potential(potential_file)
         vector_a, vector_b, vector_c, av, bv, cv = matrix_2_abc(lattice)
         resolution_x = vector_a/NGX
