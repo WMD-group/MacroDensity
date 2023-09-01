@@ -10,7 +10,9 @@ from macrodensity.io import read_vasp_density
 from macrodensity.utils import matrix_2_abc
 
 
-def gradient_magnitude(gx: np.ndarray, gy: np.ndarray, gz: np.ndarray) -> np.ndarray:
+def gradient_magnitude(
+    gx: np.ndarray, gy: np.ndarray, gz: np.ndarray
+) -> np.ndarray:
     """
     Calculate the magnitude of the gradient at each point in a 3D field.
 
@@ -110,13 +112,17 @@ def macroscopic_average(
         if start < 0:
             start = start + length
             macro_average[i] = (
-                macro_average[i] + sum(potential[0:end]) + sum(potential[start:length])
+                macro_average[i]
+                + sum(potential[0:end])
+                + sum(potential[start:length])
             )
             macro_average[i] = macro_average[i] / period_points
         elif end >= length:
             end = end - length
             macro_average[i] = (
-                macro_average[i] + sum(potential[start:length]) + sum(potential[0:end])
+                macro_average[i]
+                + sum(potential[start:length])
+                + sum(potential[0:end])
             )
             macro_average[i] = macro_average[i] / period_points
         else:
@@ -230,21 +236,31 @@ def spherical_average(
         resolution_x = vector_a / NGX
         resolution_y = vector_b / NGY
         resolution_z = vector_c / NGZ
-        grid_pot, electrons = density_2_grid(cube_pot, NGX, NGY, NGZ, Format="CUBE")
-    elif "vasp" in input_file or "LOCPOT" in input_file or "CHGCAR" in input_file:
+        grid_pot, electrons = density_2_grid(
+            cube_pot, NGX, NGY, NGZ, Format="CUBE"
+        )
+    elif (
+        "vasp" in input_file
+        or "LOCPOT" in input_file
+        or "CHGCAR" in input_file
+    ):
         vasp_pot, NGX, NGY, NGZ, lattice = read_vasp_density(input_file)
         vector_a, vector_b, vector_c, av, bv, cv = matrix_2_abc(lattice)
         resolution_x = vector_a / NGX
         resolution_y = vector_b / NGY
         resolution_z = vector_c / NGZ
-        grid_pot, electrons = density_2_grid(vasp_pot, NGX, NGY, NGZ, Format="VASP")
+        grid_pot, electrons = density_2_grid(
+            vasp_pot, NGX, NGY, NGZ, Format="VASP"
+        )
     elif "gulp" in input_file or ".out" in input_file:
         gulp_pot, NGX, NGY, NGZ, lattice = read_gulp_density(input_file)
         vector_a, vector_b, vector_c, av, bv, cv = matrix_2_abc(lattice)
         resolution_x = vector_a / NGX
         resolution_y = vector_b / NGY
         resolution_z = vector_c / NGZ
-        grid_pot, electrons = density_2_grid(gulp_pot, NGX, NGY, NGZ, Format="GULP")
+        grid_pot, electrons = density_2_grid(
+            gulp_pot, NGX, NGY, NGZ, Format="GULP"
+        )
     else:
         raise ValueError(
             "Invalid input file. File must be in VASP, GULP, or CUBE format."
@@ -429,7 +445,9 @@ def density_2_grid(
                     if charge == True:
                         # Convert the charge density to a number of electrons
                         point_volume = volume / (nx * ny * nz)
-                        Potential_grid[i, j, k] = Potential_grid[i, j, k] * point_volume
+                        Potential_grid[i, j, k] = (
+                            Potential_grid[i, j, k] * point_volume
+                        )
                     total_electrons = total_electrons + density[l]
                     l = l + 1
 

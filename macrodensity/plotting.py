@@ -186,9 +186,15 @@ def energy_band_alignment_diagram(
         ax2.tick_params(axis="x", which="minor", bottom="off")
 
     for label, value in references.items():
-        ax1.hlines(-value, -0.5, len(energies_list) - 0.5, linestyles="--", colors="r")
+        ax1.hlines(
+            -value, -0.5, len(energies_list) - 0.5, linestyles="--", colors="r"
+        )
         ax1.text(
-            len(energies_list) - 0.45, -value - 0.1, label, fontsize=textsize, color="r"
+            len(energies_list) - 0.45,
+            -value - 0.1,
+            label,
+            fontsize=textsize,
+            color="r",
         )
 
     fig.savefig(f"{outfile}.pdf", bbox_inches="tight")
@@ -273,7 +279,9 @@ def plot_active_space(
         ax2.set_zlabel("Z")
         ax2.set_title("Non-vacuum region")
 
-        norm = plt.Normalize(vmin=np.min(potential_vac), vmax=np.max(potential_vac))
+        norm = plt.Normalize(
+            vmin=np.min(potential_vac), vmax=np.max(potential_vac)
+        )
         fig.colorbar(
             cm.ScalarMappable(norm=norm, cmap=cmap),
             ax=[ax, ax2],
@@ -362,7 +370,9 @@ def plot_on_site_potential(
         resolution_x = vector_a / NGX
         resolution_y = vector_b / NGY
         resolution_z = vector_c / NGZ
-        grid_pot, electrons = density_2_grid(vasp_pot, NGX, NGY, NGZ, Format="VASP")
+        grid_pot, electrons = density_2_grid(
+            vasp_pot, NGX, NGY, NGZ, Format="VASP"
+        )
     elif "cube" in potential_file:
         grid_pot, atoms = cube.read_cube_data(potential_file)
         vector_a = np.linalg.norm(atoms.cell[1])
@@ -405,8 +415,14 @@ def plot_on_site_potential(
         grid_position[1] = coord[1]
         grid_position[2] = coord[2]
         cube = sample_cube
-        origin = [grid_position[0] - 2, grid_position[1] - 2, grid_position[2] - 1]
-        cube_potential, cube_var = volume_average(origin, cube, grid_pot, NGX, NGY, NGZ)
+        origin = [
+            grid_position[0] - 2,
+            grid_position[1] - 2,
+            grid_position[2] - 1,
+        ]
+        cube_potential, cube_var = volume_average(
+            origin, cube, grid_pot, NGX, NGY, NGZ
+        )
         potentials_list.append(cube_potential)
 
     ## PLOTTING
@@ -479,7 +495,9 @@ def plot_planar_average(
 
     # Check axis is valid
     if axis not in ["x", "y", "z"]:
-        raise ValueError(f'Axis {axis} not recognised! Must be "x", "y", or "z".')
+        raise ValueError(
+            f'Axis {axis} not recognised! Must be "x", "y", or "z".'
+        )
 
     if "cube" in input_file:
         potential, atoms = cube.read_cube_data(input_file)
@@ -496,8 +514,14 @@ def plot_planar_average(
         ## PLANAR AVERAGE
         planar = planar_average(potential, NGX, NGY, NGZ, axis=axis)
         ## MACROSCOPIC AVERAGE
-        axis_to_resolution = {"x": resolution_x, "y": resolution_y, "z": resolution_z}
-        macro = macroscopic_average(planar, lattice_vector, axis_to_resolution[axis])
+        axis_to_resolution = {
+            "x": resolution_x,
+            "y": resolution_y,
+            "z": resolution_z,
+        }
+        macro = macroscopic_average(
+            planar, lattice_vector, axis_to_resolution[axis]
+        )
 
         ## PLOTTING
         fig = _plot(planar, macro, img_file)
@@ -535,7 +559,11 @@ def plot_planar_average(
         ## SAVING
         df = _save_df(planar, macro, output_file, interpolated_potential)
 
-    elif "vasp" in input_file or "LOCPOT" in input_file or "CHGCAR" in input_file:
+    elif (
+        "vasp" in input_file
+        or "LOCPOT" in input_file
+        or "CHGCAR" in input_file
+    ):
         pot, NGX, NGY, NGZ, lattice = read_vasp_density(input_file)
         vector_a, vector_b, vector_c, av, bv, cv = matrix_2_abc(lattice)
         resolution_x = vector_a / NGX
@@ -546,8 +574,14 @@ def plot_planar_average(
         ## PLANAR AVERAGE
         planar = planar_average(grid_pot, NGX, NGY, NGZ, axis=axis)
         ## MACROSCOPIC AVERAGE
-        axis_to_resolution = {"x": resolution_x, "y": resolution_y, "z": resolution_z}
-        macro = macroscopic_average(planar, lattice_vector, axis_to_resolution[axis])
+        axis_to_resolution = {
+            "x": resolution_x,
+            "y": resolution_y,
+            "z": resolution_z,
+        }
+        macro = macroscopic_average(
+            planar, lattice_vector, axis_to_resolution[axis]
+        )
 
         ## PLOTTING
         fig = _plot(planar, macro, img_file)
@@ -603,7 +637,9 @@ def plot_field_at_point(
     resolution_x = vector_a / NGX
     resolution_y = vector_b / NGY
     resolution_z = vector_c / NGZ
-    grid_pot, electrons = density_2_grid(vasp_pot, NGX, NGY, NGZ, Format="VASP")
+    grid_pot, electrons = density_2_grid(
+        vasp_pot, NGX, NGY, NGZ, Format="VASP"
+    )
     ## Get the gradiens (Field), if required.
     ## Comment out if not required, due to compuational expense.
     if grad_calc == True:
@@ -672,7 +708,9 @@ def plot_field_at_point(
     #        units='xy', scale=10., zorder=3, color='blue',
     #        width=0.007, headwidth=3., headlength=4.)
 
-    plt.axis("equal")  # force square aspect ratio; this assuming X and Y are equal.
+    plt.axis(
+        "equal"
+    )  # force square aspect ratio; this assuming X and Y are equal.
     plt.show()
 
     return fig
@@ -711,7 +749,9 @@ def plot_plane_field(
     resolution_x = vector_a / NGX
     resolution_y = vector_b / NGY
     resolution_z = vector_c / NGZ
-    grid_pot, electrons = density_2_grid(vasp_pot, NGX, NGY, NGZ, Format="VASP")
+    grid_pot, electrons = density_2_grid(
+        vasp_pot, NGX, NGY, NGZ, Format="VASP"
+    )
     ## Get the gradiens (Field), if required.
     ## Comment out if not required, due to compuational expense.
     grad_x, grad_y, grad_z = np.gradient(
@@ -781,7 +821,9 @@ def plot_active_plane(
     resolution_x = vector_a / NGX
     resolution_y = vector_b / NGY
     resolution_z = vector_c / NGZ
-    grid_pot, electrons = density_2_grid(vasp_pot, NGX, NGY, NGZ, Format="VASP")
+    grid_pot, electrons = density_2_grid(
+        vasp_pot, NGX, NGY, NGZ, Format="VASP"
+    )
 
     potential_variance = np.var(grid_pot)
     cutoff_variance = tolerance
@@ -943,7 +985,9 @@ def plot_variation_along_vector(
         )
         ax.plot(abscissa, cubes_field)
         ax.set_ylabel("Magnitude")
-        ax.legend(["Potential (eV)", "Field Magnitude (eV/$\AA$))"], frameon=True)
+        ax.legend(
+            ["Potential (eV)", "Field Magnitude (eV/$\AA$))"], frameon=True
+        )
 
     fig.savefig(img_file)
 

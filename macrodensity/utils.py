@@ -5,7 +5,9 @@ from functools import reduce
 import numpy as np
 
 
-def matrix_2_abc(lattice: np.ndarray) -> (float, float, float, float, float, float):
+def matrix_2_abc(
+    lattice: np.ndarray,
+) -> (float, float, float, float, float, float):
     """
     Extract lattice parameters and vectors from a 3x3 matrix representing a lattice.
 
@@ -70,7 +72,9 @@ def vector_2_abscissa(
     return np.asarray(abscissa)
 
 
-def one_2_2d(array: np.ndarray, resolution: float, vector: np.ndarray) -> np.ndarray:
+def one_2_2d(
+    array: np.ndarray, resolution: float, vector: np.ndarray
+) -> np.ndarray:
     """
     Transform a 1D array to a 2D array with abscissa values based on the given resolution and vector.
 
@@ -315,8 +319,12 @@ def get_third_coordinate(plane_coeff: np.ndarray, NGX: int, NGY: int) -> list:
             rounded = round(
                 ((plane_coeff[0] * j + plane_coeff[1] * i) / plane_coeff[2])
             )
-            standard = (plane_coeff[0] * j + plane_coeff[1] * i) / plane_coeff[2]
+            standard = (plane_coeff[0] * j + plane_coeff[1] * i) / plane_coeff[
+                2
+            ]
             if rounded == standard:  # Is it a whole number?
-                zz.append(-(plane_coeff[0] * i + plane_coeff[1] * j) / plane_coeff[2])
+                zz.append(
+                    -(plane_coeff[0] * i + plane_coeff[1] * j) / plane_coeff[2]
+                )
 
     return zz

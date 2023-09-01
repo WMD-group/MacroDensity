@@ -53,7 +53,9 @@ def bulk_interstitial_alignment(
     ## GETTING POTENTIAL
     vasp_pot, NGX, NGY, NGZ, lattice = read_vasp_density(locpot, quiet=True)
     vector_a, vector_b, vector_c, av, bv, cv = matrix_2_abc(lattice)
-    grid_pot, electrons = density_2_grid(vasp_pot, NGX, NGY, NGZ, Format="VASP")
+    grid_pot, electrons = density_2_grid(
+        vasp_pot, NGX, NGY, NGZ, Format="VASP"
+    )
 
     ## GETTING BAND EDGES
     band_extrema = get_band_extrema(outcar)
@@ -65,7 +67,12 @@ def bulk_interstitial_alignment(
     interstitial_variances = []
     for interstice in interstices:
         locpot_extract = volume_average(
-            origin=interstice, cube=cube_size, grid=grid_pot, nx=NGX, ny=NGY, nz=NGZ
+            origin=interstice,
+            cube=cube_size,
+            grid=grid_pot,
+            nx=NGX,
+            ny=NGY,
+            nz=NGZ,
         )
         interstitial_potentials.append(locpot_extract[0])
         interstitial_variances.append(locpot_extract[1])
@@ -134,7 +141,9 @@ def _find_active_space(
     # Get potential
     vasp_pot, NGX, NGY, NGZ, lattice = read_vasp_density(input_file)
     vector_a, vector_b, vector_c, av, bv, cv = matrix_2_abc(lattice)
-    grid_pot, electrons = density_2_grid(vasp_pot, NGX, NGY, NGZ, Format="VASP")
+    grid_pot, electrons = density_2_grid(
+        vasp_pot, NGX, NGY, NGZ, Format="VASP"
+    )
     cutoff_variance = tolerance
 
     # Distinguish vacuum from non-vacuum
@@ -578,7 +587,9 @@ def translate_grid(
         new_potential_trans[i, 0] = potential[i, 0] + translation
         new_potential_trans[i, 1] = potential[i, 1]
         if periodic == True:
-            new_potential_trans[i, 0] = new_potential_trans[i, 0] - length * int(
+            new_potential_trans[i, 0] = new_potential_trans[
+                i, 0
+            ] - length * int(
                 (new_potential_trans[i, 0] + boundary_shift) / length
             )
 

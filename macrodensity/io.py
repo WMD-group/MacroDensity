@@ -157,7 +157,9 @@ def _read_partial_density(
 
         if use_pandas:
             print("Reading 3D data using Pandas...")
-            skiprows = 10 + num_atoms + spin * (math.ceil(NGX * NGY * NGZ / 10) + 2)
+            skiprows = (
+                10 + num_atoms + spin * (math.ceil(NGX * NGY * NGZ / 10) + 2)
+            )
             readrows = int(math.ceil(NGX * NGY * NGZ / 10))
 
             dat = pandas_read_table(
@@ -340,7 +342,9 @@ def read_vasp_parchg(
         NGX, NGY, NGZ = [int(x) for x in f.readline().split()]
 
         if not spin:
-            density = _read_partial_density(FILE, use_pandas, num_atoms, NGX, NGY, NGZ)
+            density = _read_partial_density(
+                FILE, use_pandas, num_atoms, NGX, NGY, NGZ
+            )
         else:
             densities = []
             densities.append(
@@ -360,7 +364,9 @@ def read_vasp_parchg(
     return density, NGX, NGY, NGZ, lattice
 
 
-def read_vasp_density(FILE: str, use_pandas: bool = None, quiet: bool = False) -> tuple:
+def read_vasp_density(
+    FILE: str, use_pandas: bool = None, quiet: bool = False
+) -> tuple:
     """
     Read density data from a VASP CHGCAR-like file.
 
@@ -444,7 +450,8 @@ def read_vasp_density(FILE: str, use_pandas: bool = None, quiet: bool = False) -
         else:
             print("Reading 3D data...")
             potential = (
-                f.readline().split() for i in range(int(math.ceil(NGX * NGY * NGZ / 5)))
+                f.readline().split()
+                for i in range(int(math.ceil(NGX * NGY * NGZ / 5)))
             )
             potential = np.fromiter(chain.from_iterable(potential), float)
 
@@ -498,6 +505,9 @@ def get_band_extrema(input_file: str) -> list:
                 float(lines[i + top_band].split()[2]) != 1.00
                 and float(lines[i + top_band].split()[2]) != 2.000
             ):
-                print("Partial occupancy, be aware!", lines[i + top_band].split()[2])
+                print(
+                    "Partial occupancy, be aware!",
+                    lines[i + top_band].split()[2],
+                )
 
     return [float(max(vbm)), float(min(cbm))]
