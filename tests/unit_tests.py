@@ -6,10 +6,10 @@ import unittest
 from os.path import join as path_join
 
 import numpy as np
+import pandas as pd
 import pkg_resources
 
 import macrodensity as md
-import pandas as pd
 
 try:
     import pandas

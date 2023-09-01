@@ -18,15 +18,20 @@ from scipy.interpolate import interp1d
 
 from macrodensity.density import (
     density_2_grid,
+    gradient_magnitude,
     macroscopic_average,
     planar_average,
-    volume_average,
     travelling_volume_average,
-    gradient_magnitude
+    volume_average,
 )
 from macrodensity.io import read_gulp_potential, read_vasp_density
-from macrodensity.tools import create_plotting_mesh, _find_active_space
-from macrodensity.utils import matrix_2_abc, vector_2_abscissa, numbers_2_grid, points_2_plane
+from macrodensity.tools import _find_active_space, create_plotting_mesh
+from macrodensity.utils import (
+    matrix_2_abc,
+    numbers_2_grid,
+    points_2_plane,
+    vector_2_abscissa,
+)
 
 MODULE_DIR = os.path.dirname(os.path.abspath(__file__))
 plt.style.use(f"{MODULE_DIR}/macrodensity.mplstyle")
