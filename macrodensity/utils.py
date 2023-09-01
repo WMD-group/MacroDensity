@@ -24,18 +24,20 @@ def matrix_2_abc(lattice: np.ndarray) -> (float, float, float, float, float, flo
         >>> print(b_vec)
         >>> print(c_vec)
     """
-    a = np.sqrt(lattice[0,0]**2+lattice[0,1]**2+lattice[0,2]**2)
-    b = np.sqrt(lattice[1,0]**2+lattice[1,1]**2+lattice[1,2]**2)
-    c = np.sqrt(lattice[2,0]**2+lattice[2,1]**2+lattice[2,2]**2)
+    a = np.sqrt(lattice[0, 0] ** 2 + lattice[0, 1] ** 2 + lattice[0, 2] ** 2)
+    b = np.sqrt(lattice[1, 0] ** 2 + lattice[1, 1] ** 2 + lattice[1, 2] ** 2)
+    c = np.sqrt(lattice[2, 0] ** 2 + lattice[2, 1] ** 2 + lattice[2, 2] ** 2)
 
-    a_vec = lattice[0,:]
-    b_vec = lattice[1,:]
-    c_vec = lattice[2,:]
+    a_vec = lattice[0, :]
+    b_vec = lattice[1, :]
+    c_vec = lattice[2, :]
 
-    return a,b,c,a_vec,b_vec,c_vec
+    return a, b, c, a_vec, b_vec, c_vec
 
 
-def vector_2_abscissa(vector:list, magnitude: float, dx: float, dy: float, dz: float) -> np.ndarray:
+def vector_2_abscissa(
+    vector: list, magnitude: float, dx: float, dy: float, dz: float
+) -> np.ndarray:
     """
     Convert a 3D vector to an array of abscissa values.
 
@@ -60,7 +62,7 @@ def vector_2_abscissa(vector:list, magnitude: float, dx: float, dy: float, dz: f
         >>> abscissa_array = vector_2_abscissa(vector, magnitude, dx, dy, dz)
         >>> print("Abscissa Array:")
         >>> print(abscissa_array)
-        
+
     """
     vec_mag = np.linalg.norm([vector[0] * dx, vector[1] * dy, vector[2] * dz])
     abscissa = [i * vec_mag for i in range(magnitude)]
@@ -94,23 +96,23 @@ def one_2_2d(array: np.ndarray, resolution: float, vector: np.ndarray) -> np.nda
     new_array = np.zeros(shape=(len(array) - 1, 2))
     resolution = length / len(array)
     for i in range(len(array) - 1):
-        new_array[i,0] = i*resolution
-        new_array[i,1] = array[i]
+        new_array[i, 0] = i * resolution
+        new_array[i, 1] = array[i]
     return new_array
 
 
-def GCD(a: int,b: int) -> int:
+def GCD(a: int, b: int) -> int:
     """
     Compute the Greatest Common Divisor (GCD) of two integers a and b.
 
     Parameters:
         a (int): First integer.
-        
+
         b (int): Second integer.
 
     Returns:
         int: The Greatest Common Divisor of a and b.
-    
+
     Example:
         >>> a = 36
         >>> b = 48
@@ -133,7 +135,7 @@ def GCD_List(list: list) -> int:
 
     Returns:
         int: The Greatest Common Divisor of the elements in the list.
-    
+
     Example:
         >>> numbers = [24, 36, 60]
         >>> gcd = GCD_List(numbers)
@@ -177,7 +179,7 @@ def inverse_participation_ratio(density: np.ndarray) -> float:
 
     Returns:
         float: The inverse participation ratio value.
-    
+
     Example:
         >>> density = np.array([0.2, 0.4, 0.6, 0.8])
         >>> ipr = inverse_participation_ratio(density)
@@ -213,9 +215,9 @@ def numbers_2_grid(a: tuple, NGX: int, NGY: int, NGZ: int) -> np.ndarray:
         >>> print("Grid Point Coordinates:", grid_coords)
     """
     a_grid = np.zeros(shape=(3))
-    a_grid[0] = round(float(a[0])*NGX)
-    a_grid[1] = round(float(a[1])*NGY)
-    a_grid[2] = round(float(a[2])*NGZ)
+    a_grid[0] = round(float(a[0]) * NGX)
+    a_grid[1] = round(float(a[1]) * NGY)
+    a_grid[2] = round(float(a[2]) * NGZ)
 
     return a_grid
 
@@ -247,8 +249,8 @@ def points_2_plane(a: np.ndarray, b: np.ndarray, c: np.ndarray) -> np.ndarray:
 
     ca = c - a
     ba = b - a
-    normal = np.cross(ba,ca)
-    d = -np.dot(normal,a)
+    normal = np.cross(ba, ca)
+    d = -np.dot(normal, a)
     A, B, C = normal[0], normal[1], normal[2]
     D = d
     coefficients = np.array([A, B, C, D])
@@ -310,11 +312,11 @@ def get_third_coordinate(plane_coeff: np.ndarray, NGX: int, NGY: int) -> list:
         j = 0
         while j <= NGY:
             j = j + 1
-            rounded = round(((plane_coeff[0]*j+plane_coeff[1]*i) /
-                             plane_coeff[2]))
-            standard = ((plane_coeff[0]*j+plane_coeff[1]*i) /
-                        plane_coeff[2])
-            if rounded == standard:   # Is it a whole number?
-                zz.append(-(plane_coeff[0]*i+plane_coeff[1]*j)/plane_coeff[2])
+            rounded = round(
+                ((plane_coeff[0] * j + plane_coeff[1] * i) / plane_coeff[2])
+            )
+            standard = (plane_coeff[0] * j + plane_coeff[1] * i) / plane_coeff[2]
+            if rounded == standard:  # Is it a whole number?
+                zz.append(-(plane_coeff[0] * i + plane_coeff[1] * j) / plane_coeff[2])
 
     return zz
