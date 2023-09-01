@@ -18,32 +18,36 @@ from scipy.interpolate import interp1d
 
 from macrodensity.density import (
     density_2_grid,
+    gradient_magnitude,
     macroscopic_average,
     planar_average,
-    volume_average,
     travelling_volume_average,
-    gradient_magnitude
+    volume_average,
 )
 from macrodensity.io import read_gulp_potential, read_vasp_density
-from macrodensity.tools import create_plotting_mesh, _find_active_space
-from macrodensity.utils import matrix_2_abc, vector_2_abscissa, numbers_2_grid, points_2_plane
+from macrodensity.tools import _find_active_space, create_plotting_mesh
+from macrodensity.utils import (
+    matrix_2_abc,
+    numbers_2_grid,
+    points_2_plane,
+    vector_2_abscissa,
+)
 
 MODULE_DIR = os.path.dirname(os.path.abspath(__file__))
 plt.style.use(f"{MODULE_DIR}/macrodensity.mplstyle")
 
 
 def energy_band_alignment_diagram(
-    energies: dict, 
-    ylims: list = (-8, 0), 
-    width: float = 1.,
-    cols: list = ['#74356C','#efce19'], 
+    energies: dict,
+    ylims: list = (-8, 0),
+    width: float = 1.0,
+    cols: list = ["#74356C", "#efce19"],
     textsize: int = 24,
-    arrowhead: float = 0.4, 
-    outfile: str = 'BandAlignment',
-    references: dict = {}, 
-    edge=None
+    arrowhead: float = 0.4,
+    outfile: str = "BandAlignment",
+    references: dict = {},
+    edge=None,
 ) -> plt.figure:
-   
     """
     Plot an energy band alignment diagram for a list of materials.
 
@@ -63,7 +67,7 @@ def energy_band_alignment_diagram(
 
         textsize (int, optional): The font size for the text in the plot.
             Default is 22.
-        
+
         arrowhead (float, optional): The size of the arrowhead for the energy arrows.
             Default is 0.7.
 
@@ -71,7 +75,7 @@ def energy_band_alignment_diagram(
             Default is 'BandAlignment'.
 
         references (dict, optional): A dictionary of reference points to be
-            shown as dashed lines on the plot (e.g. {label: reference_value}. 
+            shown as dashed lines on the plot (e.g. {label: reference_value}.
             Default is an empty dictionary.
 
         edge (None or str, optional): The edge color for the bars.
@@ -91,16 +95,16 @@ def energy_band_alignment_diagram(
     """
     energies_list = list(energies.values())
     materials = list(energies.keys())
-    
+
     fig, ax1 = plt.subplots(1, 1, sharex=True)
     fig.set_size_inches(len(energies) * 3, abs(ylims[0]) * 0.75)
-    mpl.rcParams['xtick.labelsize'] = textsize
-    mpl.rcParams['ytick.labelsize'] = textsize
-    mpl.rcParams['ytick.direction'] = 'in'
-    mpl.rcParams['ytick.major.width'] = 3
-    mpl.rcParams['ytick.major.size'] = 7
-    mpl.rcParams['ytick.minor.size'] = 4
-    mpl.rcParams['axes.linewidth'] = 3
+    mpl.rcParams["xtick.labelsize"] = textsize
+    mpl.rcParams["ytick.labelsize"] = textsize
+    mpl.rcParams["ytick.direction"] = "in"
+    mpl.rcParams["ytick.major.width"] = 3
+    mpl.rcParams["ytick.major.size"] = 7
+    mpl.rcParams["ytick.minor.size"] = 4
+    mpl.rcParams["axes.linewidth"] = 3
     ax2 = ax1.twinx()
     ind = np.arange(len(energies_list))
     ax1.set_prop_cycle(color=cols)
@@ -108,7 +112,7 @@ def energy_band_alignment_diagram(
     # Bars for the IP and background colour
     for i in ind:
         ax1.bar(i, ylims[0], width, edgecolor=None)
-        ax1.bar(i, -energies_list[i][1], width, color='w', edgecolor=None)
+        ax1.bar(i, -energies_list[i][1], width, color="w", edgecolor=None)
 
     # Reset the colours back to the start and plot the EA
     ax1.set_prop_cycle(color=cols)
@@ -118,49 +122,82 @@ def energy_band_alignment_diagram(
     # Set the limits of the axes
     ax1.set_ylim(ylims[0], ylims[1])
     ax2.set_ylim(ylims[0], ylims[1])
-    ax1.set_xlim(-0.5, len(energies_list)-0.5)
+    ax1.set_xlim(-0.5, len(energies_list) - 0.5)
 
     # Set the names
     ax1.set_xticks(ind)
     ax1.set_xticklabels(materials, size=textsize)
-    ran = [float(k) for k in np.arange(0, abs(ylims[0])+2, 2)]
+    ran = [float(k) for k in np.arange(0, abs(ylims[0]) + 2, 2)]
     ax1.set_yticks([float(k) for k in np.arange(ylims[0], 2, 2)])
     ax1.set_yticklabels(ran[::-1], size=textsize)
     # Add tick for vacuum level
-    ran = ['' for k in np.arange(0, abs(ylims[0])+2, 2)]
+    ran = ["" for k in np.arange(0, abs(ylims[0]) + 2, 2)]
     ax2.set_yticks([float(k) for k in np.arange(ylims[0], 2, 2)])
-    ran[0] = 'Vacuum Level'
+    ran[0] = "Vacuum Level"
     ax2.set_yticklabels(ran[::-1], size=textsize)
-    ax1.set_ylabel('Energy (eV)', size=textsize)
+    ax1.set_ylabel("Energy (eV)", size=textsize)
 
     # Offsets
-    os1 = 0.15   # Offset of the text 'IP' in the plot
-    os2 = 0.2    # Offset of the text 'EA' in the plot
+    os1 = 0.15  # Offset of the text 'IP' in the plot
+    os2 = 0.2  # Offset of the text 'EA' in the plot
 
     for i, en in enumerate(energies_list):
-        ax1.arrow(i-0.25, -en[0], 0, en[0]-arrowhead, width=0.005,
-                  head_length=arrowhead, head_width=0.07, fc='black', ec='None')
-        ax1.arrow(i-0.25, 0, 0, -en[1]+arrowhead, width=0.005,
-                  head_length=arrowhead, head_width=0.07, fc='black', ec='None')
-        ax1.arrow(i-0.25, 0, 0, -en[0]+arrowhead, width=0.005,
-                  head_length=arrowhead, head_width=0.07, fc='black', ec='None')
+        ax1.arrow(
+            i - 0.25,
+            -en[0],
+            0,
+            en[0] - arrowhead,
+            width=0.005,
+            head_length=arrowhead,
+            head_width=0.07,
+            fc="black",
+            ec="None",
+        )
+        ax1.arrow(
+            i - 0.25,
+            0,
+            0,
+            -en[1] + arrowhead,
+            width=0.005,
+            head_length=arrowhead,
+            head_width=0.07,
+            fc="black",
+            ec="None",
+        )
+        ax1.arrow(
+            i - 0.25,
+            0,
+            0,
+            -en[0] + arrowhead,
+            width=0.005,
+            head_length=arrowhead,
+            head_width=0.07,
+            fc="black",
+            ec="None",
+        )
         loc_ip = -(en[0] + en[1]) / 2
-        ax1.text(i-os1, loc_ip, "IP  %3.1f"%en[1], fontsize=textsize)
+        ax1.text(i - os1, loc_ip, "IP  %3.1f" % en[1], fontsize=textsize)
 
         loc_ea = -en[0] / 2
-        ax1.text(i-os2, loc_ea, "EA %3.1f"%en[0], fontsize=textsize)
+        ax1.text(i - os2, loc_ea, "EA %3.1f" % en[0], fontsize=textsize)
 
         # Don't show minor ticks on x-axis
-        ax1.tick_params(axis='x', which='minor', bottom='off')
-        ax2.tick_params(axis='x', which='minor', bottom='off')
+        ax1.tick_params(axis="x", which="minor", bottom="off")
+        ax2.tick_params(axis="x", which="minor", bottom="off")
 
     for label, value in references.items():
-        ax1.hlines(-value, -0.5, len(energies_list) - 0.5,
-                   linestyles='--', colors='r')
-        ax1.text(len(energies_list) - 0.45, -value - 0.1, label,
-                 fontsize=textsize, color='r')
+        ax1.hlines(
+            -value, -0.5, len(energies_list) - 0.5, linestyles="--", colors="r"
+        )
+        ax1.text(
+            len(energies_list) - 0.45,
+            -value - 0.1,
+            label,
+            fontsize=textsize,
+            color="r",
+        )
 
-    fig.savefig(f'{outfile}.pdf', bbox_inches='tight')
+    fig.savefig(f"{outfile}.pdf", bbox_inches="tight")
     print(f"Figure saved as {outfile}.pdf")
     plt.close(fig)
     return fig
@@ -169,15 +206,15 @@ def energy_band_alignment_diagram(
 def plot_active_space(
     cube_size: list,
     cube_origin: list,
-    tolerance: float=1E-4,
-    input_file='LOCPOT',
-    print_output=True, 
-) -> tuple: 
-    '''
+    tolerance: float = 1e-4,
+    input_file="LOCPOT",
+    print_output=True,
+) -> tuple:
+    """
     Plot the active space (vacuum and non-vacuum regions) based on potential variations.
 
     This function analyzes the potential variations within the specified cubes of the given size
-    and determines whether each cube belongs to the vacuum or non-vacuum region based on the provided tolerance. 
+    and determines whether each cube belongs to the vacuum or non-vacuum region based on the provided tolerance.
     This function also plots the cube potentials of vacuum and non vacuum cubes.
 
     Parameters:
@@ -202,31 +239,34 @@ def plot_active_space(
         >>> cube_size = [2, 2, 2]
         >>> cube_origin = [0.0, 0.0, 0.0]
         >>> plot_active_space(cube_size, cube_origin, tolerance=1E-5)
-    
-    '''
+
+    """
+
     def _plot_cube_potentials(
-        coords_vac, 
-        potential_vac, 
-        coords_non_vac, 
+        coords_vac,
+        potential_vac,
+        coords_non_vac,
         potential_non_vac,
-        color_map='viridis', 
-        alpha=0.5
+        color_map="viridis",
+        alpha=0.5,
     ):
         fig = plt.figure(figsize=plt.figaspect(0.4))
         # First ax
-        ax = fig.add_subplot(121, projection='3d')
+        ax = fig.add_subplot(121, projection="3d")
         x, y, z = zip(*coords_vac)
-        norm_pots = (potential_vac - np.min(potential_vac))/(np.max(potential_vac) - np.min(potential_vac))
+        norm_pots = (potential_vac - np.min(potential_vac)) / (
+            np.max(potential_vac) - np.min(potential_vac)
+        )
         cmap = plt.get_cmap(color_map)
         colors = cmap(norm_pots)
-        ax.scatter(x, y, z, c= colors, alpha=alpha)
-        ax.set_xlabel('X')
-        ax.set_ylabel('Y')
-        ax.set_zlabel('Z')
-        ax.set_title('Vacuum region')
-        
+        ax.scatter(x, y, z, c=colors, alpha=alpha)
+        ax.set_xlabel("X")
+        ax.set_ylabel("Y")
+        ax.set_zlabel("Z")
+        ax.set_title("Vacuum region")
+
         # set up the axes for the second plot
-        ax2 = fig.add_subplot(1, 2, 2, projection='3d')
+        ax2 = fig.add_subplot(1, 2, 2, projection="3d")
         x, y, z = zip(*coords_non_vac)
         norm_pots = (potential_non_vac - np.min(potential_non_vac)) / (
             np.max(potential_non_vac) - np.min(potential_non_vac)
@@ -234,24 +274,24 @@ def plot_active_space(
         cmap = plt.get_cmap(color_map)
         colors = cmap(norm_pots)
         ax2.scatter(x, y, z, c=colors, alpha=alpha)
-        ax2.set_xlabel('X')
-        ax2.set_ylabel('Y')
-        ax2.set_zlabel('Z')
-        ax2.set_title('Non-vacuum region')
-        
+        ax2.set_xlabel("X")
+        ax2.set_ylabel("Y")
+        ax2.set_zlabel("Z")
+        ax2.set_title("Non-vacuum region")
+
         norm = plt.Normalize(
             vmin=np.min(potential_vac), vmax=np.max(potential_vac)
         )
         fig.colorbar(
-            cm.ScalarMappable(norm=norm, cmap=cmap), 
+            cm.ScalarMappable(norm=norm, cmap=cmap),
             ax=[ax, ax2],
-            fraction=0.08, 
+            fraction=0.08,
             pad=0.08,
-            shrink=0.5
+            shrink=0.5,
         )
-        
+
         return fig
-    
+
     dict_output = _find_active_space(
         input_file=input_file,
         cube_size=cube_size,
@@ -265,13 +305,13 @@ def plot_active_space(
         dict_output["Vacuum Potential"],
         dict_output["Non-vacuum Potential"],
     )
-    
+
     fig = _plot_cube_potentials(
-        coords_vac=vacuum, 
-        potential_vac=vac_pot, 
-        coords_non_vac=non_vacuum, 
-        potential_non_vac=nvac_pot, 
-        color_map='viridis'
+        coords_vac=vacuum,
+        potential_vac=vac_pot,
+        coords_non_vac=non_vacuum,
+        potential_non_vac=nvac_pot,
+        color_map="viridis",
     )
 
     return fig
@@ -280,12 +320,12 @@ def plot_active_space(
 def plot_on_site_potential(
     species: str,
     sample_cube: list,
-    potential_file: str='LOCPOT',
-    coordinate_file: str='POSCAR',
-    output_file: str='OnSitePotential.csv',
-    img_file: str='OnSitePotential.png'
+    potential_file: str = "LOCPOT",
+    coordinate_file: str = "POSCAR",
+    output_file: str = "OnSitePotential.csv",
+    img_file: str = "OnSitePotential.png",
 ) -> tuple:
-    '''
+    """
     Plot on-site electrostatic potential for a specific species.
 
     This function reads the electronic potential from the specified VASP output file (LOCPOT) and the atomic coordinates
@@ -317,16 +357,46 @@ def plot_on_site_potential(
         >>> img_file = 'OnSitePotential.png'
         >>> on_site_potential = plot_on_site_potential(species, sample_cube, potential_file, coordinate_file, output_file, img_file)
         ... (plot generated and on-site potential data saved to 'OnSitePotential.png' and 'OnSitePotential.csv')
-    '''
+    """
 
     # Get potential
-    vasp_pot, NGX, NGY, NGZ, lattice = read_vasp_density(potential_file)
-    vector_a, vector_b, vector_c, av, bv, cv = matrix_2_abc(lattice)
-    resolution_x = vector_a/NGX
-    resolution_y = vector_b/NGY
-    resolution_z = vector_c/NGZ
-    grid_pot, electrons = density_2_grid(vasp_pot, NGX, NGY, NGZ, Format="VASP")
-    grad_x, grad_y, grad_z = np.gradient(grid_pot[:,:,:], resolution_x, resolution_y,resolution_z)
+    if (
+        "vasp" in potential_file
+        or "LOCPOT" in potential_file
+        or "CHGCAR" in potential_file
+    ):
+        vasp_pot, NGX, NGY, NGZ, lattice = read_vasp_density(potential_file)
+        vector_a, vector_b, vector_c, av, bv, cv = matrix_2_abc(lattice)
+        resolution_x = vector_a / NGX
+        resolution_y = vector_b / NGY
+        resolution_z = vector_c / NGZ
+        grid_pot, electrons = density_2_grid(
+            vasp_pot, NGX, NGY, NGZ, Format="VASP"
+        )
+    elif "cube" in potential_file:
+        grid_pot, atoms = cube.read_cube_data(potential_file)
+        vector_a = np.linalg.norm(atoms.cell[1])
+        vector_b = np.linalg.norm(atoms.cell[1])
+        vector_c = np.linalg.norm(atoms.cell[2])
+        NGX = len(grid_pot)
+        NGY = len(grid_pot[0])
+        NGZ = len(grid_pot[0][0])
+        resolution_x = vector_a / NGX
+        resolution_y = vector_b / NGY
+        resolution_z = vector_c / NGZ
+    elif "gulp" in potential_file or ".out" in potential_file:
+        gulp_pot, NGX, NGY, NGZ, lattice = read_gulp_potential(potential_file)
+        vector_a, vector_b, vector_c, av, bv, cv = matrix_2_abc(lattice)
+        resolution_x = vector_a / NGX
+        resolution_y = vector_b / NGY
+        resolution_z = vector_c / NGZ
+        grid_pot = density_2_grid(gulp_pot, NGX, NGY, NGZ, Format="GULP")
+    else:
+        raise ValueError(f"File {potential_file} not recognised!")
+
+    grad_x, grad_y, grad_z = np.gradient(
+        grid_pot[:, :, :], resolution_x, resolution_y, resolution_z
+    )
     coords = vasp.read_vasp(coordinate_file)
     scaled_coords = coords.get_scaled_positions()
     symbols = coords.get_chemical_symbols()
@@ -345,80 +415,91 @@ def plot_on_site_potential(
         grid_position[1] = coord[1]
         grid_position[2] = coord[2]
         cube = sample_cube
-        origin = [grid_position[0]-2, grid_position[1]-2, grid_position[2]-1]
-        cube_potential, cube_var = volume_average(origin, cube, grid_pot, NGX, NGY, NGZ)
+        origin = [
+            grid_position[0] - 2,
+            grid_position[1] - 2,
+            grid_position[2] - 1,
+        ]
+        cube_potential, cube_var = volume_average(
+            origin, cube, grid_pot, NGX, NGY, NGZ
+        )
         potentials_list.append(cube_potential)
 
     ## PLOTTING
     fig, ax = plt.subplots()
-    n, bins, patches = ax.hist(potentials_list, num_bins, facecolor='#6400E1', alpha=0.5)
-    ax.set_xlabel('Hartree potential (V)')
-    ax.set_ylabel('% of centres')
+    n, bins, patches = ax.hist(
+        potentials_list, num_bins, facecolor="#6400E1", alpha=0.5
+    )
+    ax.set_xlabel("Hartree potential (V)")
+    ax.set_ylabel("% of centres")
     plt.savefig(img_file)
 
     ## SAVING
-    df = pd.DataFrame.from_dict({'Potential': potentials_list}, orient='index')
+    df = pd.DataFrame.from_dict({"Potential": potentials_list}, orient="index")
     df = df.transpose()
     df.to_csv(output_file)
-    return df, fig 
+    return df, fig
 
 
 def plot_planar_average(
     lattice_vector: float,
-    input_file: str='LOCPOT', # VASP potential file by default
-    axis: str='z',
-    output_file: str='planar_average.csv',
-    img_file: str='planar_average.png',
-    new_resolution: int = 3000
+    input_file: str = "LOCPOT",  # VASP potential file by default
+    axis: str = "z",
+    output_file: str = "planar_average.csv",
+    img_file: str = "planar_average.png",
+    new_resolution: int = 3000,
 ) -> tuple:
     """
     Calculate planar and macroscopic averages of potential data from different filetypes like gulp, cube, and vasp.
-    
+
     Args:
         lattice_vector (float): The lattice vector value.
         input_file (str): Path to the input potential file.
-        axis (str, Optional): Axis along which to calculate the 
+        axis (str, Optional): Axis along which to calculate the
             average ('x', 'y', or 'z'). Default is "z".
         output_file (str): Path to save the output CSV file.
         img_file (str): Path to save the output image file.
         new_resolution (int): New resolution for interpolation.
-        
+
     Returns:
         tuple: A tuple containing a dataframe with the planar average and macroscopic average and a figure object.
     """
+
     def _plot(planar, macro, img_file):
         fig, ax = plt.subplots()
-        ax.set_ylabel('V (V)')
-        ax.set_xlabel('Grid Position')
+        ax.set_ylabel("V (V)")
+        ax.set_xlabel("Grid Position")
         ax.plot(planar, label="Planar")
         ax.plot(macro, label="Macroscopic")
         ax.legend(frameon=True)
         fig.savefig(img_file)
         return fig
-    
+
     def _save_df(planar, macro, output_file, interpolated_potential=None):
         if interpolated_potential:
             df = pd.DataFrame.from_dict(
                 {
-                    'Planar': planar, 
-                    'Macroscopic': macro, 
-                    'Interpolated': interpolated_potential,
+                    "Planar": planar,
+                    "Macroscopic": macro,
+                    "Interpolated": interpolated_potential,
                 },
-                orient='index'
+                orient="index",
             )
         else:
-            df = pd.DataFrame.from_dict({'Planar': planar, 'Macroscopic': macro}, orient='index')
+            df = pd.DataFrame.from_dict(
+                {"Planar": planar, "Macroscopic": macro}, orient="index"
+            )
         df = df.transpose()
         df.to_csv(output_file)
         return df
-       
-    filetype = input_file.split('.')[-1]
-    
+
     # Check axis is valid
-    if axis not in ['x', 'y', 'z']:
-        raise ValueError(f'Axis {axis} not recognised! Must be "x", "y", or "z".')
-    
-    if filetype == 'cube':
+    if axis not in ["x", "y", "z"]:
+        raise ValueError(
+            f'Axis {axis} not recognised! Must be "x", "y", or "z".'
+        )
+
+    if "cube" in input_file:
         potential, atoms = cube.read_cube_data(input_file)
         vector_a = np.linalg.norm(atoms.cell[1])
         vector_b = np.linalg.norm(atoms.cell[1])
@@ -426,29 +507,35 @@ def plot_planar_average(
         NGX = len(potential)
         NGY = len(potential[0])
         NGZ = len(potential[0][0])
-        resolution_x = vector_a/NGX
-        resolution_y = vector_b/NGY
-        resolution_z = vector_c/NGZ
+        resolution_x = vector_a / NGX
+        resolution_y = vector_b / NGY
+        resolution_z = vector_c / NGZ
 
         ## PLANAR AVERAGE
         planar = planar_average(potential, NGX, NGY, NGZ, axis=axis)
         ## MACROSCOPIC AVERAGE
-        axis_to_resolution = {'x': resolution_x, 'y': resolution_y, 'z': resolution_z}
-        macro  = macroscopic_average(planar, lattice_vector, axis_to_resolution[axis])
+        axis_to_resolution = {
+            "x": resolution_x,
+            "y": resolution_y,
+            "z": resolution_z,
+        }
+        macro = macroscopic_average(
+            planar, lattice_vector, axis_to_resolution[axis]
+        )
 
         ## PLOTTING
         fig = _plot(planar, macro, img_file)
         ## SAVING
         df = _save_df(planar, macro, output_file)
 
-    elif 'gulp' in input_file or '.out' in input_file:
+    elif "gulp" in input_file or ".out" in input_file:
         pot, NGX, NGY, NGZ, lattice = read_gulp_potential(input_file)
         vector_a, vector_b, vector_c, av, bv, cv = matrix_2_abc(lattice)
-        resolution_x = vector_a/NGX
-        resolution_y = vector_b/NGY
-        resolution_z = vector_c/NGZ
+        resolution_x = vector_a / NGX
+        resolution_y = vector_b / NGY
+        resolution_z = vector_c / NGZ
         # TODO: Update Format parameter in density_2_grid to be consistent with
-        # code naming in other functions (e.g. if here we use GULP to refer to GULP, 
+        # code naming in other functions (e.g. if here we use GULP to refer to GULP,
         # should do the same in other functions)
         # Also use lower case for Format variable following python conventions (eg Format -> format)
         grid_pot = density_2_grid(pot, NGX, NGY, NGZ, Format="GULP")
@@ -461,52 +548,64 @@ def plot_planar_average(
         axis_to_ng = {"x": NGX, "y": NGY, "z": NGZ}
         axis_to_vector = {"x": vector_a, "y": vector_b, "z": vector_c}
         new_abscissa = np.linspace(0, axis_to_ng[axis] - 1, new_resolution)
-        f = interp1d(range(axis_to_ng[axis]), planar, kind='cubic')
+        f = interp1d(range(axis_to_ng[axis]), planar, kind="cubic")
         interpolated_potential = [f(i) for i in new_abscissa]
-        macro = macroscopic_average(planar, lattice_vector, axis_to_vector[axis]/new_resolution)
+        macro = macroscopic_average(
+            planar, lattice_vector, axis_to_vector[axis] / new_resolution
+        )
 
         ## PLOTTING
         fig = _plot(planar, macro, img_file)
         ## SAVING
         df = _save_df(planar, macro, output_file, interpolated_potential)
-    
-    elif 'vasp' in input_file or 'LOCPOT' in input_file or "CHGCAR" in input_file:
+
+    elif (
+        "vasp" in input_file
+        or "LOCPOT" in input_file
+        or "CHGCAR" in input_file
+    ):
         pot, NGX, NGY, NGZ, lattice = read_vasp_density(input_file)
         vector_a, vector_b, vector_c, av, bv, cv = matrix_2_abc(lattice)
-        resolution_x = vector_a/NGX
-        resolution_y = vector_b/NGY
-        resolution_z = vector_c/NGZ
+        resolution_x = vector_a / NGX
+        resolution_y = vector_b / NGY
+        resolution_z = vector_c / NGZ
         grid_pot, electrons = density_2_grid(pot, NGX, NGY, NGZ, Format="VASP")
 
         ## PLANAR AVERAGE
         planar = planar_average(grid_pot, NGX, NGY, NGZ, axis=axis)
         ## MACROSCOPIC AVERAGE
-        axis_to_resolution = {'x': resolution_x, 'y': resolution_y, 'z': resolution_z}
-        macro  = macroscopic_average(planar, lattice_vector, axis_to_resolution[axis])
+        axis_to_resolution = {
+            "x": resolution_x,
+            "y": resolution_y,
+            "z": resolution_z,
+        }
+        macro = macroscopic_average(
+            planar, lattice_vector, axis_to_resolution[axis]
+        )
 
         ## PLOTTING
         fig = _plot(planar, macro, img_file)
 
         ## SAVING
         df = _save_df(planar, macro, output_file)
-    
-    else:
-        raise ValueError(f'File {input_file} not recognised!')
 
+    else:
+        raise ValueError(f"File {input_file} not recognised!")
 
     return df, fig
 
 
-def plot_field_at_point(a_point: list,
-                        b_point: list,
-                        c_point: list,
-                        input_file: str='LOCPOT', 
-                        grad_calc: bool=False
+def plot_field_at_point(
+    a_point: list,
+    b_point: list,
+    c_point: list,
+    input_file: str = "LOCPOT",
+    grad_calc: bool = False,
 ) -> plt.figure:
-    '''
+    """
     Plot the electric field magnitude and direction on a user-defined plane.
 
-    This function plots the electric field magnitude and direction on a user-defined plane defined by three points: a_point, b_point, and c_point. The function reads the electronic potential data from the specified input file (e.g., LOCPOT) and calculates the electric field (gradient of the potential). 
+    This function plots the electric field magnitude and direction on a user-defined plane defined by three points: a_point, b_point, and c_point. The function reads the electronic potential data from the specified input file (e.g., LOCPOT) and calculates the electric field (gradient of the potential).
     The electric field is then visualized by plotting contours of the electric field magnitude and arrows indicating the direction of the electric field on the defined plane.
 
     Parameters:
@@ -529,86 +628,98 @@ def plot_field_at_point(a_point: list,
         >>> c_point = [0.7, 0.8, 0.9]
         >>> input_file = 'LOCPOT'
         >>> plot_field_at_point(a_point, b_point, c_point, input_file)
-    '''
-    #------------------------------------------------------------------
+    """
+    # ------------------------------------------------------------------
     # Get the potential
-    #------------------------------------------------------------------
+    # ------------------------------------------------------------------
     vasp_pot, NGX, NGY, NGZ, lattice = read_vasp_density(input_file)
-    vector_a,vector_b,vector_c,av,bv,cv = matrix_2_abc(lattice)
-    resolution_x = vector_a/NGX
-    resolution_y = vector_b/NGY
-    resolution_z = vector_c/NGZ
-    grid_pot, electrons = density_2_grid(vasp_pot,NGX,NGY,NGZ,Format="VASP")
+    vector_a, vector_b, vector_c, av, bv, cv = matrix_2_abc(lattice)
+    resolution_x = vector_a / NGX
+    resolution_y = vector_b / NGY
+    resolution_z = vector_c / NGZ
+    grid_pot, electrons = density_2_grid(
+        vasp_pot, NGX, NGY, NGZ, Format="VASP"
+    )
     ## Get the gradiens (Field), if required.
     ## Comment out if not required, due to compuational expense.
     if grad_calc == True:
         print("Calculating gradients (Electic field, E=-Grad.V )...")
-        grad_x,grad_y,grad_z = np.gradient(grid_pot[:,:,:],resolution_x,resolution_y,resolution_z)
+        grad_x, grad_y, grad_z = np.gradient(
+            grid_pot[:, :, :], resolution_x, resolution_y, resolution_z
+        )
     else:
-        pass 
-    #------------------------------------------------------------------
+        pass
+    # ------------------------------------------------------------------
     ## Get the equation for the plane
     ## This is the section for plotting on a user defined plane;
     ## uncomment commands if this is the option that you want.
     ##------------------------------------------------------------------
     ## Convert the fractional points to grid points on the density surface
-    a = numbers_2_grid(a_point,NGX,NGY,NGZ)
-    b = numbers_2_grid(b_point,NGX,NGY,NGZ)
-    c = numbers_2_grid(c_point,NGX,NGY,NGZ)
-    plane_coeff = points_2_plane(a,b,c)
+    a = numbers_2_grid(a_point, NGX, NGY, NGZ)
+    b = numbers_2_grid(b_point, NGX, NGY, NGZ)
+    c = numbers_2_grid(c_point, NGX, NGY, NGZ)
+    plane_coeff = points_2_plane(a, b, c)
     ## Calculate magnitude of gradient.
     # Should be able to use numpy.linalg.norm for this, but the Python array indices are causing me grief
-    X2 = np.multiply(grad_x,grad_x)
-    Y2 = np.multiply(grad_y,grad_y)
-    Z2 = np.multiply(grad_z,grad_z)
-    grad_mag = np.linalg.norm(np.add(X2,Y2,Z2), axis=-1)
+    X2 = np.multiply(grad_x, grad_x)
+    Y2 = np.multiply(grad_y, grad_y)
+    Z2 = np.multiply(grad_z, grad_z)
+    grad_mag = np.linalg.norm(np.add(X2, Y2, Z2), axis=-1)
     # This was my, non working, attempt to use the built in function.
-    #grad_mag=np.linalg.norm( [grad_y,grad_y,grad_z], axis=3)
+    # grad_mag=np.linalg.norm( [grad_y,grad_y,grad_z], axis=3)
 
     ## This function in Macrodensity averages Efield ACROSS Z for Slab calculations
-    #xx,yy,grd =  pot.create_plotting_mesh(NGX,NGY,NGZ,plane_coeff,grad_mag) #AVG over full volume
+    # xx,yy,grd =  pot.create_plotting_mesh(NGX,NGY,NGZ,plane_coeff,grad_mag) #AVG over full volume
 
     # Here we construct the same xx,yy,grd variables with a SLICE, forming a plane in XY at particular ZSLICE
-    xx, yy = np.mgrid[0:NGX,0:NGY]
-    ZSLICE= NGZ/2 # Chosses where in the Z axis the XY slice is cut through
+    xx, yy = np.mgrid[0:NGX, 0:NGY]
+    ZSLICE = NGZ / 2  # Chosses where in the Z axis the XY slice is cut through
     # Slice of magnitude of electric field, for contour plotting
-    grd=grad_mag[:,:,ZSLICE]
+    grd = grad_mag[:, :, ZSLICE]
     # Slices of x and y components for arrow plotting
-    grad_x_slice=grad_x[:,:,ZSLICE]
-    grad_y_slice=grad_y[:,:,ZSLICE]
+    grad_x_slice = grad_x[:, :, ZSLICE]
+    grad_y_slice = grad_y[:, :, ZSLICE]
     # OK, that's all our data
 
     # This code tiles the data to (2,2) to re-expand unit cell to a 2x2 supercell in XY
-    xx,yy=np.mgrid[0:2*NGX,0:2*NGY]
-    grd=np.tile(grd, (2,2))
-    grad_x_slice=np.tile(grad_x_slice, (2,2))
-    grad_y_slice=np.tile(grad_y_slice, (2,2))
+    xx, yy = np.mgrid[0 : 2 * NGX, 0 : 2 * NGY]
+    grd = np.tile(grd, (2, 2))
+    grad_x_slice = np.tile(grad_x_slice, (2, 2))
+    grad_y_slice = np.tile(grad_y_slice, (2, 2))
     # End of tiling code
 
     ## Contours of the above sliced data
     fig, ax = plt.subplots()
-    ax.contour(xx,yy,grd,6,cmap=cm.cubehelix)
+    ax.contour(xx, yy, grd, 6, cmap=cm.cubehelix)
 
     # Also generate a set of Efield arrows ('quiver') for this data.
     # Specifying the drawing parameters is quite frustrating - they are very brittle + poorly documented.
-    ax.quiver(xx,yy, grad_x_slice, grad_y_slice,
-            color='grey',
-            units='dots', width=1, headwidth=3, headlength=4
-            ) #,
+    ax.quiver(
+        xx,
+        yy,
+        grad_x_slice,
+        grad_y_slice,
+        color="grey",
+        units="dots",
+        width=1,
+        headwidth=3,
+        headlength=4,
+    )  # ,
     #        units='xy', scale=10., zorder=3, color='blue',
     #        width=0.007, headwidth=3., headlength=4.)
 
-    plt.axis('equal') #force square aspect ratio; this assuming X and Y are equal.
+    plt.axis(
+        "equal"
+    )  # force square aspect ratio; this assuming X and Y are equal.
     plt.show()
 
     return fig
 
 
-def plot_plane_field(a_point: list,
-                     b_point: list,
-                     c_point: list,
-                     input_file: str='LOCPOT') -> plt.figure:
-    '''
+def plot_plane_field(
+    a_point: list, b_point: list, c_point: list, input_file: str = "LOCPOT"
+) -> plt.figure:
+    """
     Plot the electric field on a user-defined plane and display it as a contour plot.
 
     Parameters:
@@ -628,51 +739,57 @@ def plot_plane_field(a_point: list,
         - The plane is defined by three points: a_point, b_point, and c_point.
         - The electric field (gradient of the electrostatic potential) is computed using finite differences.
         - The function creates a contour plot of the electric field on the defined plane.
-    '''
-   
-    #------------------------------------------------------------------
+    """
+
+    # ------------------------------------------------------------------
     # Get the potential
-    #------------------------------------------------------------------
+    # ------------------------------------------------------------------
     vasp_pot, NGX, NGY, NGZ, lattice = read_vasp_density(input_file)
-    vector_a,vector_b,vector_c,av,bv,cv = matrix_2_abc(lattice)
-    resolution_x = vector_a/NGX
-    resolution_y = vector_b/NGY
-    resolution_z = vector_c/NGZ
-    grid_pot, electrons = density_2_grid(vasp_pot,NGX,NGY,NGZ,Format="VASP")
+    vector_a, vector_b, vector_c, av, bv, cv = matrix_2_abc(lattice)
+    resolution_x = vector_a / NGX
+    resolution_y = vector_b / NGY
+    resolution_z = vector_c / NGZ
+    grid_pot, electrons = density_2_grid(
+        vasp_pot, NGX, NGY, NGZ, Format="VASP"
+    )
     ## Get the gradiens (Field), if required.
     ## Comment out if not required, due to compuational expense.
-    grad_x,grad_y,grad_z = np.gradient(grid_pot[:,:,:],resolution_x,resolution_y,resolution_z)
-    #------------------------------------------------------------------
+    grad_x, grad_y, grad_z = np.gradient(
+        grid_pot[:, :, :], resolution_x, resolution_y, resolution_z
+    )
+    # ------------------------------------------------------------------
     ## Get the equation for the plane
     ## This is the section for plotting on a user defined plane;
     ## uncomment commands if this is the option that you want.
     ##------------------------------------------------------------------
     ## Convert the fractional points to grid points on the density surface
-    a = numbers_2_grid(a_point,NGX,NGY,NGZ)
-    b = numbers_2_grid(b_point,NGX,NGY,NGZ)
-    c = numbers_2_grid(c_point,NGX,NGY,NGZ)
-    plane_coeff = points_2_plane(a,b,c)
+    a = numbers_2_grid(a_point, NGX, NGY, NGZ)
+    b = numbers_2_grid(b_point, NGX, NGY, NGZ)
+    c = numbers_2_grid(c_point, NGX, NGY, NGZ)
+    plane_coeff = points_2_plane(a, b, c)
     ## Get the gradients
-    XY = np.multiply(grad_x,grad_y)
-    grad_mag = np.multiply(XY,grad_z)
+    XY = np.multiply(grad_x, grad_y)
+    grad_mag = np.multiply(XY, grad_z)
     ## Create the plane
-    #print(NGX,NGY,NGZ,plane_coeff,grad_mag)
-    xx,yy,grd = create_plotting_mesh(NGX,NGY,NGZ,plane_coeff,grad_mag)
-    print(create_plotting_mesh(NGX,NGY,NGZ,plane_coeff,grad_mag)[10])
+    # print(NGX,NGY,NGZ,plane_coeff,grad_mag)
+    xx, yy, grd = create_plotting_mesh(NGX, NGY, NGZ, plane_coeff, grad_mag)
+    print(create_plotting_mesh(NGX, NGY, NGZ, plane_coeff, grad_mag)[10])
     ## Plot the surface
     fig, ax = plt.subplots()
-    ax.contour(xx,yy,grd,1)
+    ax.contour(xx, yy, grd, 1)
     plt.show()
 
     return fig
 
 
-def plot_active_plane(cube_size: list,
-                      cube_origin: list,
-                      tolerance: float=1E-4,
-                      input_file: str='LOCPOT', 
-                      grad_calc: bool= False) -> plt.figure:
-    '''
+def plot_active_plane(
+    cube_size: list,
+    cube_origin: list,
+    tolerance: float = 1e-4,
+    input_file: str = "LOCPOT",
+    grad_calc: bool = False,
+) -> plt.figure:
+    """
     Plot the active plane with contour and planar average of the electric field and potential.
 
     Parameters:
@@ -695,23 +812,27 @@ def plot_active_plane(cube_size: list,
         - The cutoff_varience parameter sets the threshold for distinguishing active and non-active cubes based on their variance in potential.
         - The function creates a contour plot of the electric field on the active plane.
         - It also plots the planar average of the electric field and potential throughout the material.
-    '''
-    #------------------------------------------------------------------
+    """
+    # ------------------------------------------------------------------
     # Get the potential
-    #------------------------------------------------------------------
+    # ------------------------------------------------------------------
     vasp_pot, NGX, NGY, NGZ, lattice = read_vasp_density(input_file)
-    vector_a,vector_b,vector_c,av,bv,cv = matrix_2_abc(lattice)
-    resolution_x = vector_a/NGX
-    resolution_y = vector_b/NGY
-    resolution_z = vector_c/NGZ
-    grid_pot, electrons = density_2_grid(vasp_pot,NGX,NGY,NGZ,Format="VASP")
+    vector_a, vector_b, vector_c, av, bv, cv = matrix_2_abc(lattice)
+    resolution_x = vector_a / NGX
+    resolution_y = vector_b / NGY
+    resolution_z = vector_c / NGZ
+    grid_pot, electrons = density_2_grid(
+        vasp_pot, NGX, NGY, NGZ, Format="VASP"
+    )
 
     potential_variance = np.var(grid_pot)
     cutoff_variance = tolerance
 
-    active_cube = potential_variance >= cutoff_variance #using tolerance in input parameter
+    active_cube = (
+        potential_variance >= cutoff_variance
+    )  # using tolerance in input parameter
 
-    #Input section (define the plane with 3 points, fractional coordinates)
+    # Input section (define the plane with 3 points, fractional coordinates)
     a_point = [0, 0, 0]
     b_point = [1, 0, 1]
     c_point = [0, 1, 0]
@@ -722,58 +843,60 @@ def plot_active_plane(cube_size: list,
 
         if grad_calc == True:
             print("Calculating gradients (Electic field, E=-Grad.V )...")
-            grad_x,grad_y,grad_z = np.gradient(grid_pot[:,:,:],resolution_x,resolution_y,resolution_z)
+            grad_x, grad_y, grad_z = np.gradient(
+                grid_pot[:, :, :], resolution_x, resolution_y, resolution_z
+            )
         else:
-            pass 
-        
+            pass
 
         ## Convert the fractional points to grid points on the density surface
-        a = numbers_2_grid(a_point,NGX,NGY,NGZ)
-        b = numbers_2_grid(b_point,NGX,NGY,NGZ)
-        c = numbers_2_grid(c_point,NGX,NGY,NGZ)
-        plane_coeff = points_2_plane(a,b,c)
+        a = numbers_2_grid(a_point, NGX, NGY, NGZ)
+        b = numbers_2_grid(b_point, NGX, NGY, NGZ)
+        c = numbers_2_grid(c_point, NGX, NGY, NGZ)
+        plane_coeff = points_2_plane(a, b, c)
 
         ## Get the gradients
-        XY = np.multiply(grad_x,grad_y)
-        grad_mag = np.multiply(XY,grad_z)
+        XY = np.multiply(grad_x, grad_y)
+        grad_mag = np.multiply(XY, grad_z)
 
         ## Create the plane
-        xx,yy,grd = create_plotting_mesh(NGX,NGY,NGZ,plane_coeff,grad_x)
+        xx, yy, grd = create_plotting_mesh(NGX, NGY, NGZ, plane_coeff, grad_x)
         ## Plot the surface
-        plt.contourf(xx,yy,grd) #This only plots the surface (no contour for the potentials)
+        plt.contourf(
+            xx, yy, grd
+        )  # This only plots the surface (no contour for the potentials)
         plt.show()
     else:
-        print('The cube is not active (variance is below tolerance set)')
-
+        print("The cube is not active (variance is below tolerance set)")
 
     ##------------------------------------------------------------------
     ## Plotting a planar average (Field/potential) throughout the material
     ##------------------------------------------------------------------
     ## FIELDS
-    planar = planar_average(grad_x,NGX,NGY,NGZ)
+    planar = planar_average(grad_x, NGX, NGY, NGZ)
     ## POTENTIAL
-    planar = planar_average(grid_pot,NGX,NGY,NGZ)
+    planar = planar_average(grid_pot, NGX, NGY, NGZ)
     ## MACROSCOPIC AVERAGE
-    macro  = macroscopic_average(planar,4.80,resolution_z)
+    macro = macroscopic_average(planar, 4.80, resolution_z)
 
     fig, ax = plt.subplots()
     ax.plot(planar)
     ax.plot(macro)
-    plt.savefig('Planar.eps')
+    plt.savefig("Planar.eps")
     plt.show()
 
     return fig
 
 
 def plot_variation_along_vector(
-    vector: list=[1, 1, 1], 
-    cube_size: list=[1, 1, 1],
-    origin_point: list=[0, 0, 0],
-    vector_magnitude: int=280,
-    input_file: str="LOCPOT",
-    show_electric_field: bool=True,
-    img_file: str="potential_variation.png",
-    output_file: str="potential_variation.csv",
+    vector: list = [1, 1, 1],
+    cube_size: list = [1, 1, 1],
+    origin_point: list = [0, 0, 0],
+    vector_magnitude: int = 280,
+    input_file: str = "LOCPOT",
+    show_electric_field: bool = True,
+    img_file: str = "potential_variation.png",
+    output_file: str = "potential_variation.csv",
 ):
     """
     Plot the potential and field variation along a specified vector.
@@ -788,7 +911,7 @@ def plot_variation_along_vector(
     Parameters:
         vector (:obj:`list`, optional): The vector along which the cube moves
             for volume averaging. Default is [1, 1, 1].
-        
+
         cube_size (:obj:`list`, optional): The size of the cube used for
             volume averaging in units of mesh points (NGX/Y/Z). Default is [1, 1, 1].
 
@@ -799,7 +922,7 @@ def plot_variation_along_vector(
             each direction from the origin along the vector (in Angstroms).
             Default is 280.
 
-        input_file (:obj:`str`, optional): The filename of the file containing 
+        input_file (:obj:`str`, optional): The filename of the file containing
             the electronic potential (e.g., LOCPOT). Default is 'LOCPOT'.
 
         output_file (:obj:`str,` optional): Name of the output data file to store
@@ -809,19 +932,19 @@ def plot_variation_along_vector(
             potential plot. Default is 'MovingCube.png'.
 
     Returns:
-        :obj:`fig`: A figure showing the volume-averaged potential values 
+        :obj:`fig`: A figure showing the volume-averaged potential values
         at each position along the vector.
     """
     vasp_pot, NGX, NGY, NGZ, lattice = read_vasp_density(input_file)
     vector_a, vector_b, vector_c, av, bv, cv = matrix_2_abc(lattice)
-    resolution_x = vector_a/NGX
-    resolution_y = vector_b/NGY
-    resolution_z = vector_c/NGZ
+    resolution_x = vector_a / NGX
+    resolution_y = vector_b / NGY
+    resolution_z = vector_c / NGZ
     grid_pot, electrons = density_2_grid(vasp_pot, NGX, NGY, NGZ)
     grad_x, grad_y, grad_z = np.gradient(
-        grid_pot[:,:,:], resolution_x, resolution_y, resolution_z
+        grid_pot[:, :, :], resolution_x, resolution_y, resolution_z
     )
-    
+
     # Average along vector
     cubes_potential = travelling_volume_average(
         grid=grid_pot,
@@ -834,7 +957,7 @@ def plot_variation_along_vector(
         magnitude=vector_magnitude,
     )
     abscissa = vector_2_abscissa(
-        vector, 
+        vector,
         vector_magnitude,
         resolution_x,
         resolution_y,
@@ -845,7 +968,7 @@ def plot_variation_along_vector(
     fig, ax = plt.subplots()
     ax.plot(abscissa, cubes_potential)
     ax.set_xlabel("$z (\AA)$")
-    ax.set_ylabel("Potential (V)") 
+    ax.set_ylabel("Potential (V)")
     # Plot field
     if show_electric_field:
         # Getting the field and plotting it
@@ -858,17 +981,19 @@ def plot_variation_along_vector(
             nx=NGX,
             ny=NGY,
             nz=NGZ,
-            magnitude=vector_magnitude
+            magnitude=vector_magnitude,
         )
         ax.plot(abscissa, cubes_field)
-        ax.set_ylabel("Magnitude") 
-        ax.legend(["Potential (eV)", "Field Magnitude (eV/$\AA$))"], frameon=True)
-        
+        ax.set_ylabel("Magnitude")
+        ax.legend(
+            ["Potential (eV)", "Field Magnitude (eV/$\AA$))"], frameon=True
+        )
+
     fig.savefig(img_file)
 
     # Save dataframe
-    df = pd.DataFrame.from_dict({'Potential': cubes_potential}, orient='index')
+    df = pd.DataFrame.from_dict({"Potential": cubes_potential}, orient="index")
     df = df.transpose()
     df.to_csv(output_file)
-    
+
     return fig
