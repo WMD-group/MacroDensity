@@ -328,7 +328,7 @@ def plot_on_site_potential(
         resolution_z = vector_c/NGZ
         grid_pot, electrons = density_2_grid(vasp_pot, NGX, NGY, NGZ, Format="VASP")
     if 'cube' in potential_file:
-        grid_pot, atoms = cube.read_cube_density(potential_file)
+        grid_pot, atoms = cube.read_cube_data(potential_file)
         vector_a = np.linalg.norm(atoms.cell[1])
         vector_b = np.linalg.norm(atoms.cell[1])
         vector_c = np.linalg.norm(atoms.cell[2])
@@ -439,7 +439,7 @@ def plot_planar_average(
         raise ValueError(f'Axis {axis} not recognised! Must be "x", "y", or "z".')
     
     if 'cube' in input_file:
-        potential, atoms = cube.read_cube_density(input_file)
+        potential, atoms = cube.read_cube_data(input_file)
         vector_a = np.linalg.norm(atoms.cell[1])
         vector_b = np.linalg.norm(atoms.cell[1])
         vector_c = np.linalg.norm(atoms.cell[2])

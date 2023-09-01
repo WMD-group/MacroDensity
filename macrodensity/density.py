@@ -219,7 +219,7 @@ def spherical_average(
     '''
      ## GETTING POTENTIAL
     if 'cube' in input_file:
-        cube_pot, NGX, NGY, NGZ, lattice = read_cube_density(input_file)
+        cube_pot, NGX, NGY, NGZ, lattice = cube.read_cube_data(input_file)
         vector_a,vector_b,vector_c,av,bv,cv = matrix_2_abc(lattice)
         resolution_x = vector_a/NGX
         resolution_y = vector_b/NGY
