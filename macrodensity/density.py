@@ -1,5 +1,7 @@
 """
-macrodensity.density contains functions to calculate the electron density of a structure, as well as functions to calculate the electrostatic potential and the electrostatic potential gradients of a structure. 
+macrodensity.density contains functions to calculate the electron 
+density of a structure, as well as functions to calculate the electrostatic potential 
+and the electrostatic potential gradients of a structure. 
 """
 
 from __future__ import division, print_function
@@ -10,8 +12,9 @@ from macrodensity.io import read_vasp_density
 from macrodensity.utils import matrix_2_abc
 
 
-def gradient_magnitude(
-    gx: np.ndarray, gy: np.ndarray, gz: np.ndarray
+def gradient_magnitude(gx: np.ndarray, 
+                       gy: np.ndarray, 
+                       gz: np.ndarray
 ) -> np.ndarray:
     """
     Calculate the magnitude of the gradient at each point in a 3D field.
@@ -39,14 +42,18 @@ def gradient_magnitude(
     for i in range(gx.shape[0]):
         for j in range(gy.shape[1]):
             for k in range(gz.shape[2]):
-                grad_mag[i, j, k] = np.sqrt(
-                    gx[i, j, k] ** 2 + gy[i, j, k] ** 2 + gz[i, j, k] ** 2
-                )
+                grad_mag[i,j,k] = np.sqrt(gx[i,j,k]**2 +
+                                          gy[i,j,k]**2 +
+                                          gz[i,j,k]**2)
 
     return grad_mag
 
 
-def element_vol(vol: float, nx: int, ny: int, nz: int) -> float:
+def element_vol(vol: float, 
+                nx: int, 
+                ny: int, 
+                nz: int
+) -> float:
     """
     Calculate the volume of each element in a 3D grid.
 
@@ -76,7 +83,9 @@ def element_vol(vol: float, nx: int, ny: int, nz: int) -> float:
 
 
 def macroscopic_average(
-    potential: np.ndarray, periodicity: float, resolution: float
+    potential: np.ndarray, 
+    periodicity: float, 
+    resolution: float
 ) -> np.ndarray:
     """
     Calculate the macroscopic average of a 1D potential field with periodicity.
@@ -100,7 +109,7 @@ def macroscopic_average(
         >>> print(macro_avg_result)
     """
     macro_average = np.zeros(shape=(len(potential)))
-    period_points = int((periodicity / resolution))
+    period_points = int((periodicity/resolution))
     # Period points must be even
     if period_points % 2 != 0:
         period_points = period_points + 1
@@ -111,24 +120,14 @@ def macroscopic_average(
         end = i + int(period_points / 2)
         if start < 0:
             start = start + length
-            macro_average[i] = (
-                macro_average[i]
-                + sum(potential[0:end])
-                + sum(potential[start:length])
-            )
+            macro_average[i] = macro_average[i] + sum(potential[0:end]) + sum(potential[start:length])
             macro_average[i] = macro_average[i] / period_points
         elif end >= length:
             end = end - length
-            macro_average[i] = (
-                macro_average[i]
-                + sum(potential[start:length])
-                + sum(potential[0:end])
-            )
+            macro_average[i] = macro_average[i] + sum(potential[start:length]) + sum(potential[0:end])
             macro_average[i] = macro_average[i] / period_points
         else:
-            macro_average[i] = (
-                macro_average[i] + sum(potential[start:end]) / period_points
-            )
+            macro_average[i] = macro_average[i] + sum(potential[start:end]) / period_points
 
     print("Average of the average = ", np.average(macro_average))
 
@@ -136,13 +135,13 @@ def macroscopic_average(
 
 
 def volume_average(
-    origin: tuple,
-    cube: tuple,
-    grid: np.ndarray,
-    nx: int,
-    ny: int,
-    nz: int,
-    travelled: list = [0, 0, 0],
+    origin: tuple, 
+    cube: tuple, 
+    grid: np.ndarray, 
+    nx: int, 
+    ny: int, 
+    nz: int, 
+    travelled: list=[0, 0, 0],
 ) -> tuple:
     """
     Calculate the volume average and variance of a cube in a 3D grid.
@@ -160,7 +159,8 @@ def volume_average(
 
         nz (int): Number of points along the z-axis in the grid.
 
-        travelled (list, optional): Distance travelled from the origin in each direction (x, y, z). Default is [0, 0, 0].
+        travelled (list, optional): Distance travelled from the origin in each direction 
+        (x, y, z). Default is [0, 0, 0].
 
     Returns:
         tuple: A tuple containing the volume average and variance of the cube.
@@ -178,22 +178,22 @@ def volume_average(
     """
     # Recalc the origin as grid point coordinates
     n_origin = np.zeros(shape=(3))
-    n_origin[0] = int(origin[0] * nx)
-    n_origin[1] = int(origin[1] * ny)
-    n_origin[2] = int(origin[2] * nz)
-    potential_cube = np.zeros(shape=(cube[0], cube[1], cube[2]))
-    for x in range(0, cube[0]):
-        for y in range(0, cube[1]):
-            for z in range(0, cube[2]):
+    n_origin[0] = int(origin[0]*nx)
+    n_origin[1] = int(origin[1]*ny)
+    n_origin[2] = int(origin[2]*nz)
+    potential_cube = np.zeros(shape=(cube[0],cube[1],cube[2]))
+    for x in range(0,cube[0]):
+        for y in range(0,cube[1]):
+            for z in range(0,cube[2]):
                 # Assign the values of coordinates in the original grid
-                xv = int(n_origin[0] + travelled[0] + x)
-                yv = int(n_origin[1] + travelled[1] + y)
-                zv = int(n_origin[2] + travelled[2] + z)
+                xv = int(n_origin[0]+travelled[0]+x)
+                yv = int(n_origin[1]+travelled[1]+y)
+                zv = int(n_origin[2]+travelled[2]+z)
                 # Minimum image convention
-                zv = int(zv - nz * round(zv / nz))
-                yv = int(yv - ny * round(yv / ny))
-                xv = int(xv - nx * round(xv / nx))
-                potential_cube[x, y, z] = grid[int(xv), int(yv), int(zv)]
+                zv = int(zv - nz*round(zv/nz))
+                yv = int(yv - ny*round(yv/ny))
+                xv = int(xv - nx*round(xv/nx))
+                potential_cube[x,y,z] = grid[int(xv),int(yv),int(zv)]
 
     return potential_cube.mean(), np.var(potential_cube)
 
@@ -201,81 +201,75 @@ def volume_average(
 def spherical_average(
     cube_size: list,
     cube_origin: list,
-    input_file: str = "LOCPOT",
-    print_output: bool = True,
+    input_file: str='LOCPOT',
+    print_output: bool=True
 ) -> (float, float):
-    """
+    '''
     Calculate the volume average of the electronic potential within a spherical region.
 
-    This function calculates the volume average of the electronic potential within a spherical region
-    defined by a specific size and origin. The size of the spherical region is specified by the cube_size
-    parameter, which determines the number of mesh points along each direction (NGX/Y/Z). The origin of the
-    sphere is given by the cube_origin parameter, specified in fractional coordinates. The function reads the
-    electronic potential data from the specified input file (e.g., LOCPOT) and calculates the potential and variance
+    This function calculates the volume average of the electronic potential within a 
+    spherical region defined by a specific size and origin. 
+    The size of the spherical region is specified by the cube_size
+    parameter, which determines the number of mesh points along each direction (NGX/Y/Z). 
+    The origin of the sphere is given by the cube_origin parameter, 
+    specified in fractional coordinates. The function reads the electronic potential data 
+    from the specified input file (e.g., LOCPOT) and calculates the potential and variance
     within the spherical region.
 
     Parameters:
-        cube_size (:obj:`list`): The size of the spherical region in units of mesh points (NGX/Y/Z).
+        cube_size (:obj:`list`): The size of the spherical region 
+        in units of mesh points (NGX/Y/Z).
 
-        cube_origin (:obj:`list`): The origin of the spherical region in fractional coordinates.
+        cube_origin (:obj:`list`): The origin of the spherical region 
+        in fractional coordinates.
 
-        input_file (:obj:`str`, optional): The filename of the file containing the electronic potential (e.g., LOCPOT). Default is 'LOCPOT'.
+        input_file (:obj:`str`, optional): The filename of the file containing 
+        the electronic potential (e.g., LOCPOT). Default is 'LOCPOT'.
 
-        print_output (:obj:`bool`, optional): If True, the function prints the calculated potential and variance. Default is True.
+        print_output (:obj:`bool`, optional): If True, the function prints 
+        the calculated potential and variance. Default is True.
 
     Returns:
-        :obj:`tuple`: A tuple containing the volume-averaged potential and the variance within the spherical region.
+        :obj:`tuple`: A tuple containing the volume-averaged potential and 
+        the variance within the spherical region.
 
     Outputs:
         cube_potential, cube_variance
-    """
-    ## GETTING POTENTIAL
-    if "cube" in input_file:
+    '''
+     ## GETTING POTENTIAL
+    if 'cube' in input_file:
         cube_pot, NGX, NGY, NGZ, lattice = cube.read_cube_data(input_file)
-        vector_a, vector_b, vector_c, av, bv, cv = matrix_2_abc(lattice)
-        resolution_x = vector_a / NGX
-        resolution_y = vector_b / NGY
-        resolution_z = vector_c / NGZ
-        grid_pot, electrons = density_2_grid(
-            cube_pot, NGX, NGY, NGZ, Format="CUBE"
-        )
-    elif (
-        "vasp" in input_file
-        or "LOCPOT" in input_file
-        or "CHGCAR" in input_file
-    ):
+        vector_a,vector_b,vector_c,av,bv,cv = matrix_2_abc(lattice)
+        resolution_x = vector_a/NGX
+        resolution_y = vector_b/NGY
+        resolution_z = vector_c/NGZ
+        grid_pot, electrons = density_2_grid(cube_pot, NGX, NGY, NGZ, type="CUBE")
+    elif 'vasp' in input_file or 'LOCPOT' in input_file or 'CHGCAR' in input_file:
         vasp_pot, NGX, NGY, NGZ, lattice = read_vasp_density(input_file)
-        vector_a, vector_b, vector_c, av, bv, cv = matrix_2_abc(lattice)
-        resolution_x = vector_a / NGX
-        resolution_y = vector_b / NGY
-        resolution_z = vector_c / NGZ
-        grid_pot, electrons = density_2_grid(
-            vasp_pot, NGX, NGY, NGZ, Format="VASP"
-        )
-    elif "gulp" in input_file or ".out" in input_file:
+        vector_a,vector_b,vector_c,av,bv,cv = matrix_2_abc(lattice)
+        resolution_x = vector_a/NGX
+        resolution_y = vector_b/NGY
+        resolution_z = vector_c/NGZ
+        grid_pot, electrons = density_2_grid(vasp_pot, NGX, NGY, NGZ, type="VASP")
+    elif 'gulp' in input_file or '.out' in input_file: 
         gulp_pot, NGX, NGY, NGZ, lattice = read_gulp_density(input_file)
-        vector_a, vector_b, vector_c, av, bv, cv = matrix_2_abc(lattice)
-        resolution_x = vector_a / NGX
-        resolution_y = vector_b / NGY
-        resolution_z = vector_c / NGZ
-        grid_pot, electrons = density_2_grid(
-            gulp_pot, NGX, NGY, NGZ, Format="GULP"
-        )
+        vector_a,vector_b,vector_c,av,bv,cv = matrix_2_abc(lattice)
+        resolution_x = vector_a/NGX
+        resolution_y = vector_b/NGY
+        resolution_z = vector_c/NGZ
+        grid_pot, electrons = density_2_grid(gulp_pot, NGX, NGY, NGZ, type="GULP")
     else:
-        raise ValueError(
-            "Invalid input file. File must be in VASP, GULP, or CUBE format."
-        )
+        raise ValueError("Invalid input file. File must be in VASP, GULP, or CUBE type.")
     cube = cube_size
     origin = cube_origin
-    travelled = [0, 0, 0]
+    travelled = [0,0,0]
     cube_pot, cube_var = volume_average(
         origin=cube_origin,
         cube=cube_size,
         grid=grid_pot,
-        nx=NGX,
-        ny=NGY,
+        nx=NGX,ny=NGY,
         nz=NGZ,
-        travelled=[0, 0, 0],
+        travelled=[0,0,0]
     )
 
     ## PRINTING
@@ -287,16 +281,16 @@ def spherical_average(
 
 
 def travelling_volume_average(
-    grid: np.ndarray,
-    cube: tuple,
-    origin: tuple,
-    vector: list,
-    nx: int,
-    ny: int,
-    nz: int,
-    magnitude: int,
+    grid: np.ndarray, 
+    cube: tuple, 
+    origin: tuple, 
+    vector: list, 
+    nx: int, 
+    ny: int, 
+    nz: int, 
+    magnitude: int
 ) -> np.ndarray:
-    """
+   """
     Calculate the volume average at multiple positions along a given vector.
 
     Parameters:
@@ -326,20 +320,23 @@ def travelling_volume_average(
         >>> print("Travelling volume Average:")
         >>> print(travelling_avg)
     """
-    plotting_average = np.zeros(shape=(magnitude))
-    i = 0
-    while i < magnitude:
-        travelled = np.multiply(i, vector)
-        plotting_average[i], varience = volume_average(
-            origin, cube, grid, nx, ny, nz, travelled
+   plotting_average = np.zeros(shape=(magnitude))
+   i = 0
+   while i < magnitude:
+         travelled = np.multiply(i, vector)
+         plotting_average[i], varience = volume_average(
+             origin, cube, grid, nx, ny, nz, travelled
         )
-        i = i + 1
+         i = i + 1
 
-    return plotting_average
+   return plotting_average
 
 
-def planar_average(
-    grid: np.ndarray, nx: int, ny: int, nz: int, axis: str = "z"
+def planar_average(grid: np.ndarray, 
+                   nx: int, 
+                   ny: int, 
+                   nz: int, 
+                   axis: str='z'
 ) -> np.ndarray:
     """
     Calculate the planar average of a 3D grid along a specified axis.
@@ -353,7 +350,7 @@ def planar_average(
 
         nz (int): Number of points along the z-axis in the grid.
 
-        axis (str, optional): Axis along which to calculate the average ('x', 'y', or 'z').
+        axis (str, optional): Axis along which to calculate the average ('x', 'y', or 'z'). 
             Default is 'z'.
 
     Returns:
@@ -365,23 +362,23 @@ def planar_average(
         >>> print("Planar Average along axis", axis)
         >>> print(planar_avg)
     """
-    if axis == "x":
+    if axis == 'x':
         x_plane = np.zeros(shape=(ny, nz))
         average = np.zeros(shape=(nx))
         for x_value in range(nx):
-            x_plane[:, :] = grid[x_value, :, :]
+            x_plane[:,:] = grid[x_value,:,:]
             average[x_value] = x_plane.mean()
-    if axis == "y":
+    if axis == 'y':
         average = np.zeros(shape=(ny))
-        y_plane = np.zeros(shape=(nx, nz))
+        y_plane = np.zeros(shape=(nx,nz))
         for y_value in range(ny):
-            y_plane[:, :] = grid[:, y_value, :]
+            y_plane[:,:] = grid[:,y_value,:]
             average[y_value] = y_plane.mean()
-    if axis == "z":
+    if axis == 'z':
         average = np.zeros(shape=(nz))
-        z_plane = np.zeros(shape=(nx, ny))
+        z_plane = np.zeros(shape=(nx,ny))
         for z_value in range(nz):
-            z_plane[:, :] = grid[:, :, z_value]
+            z_plane[:,:] = grid[:,:,z_value]
             average[z_value] = z_plane.mean()
 
     return average
@@ -389,25 +386,34 @@ def planar_average(
 
 # TODO: Update variables here to be lower case following python convention
 def density_2_grid(
-    density: np.ndarray,
-    nx: int,
-    ny: int,
-    nz: int,
-    charge: bool = False,
-    volume: float = 1,
-    Format: str = "VASP",
+    density: np.ndarray, 
+    nx: int, 
+    ny: int, 
+    nz: int, 
+    charge: bool=False, 
+    volume: float=1, 
+    type: str = 'VASP'
 ) -> tuple:
     """
     Convert density data to a 3D grid.
 
     Parameters:
         density (np.ndarray): 1D array representing the density data.
+
         nx (int): Number of grid points along the x-axis.
+
         ny (int): Number of grid points along the y-axis.
+
         nz (int): Number of grid points along the z-axis.
-        charge (bool, optional): If True, convert charge density to the number of electrons. Default is False.
-        volume (float, optional): volume of the grid cell. Used to convert charge density to electrons. Default is 1.
-        Format (str, optional): Format of the density data (e.g., 'VASP', 'GULP'). Default is 'VASP'.
+
+        charge (bool, optional): If True, convert charge density to the number of electrons. 
+        Default is False.
+
+        volume (float, optional): volume of the grid cell. 
+        Used to convert charge density to electrons. Default is 1.
+
+        type (str, optional): type of the density data (e.g., 'VASP', 'GULP'). 
+        Default is 'VASP'.
 
     Returns:
         tuple: A tuple containing:
@@ -427,42 +433,45 @@ def density_2_grid(
     """
     l = 0
     Potential_grid = np.zeros(shape=(nx, ny, nz))
-
-    if Format.lower() == "gulp":
+    
+    if type.lower() == "gulp":
         for k in range(nx):
             for j in range(ny):
                 for i in range(nz):
-                    Potential_grid[k, j, i] = density[l]
+                    Potential_grid[k,j,i] = density[l]
                     l = l + 1
         return Potential_grid
-
-    elif Format.lower() == "vasp":
+    
+    elif type.lower() == "vasp":
         total_electrons = 0
         for k in range(nz):
             for j in range(ny):
                 for i in range(nx):
-                    Potential_grid[i, j, k] = density[l] / volume
+                    Potential_grid[i,j,k] = density[l]/volume
                     if charge == True:
                         # Convert the charge density to a number of electrons
-                        point_volume = volume / (nx * ny * nz)
-                        Potential_grid[i, j, k] = (
-                            Potential_grid[i, j, k] * point_volume
-                        )
+                        point_volume = volume / (nx*ny*nz)
+                        Potential_grid[i,j,k] = Potential_grid[i,j,k]*point_volume
                     total_electrons = total_electrons + density[l]
                     l = l + 1
-
+                    
         total_electrons = total_electrons / (nx * ny * nz)
         if charge == True:
-            print("Total electrons: ", total_electrons)
+            print("Total electrons: ", total_electrons)    
         return Potential_grid, total_electrons
-
+    
     else:
-        raise ValueError("Invalid Format. Format must be 'VASP' or 'GULP'.")
+        raise ValueError("Invalid type. type must be 'VASP' or 'GULP'.")
 
 
 def planar_average_charge(
-    grid: np.ndarray, nx: int, ny: int, nz: int, vector: np.ndarray
+    grid: np.ndarray,
+    nx: int,
+    ny: int,
+    nz: int,
+    vector: np.ndarray
 ) -> np.ndarray:
+
     a, b = 0, 0
     axis = ""
     a_vec, b_vec, c_vec = vector[0], vector[1], vector[2]
@@ -470,23 +479,21 @@ def planar_average_charge(
     print(a_vec)
     print(b_vec)
     print(c_vec)
-
+    
     if (a_vec == 0).all() and (b_vec == 0).all():
         a, b = nx, ny
-        axis = "z"
+        axis = 'z'
         c = int(c_vec[2]) - 1
     elif (a_vec == 0).all() and (c_vec == 0).all():
         a, b = nx, nz
-        axis = "y"
+        axis = 'y'
         c = int(b_vec[1]) - 1
     elif (b_vec == 0).all() and (c_vec == 0).all():
         a, b = ny, nz
-        axis = "x"
+        axis = 'x'
         c = int(a_vec[0]) - 1
     else:
-        raise ValueError(
-            "Invalid vector coefficients. Cannot determine plane direction."
-        )
+        raise ValueError("Invalid vector coefficients. Cannot determine plane direction.")
 
     average_charge = planar_average(grid, a, b, c, axis)
 

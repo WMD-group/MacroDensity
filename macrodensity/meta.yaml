@@ -1,0 +1,20 @@
+package:
+  name: MacroDensity
+  version: 1.0.0
+
+source:
+  url: 
+
+build:
+  number: 0
+  script: build.sh  # Path to the build script
+
+requirements:
+  build:
+    - python
+  run:
+    - python
+    - other_dependencies
+
+about:
+  license: MIT License

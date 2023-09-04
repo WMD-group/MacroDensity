@@ -366,7 +366,7 @@ def plot_on_site_potential(
         resolution_y = vector_b / NGY
         resolution_z = vector_c / NGZ
         grid_pot, electrons = density_2_grid(
-            vasp_pot, NGX, NGY, NGZ, format="VASP"
+            vasp_pot, NGX, NGY, NGZ, type="VASP"
         )
     elif "cube" in potential_file:
         grid_pot, atoms = cube.read_cube_data(potential_file)
@@ -385,7 +385,7 @@ def plot_on_site_potential(
         resolution_x = vector_a / NGX
         resolution_y = vector_b / NGY
         resolution_z = vector_c / NGZ
-        grid_pot = density_2_grid(gulp_pot, NGX, NGY, NGZ, format="GULP")
+        grid_pot = density_2_grid(gulp_pot, NGX, NGY, NGZ, type="GULP")
     else:
         raise ValueError(f"File {potential_file} not recognised!")
 
@@ -529,11 +529,11 @@ def plot_planar_average(
         resolution_x = vector_a / NGX
         resolution_y = vector_b / NGY
         resolution_z = vector_c / NGZ
-        # TODO: Update format parameter in density_2_grid to be consistent with
+        # TODO: Update type parameter in density_2_grid to be consistent with
         # code naming in other functions (e.g. if here we use GULP to refer to GULP,
         # should do the same in other functions)
-        # Also use lower case for format variable following python conventions (eg format -> format)
-        grid_pot = density_2_grid(pot, NGX, NGY, NGZ, format="GULP")
+        # Also use lower case for type variable following python conventions (eg type -> type)
+        grid_pot = density_2_grid(pot, NGX, NGY, NGZ, type="GULP")
 
         ## POTENTIAL PLANAR AVERAGE
         planar = planar_average(grid_pot, NGX, NGY, NGZ, axis=axis)
@@ -564,7 +564,7 @@ def plot_planar_average(
         resolution_x = vector_a / NGX
         resolution_y = vector_b / NGY
         resolution_z = vector_c / NGZ
-        grid_pot, electrons = density_2_grid(pot, NGX, NGY, NGZ, format="VASP")
+        grid_pot, electrons = density_2_grid(pot, NGX, NGY, NGZ, type="VASP")
 
         ## PLANAR AVERAGE
         planar = planar_average(grid_pot, NGX, NGY, NGZ, axis=axis)
@@ -639,7 +639,7 @@ def plot_field_at_point(
     resolution_y = vector_b / NGY
     resolution_z = vector_c / NGZ
     grid_pot, electrons = density_2_grid(
-        vasp_pot, NGX, NGY, NGZ, format="VASP"
+        vasp_pot, NGX, NGY, NGZ, type="VASP"
     )
     ## Get the gradiens (Field), if required.
     ## Comment out if not required, due to compuational expense.
@@ -751,7 +751,7 @@ def plot_plane_field(
     resolution_y = vector_b / NGY
     resolution_z = vector_c / NGZ
     grid_pot, electrons = density_2_grid(
-        vasp_pot, NGX, NGY, NGZ, format="VASP"
+        vasp_pot, NGX, NGY, NGZ, type="VASP"
     )
     ## Get the gradiens (Field), if required.
     ## Comment out if not required, due to compuational expense.
@@ -829,7 +829,7 @@ def plot_active_plane(
     resolution_y = vector_b / NGY
     resolution_z = vector_c / NGZ
     grid_pot, electrons = density_2_grid(
-        vasp_pot, NGX, NGY, NGZ, format="VASP"
+        vasp_pot, NGX, NGY, NGZ, type="VASP"
     )
 
     potential_variance = np.var(grid_pot)

@@ -78,7 +78,8 @@ def one_2_2d(
     array: np.ndarray, resolution: float, vector: np.ndarray
 ) -> np.ndarray:
     """
-    Transform a 1D array to a 2D array with abscissa values based on the given resolution and vector.
+    Transform a 1D array to a 2D array with abscissa values based on the 
+    given resolution and vector.
 
     Parameters:
         array (np.ndarray): 1D array to be transformed.
