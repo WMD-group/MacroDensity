@@ -9,13 +9,15 @@ def matrix_2_abc(
     lattice: np.ndarray,
 ) -> (float, float, float, float, float, float):
     """
-    Extract lattice parameters and vectors from a 3x3 matrix representing a lattice.
+    Extract lattice parameters and vectors from a 3x3 matrix 
+    representing a lattice.
 
     Parameters:
         lattice (np.ndarray): 3x3 matrix representing the lattice.
 
     Returns:
-        tuple: A tuple containing the lattice parameters a, b, c and lattice vectors a_vec, b_vec, c_vec.
+        tuple: A tuple containing the lattice parameters a, b, c and 
+        lattice vectors a_vec, b_vec, c_vec.
 
     Example:
         >>> lattice = np.array([[1, 0, 0], [0, 2, 0], [0, 0, 3]])

@@ -14,7 +14,8 @@ def read_gulp_potential(gulpfile: str = "gulp.out") -> tuple:
     Read electrostatic potential data from a GULP output file.
 
     Parameters:
-        gulpfile (str, optional): Path to the GULP output file (gulp.out). Default is 'gulp.out'.
+        gulpfile (str, optional): Path to the GULP output file (gulp.out). 
+        Default is 'gulp.out'.
 
     Returns:
         tuple: A tuple containing:
@@ -100,13 +101,15 @@ def _read_partial_density(
     spin: int = 0,
 ) -> np.ndarray:
     """
-    This function is used internally within the read_casp_parchg, reading partial density data from a VASP-PARCHG file.
+    This function is used internally within the read_casp_parchg, 
+    reading partial density data from a VASP-PARCHG file.
 
     Parameters:
         FILE (str): Path to the CHGCAR-like file.
 
-        use_pandas (bool or None, optional): If True, use Pandas to read 3D data (recommended for large files).
-            If False, use np. If None, automatically use Pandas if available. Default is None.
+        use_pandas (bool or None, optional): If True, use Pandas to read 3D data 
+        (recommended for large files). If False, use np. 
+        If None, automatically use Pandas if available. Default is None.
 
         num_atoms (int): Total number of atoms in the system.
 
@@ -116,7 +119,8 @@ def _read_partial_density(
 
         NGZ (int): Number of grid points along the z-axis.
 
-        spin (int, optional): If 0, read the first spin channel (total density). If 1, read the second spin channel (spin-up or spin-down). Default is 0.
+        spin (int, optional): If 0, read the first spin channel (total density). 
+        If 1, read the second spin channel (spin-up or spin-down). Default is 0.
 
     Returns:
         np.ndarray: 1D array representing the partial density data for the specified spin channel.
@@ -186,7 +190,8 @@ def _read_partial_density(
 
 def _read_vasp_density_fromlines(lines: list) -> tuple:
     """
-    Read density data from a list of lines (classic VASP-style format). This function is used internally within the read_vasp_density_classic function (add hyperlink to read_vasp_density_classic function)
+    Read density data from a list of lines (classic VASP-style format). 
+    This function is used internally within the read_vasp_density_classic function 
 
     Parameters:
         lines (list): List of lines from the density file.
@@ -288,15 +293,21 @@ def read_vasp_parchg(
     Parameters:
         FILE (str): Path to the PARCHG-like file.
 
-        use_pandas (bool or None, optional): If True, use Pandas to read 3D data (recommended for large files). If False, use np. If None, automatically use Pandas if available. Default is None.
+        use_pandas (bool or None, optional): If True, use Pandas to read 3D data 
+        (recommended for large files). 
+        If False, use np. If None, automatically use Pandas if available. 
+        Default is None.
 
-        quiet (bool, optional): If True, suppress print statements during reading. Default is False.
+        quiet (bool, optional): If True, suppress print statements during reading. 
+        Default is False.
 
-        spin (bool, optional): If True, read spin-polarized partial densities. Default is False.
+        spin (bool, optional): If True, read spin-polarized partial densities. 
+        Default is False.
 
     Returns:
         tuple: A tuple containing:
-            - list or np.ndarray: List containing np arrays representing the density data for each spin channel, or np.ndarray for the total density if spin is False.
+            - list or np.ndarray: List containing arrays representing the density data 
+            for each spin channel, or np.ndarray for the total density if spin is False.
             - int: Number of grid points along the x-axis (NGX).
             - int: Number of grid points along the y-axis (NGY).
             - int: Number of grid points along the z-axis (NGZ).
@@ -373,9 +384,12 @@ def read_vasp_density(
     Parameters:
         FILE (str): Path to the CHGCAR-like file.
 
-        use_pandas (bool or None, optional): If True, use Pandas to read 3D data (recommended for large files). If False, use np. If None, automatically use Pandas if available. Default is None.
+        use_pandas (bool or None, optional): If True, use Pandas to read 3D data 
+        (recommended for large files). If False, use np. 
+        If None, automatically use Pandas if available. Default is None.
 
-        quiet (bool, optional): If True, suppress print statements during reading. Default is False.
+        quiet (bool, optional): If True, suppress print statements during reading. 
+        Default is False.
 
     Returns:
         tuple:
