@@ -1,6 +1,10 @@
 '''
 This module contains functions for calculating different types of averages from the dataset.
 '''
+from __future__ import division, print_function
+
+import numpy as np
+
 
 
 def macroscopic_average(
