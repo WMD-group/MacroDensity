@@ -13,4 +13,3 @@ setup(
         "pandas",
         "matplotlib",
     ],
-)

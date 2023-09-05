@@ -331,3 +331,85 @@ def get_third_coordinate(plane_coeff: np.ndarray, NGX: int, NGY: int) -> list:
                 )
 
     return zz
+
+def density_2_grid(
+    density: np.ndarray,
+    nx: int,
+    ny: int,
+    nz: int,
+    charge: bool = False,
+    volume: float = 1,
+    config: str = "VASP",
+) -> tuple:
+    """
+    Convert density data to a 3D grid.
+
+    Parameters:
+        density (np.ndarray): 1D array representing the density data.
+
+        nx (int): Number of grid points along the x-axis.
+
+        ny (int): Number of grid points along the y-axis.
+
+        nz (int): Number of grid points along the z-axis.
+
+        charge (bool, optional): If True, convert charge density to the number of
+        electrons. Default is False.
+
+        volume (float, optional): volume of the grid cell.
+        Used to convert charge density to electrons. Default is 1.
+
+        config (str, optional): config of the density data (e.g., 'VASP', 'GULP').
+        Default is 'VASP'.
+
+    Returns:
+        tuple: A tuple containing:
+            - np.ndarray: 3D array representing the potential grid.
+            - float: Total number of electrons in the grid (if charge is True).
+
+    Example:
+        >>> density = np.random.rand(NGX * NGY * NGZ)  # Replace this with actual
+            density data
+        >>> nx, ny, nz = NGX, NGY, NGZ
+        >>> charge = False  # Set to True if density represents charge density
+        >>> volume = 1.0  # volume of the grid cell (if charge is True)
+        >>> potential_grid, total_electrons = density_2_grid(density, nx, ny, nz,
+            charge, volume, config)
+        >>> print("Potential Grid:")
+        >>> print(potential_grid)
+        >>> if charge:
+                print("Total Electrons:", total_electrons)
+    """
+    l = 0
+    Potential_grid = np.zeros(shape=(nx, ny, nz))
+
+    if config.lower() == "gulp":
+        for k in range(nx):
+            for j in range(ny):
+                for i in range(nz):
+                    Potential_grid[k, j, i] = density[l]
+                    l = l + 1
+        return Potential_grid
+
+    elif config.lower() == "vasp":
+        total_electrons = 0
+        for k in range(nz):
+            for j in range(ny):
+                for i in range(nx):
+                    Potential_grid[i, j, k] = density[l] / volume
+                    if charge == True:
+                        # Convert the charge density to a number of electrons
+                        point_volume = volume / (nx * ny * nz)
+                        Potential_grid[i, j, k] = (
+                            Potential_grid[i, j, k] * point_volume
+                        )
+                    total_electrons = total_electrons + density[l]
+                    l = l + 1
+
+        total_electrons = total_electrons / (nx * ny * nz)
+        if charge == True:
+            print("Total electrons: ", total_electrons)
+        return Potential_grid, total_electrons
+
+    else:
+        raise ValueError("Invalid config. config must be 'VASP' or 'GULP'.")
