@@ -14,13 +14,14 @@ from ase.io import cube, vasp
 from matplotlib import cm
 from scipy.interpolate import interp1d
 
-from macrodensity.density import (
-    density_2_grid,
-    gradient_magnitude,
+from macrodensity.potential import (
     macroscopic_average,
     planar_average,
     travelling_volume_average,
     volume_average,
+)
+from macrodensity.density import (
+    gradient_magnitude,
 )
 from macrodensity.io import read_gulp_potential, read_vasp_density
 from macrodensity.tools import _find_active_space, create_plotting_mesh
@@ -29,6 +30,7 @@ from macrodensity.utils import (
     numbers_2_grid,
     points_2_plane,
     vector_2_abscissa,
+    density_2_grid
 )
 
 MODULE_DIR = os.path.dirname(os.path.abspath(__file__))
