@@ -425,7 +425,7 @@ def density_2_grid(
         >>> nx, ny, nz = NGX, NGY, NGZ
         >>> charge = False  # Set to True if density represents charge density
         >>> volume = 1.0  # volume of the grid cell (if charge is True)
-        >>> potential_grid, total_electrons = density_2_grid(density, nx, ny, nz, charge, volume)
+        >>> potential_grid, total_electrons = density_2_grid(density, nx, ny, nz, charge, volume, config)
         >>> print("Potential Grid:")
         >>> print(potential_grid)
         >>> if charge:
