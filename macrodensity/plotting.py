@@ -88,8 +88,7 @@ def energy_band_alignment_diagram(
                     cols=['#74356C', '#efce19'], textsize=18,
                     arrowhead=0.5, outfile='BandAlignment',
                     references={'Reference 1': 3.0, 'Reference 1', 'Reference 2': 4.0},
-                    edge='black')
-"""
+                    edge='black')"""
     energies_list = list(energies.values())
     materials = list(energies.keys())
 
@@ -210,36 +209,36 @@ def plot_active_space(
     """Plot the active space (vacuum and non-vacuum regions) based on potential
     variations.
 
-    This function analyzes the potential variations within the specified 
-    cubes of the given size and determines whether each cube belongs to 
+    This function analyzes the potential variations within the specified
+    cubes of the given size and determines whether each cube belongs to
     the vacuum or non-vacuum region based on the provided tolerance.
-    This function also plots the cube potentials of vacuum and 
+    This function also plots the cube potentials of vacuum and
     non vacuum cubes.
 
     Parameters:
         cube_size (list of int): The size of the cubes in units of mesh
         points (NGX/Y/Z) for analysis.
 
-        cube_origin (list of float): The starting point (origin) of the 
+        cube_origin (list of float): The starting point (origin) of the
         cubes in fractional coordinates (range [0, 1]).
 
-        tolerance (float, optional): The cutoff variance value to 
+        tolerance (float, optional): The cutoff variance value to
         distinguish vacuum from non-vacuum cubes. Default is 1E-4.
 
-        input_file (str, optional): The file with VASP output for potential. 
+        input_file (str, optional): The file with VASP output for potential.
         Default is 'LOCPOT'.
 
-        print_output (bool, optional): Whether to print the analysis results. 
+        print_output (bool, optional): Whether to print the analysis results.
         Default is True.
 
     Returns:
-        tuple: A tuple containing the number of cubes identified as 
+        tuple: A tuple containing the number of cubes identified as
         vacuum and non-vacuum regions.
 
     Note:
-        The function calculates the potential variation within each 
-        cube and compares it to the tolerance value. Cubes with potential 
-        variations below the tolerance are considered vacuum regions, 
+        The function calculates the potential variation within each
+        cube and compares it to the tolerance value. Cubes with potential
+        variations below the tolerance are considered vacuum regions,
         while others are non-vacuum regions.
 
     Example:
@@ -333,30 +332,30 @@ def plot_on_site_potential(
 ) -> tuple:
     """Plot on-site electrostatic potential for a specific species.
 
-    This function reads the electronic potential from the specified VASP 
-    output file (LOCPOT) and the atomic coordinates from the POSCAR file. 
-    It then calculates the on-site electrostatic potential for the 
-    specified species and generates a histogram to visualize 
+    This function reads the electronic potential from the specified VASP
+    output file (LOCPOT) and the atomic coordinates from the POSCAR file.
+    It then calculates the on-site electrostatic potential for the
+    specified species and generates a histogram to visualize
     its distribution across the sample cube.
 
     Parameters:
-        species (str): The chemical symbol of the species whose on-site 
+        species (str): The chemical symbol of the species whose on-site
         potential is of interest.
 
-        sample_cube (list of int): The size of the sampling cube 
+        sample_cube (list of int): The size of the sampling cube
         in units of mesh points (NGX/Y/Z).
 
-        potential_file (str, optional): The filename of the VASP output file 
+        potential_file (str, optional): The filename of the VASP output file
         containing the electronic potential (LOCPOT). Default is 'LOCPOT'.
 
-        coordinate_file (str, optional): The filename of the POSCAR file 
+        coordinate_file (str, optional): The filename of the POSCAR file
         containing atomic coordinates. Default is 'POSCAR'.
 
-        output_file (str, optional): Name of the output data file 
-        to store the on-site potential values. 
+        output_file (str, optional): Name of the output data file
+        to store the on-site potential values.
         Default is 'OnSitePotential.csv'.
 
-        img_file (str, optional): Name of the output image file 
+        img_file (str, optional): Name of the output image file
         for the histogram plot. Default is 'OnSitePotential.png'.
 
     Returns:
@@ -476,7 +475,7 @@ def plot_planar_average(
         new_resolution (int): New resolution for interpolation.
 
     Returns:
-        tuple: A tuple containing a dataframe with the planar average 
+        tuple: A tuple containing a dataframe with the planar average
         and macroscopic average and a figure object.
     """
 
@@ -619,12 +618,12 @@ def plot_field_at_point(
 ) -> plt.figure:
     """Plot the electric field magnitude and direction on a user-defined plane.
 
-    This function plots the electric field magnitude and direction on a user-defined plane 
-    defined by three points: a_point, b_point, and c_point. 
-    The function reads the electronic potential data from the specified 
+    This function plots the electric field magnitude and direction on a user-defined plane
+    defined by three points: a_point, b_point, and c_point.
+    The function reads the electronic potential data from the specified
     input file (e.g., LOCPOT) and calculates the electric field (gradient of the potential).
-    The electric field is then visualized by plotting contours of the 
-    electric field magnitude and arrows indicating the direction of the 
+    The electric field is then visualized by plotting contours of the
+    electric field magnitude and arrows indicating the direction of the
     electric field on the defined plane.
 
     Parameters:
@@ -634,10 +633,10 @@ def plot_field_at_point(
 
         c_point (list): The fractional coordinates of the third point defining the plane.
 
-        input_file (str, optional): The filename of the file containing the 
+        input_file (str, optional): The filename of the file containing the
         electronic potential (e.g., LOCPOT). Default is 'LOCPOT'.
 
-        grad_calc (bool): if True , calculates the gradient of the field. 
+        grad_calc (bool): if True , calculates the gradient of the field.
         Default is False due to computational expense
 
     Returns:
@@ -749,7 +748,7 @@ def plot_plane_field(
 
         c_point (list): Fractional coordinates of the third point that defines the plane.
 
-        input_file (str, optional): The filename of the VASP LOCPOT file containing the 
+        input_file (str, optional): The filename of the VASP LOCPOT file containing the
         electrostatic potential. Default is 'LOCPOT'.
 
     Returns:
@@ -818,24 +817,24 @@ def plot_active_plane(
 
         cube_origin (list): The origin point of the cube in fractional coordinates.
 
-        tolerance (float, optional): The cutoff variance for identifying active and 
+        tolerance (float, optional): The cutoff variance for identifying active and
         non-active cubes. Default is 1E-4.
 
-        input_file (str, optional): The filename of the VASP LOCPOT file containing 
+        input_file (str, optional): The filename of the VASP LOCPOT file containing
         the electrostatic potential. Default is 'LOCPOT'.
 
-        grad_calc (bool): if True , calculates the gradient of the field. 
+        grad_calc (bool): if True , calculates the gradient of the field.
         Default is False due to computational expense
 
     Returns:
         Figure: A matplotlib figure object containing the electric field contours and planar average.
 
     Note:
-        - The function reads the electrostatic potential from the specified VASP LOCPOT 
+        - The function reads the electrostatic potential from the specified VASP LOCPOT
         file.
         - The active plane is determined by sampling the potential in a cube around the
         cube_origin point.
-        - The cutoff_varience parameter sets the threshold for distinguishing active and 
+        - The cutoff_varience parameter sets the threshold for distinguishing active and
         non-active cubes based on their variance in potential.
         - The function creates a contour plot of the electric field on the active plane.
         - It also plots the planar average of the electric field and potential throughout the material.

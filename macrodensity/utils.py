@@ -9,14 +9,14 @@ def matrix_2_abc(
     lattice: np.ndarray,
 ) -> (float, float, float, float, float, float):
     """
-    Extract lattice parameters and vectors from a 3x3 matrix 
+    Extract lattice parameters and vectors from a 3x3 matrix
     representing a lattice.
 
     Parameters:
         lattice (np.ndarray): 3x3 matrix representing the lattice.
 
     Returns:
-        tuple: A tuple containing the lattice parameters a, b, c and 
+        tuple: A tuple containing the lattice parameters a, b, c and
         lattice vectors a_vec, b_vec, c_vec.
 
     Example:
@@ -78,7 +78,7 @@ def one_2_2d(
     array: np.ndarray, resolution: float, vector: np.ndarray
 ) -> np.ndarray:
     """
-    Transform a 1D array to a 2D array with abscissa values based on the 
+    Transform a 1D array to a 2D array with abscissa values based on the
     given resolution and vector.
 
     Parameters:
