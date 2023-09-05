@@ -210,27 +210,37 @@ def plot_active_space(
     """Plot the active space (vacuum and non-vacuum regions) based on potential
     variations.
 
-    This function analyzes the potential variations within the specified cubes of the given size
-    and determines whether each cube belongs to the vacuum or non-vacuum region based on the provided tolerance.
-    This function also plots the cube potentials of vacuum and non vacuum cubes.
+    This function analyzes the potential variations within the specified 
+    cubes of the given size and determines whether each cube belongs to 
+    the vacuum or non-vacuum region based on the provided tolerance.
+    This function also plots the cube potentials of vacuum and 
+    non vacuum cubes.
 
     Parameters:
-        cube_size (list of int): The size of the cubes in units of mesh points (NGX/Y/Z) for analysis.
+        cube_size (list of int): The size of the cubes in units of mesh
+        points (NGX/Y/Z) for analysis.
 
-        cube_origin (list of float): The starting point (origin) of the cubes in fractional coordinates (range [0, 1]).
+        cube_origin (list of float): The starting point (origin) of the 
+        cubes in fractional coordinates (range [0, 1]).
 
-        tolerance (float, optional): The cutoff variance value to distinguish vacuum from non-vacuum cubes. Default is 1E-4.
+        tolerance (float, optional): The cutoff variance value to 
+        distinguish vacuum from non-vacuum cubes. Default is 1E-4.
 
-        input_file (str, optional): The file with VASP output for potential. Default is 'LOCPOT'.
+        input_file (str, optional): The file with VASP output for potential. 
+        Default is 'LOCPOT'.
 
-        print_output (bool, optional): Whether to print the analysis results. Default is True.
+        print_output (bool, optional): Whether to print the analysis results. 
+        Default is True.
 
     Returns:
-        tuple: A tuple containing the number of cubes identified as vacuum and non-vacuum regions.
+        tuple: A tuple containing the number of cubes identified as 
+        vacuum and non-vacuum regions.
 
     Note:
-        The function calculates the potential variation within each cube and compares it to the tolerance value.
-        Cubes with potential variations below the tolerance are considered vacuum regions, while others are non-vacuum regions.
+        The function calculates the potential variation within each 
+        cube and compares it to the tolerance value. Cubes with potential 
+        variations below the tolerance are considered vacuum regions, 
+        while others are non-vacuum regions.
 
     Example:
         >>> cube_size = [2, 2, 2]
@@ -323,22 +333,31 @@ def plot_on_site_potential(
 ) -> tuple:
     """Plot on-site electrostatic potential for a specific species.
 
-    This function reads the electronic potential from the specified VASP output file (LOCPOT) and the atomic coordinates
-    from the POSCAR file. It then calculates the on-site electrostatic potential for the specified species and generates
-    a histogram to visualize its distribution across the sample cube.
+    This function reads the electronic potential from the specified VASP 
+    output file (LOCPOT) and the atomic coordinates from the POSCAR file. 
+    It then calculates the on-site electrostatic potential for the 
+    specified species and generates a histogram to visualize 
+    its distribution across the sample cube.
 
     Parameters:
-        species (str): The chemical symbol of the species whose on-site potential is of interest.
+        species (str): The chemical symbol of the species whose on-site 
+        potential is of interest.
 
-        sample_cube (list of int): The size of the sampling cube in units of mesh points (NGX/Y/Z).
+        sample_cube (list of int): The size of the sampling cube 
+        in units of mesh points (NGX/Y/Z).
 
-        potential_file (str, optional): The filename of the VASP output file containing the electronic potential (LOCPOT). Default is 'LOCPOT'.
+        potential_file (str, optional): The filename of the VASP output file 
+        containing the electronic potential (LOCPOT). Default is 'LOCPOT'.
 
-        coordinate_file (str, optional): The filename of the POSCAR file containing atomic coordinates. Default is 'POSCAR'.
+        coordinate_file (str, optional): The filename of the POSCAR file 
+        containing atomic coordinates. Default is 'POSCAR'.
 
-        output_file (str, optional): Name of the output data file to store the on-site potential values. Default is 'OnSitePotential.csv'.
+        output_file (str, optional): Name of the output data file 
+        to store the on-site potential values. 
+        Default is 'OnSitePotential.csv'.
 
-        img_file (str, optional): Name of the output image file for the histogram plot. Default is 'OnSitePotential.png'.
+        img_file (str, optional): Name of the output image file 
+        for the histogram plot. Default is 'OnSitePotential.png'.
 
     Returns:
         tuple: A tuple containing the on-site potential values and the figure object.
@@ -457,7 +476,8 @@ def plot_planar_average(
         new_resolution (int): New resolution for interpolation.
 
     Returns:
-        tuple: A tuple containing a dataframe with the planar average and macroscopic average and a figure object.
+        tuple: A tuple containing a dataframe with the planar average 
+        and macroscopic average and a figure object.
     """
 
     def _plot(planar, macro, img_file):
