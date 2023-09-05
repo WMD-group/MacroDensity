@@ -243,23 +243,23 @@ def spherical_average(
         resolution_x = vector_a/NGX
         resolution_y = vector_b/NGY
         resolution_z = vector_c/NGZ
-        grid_pot, electrons = density_2_grid(cube_pot, NGX, NGY, NGZ, type="CUBE")
+        grid_pot, electrons = density_2_grid(cube_pot, NGX, NGY, NGZ, config="CUBE")
     elif 'vasp' in input_file or 'LOCPOT' in input_file or 'CHGCAR' in input_file:
         vasp_pot, NGX, NGY, NGZ, lattice = read_vasp_density(input_file)
         vector_a,vector_b,vector_c,av,bv,cv = matrix_2_abc(lattice)
         resolution_x = vector_a/NGX
         resolution_y = vector_b/NGY
         resolution_z = vector_c/NGZ
-        grid_pot, electrons = density_2_grid(vasp_pot, NGX, NGY, NGZ, type="VASP")
+        grid_pot, electrons = density_2_grid(vasp_pot, NGX, NGY, NGZ, config="VASP")
     elif 'gulp' in input_file or '.out' in input_file: 
         gulp_pot, NGX, NGY, NGZ, lattice = read_gulp_density(input_file)
         vector_a,vector_b,vector_c,av,bv,cv = matrix_2_abc(lattice)
         resolution_x = vector_a/NGX
         resolution_y = vector_b/NGY
         resolution_z = vector_c/NGZ
-        grid_pot, electrons = density_2_grid(gulp_pot, NGX, NGY, NGZ, type="GULP")
+        grid_pot, electrons = density_2_grid(gulp_pot, NGX, NGY, NGZ, config="GULP")
     else:
-        raise ValueError("Invalid input file. File must be in VASP, GULP, or CUBE type.")
+        raise ValueError("Invalid input file. File must be in VASP, GULP, or CUBE configuration.")
     cube = cube_size
     origin = cube_origin
     travelled = [0,0,0]
@@ -392,7 +392,7 @@ def density_2_grid(
     nz: int, 
     charge: bool=False, 
     volume: float=1, 
-    type: str = 'VASP'
+    config: str = 'VASP'
 ) -> tuple:
     """
     Convert density data to a 3D grid.
@@ -412,7 +412,7 @@ def density_2_grid(
         volume (float, optional): volume of the grid cell. 
         Used to convert charge density to electrons. Default is 1.
 
-        type (str, optional): type of the density data (e.g., 'VASP', 'GULP'). 
+        config (str, optional): config of the density data (e.g., 'VASP', 'GULP'). 
         Default is 'VASP'.
 
     Returns:
@@ -434,7 +434,7 @@ def density_2_grid(
     l = 0
     Potential_grid = np.zeros(shape=(nx, ny, nz))
     
-    if type.lower() == "gulp":
+    if config.lower() == "gulp":
         for k in range(nx):
             for j in range(ny):
                 for i in range(nz):
@@ -442,7 +442,7 @@ def density_2_grid(
                     l = l + 1
         return Potential_grid
     
-    elif type.lower() == "vasp":
+    elif config.lower() == "vasp":
         total_electrons = 0
         for k in range(nz):
             for j in range(ny):
@@ -461,7 +461,7 @@ def density_2_grid(
         return Potential_grid, total_electrons
     
     else:
-        raise ValueError("Invalid type. type must be 'VASP' or 'GULP'.")
+        raise ValueError("Invalid config. config must be 'VASP' or 'GULP'.")
 
 
 def planar_average_charge(

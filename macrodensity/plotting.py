@@ -1,4 +1,4 @@
-"""macrodensity.plotting contains different types of plotting functions such as band
+"""macrodensity.plotting contains different configs of plotting functions such as band
 alignment diagrams and potentials at different grid points."""
 
 from __future__ import division, print_function
@@ -366,7 +366,7 @@ def plot_on_site_potential(
         resolution_y = vector_b / NGY
         resolution_z = vector_c / NGZ
         grid_pot, electrons = density_2_grid(
-            vasp_pot, NGX, NGY, NGZ, type="VASP"
+            vasp_pot, NGX, NGY, NGZ, config="VASP"
         )
     elif "cube" in potential_file:
         grid_pot, atoms = cube.read_cube_data(potential_file)
@@ -385,7 +385,7 @@ def plot_on_site_potential(
         resolution_x = vector_a / NGX
         resolution_y = vector_b / NGY
         resolution_z = vector_c / NGZ
-        grid_pot = density_2_grid(gulp_pot, NGX, NGY, NGZ, type="GULP")
+        grid_pot = density_2_grid(gulp_pot, NGX, NGY, NGZ, config="GULP")
     else:
         raise ValueError(f"File {potential_file} not recognised!")
 
@@ -445,7 +445,7 @@ def plot_planar_average(
     new_resolution: int = 3000,
 ) -> tuple:
     """Calculate planar and macroscopic averages of potential data from different
-    filetypes like gulp, cube, and vasp.
+    fileconfigs like gulp, cube, and vasp.
 
     Args:
         lattice_vector (float): The lattice vector value.
@@ -529,11 +529,11 @@ def plot_planar_average(
         resolution_x = vector_a / NGX
         resolution_y = vector_b / NGY
         resolution_z = vector_c / NGZ
-        # TODO: Update type parameter in density_2_grid to be consistent with
+        # TODO: Update config parameter in density_2_grid to be consistent with
         # code naming in other functions (e.g. if here we use GULP to refer to GULP,
         # should do the same in other functions)
-        # Also use lower case for type variable following python conventions (eg type -> type)
-        grid_pot = density_2_grid(pot, NGX, NGY, NGZ, type="GULP")
+        # Also use lower case for config variable following python conventions (eg config -> config)
+        grid_pot = density_2_grid(pot, NGX, NGY, NGZ, config="GULP")
 
         ## POTENTIAL PLANAR AVERAGE
         planar = planar_average(grid_pot, NGX, NGY, NGZ, axis=axis)
@@ -564,7 +564,7 @@ def plot_planar_average(
         resolution_x = vector_a / NGX
         resolution_y = vector_b / NGY
         resolution_z = vector_c / NGZ
-        grid_pot, electrons = density_2_grid(pot, NGX, NGY, NGZ, type="VASP")
+        grid_pot, electrons = density_2_grid(pot, NGX, NGY, NGZ, config="VASP")
 
         ## PLANAR AVERAGE
         planar = planar_average(grid_pot, NGX, NGY, NGZ, axis=axis)
@@ -639,7 +639,7 @@ def plot_field_at_point(
     resolution_y = vector_b / NGY
     resolution_z = vector_c / NGZ
     grid_pot, electrons = density_2_grid(
-        vasp_pot, NGX, NGY, NGZ, type="VASP"
+        vasp_pot, NGX, NGY, NGZ, config="VASP"
     )
     ## Get the gradiens (Field), if required.
     ## Comment out if not required, due to compuational expense.
@@ -751,7 +751,7 @@ def plot_plane_field(
     resolution_y = vector_b / NGY
     resolution_z = vector_c / NGZ
     grid_pot, electrons = density_2_grid(
-        vasp_pot, NGX, NGY, NGZ, type="VASP"
+        vasp_pot, NGX, NGY, NGZ, config="VASP"
     )
     ## Get the gradiens (Field), if required.
     ## Comment out if not required, due to compuational expense.
@@ -829,7 +829,7 @@ def plot_active_plane(
     resolution_y = vector_b / NGY
     resolution_z = vector_c / NGZ
     grid_pot, electrons = density_2_grid(
-        vasp_pot, NGX, NGY, NGZ, type="VASP"
+        vasp_pot, NGX, NGY, NGZ, config="VASP"
     )
 
     potential_variance = np.var(grid_pot)
