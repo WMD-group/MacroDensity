@@ -65,7 +65,7 @@ def bulk_interstitial_alignment(
     vasp_pot, NGX, NGY, NGZ, lattice = read_vasp_density(locpot, quiet=True)
     vector_a, vector_b, vector_c, av, bv, cv = matrix_2_abc(lattice)
     grid_pot, electrons = density_2_grid(
-        vasp_pot, NGX, NGY, NGZ, Format="VASP"
+        vasp_pot, NGX, NGY, NGZ, config=="VASP"
     )
 
     ## GETTING BAND EDGES
@@ -160,7 +160,7 @@ def _find_active_space(
     vasp_pot, NGX, NGY, NGZ, lattice = read_vasp_density(input_file)
     vector_a, vector_b, vector_c, av, bv, cv = matrix_2_abc(lattice)
     grid_pot, electrons = density_2_grid(
-        vasp_pot, NGX, NGY, NGZ, Format="VASP"
+        vasp_pot, NGX, NGY, NGZ, config=="VASP"
     )
     cutoff_variance = tolerance
 
