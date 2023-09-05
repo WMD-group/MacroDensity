@@ -159,8 +159,8 @@ def volume_average(
 
         nz (int): Number of points along the z-axis in the grid.
 
-        travelled (list, optional): Distance travelled from the origin in each direction 
-        (x, y, z). Default is [0, 0, 0].
+        travelled (list, optional): Distance travelled from the origin in each 
+            direction (x, y, z). Default is [0, 0, 0].
 
     Returns:
         tuple: A tuple containing the volume average and variance of the cube.
@@ -311,12 +311,14 @@ def travelling_volume_average(
         magnitude (int): Number of positions to travel along the vector.
 
     Returns:
-        np.ndarray: 1D array containing the volume averages at each position along the vector.
+        np.ndarray: 1D array containing the volume averages at each position 
+            along the vector.
 
     Example:
         >>> vector = (0.1, 0.2, 0.3)
         >>> magnitude = 5
-        >>> travelling_avg = travelling_volume_average(grid, cube, origin, vector, nx, ny, nz, magnitude)
+        >>> travelling_avg = travelling_volume_average(grid, cube, origin, vector, 
+            nx, ny, nz, magnitude)
         >>> print("Travelling volume Average:")
         >>> print(travelling_avg)
     """
@@ -350,8 +352,8 @@ def planar_average(grid: np.ndarray,
 
         nz (int): Number of points along the z-axis in the grid.
 
-        axis (str, optional): Axis along which to calculate the average ('x', 'y', or 'z'). 
-            Default is 'z'.
+        axis (str, optional): Axis along which to calculate the average 
+            ('x', 'y', or 'z'). Default is 'z'.
 
     Returns:
         np.ndarray: 1D array containing the planar average along the specified axis.
@@ -384,7 +386,6 @@ def planar_average(grid: np.ndarray,
     return average
 
 
-# TODO: Update variables here to be lower case following python convention
 def density_2_grid(
     density: np.ndarray, 
     nx: int, 
@@ -406,8 +407,8 @@ def density_2_grid(
 
         nz (int): Number of grid points along the z-axis.
 
-        charge (bool, optional): If True, convert charge density to the number of electrons. 
-        Default is False.
+        charge (bool, optional): If True, convert charge density to the number of 
+        electrons. Default is False.
 
         volume (float, optional): volume of the grid cell. 
         Used to convert charge density to electrons. Default is 1.
@@ -421,11 +422,13 @@ def density_2_grid(
             - float: Total number of electrons in the grid (if charge is True).
 
     Example:
-        >>> density = np.random.rand(NGX * NGY * NGZ)  # Replace this with actual density data
+        >>> density = np.random.rand(NGX * NGY * NGZ)  # Replace this with actual
+            density data
         >>> nx, ny, nz = NGX, NGY, NGZ
         >>> charge = False  # Set to True if density represents charge density
         >>> volume = 1.0  # volume of the grid cell (if charge is True)
-        >>> potential_grid, total_electrons = density_2_grid(density, nx, ny, nz, charge, volume, config)
+        >>> potential_grid, total_electrons = density_2_grid(density, nx, ny, nz,
+            charge, volume, config)
         >>> print("Potential Grid:")
         >>> print(potential_grid)
         >>> if charge:
@@ -451,7 +454,9 @@ def density_2_grid(
                     if charge == True:
                         # Convert the charge density to a number of electrons
                         point_volume = volume / (nx*ny*nz)
-                        Potential_grid[i,j,k] = Potential_grid[i,j,k]*point_volume
+                        Potential_grid[i,j,k] = (
+                            Potential_grid[i,j,k] * point_volume
+                        )
                     total_electrons = total_electrons + density[l]
                     l = l + 1
                     
@@ -463,38 +468,3 @@ def density_2_grid(
     else:
         raise ValueError("Invalid config. config must be 'VASP' or 'GULP'.")
 
-
-def planar_average_charge(
-    grid: np.ndarray,
-    nx: int,
-    ny: int,
-    nz: int,
-    vector: np.ndarray
-) -> np.ndarray:
-
-    a, b = 0, 0
-    axis = ""
-    a_vec, b_vec, c_vec = vector[0], vector[1], vector[2]
-
-    print(a_vec)
-    print(b_vec)
-    print(c_vec)
-    
-    if (a_vec == 0).all() and (b_vec == 0).all():
-        a, b = nx, ny
-        axis = 'z'
-        c = int(c_vec[2]) - 1
-    elif (a_vec == 0).all() and (c_vec == 0).all():
-        a, b = nx, nz
-        axis = 'y'
-        c = int(b_vec[1]) - 1
-    elif (b_vec == 0).all() and (c_vec == 0).all():
-        a, b = ny, nz
-        axis = 'x'
-        c = int(a_vec[0]) - 1
-    else:
-        raise ValueError("Invalid vector coefficients. Cannot determine plane direction.")
-
-    average_charge = planar_average(grid, a, b, c, axis)
-
-    return average_charge
