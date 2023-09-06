@@ -46,13 +46,13 @@ bibliography: JOSSpaper.bib
 
 # Summary
 
-We report a Python package to simplify the analysis of electrostatic potentials and electron density of crystals. Macrodensity can read volumetric output files from the first-principles materials modelling codes VASP (LOCPOT format) and FHI-AIMS (cube format), as well as the classical electrostatic potentials from GULP (standard output). The code consists of functions that calculate and plot planar macroscopic and spherical averages, as well as calculating conduction and valence band alignments over a user-defined vector or plane. As a result, this code has been used to aid the data analysis and generation for several publications[@Bulter:2014,@Walsh:2013]. 
+We report a Python package to simplify the analysis of electrostatic potentials and electron density of crystals. Macrodensity can read volumetric output files from the first-principles materials modelling codes VASP (LOCPOT format) and FHI-AIMS (cube format), as well as the classical electrostatic potentials from GULP (standard output). The code consists of functions that calculate and plot planar macroscopic and spherical averages, as well as calculating conduction and valence band alignments over a user-defined vector or plane. As a result, this code has been used to aid the data analysis and generation for several publications[@Butler:2014,@Walsh:2013]. 
 
 # Statement of need
 
 To assess the potential utility of novel semiconducting devices (like p-n junctions, heterostructures, surface terminations), it is key to understand how the electrostatic potential and electron density change across the system [@Politzer:2002]. However, analysing this data from the raw output of simulations can prove cumbersome and often requires manually extracting data and using visualisation software. This can result in bottlenecks in high throughput screening projects, where the same data extraction procedure is repeatedly applied to large databases of candidate structures.
 
-The general approach for processing electrostatic potential and electron density data as well as its translation to a grid mesh is discussed in @Bulter:2014. Withing the framework of Kohn-Sham density functional theory, this approach samples the spherical averages over points within the system onto a matrix, where our raw data is generated. To process this data appropriately, ``MacroDensity`` was developed to simplify the data extraction and visualisation processes. By defining planes or vectors along the landscape of electrostatic potentials and electronic density matrix, it becomes straightforward to produce meaningful analysis and visualisation plots across a user-defined area. 
+The general approach for processing electrostatic potential and electron density data as well as its translation to a grid mesh is discussed in @Butler:2014. Withing the framework of Kohn-Sham density functional theory, this approach samples the spherical averages over points within the system onto a matrix, where our raw data is generated. To process this data appropriately, ``MacroDensity`` was developed to simplify the data extraction and visualisation processes. By defining planes or vectors along the landscape of electrostatic potentials and electronic density matrix, it becomes straightforward to produce meaningful analysis and visualisation plots across a user-defined area. 
 
 # MacroDensity
 
@@ -74,7 +74,7 @@ Calculations and averaging at different points in space can be used to quantify 
   \V_M = \sum_{i,j} \frac{(-1)^{n_i + n_j}}{4\pi\varepsilon_0 r_{ij}}
 \end{equation}
 
-``MacroDensity`` has been used to rapidly generate data for the publications @Bulter:2014 and @Walsh:2013 amongst others. 
+``MacroDensity`` has been used to rapidly generate data for the publications @Butler:2014 and @Walsh:2013 amongst others. 
 
 ![Example analysis done with the package for AlAs, CsPbI<sub>3</sub>, and MgO: a) plots of the planar (blue) and macroscopic (orange) averages of the potential, b) plots of the mean potential along the [111] vector, c) onsite (Hartree) potentials of the constituent atoms of the compounds analysed. \label{fig1}](figure.png){ width=20% }
 
