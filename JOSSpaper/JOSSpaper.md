@@ -43,7 +43,7 @@ bibliography: JOSSpaper.bib
 
 # Summary
 
-We report a Python package to simplify the analysis of electrostatic potentials and electron density of crystals. Macrodensity can read volumetric output files from the first-principles materials modelling codes VASP (LOCPOT format) and FHI-AIMS (cube format), as well as the classical electrostatic potentials from GULP (standard output). The code consists of functions that calculate and plot planar macroscopic and spherical averages, as well as calculating conduction and valence band alignments over a user-defined vector or plane. As a result, this code has been used to aid the data analysis and generation for several publications[@Butler:2014,@Walsh:2013]. 
+We report a Python package to simplify the analysis of electrostatic potentials and electron density of crystals. Macrodensity can read volumetric output files from the first-principles materials modelling codes VASP (LOCPOT format) and FHI-AIMS (cube format), as well as the classical electrostatic potentials from GULP (standard output). The code consists of functions that calculate and plot planar macroscopic and spherical averages, as well as calculating conduction and valence band alignments over a user-defined vector or plane. As a result, this code has been used to aid the data analysis and generation for several publications [@Butler:2014;@Walsh:2013]. 
 
 # Statement of need
 
