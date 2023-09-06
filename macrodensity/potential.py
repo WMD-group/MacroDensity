@@ -4,7 +4,7 @@ This module contains functions for calculating different types of averages from 
 from __future__ import division, print_function
 
 import numpy as np
-from macrodensity.io import read_vasp_density, read_gulp_density
+from macrodensity.io import read_vasp_density, read_gulp_potential  
 from ase import cube
 
 
@@ -194,7 +194,7 @@ def spherical_average(
             vasp_pot, NGX, NGY, NGZ, config="VASP"
         )
     elif "gulp" in input_file or ".out" in input_file:
-        gulp_pot, NGX, NGY, NGZ, lattice = read_gulp_density(input_file)
+        gulp_pot, NGX, NGY, NGZ, lattice = read_gulp_potential(input_file)
         vector_a, vector_b, vector_c, av, bv, cv = matrix_2_abc(lattice)
         resolution_x = vector_a / NGX
         resolution_y = vector_b / NGY
