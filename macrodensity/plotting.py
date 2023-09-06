@@ -15,7 +15,7 @@ from scipy.interpolate import interp1d
 
 from ase.io import cube, vasp
 
-from macrodensity.potential import (
+from macrodensity.averages import (
     macroscopic_average,
     planar_average,
     travelling_volume_average,

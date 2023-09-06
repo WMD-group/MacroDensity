@@ -12,4 +12,4 @@ from macrodensity.io import *
 from macrodensity.plotting import *
 from macrodensity.tools import *
 from macrodensity.utils import *
-from macrodensity.potential import *
+from macrodensity.averages import *

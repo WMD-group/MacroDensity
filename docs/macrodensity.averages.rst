@@ -3,7 +3,7 @@ macrodensity.potential module
 Module Description
 ------------------
 
-.. automodule:: macrodensity.potential
+.. automodule:: macrodensity.averages
    :members:
    :undoc-members:
    :show-inheritance:
