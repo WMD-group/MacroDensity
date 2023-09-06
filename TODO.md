@@ -23,7 +23,8 @@
     - [Example1](https://joss.theoj.org/papers/10.21105/joss.04817)
     - [Example2](https://joss.theoj.org/papers/10.21105/joss.03171)
 - [x] Update `tools.spherical_average` and `plotting.plot_on_site_potential` to handle different output files rather than just `LOCPOT`. 
-- [ ] Format line length of docstrings to follow PEP conventions
-- [ ] Automatically publish version to pypi when a new release is made on GitHub
+- [x] Format line length of docstrings to follow PEP conventions
+- [x] Automatically publish version to pypi when a new release is made on GitHub
+- [ ] Add linting workflow (similar to [this](https://github.com/SMTG-UCL/ShakeNBreak/blob/develop/.github/workflows/lint.yml))
 - [ ] Update conda installation instructions (need to update current conda package, https://anaconda.org/hcc/macrodensity)
-- [ ] Automatically get lattice vector from POSCAR file, rather than taking it from user input
+- [ ] Automatically get lattice vector from `POSCAR`` file, rather than taking it from user input
