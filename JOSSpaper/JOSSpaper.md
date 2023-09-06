@@ -13,22 +13,22 @@ authors:
   - name: Calysta A. Tesiman
     orcid: 0009-0008-7784-4320
     equal-contrib: false
-    affiliation: "1" # (Multiple affiliations must be quoted)
+    affiliation: "1" 
   - name: Liam Harnett-Caulfield 
     equal-contrib: false
-    affiliation: "1" # (Multiple affiliations must be quoted)
+    affiliation: "1" 
   - name: Irea Mosquera-Lois
     equal-contrib: false
-    affiliation: "1" # (Multiple affiliations must be quoted)
+    affiliation: "1" 
   - name: Keith T. Butler
     equal-contrib: false
     corresponding: true
-	affiliation: "2" # (Multiple affiliations must be quoted)
+	affiliation: "2" 
   - name: Aron Walsh 
     orcid: 0000-0001-5460-7033
     equal-contrib: false
     corresponding: true
-	affiliation: "1" # (Multiple affiliations must be quoted)
+	affiliation: "1" 
 	
 affiliations:
  - name: Department of Materials, Imperial College London, London, United Kingdom
