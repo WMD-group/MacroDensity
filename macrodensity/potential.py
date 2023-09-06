@@ -4,7 +4,8 @@ This module contains functions for calculating different types of averages from 
 from __future__ import division, print_function
 
 import numpy as np
-from macrodensity.io import read_vasp_density, read_gulp_potential  
+from macrodensity.io import read_vasp_density, read_gulp_potential 
+from macrodensity.utils import matrix_2_abc, density_2_grid 
 import ase
 
 
