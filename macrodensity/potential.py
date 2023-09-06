@@ -5,7 +5,7 @@ from __future__ import division, print_function
 
 import numpy as np
 from macrodensity.io import read_vasp_density, read_gulp_potential  
-from ase import cube
+import ase
 
 
 def macroscopic_average(
