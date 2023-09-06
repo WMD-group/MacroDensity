@@ -8,25 +8,22 @@ tags:
   - electron density 
   - ab initio
   - vasp
+  - 
 authors:
   - name: Calysta A. Tesiman
     orcid: 0009-0008-7784-4320
     equal-contrib: false
     affiliation: "1" # (Multiple affiliations must be quoted)
-authors:
   - name: Liam Harnett-Caulfield 
     equal-contrib: false
     affiliation: "1" # (Multiple affiliations must be quoted)
-authors:
   - name: Irea Mosquera-Lois
     equal-contrib: false
     affiliation: "1" # (Multiple affiliations must be quoted)
-authors:
   - name: Keith T. Butler
     equal-contrib: false
     corresponding: true
 	affiliation: "2" # (Multiple affiliations must be quoted)
-authors:
   - name: Aron Walsh 
     orcid: 0000-0001-5460-7033
     equal-contrib: false
@@ -71,7 +68,7 @@ Calculations and averaging at different points in space can be used to quantify 
 
 \begin{equation}
 \label{eq:Madelung-potential}
-  \V_M = \sum_{i,j} \frac{(-1)^{n_i + n_j}}{4\pi\varepsilon_0 r_{ij}}
+  V_M = \sum_{i,j} \frac{(-1)^{n_i + n_j}}{4\pi \varepsilon_0 r_{ij}}
 \end{equation}
 
 ``MacroDensity`` has been used to rapidly generate data for the publications @Butler:2014 and @Walsh:2013 amongst others. 
