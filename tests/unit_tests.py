@@ -130,6 +130,7 @@ class TestDensityReadingFunctionsNoPandas(TestDensityReadingFunctions):
 
 
 class TestOtherReadingFunctions(unittest.TestCase):
+    
     def test_read_vasp_classic(self):
         """Test the function for reading CHGCAR/LOCPOT"""
         chgcar = pkg_resources.resource_filename(
@@ -207,9 +208,30 @@ class TestAveragingFunctions(unittest.TestCase):
             md.utils.inverse_participation_ratio(dens), 1.407e-5
         )
 
+    def test_macroscopic_average(self):
+        """Test the macroscopic averaging function"""
+        f = 2.0
+        fs = 100
+        x = np.arange(fs)
+        potential = [
+            np.sin(2 * np.pi * f * (i / float(fs))) for i in np.arange(fs)
+        ]
+        macro = md.macroscopic_average(potential, 50, 1)
+        self.assertAlmostEqual(macro[20], 0.0)
+
+    def test_spherical_average(self):
+        """Tests the spherical_average function"""
+        Locpot = pkg_resources.resource_filename(
+            __name__, path_join("../tests", "LOCPOT.test")
+        )
+        out = md.spherical_average(
+            cube_size=[2, 2, 2], cube_origin=[0.5, 0.5, 0.5], input_file=Locpot
+        )
+        self.assertAlmostEqual(out, (6.5579496029375, 1.8665165271901357e-05))
+
 
 class TestGeometryFunctions(unittest.TestCase):
-    """Test the functions that do geometry and trig"""
+    """Test the functions that do geometry and trigonometry"""
 
     def test_gradient_magnitude(self):
         """Test the function for returning the magnitude of gradient at a voxel"""
@@ -222,17 +244,6 @@ class TestGeometryFunctions(unittest.TestCase):
         magnitudes = md.gradient_magnitude(gx, gy, gz)
         self.assertEqual(magnitudes[1, 1, 1], 1.7320508075688772)
         self.assertEqual(magnitudes[2, 2, 2], 6.9282032302755088)
-
-    def test_macroscopic_average(self):
-        """Test the macroscopic averaging function"""
-        f = 2.0
-        fs = 100
-        x = np.arange(fs)
-        potential = [
-            np.sin(2 * np.pi * f * (i / float(fs))) for i in np.arange(fs)
-        ]
-        macro = md.macroscopic_average(potential, 50, 1)
-        self.assertAlmostEqual(macro[20], 0.0)
 
     def test_vector_2_abscissa(self):
         """Test the vector_2_abscissa function"""
@@ -278,6 +289,7 @@ class TestGeometryFunctions(unittest.TestCase):
 
 
 class TestConvenienceFunctions(unittest.TestCase):
+    
     def test_bulk_interstitial_alignment(self):
         """Tests the bulk_interstitial_alignment function"""
         Locpot = pkg_resources.resource_filename(
@@ -318,16 +330,9 @@ class TestConvenienceFunctions(unittest.TestCase):
         self.addCleanup(os.remove, "potential_variation.csv")
         self.addCleanup(os.remove, "potential_variation.png")
 
-    def test_spherical_average(self):
-        """Tests the spherical_average function"""
-        Locpot = pkg_resources.resource_filename(
-            __name__, path_join("../tests", "LOCPOT.test")
-        )
-        out = md.spherical_average(
-            cube_size=[2, 2, 2], cube_origin=[0.5, 0.5, 0.5], input_file=Locpot
-        )
-        self.assertAlmostEqual(out, (6.5579496029375, 1.8665165271901357e-05))
 
+class TestPlottingFunctions(unittest.TestCase):
+    
     def test_plot_planar_average(self):
         """Tests the plot_planar_average function"""
         locpot = pkg_resources.resource_filename(
@@ -412,7 +417,7 @@ class TestConvenienceFunctions(unittest.TestCase):
         self.assertEqual(dfpot["Planar"].tolist()[-1], -0.581089179258661)
         self.addCleanup(os.remove, "planar_average.csv")
         self.addCleanup(os.remove, "planar_average.png")
-
+        
 
 if __name__ == "__main__":
     unittest.main()
