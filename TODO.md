@@ -26,7 +26,7 @@
 - [x] Format line length of docstrings to follow PEP conventions
 - [x] Automatically publish version to pypi when a new release is made on GitHub
 - [ ] Check which functions are not currently tested in `unit_tests.py` (for instance
- `plot_field_at_point`, `plot_plane_field`, `energy_band_alignment_diagram` are not currently tested). 
+ `plot_field_at_point`, `plot_plane_field`, `energy_band_alignment_diagram`, `get_band_extrema` are not currently tested). 
  Can use matplotlib to compare figures as done [here](https://github.com/SMTG-UCL/ShakeNBreak/blob/develop/tests/test_plotting.py#L1038). Add tests for these functions
 - [ ] Add [codecov](https://docs.codecov.com/docs#step-5-get-coverage-analysis-from-codecov) badge to README to see how many lines of code are tested
 - [ ] Add linting workflow (similar to [this](https://github.com/SMTG-UCL/ShakeNBreak/blob/develop/.github/workflows/lint.yml))

@@ -5,14 +5,15 @@ from __future__ import division, print_function
 
 import os
 
-import ase
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+from matplotlib import cm
+
 import numpy as np
 import pandas as pd
-from ase.io import cube, vasp
-from matplotlib import cm
 from scipy.interpolate import interp1d
+
+from ase.io import cube, vasp
 
 from macrodensity.potential import (
     macroscopic_average,
