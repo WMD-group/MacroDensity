@@ -29,6 +29,7 @@
  `plot_field_at_point`, `plot_plane_field`, `energy_band_alignment_diagram`, `get_band_extrema` are not currently tested). 
  Can use matplotlib to compare figures as done [here](https://github.com/SMTG-UCL/ShakeNBreak/blob/develop/tests/test_plotting.py#L1038). Add tests for these functions
 - [ ] Add [codecov](https://docs.codecov.com/docs#step-5-get-coverage-analysis-from-codecov) badge to README to see how many lines of code are tested
+- [ ] Refactor `plot_planar_average` to show coordinate position in x axis rather than grid position
 - [ ] Add linting workflow (similar to [this](https://github.com/SMTG-UCL/ShakeNBreak/blob/develop/.github/workflows/lint.yml))
 - [ ] Update conda installation instructions (need to update current conda package, https://anaconda.org/hcc/macrodensity)
 - [ ] Automatically get lattice vector from `POSCAR`` file, rather than taking it from user input

@@ -73,7 +73,7 @@ Calculations and averaging at different points in space can be used to quantify 
 
 ``MacroDensity`` has been used to rapidly generate data for the publications @Butler:2014 and @Walsh:2013 amongst others. 
 
-![Example analysis done with the package for AlAs, CsPbI<sub>3</sub>, and MgO: a) plots of the planar (blue) and macroscopic (orange) averages of the potential, b) plots of the mean potential along the [111] vector, c) onsite (Hartree) potentials of the constituent atoms of the compounds analysed. \label{fig1}](figure.png){ width=20% }
+![Example analysis done with the package for AlAs, CsPbI<sub>3</sub>, and MgO: a) plots of the planar (blue) and macroscopic (orange) averages of the potential, b) plots of the mean potential along the [111] vector, c) onsite (Hartree) potentials of the constituent atoms of the compounds analysed. \label{fig1}](figure.png){ width=70% }
 
 # Acknowledgements
 
