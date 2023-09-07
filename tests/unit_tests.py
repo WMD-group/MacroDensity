@@ -432,7 +432,7 @@ class TestPlottingFunctions(unittest.TestCase):
     @pytest.mark.mpl_image_compare(
         baseline_dir=f"{_file_path}/testIm",
         filename="BandAlignment.png",
-        style=f"{_file_path}/../macroDensity/macrodensity.mplstyle",
+        style=f"{_file_path}/../macrodensity/macrodensity.mplstyle",
         savefig_kwargs={"transparent": True, "bbox_inches": "tight"},
     )
     def test_energy_band_alignment_diagram(self):
