@@ -41,6 +41,7 @@ jobs:
         pip install setuptools setuptools_scm wheel
         pip install -r requirements.txt
         pip install pytest
+        pip install pytest-mpl
         pip install -e .
     
     - name: Check package versions
