@@ -48,6 +48,7 @@ def energy_band_alignment_diagram(
     outfile: str = "BandAlignment",
     references: dict = {},
     edge=None,
+    fig_format: str = "pdf",
 ) -> plt.figure:
     """Plot an energy band alignment diagram for a list of materials.
 
@@ -81,8 +82,12 @@ def energy_band_alignment_diagram(
         edge (None or str, optional): The edge color for the bars.
             If None, there will be no edge color. Default is None.
 
+        fig_format (str, optional): The format used to save the image. 
+            Default is "pdf".
+    
     Returns:
-        Figure: A matplotlib figure object containing the energy band alignment diagram.
+        Figure: A matplotlib figure object containing the energy band alignment
+            diagram.
 
     Example:
         >>> energies = [(5.2, 2.8), (4.9, 3.1), (5.5, 2.6)]
@@ -196,8 +201,8 @@ def energy_band_alignment_diagram(
             color="r",
         )
 
-    fig.savefig(f"{outfile}.pdf", bbox_inches="tight")
-    print(f"Figure saved as {outfile}.pdf")
+    fig.savefig(f"{outfile}.{fig_format}", bbox_inches="tight")
+    print(f"Figure saved as {outfile}.{fig_format}")
     plt.close(fig)
     return fig
 

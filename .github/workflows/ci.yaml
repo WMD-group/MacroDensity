@@ -49,5 +49,5 @@ jobs:
         pip show -V ase
     
     - name: Run tests
-      run: pytest tests/unit_tests.py
+      run: pytest --mpl tests/unit_tests.py
     

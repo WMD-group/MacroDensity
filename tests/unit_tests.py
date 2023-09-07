@@ -6,7 +6,7 @@ import unittest
 from os.path import join as path_join
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-import pytest 
+import pytest
 
 
 import numpy as np
@@ -23,7 +23,7 @@ except ImportError:
     has_pandas = False
 
 
-test_dir = os.path.abspath(os.path.dirname(__file__))
+_file_path = os.path.dirname(__file__)
 
 
 class TestDensityReadingFunctions(unittest.TestCase):
@@ -134,7 +134,6 @@ class TestDensityReadingFunctionsNoPandas(TestDensityReadingFunctions):
 
 
 class TestOtherReadingFunctions(unittest.TestCase):
-    
     def test_read_vasp_classic(self):
         """Test the function for reading CHGCAR/LOCPOT"""
         chgcar = pkg_resources.resource_filename(
@@ -238,11 +237,10 @@ class TestAveragingFunctions(unittest.TestCase):
         Outcar = pkg_resources.resource_filename(
             __name__, path_join("../tests", "OUTCAR.test")
         )
-        out = md.get_band_extrema(
-            input_file=Outcar
-        )
+        out = md.get_band_extrema(input_file=Outcar)
         self.assertEqual(out[0], 2.8952)
         self.assertEqual(out[1], 4.411)
+
 
 class TestGeometryFunctions(unittest.TestCase):
     """Test the functions that do geometry and trigonometry"""
@@ -303,7 +301,6 @@ class TestGeometryFunctions(unittest.TestCase):
 
 
 class TestConvenienceFunctions(unittest.TestCase):
-    
     def test_bulk_interstitial_alignment(self):
         """Tests the bulk_interstitial_alignment function"""
         Locpot = pkg_resources.resource_filename(
@@ -431,8 +428,32 @@ class TestPlottingFunctions(unittest.TestCase):
         self.assertEqual(dfpot["Planar"].tolist()[-1], -0.581089179258661)
         self.addCleanup(os.remove, "planar_average.csv")
         self.addCleanup(os.remove, "planar_average.png")
-    
-  
+
+    @pytest.mark.mpl_image_compare(
+        baseline_dir=f"{_file_path}/testIm",
+        filename="BandAlignment.png",
+        style=f"{_file_path}/../macroDensity/macrodensity.mplstyle",
+        savefig_kwargs={"transparent": True, "bbox_inches": "tight"},
+    )
+    def test_energy_band_alignment_diagram(self):
+        """Tests the energy_band_alignment_diagram function"""
+
+        fig = md.energy_band_alignment_diagram(
+            {
+                "ZnO": [4.4, 7.7],
+                "MOF-5": [2.7, 7.3],
+                "HKUST-1": [5.1, 6.0],
+                "ZIF-8": [0.9, 6.4],
+                "COF-1M": [1.3, 4.7],
+                "CPO-27-Mg": [2.9, 5.9],
+                "MIL-125": [3.8, 7.6],
+                "TiO2": [4.8, 7.8],
+            },
+            ylims=(-10, 0.0),
+            arrowhead=0.15,
+        )
+        self.addCleanup(os.remove, "BandAlignment.pdf")
+        return fig
 
 if __name__ == "__main__":
     unittest.main()
