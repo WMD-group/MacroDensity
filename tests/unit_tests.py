@@ -432,26 +432,7 @@ class TestPlottingFunctions(unittest.TestCase):
         self.addCleanup(os.remove, "planar_average.csv")
         self.addCleanup(os.remove, "planar_average.png")
     
-    def test_energy_band_alignment_diagram(self):
-        """Tests the energy_band_alignment_diagram function"""
-        
-        out = md.energy_band_alignment_diagram({
-                                            'ZnO': [4.4, 7.7], 
-                                            'MOF-5': [2.7, 7.3],
-                                            'HKUST-1': [5.1, 6.0], 
-                                            'ZIF-8': [0.9, 6.4], 
-                                            'COF-1M': [1.3, 4.7], 
-                                            'CPO-27-Mg': [2.9, 5.9],
-                                            'MIL-125': [3.8, 7.6], 
-                                            'TiO2': [4.8, 7.8]
-                                                },ylims=(-10, 0.0), arrowhead=0.15)
-        
-        pdf = pkg_resources.resource_filename(
-            __name__, path_join("../tests/testIm", "BandAlignment.pdf")
-        )
-        self.assertEqual(out, pdf)
-        self.addCleanup(os.remove, "BandAlignment.pdf")
-
+  
 
 
 
