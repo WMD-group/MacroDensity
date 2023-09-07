@@ -692,7 +692,7 @@ def plot_field_at_point(
     # grad_mag=np.linalg.norm( [grad_y,grad_y,grad_z], axis=3)
 
     ## This function in Macrodensity averages Efield ACROSS Z for Slab calculations
-    # xx,yy,grd =  pot.create_plotting_mesh(NGX,NGY,NGZ,plane_coeff,grad_mag) #AVG over full volume
+    xx,yy,grd =  md.create_plotting_mesh(NGX,NGY,NGZ,plane_coeff,grad_mag) #AVG over full volume
 
     # Here we construct the same xx,yy,grd variables with a SLICE, forming a plane in XY at particular ZSLICE
     xx, yy = np.mgrid[0:NGX, 0:NGY]
@@ -834,12 +834,16 @@ def plot_active_plane(
 
     Note:
         - The function reads the electrostatic potential from the specified VASP LOCPOT
-        file.
+            file.
+
         - The active plane is determined by sampling the potential in a cube around the
-        cube_origin point.
+            cube_origin point.
+
         - The cutoff_varience parameter sets the threshold for distinguishing active and
-        non-active cubes based on their variance in potential.
+            non-active cubes based on their variance in potential.
+
         - The function creates a contour plot of the electric field on the active plane.
+
         - It also plots the planar average of the electric field and potential throughout the material.
     """
     # ------------------------------------------------------------------

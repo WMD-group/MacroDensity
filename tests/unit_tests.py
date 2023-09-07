@@ -4,6 +4,10 @@ import os
 import sys
 import unittest
 from os.path import join as path_join
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import pytest 
+import pdfplumber 
 
 import numpy as np
 import pandas as pd
@@ -229,6 +233,16 @@ class TestAveragingFunctions(unittest.TestCase):
         )
         self.assertAlmostEqual(out, (6.5579496029375, 1.8665165271901357e-05))
 
+    def test_get_band_extrema(self):
+        """Tests the get_band_extrema function"""
+        Outcar = pkg_resources.resource_filename(
+            __name__, path_join("../tests", "OUTCAR.test")
+        )
+        out = md.get_band_extrema(
+            input_file=Outcar
+        )
+        self.assertEqual(out[0], 2.8952)
+        self.assertEqual(out[1], 4.411)
 
 class TestGeometryFunctions(unittest.TestCase):
     """Test the functions that do geometry and trigonometry"""
@@ -417,7 +431,29 @@ class TestPlottingFunctions(unittest.TestCase):
         self.assertEqual(dfpot["Planar"].tolist()[-1], -0.581089179258661)
         self.addCleanup(os.remove, "planar_average.csv")
         self.addCleanup(os.remove, "planar_average.png")
+    
+    def test_energy_band_alignment_diagram(self):
+        """Tests the energy_band_alignment_diagram function"""
         
+        out = md.energy_band_alignment_diagram({
+                                            'ZnO': [4.4, 7.7], 
+                                            'MOF-5': [2.7, 7.3],
+                                            'HKUST-1': [5.1, 6.0], 
+                                            'ZIF-8': [0.9, 6.4], 
+                                            'COF-1M': [1.3, 4.7], 
+                                            'CPO-27-Mg': [2.9, 5.9],
+                                            'MIL-125': [3.8, 7.6], 
+                                            'TiO2': [4.8, 7.8]
+                                                },ylims=(-10, 0.0), arrowhead=0.15)
+        
+        pdf = pdfplumber.open(f'../testIm/BandAlignment.pdf')
+        self.assertEqual(out, pdf)
+        self.addCleanup(os.remove, "BandAlignment.pdf")
+
+
+
+
+
 
 if __name__ == "__main__":
     unittest.main()
