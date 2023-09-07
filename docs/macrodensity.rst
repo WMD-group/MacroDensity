@@ -13,6 +13,7 @@ Submodules
 ------------
 .. toctree::
    macrodensity.tools
+   macrodensity.averages
    macrodensity.density
    macrodensity.plotting 
    macrodensity.io
