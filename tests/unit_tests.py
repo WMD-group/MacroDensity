@@ -7,7 +7,7 @@ from os.path import join as path_join
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import pytest 
-import pdfplumber 
+
 
 import numpy as np
 import pandas as pd
@@ -446,7 +446,9 @@ class TestPlottingFunctions(unittest.TestCase):
                                             'TiO2': [4.8, 7.8]
                                                 },ylims=(-10, 0.0), arrowhead=0.15)
         
-        pdf = pdfplumber.open(f'../testIm/BandAlignment.pdf')
+        pdf = pkg_resources.resource_filename(
+            __name__, path_join("../tests/testIm", "BandAlignment.pdf")
+        )
         self.assertEqual(out, pdf)
         self.addCleanup(os.remove, "BandAlignment.pdf")
 
