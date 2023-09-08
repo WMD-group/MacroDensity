@@ -41,6 +41,7 @@ jobs:
         pip install setuptools setuptools_scm wheel
         pip install -r requirements.txt
         pip install pytest
+        pip install pytest-cov
         pip install pytest-mpl
         pip install -e .
     
@@ -50,8 +51,8 @@ jobs:
         pip show -V ase
     
     - name: Run tests
-      run: pytest --mpl tests/unit_tests.py
-
+      run: pytest --cov=macrodensity --mpl tests/unit_tests.py
+    
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
       with:
