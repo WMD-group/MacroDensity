@@ -19,6 +19,7 @@ def unit_tests():
     test_suite = test_loader.discover('tests', pattern='unit_tests.py')
     return test_suite
 
+
 if __name__ == "__main__":
     setup(
         name='MacroDensity',
