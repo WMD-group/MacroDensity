@@ -28,10 +28,10 @@ jobs:
     
     runs-on: ${{matrix.os}}
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}
     
@@ -51,7 +51,7 @@ jobs:
         pip show -V ase
     
     - name: Run tests
-      run: pytest --cov=macrodensity --mpl tests/unit_tests.py --cov-report=xml
+      run: pytest --cov=macrodensity --mpl tests/unit_tests.py --cov-report=xml -v
     
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
