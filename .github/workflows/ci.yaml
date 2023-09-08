@@ -51,7 +51,7 @@ jobs:
         pip show -V ase
     
     - name: Run tests
-      run: pytest --cov=macrodensity --mpl tests/unit_tests.py
+      run: pytest --cov=macrodensity --mpl tests/unit_tests.py --cov-report=xml
     
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
