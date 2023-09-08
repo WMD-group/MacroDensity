@@ -49,6 +49,7 @@ jobs:
       run: |
         pip show -V pytest
         pip show -V ase
+        pip show -V matplotlib
     
     - name: Run tests
       run: pytest --cov=macrodensity --mpl tests/unit_tests.py --cov-report=xml -v
