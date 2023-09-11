@@ -31,5 +31,7 @@
 - [ ] Add [codecov](https://docs.codecov.com/docs#step-5-get-coverage-analysis-from-codecov) badge to README to see how many lines of code are tested
 - [ ] Refactor `plot_planar_average` to show coordinate position in x axis rather than grid position
 - [ ] Add linting workflow (similar to [this](https://github.com/SMTG-UCL/ShakeNBreak/blob/develop/.github/workflows/lint.yml))
-- [ ] Update conda installation instructions (need to update current conda package, https://anaconda.org/hcc/macrodensity)
+- [ ] Update conda installation instructions (need to update current conda package, https://anaconda.org/hcc/macrodensity):
+    * Could look to add the package to the conda-forge channel following the instructions here: https://github.com/conda-forge/staged-recipes
+    * If you want to update the package on the HCC channel, then the instructions are here though it appears there isn't a recipe for Macrodensity in this repo (probably due to age): https://github.com/unlhcc/hcc-conda-recipes
 - [ ] Automatically get lattice vector from `POSCAR`` file, rather than taking it from user input
