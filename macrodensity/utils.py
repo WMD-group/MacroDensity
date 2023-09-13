@@ -332,6 +332,7 @@ def get_third_coordinate(plane_coeff: np.ndarray, NGX: int, NGY: int) -> list:
 
     return zz
 
+
 def density_2_grid(
     density: np.ndarray,
     nx: int,

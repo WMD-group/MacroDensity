@@ -7,13 +7,11 @@ import os
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-from matplotlib import cm
-
 import numpy as np
 import pandas as pd
-from scipy.interpolate import interp1d
-
 from ase.io import cube, vasp
+from matplotlib import cm
+from scipy.interpolate import interp1d
 
 from macrodensity.averages import (
     macroscopic_average,
@@ -21,17 +19,15 @@ from macrodensity.averages import (
     travelling_volume_average,
     volume_average,
 )
-from macrodensity.density import (
-    gradient_magnitude,
-)
+from macrodensity.density import gradient_magnitude
 from macrodensity.io import read_gulp_potential, read_vasp_density
 from macrodensity.tools import _find_active_space, create_plotting_mesh
 from macrodensity.utils import (
+    density_2_grid,
     matrix_2_abc,
     numbers_2_grid,
     points_2_plane,
     vector_2_abscissa,
-    density_2_grid
 )
 
 MODULE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -82,9 +78,9 @@ def energy_band_alignment_diagram(
         edge (None or str, optional): The edge color for the bars.
             If None, there will be no edge color. Default is None.
 
-        fig_format (str, optional): The format used to save the image. 
+        fig_format (str, optional): The format used to save the image.
             Default is "pdf".
-    
+
     Returns:
         Figure: A matplotlib figure object containing the energy band alignment
             diagram.
@@ -697,7 +693,9 @@ def plot_field_at_point(
     # grad_mag=np.linalg.norm( [grad_y,grad_y,grad_z], axis=3)
 
     ## This function in Macrodensity averages Efield ACROSS Z for Slab calculations
-    xx,yy,grd =  md.create_plotting_mesh(NGX,NGY,NGZ,plane_coeff,grad_mag) #AVG over full volume
+    xx, yy, grd = md.create_plotting_mesh(
+        NGX, NGY, NGZ, plane_coeff, grad_mag
+    )  # AVG over full volume
 
     # Here we construct the same xx,yy,grd variables with a SLICE, forming a plane in XY at particular ZSLICE
     xx, yy = np.mgrid[0:NGX, 0:NGY]

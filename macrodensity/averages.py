@@ -1,12 +1,12 @@
-'''
+"""
 This module contains functions for calculating different types of averages from the dataset.
-'''
+"""
 from __future__ import division, print_function
 
 import numpy as np
 
-from macrodensity.io import read_vasp_density, read_gulp_potential 
-from macrodensity.utils import matrix_2_abc, density_2_grid 
+from macrodensity.io import read_gulp_potential, read_vasp_density
+from macrodensity.utils import density_2_grid, matrix_2_abc
 
 
 def macroscopic_average(

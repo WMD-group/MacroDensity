@@ -4,14 +4,13 @@ import os
 import sys
 import unittest
 from os.path import join as path_join
+
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-import pytest
-
-
 import numpy as np
 import pandas as pd
 import pkg_resources
+import pytest
 
 import macrodensity as md
 
@@ -343,7 +342,7 @@ class TestConvenienceFunctions(unittest.TestCase):
 
 
 class TestPlottingFunctions(unittest.TestCase):
-    
+
     def test_plot_planar_average(self):
         """Tests the plot_planar_average function"""
         locpot = pkg_resources.resource_filename(
@@ -429,7 +428,7 @@ class TestPlottingFunctions(unittest.TestCase):
         self.addCleanup(os.remove, "planar_average.csv")
         self.addCleanup(os.remove, "planar_average.png")
 
-    
+
     @pytest.mark.mpl_image_compare(
         baseline_dir=f"{_file_path}/testIm",
         filename="BandAlignment.png",
@@ -450,10 +449,10 @@ class TestPlottingFunctions(unittest.TestCase):
                 "TiO2": [4.8, 7.8],
             },
             ylims=(-10, 0.0),
-            arrowhead=0.15, 
+            arrowhead=0.15,
             fig_format='png'
         )
-        
+
         if os.path.exists("BandAlignment.png"):
             self.addCleanup(os.remove, "BandAlignment.png")
         return fig

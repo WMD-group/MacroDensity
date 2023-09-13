@@ -1,7 +1,7 @@
 """
-macrodensity.density contains functions to calculate the electron 
-density of a structure, as well as functions to calculate the electrostatic potential 
-and the electrostatic potential gradients of a structure. 
+macrodensity.density contains functions to calculate the electron
+density of a structure, as well as functions to calculate the electrostatic potential
+and the electrostatic potential gradients of a structure.
 """
 
 from __future__ import division, print_function
@@ -75,4 +75,3 @@ def element_vol(vol: float, nx: int, ny: int, nz: int) -> float:
     ele_vol = vol / number_of_elements
 
     return ele_vol
-

@@ -1,6 +1,6 @@
 #! /usr/bin/env python
-""" 
-macrodensity.tools contains functions to read and manipulate the electronic 
+"""
+macrodensity.tools contains functions to read and manipulate the electronic
 density data from a material.
 """
 
@@ -11,7 +11,7 @@ from scipy.interpolate import interp1d
 
 from macrodensity.averages import volume_average
 from macrodensity.io import get_band_extrema, read_vasp_density
-from macrodensity.utils import matrix_2_abc, density_2_grid
+from macrodensity.utils import density_2_grid, matrix_2_abc
 
 
 def bulk_interstitial_alignment(
