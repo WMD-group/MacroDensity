@@ -1,5 +1,0 @@
-include docs/*txt
-include examples/*
-include tutorials/*
-include tutorials/*/* 
-include tutorials/*/*/*
