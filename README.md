@@ -80,5 +80,5 @@ MacroDensity is made available under the MIT License.
 
 If you use it in your research, please cite:
 
-    Method: Harnett-Caulfield, L., & Walsh, A.  [_Journal of Chemical Physics_](https://doi.org/10.1063/5.0044866) 2021
+* Method: Harnett-Caulfield, L., & Walsh, A.  [*Journal of Chemical Physics*](https://doi.org/10.1063/5.0044866) 2021
 
