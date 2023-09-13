@@ -162,3 +162,4 @@ tests/__pycache__/*
 macrodensity/__pycache__/*
 tests/__pycache__/unit_tests.cpython-311.pyc
 .DS_Store
+tests/__pycache__/unit_tests.cpython-311.pyc
