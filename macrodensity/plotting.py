@@ -1,28 +1,28 @@
-""" 
-macrodensity.plotting contains different types of plotting functions 
-such as band alignment diagrams and potentials at different grid points.
-"""
+"""macrodensity.plotting contains different configs of plotting functions such as band
+alignment diagrams and potentials at different grid points."""
 
 from __future__ import division, print_function
 
 import os
 
-import ase
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+from matplotlib import cm
+
 import numpy as np
 import pandas as pd
-from ase.io import cube, vasp
-from matplotlib import cm
 from scipy.interpolate import interp1d
 
-from macrodensity.density import (
-    density_2_grid,
-    gradient_magnitude,
+from ase.io import cube, vasp
+
+from macrodensity.averages import (
     macroscopic_average,
     planar_average,
     travelling_volume_average,
     volume_average,
+)
+from macrodensity.density import (
+    gradient_magnitude,
 )
 from macrodensity.io import read_gulp_potential, read_vasp_density
 from macrodensity.tools import _find_active_space, create_plotting_mesh
@@ -31,6 +31,7 @@ from macrodensity.utils import (
     numbers_2_grid,
     points_2_plane,
     vector_2_abscissa,
+    density_2_grid
 )
 
 MODULE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -47,9 +48,9 @@ def energy_band_alignment_diagram(
     outfile: str = "BandAlignment",
     references: dict = {},
     edge=None,
+    fig_format: str = "pdf",
 ) -> plt.figure:
-    """
-    Plot an energy band alignment diagram for a list of materials.
+    """Plot an energy band alignment diagram for a list of materials.
 
     Parameters:
         energies (dict): A dictionary mapping each material name to a tuple
@@ -81,18 +82,21 @@ def energy_band_alignment_diagram(
         edge (None or str, optional): The edge color for the bars.
             If None, there will be no edge color. Default is None.
 
+        fig_format (str, optional): The format used to save the image. 
+            Default is "pdf".
+    
     Returns:
-        Figure: A matplotlib figure object containing the energy band alignment diagram.
+        Figure: A matplotlib figure object containing the energy band alignment
+            diagram.
 
     Example:
         >>> energies = [(5.2, 2.8), (4.9, 3.1), (5.5, 2.6)]
         >>> materials = ['Material A', 'Material B', 'Material C']
         >>> energy_band_alignment_diagram(energies, materials, ylims=(-9.0, 0.0), width=0.8,
-                                    cols=['#74356C', '#efce19'], textsize=18,
-                                    arrowhead=0.5, outfile='BandAlignment',
-                                    references={'Reference 1': 3.0, 'Reference 1', 'Reference 2': 4.0},
-                                    edge='black')
-    """
+                    cols=['#74356C', '#efce19'], textsize=18,
+                    arrowhead=0.5, outfile='BandAlignment',
+                    references={'Reference 1': 3.0, 'Reference 1', 'Reference 2': 4.0},
+                    edge='black')"""
     energies_list = list(energies.values())
     materials = list(energies.keys())
 
@@ -197,8 +201,8 @@ def energy_band_alignment_diagram(
             color="r",
         )
 
-    fig.savefig(f"{outfile}.pdf", bbox_inches="tight")
-    print(f"Figure saved as {outfile}.pdf")
+    fig.savefig(f"{outfile}.{fig_format}", bbox_inches="tight")
+    print(f"Figure saved as {outfile}.{fig_format}")
     plt.close(fig)
     return fig
 
@@ -210,36 +214,45 @@ def plot_active_space(
     input_file="LOCPOT",
     print_output=True,
 ) -> tuple:
-    """
-    Plot the active space (vacuum and non-vacuum regions) based on potential variations.
+    """Plot the active space (vacuum and non-vacuum regions) based on potential
+    variations.
 
-    This function analyzes the potential variations within the specified cubes of the given size
-    and determines whether each cube belongs to the vacuum or non-vacuum region based on the provided tolerance.
-    This function also plots the cube potentials of vacuum and non vacuum cubes.
+    This function analyzes the potential variations within the specified
+    cubes of the given size and determines whether each cube belongs to
+    the vacuum or non-vacuum region based on the provided tolerance.
+    This function also plots the cube potentials of vacuum and
+    non vacuum cubes.
 
     Parameters:
-        cube_size (list of int): The size of the cubes in units of mesh points (NGX/Y/Z) for analysis.
+        cube_size (list of int): The size of the cubes in units of mesh
+        points (NGX/Y/Z) for analysis.
 
-        cube_origin (list of float): The starting point (origin) of the cubes in fractional coordinates (range [0, 1]).
+        cube_origin (list of float): The starting point (origin) of the
+        cubes in fractional coordinates (range [0, 1]).
 
-        tolerance (float, optional): The cutoff variance value to distinguish vacuum from non-vacuum cubes. Default is 1E-4.
+        tolerance (float, optional): The cutoff variance value to
+        distinguish vacuum from non-vacuum cubes. Default is 1E-4.
 
-        input_file (str, optional): The file with VASP output for potential. Default is 'LOCPOT'.
+        input_file (str, optional): The file with VASP output for potential.
+        Default is 'LOCPOT'.
 
-        print_output (bool, optional): Whether to print the analysis results. Default is True.
+        print_output (bool, optional): Whether to print the analysis results.
+        Default is True.
 
     Returns:
-        tuple: A tuple containing the number of cubes identified as vacuum and non-vacuum regions.
+        tuple: A tuple containing the number of cubes identified as
+        vacuum and non-vacuum regions.
 
     Note:
-        The function calculates the potential variation within each cube and compares it to the tolerance value.
-        Cubes with potential variations below the tolerance are considered vacuum regions, while others are non-vacuum regions.
+        The function calculates the potential variation within each
+        cube and compares it to the tolerance value. Cubes with potential
+        variations below the tolerance are considered vacuum regions,
+        while others are non-vacuum regions.
 
     Example:
         >>> cube_size = [2, 2, 2]
         >>> cube_origin = [0.0, 0.0, 0.0]
         >>> plot_active_space(cube_size, cube_origin, tolerance=1E-5)
-
     """
 
     def _plot_cube_potentials(
@@ -325,25 +338,33 @@ def plot_on_site_potential(
     output_file: str = "OnSitePotential.csv",
     img_file: str = "OnSitePotential.png",
 ) -> tuple:
-    """
-    Plot on-site electrostatic potential for a specific species.
+    """Plot on-site electrostatic potential for a specific species.
 
-    This function reads the electronic potential from the specified VASP output file (LOCPOT) and the atomic coordinates
-    from the POSCAR file. It then calculates the on-site electrostatic potential for the specified species and generates
-    a histogram to visualize its distribution across the sample cube.
+    This function reads the electronic potential from the specified VASP
+    output file (LOCPOT) and the atomic coordinates from the POSCAR file.
+    It then calculates the on-site electrostatic potential for the
+    specified species and generates a histogram to visualize
+    its distribution across the sample cube.
 
     Parameters:
-        species (str): The chemical symbol of the species whose on-site potential is of interest.
+        species (str): The chemical symbol of the species whose on-site
+        potential is of interest.
 
-        sample_cube (list of int): The size of the sampling cube in units of mesh points (NGX/Y/Z).
+        sample_cube (list of int): The size of the sampling cube
+        in units of mesh points (NGX/Y/Z).
 
-        potential_file (str, optional): The filename of the VASP output file containing the electronic potential (LOCPOT). Default is 'LOCPOT'.
+        potential_file (str, optional): The filename of the VASP output file
+        containing the electronic potential (LOCPOT). Default is 'LOCPOT'.
 
-        coordinate_file (str, optional): The filename of the POSCAR file containing atomic coordinates. Default is 'POSCAR'.
+        coordinate_file (str, optional): The filename of the POSCAR file
+        containing atomic coordinates. Default is 'POSCAR'.
 
-        output_file (str, optional): Name of the output data file to store the on-site potential values. Default is 'OnSitePotential.csv'.
+        output_file (str, optional): Name of the output data file
+        to store the on-site potential values.
+        Default is 'OnSitePotential.csv'.
 
-        img_file (str, optional): Name of the output image file for the histogram plot. Default is 'OnSitePotential.png'.
+        img_file (str, optional): Name of the output image file
+        for the histogram plot. Default is 'OnSitePotential.png'.
 
     Returns:
         tuple: A tuple containing the on-site potential values and the figure object.
@@ -371,7 +392,7 @@ def plot_on_site_potential(
         resolution_y = vector_b / NGY
         resolution_z = vector_c / NGZ
         grid_pot, electrons = density_2_grid(
-            vasp_pot, NGX, NGY, NGZ, Format="VASP"
+            vasp_pot, NGX, NGY, NGZ, config="VASP"
         )
     elif "cube" in potential_file:
         grid_pot, atoms = cube.read_cube_data(potential_file)
@@ -390,7 +411,7 @@ def plot_on_site_potential(
         resolution_x = vector_a / NGX
         resolution_y = vector_b / NGY
         resolution_z = vector_c / NGZ
-        grid_pot = density_2_grid(gulp_pot, NGX, NGY, NGZ, Format="GULP")
+        grid_pot = density_2_grid(gulp_pot, NGX, NGY, NGZ, config="GULP")
     else:
         raise ValueError(f"File {potential_file} not recognised!")
 
@@ -449,8 +470,8 @@ def plot_planar_average(
     img_file: str = "planar_average.png",
     new_resolution: int = 3000,
 ) -> tuple:
-    """
-    Calculate planar and macroscopic averages of potential data from different filetypes like gulp, cube, and vasp.
+    """Calculate planar and macroscopic averages of potential data from different
+    fileconfigs like gulp, cube, and vasp.
 
     Args:
         lattice_vector (float): The lattice vector value.
@@ -462,7 +483,8 @@ def plot_planar_average(
         new_resolution (int): New resolution for interpolation.
 
     Returns:
-        tuple: A tuple containing a dataframe with the planar average and macroscopic average and a figure object.
+        tuple: A tuple containing a dataframe with the planar average
+        and macroscopic average and a figure object.
     """
 
     def _plot(planar, macro, img_file):
@@ -534,11 +556,11 @@ def plot_planar_average(
         resolution_x = vector_a / NGX
         resolution_y = vector_b / NGY
         resolution_z = vector_c / NGZ
-        # TODO: Update Format parameter in density_2_grid to be consistent with
+        # TODO: Update config parameter in density_2_grid to be consistent with
         # code naming in other functions (e.g. if here we use GULP to refer to GULP,
         # should do the same in other functions)
-        # Also use lower case for Format variable following python conventions (eg Format -> format)
-        grid_pot = density_2_grid(pot, NGX, NGY, NGZ, Format="GULP")
+        # Also use lower case for config variable following python conventions (eg config -> config)
+        grid_pot = density_2_grid(pot, NGX, NGY, NGZ, config="GULP")
 
         ## POTENTIAL PLANAR AVERAGE
         planar = planar_average(grid_pot, NGX, NGY, NGZ, axis=axis)
@@ -569,7 +591,7 @@ def plot_planar_average(
         resolution_x = vector_a / NGX
         resolution_y = vector_b / NGY
         resolution_z = vector_c / NGZ
-        grid_pot, electrons = density_2_grid(pot, NGX, NGY, NGZ, Format="VASP")
+        grid_pot, electrons = density_2_grid(pot, NGX, NGY, NGZ, config="VASP")
 
         ## PLANAR AVERAGE
         planar = planar_average(grid_pot, NGX, NGY, NGZ, axis=axis)
@@ -602,11 +624,15 @@ def plot_field_at_point(
     input_file: str = "LOCPOT",
     grad_calc: bool = False,
 ) -> plt.figure:
-    """
-    Plot the electric field magnitude and direction on a user-defined plane.
+    """Plot the electric field magnitude and direction on a user-defined plane.
 
-    This function plots the electric field magnitude and direction on a user-defined plane defined by three points: a_point, b_point, and c_point. The function reads the electronic potential data from the specified input file (e.g., LOCPOT) and calculates the electric field (gradient of the potential).
-    The electric field is then visualized by plotting contours of the electric field magnitude and arrows indicating the direction of the electric field on the defined plane.
+    This function plots the electric field magnitude and direction on a user-defined plane
+    defined by three points: a_point, b_point, and c_point.
+    The function reads the electronic potential data from the specified
+    input file (e.g., LOCPOT) and calculates the electric field (gradient of the potential).
+    The electric field is then visualized by plotting contours of the
+    electric field magnitude and arrows indicating the direction of the
+    electric field on the defined plane.
 
     Parameters:
         a_point (list): The fractional coordinates of the first point defining the plane.
@@ -615,9 +641,11 @@ def plot_field_at_point(
 
         c_point (list): The fractional coordinates of the third point defining the plane.
 
-        input_file (str, optional): The filename of the file containing the electronic potential (e.g., LOCPOT). Default is 'LOCPOT'.
+        input_file (str, optional): The filename of the file containing the
+        electronic potential (e.g., LOCPOT). Default is 'LOCPOT'.
 
-        grad_calc (bool): if True , calculates the gradient of the field. Default is False due to computational expense
+        grad_calc (bool): if True , calculates the gradient of the field.
+        Default is False due to computational expense
 
     Returns:
         Figure: A matplotlib figure object containing the electric field contours and arrows.
@@ -638,7 +666,7 @@ def plot_field_at_point(
     resolution_y = vector_b / NGY
     resolution_z = vector_c / NGZ
     grid_pot, electrons = density_2_grid(
-        vasp_pot, NGX, NGY, NGZ, Format="VASP"
+        vasp_pot, NGX, NGY, NGZ, config="VASP"
     )
     ## Get the gradiens (Field), if required.
     ## Comment out if not required, due to compuational expense.
@@ -669,7 +697,7 @@ def plot_field_at_point(
     # grad_mag=np.linalg.norm( [grad_y,grad_y,grad_z], axis=3)
 
     ## This function in Macrodensity averages Efield ACROSS Z for Slab calculations
-    # xx,yy,grd =  pot.create_plotting_mesh(NGX,NGY,NGZ,plane_coeff,grad_mag) #AVG over full volume
+    xx,yy,grd =  md.create_plotting_mesh(NGX,NGY,NGZ,plane_coeff,grad_mag) #AVG over full volume
 
     # Here we construct the same xx,yy,grd variables with a SLICE, forming a plane in XY at particular ZSLICE
     xx, yy = np.mgrid[0:NGX, 0:NGY]
@@ -719,8 +747,7 @@ def plot_field_at_point(
 def plot_plane_field(
     a_point: list, b_point: list, c_point: list, input_file: str = "LOCPOT"
 ) -> plt.figure:
-    """
-    Plot the electric field on a user-defined plane and display it as a contour plot.
+    """Plot the electric field on a user-defined plane and display it as a contour plot.
 
     Parameters:
         a_point (list): Fractional coordinates of the first point that defines the plane.
@@ -729,7 +756,8 @@ def plot_plane_field(
 
         c_point (list): Fractional coordinates of the third point that defines the plane.
 
-        input_file (str, optional): The filename of the VASP LOCPOT file containing the electrostatic potential. Default is 'LOCPOT'.
+        input_file (str, optional): The filename of the VASP LOCPOT file containing the
+        electrostatic potential. Default is 'LOCPOT'.
 
     Returns:
         Figure: A matplotlib figure object containing the electric field contours.
@@ -750,7 +778,7 @@ def plot_plane_field(
     resolution_y = vector_b / NGY
     resolution_z = vector_c / NGZ
     grid_pot, electrons = density_2_grid(
-        vasp_pot, NGX, NGY, NGZ, Format="VASP"
+        vasp_pot, NGX, NGY, NGZ, config="VASP"
     )
     ## Get the gradiens (Field), if required.
     ## Comment out if not required, due to compuational expense.
@@ -789,28 +817,38 @@ def plot_active_plane(
     input_file: str = "LOCPOT",
     grad_calc: bool = False,
 ) -> plt.figure:
-    """
-    Plot the active plane with contour and planar average of the electric field and potential.
+    """Plot the active plane with contour and planar average of the electric field and
+    potential.
 
     Parameters:
         cube_size (list): The size of the cube used for sampling the active plane.
 
         cube_origin (list): The origin point of the cube in fractional coordinates.
 
-        tolerance (float, optional): The cutoff variance for identifying active and non-active cubes. Default is 1E-4.
+        tolerance (float, optional): The cutoff variance for identifying active and
+        non-active cubes. Default is 1E-4.
 
-        input_file (str, optional): The filename of the VASP LOCPOT file containing the electrostatic potential. Default is 'LOCPOT'.
+        input_file (str, optional): The filename of the VASP LOCPOT file containing
+        the electrostatic potential. Default is 'LOCPOT'.
 
-        grad_calc (bool): if True , calculates the gradient of the field. Default is False due to computational expense
+        grad_calc (bool): if True , calculates the gradient of the field.
+        Default is False due to computational expense
 
     Returns:
         Figure: A matplotlib figure object containing the electric field contours and planar average.
 
     Note:
-        - The function reads the electrostatic potential from the specified VASP LOCPOT file.
-        - The active plane is determined by sampling the potential in a cube around the cube_origin point.
-        - The cutoff_varience parameter sets the threshold for distinguishing active and non-active cubes based on their variance in potential.
+        - The function reads the electrostatic potential from the specified VASP LOCPOT
+            file.
+
+        - The active plane is determined by sampling the potential in a cube around the
+            cube_origin point.
+
+        - The cutoff_varience parameter sets the threshold for distinguishing active and
+            non-active cubes based on their variance in potential.
+
         - The function creates a contour plot of the electric field on the active plane.
+
         - It also plots the planar average of the electric field and potential throughout the material.
     """
     # ------------------------------------------------------------------
@@ -822,7 +860,7 @@ def plot_active_plane(
     resolution_y = vector_b / NGY
     resolution_z = vector_c / NGZ
     grid_pot, electrons = density_2_grid(
-        vasp_pot, NGX, NGY, NGZ, Format="VASP"
+        vasp_pot, NGX, NGY, NGZ, config="VASP"
     )
 
     potential_variance = np.var(grid_pot)
@@ -898,8 +936,7 @@ def plot_variation_along_vector(
     img_file: str = "potential_variation.png",
     output_file: str = "potential_variation.csv",
 ):
-    """
-    Plot the potential and field variation along a specified vector.
+    """Plot the potential and field variation along a specified vector.
 
     This function calculates the volume average of the electronic potential as
     function of the position along the specified vector. The volume average is

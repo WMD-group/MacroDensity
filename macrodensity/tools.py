@@ -1,22 +1,17 @@
 #! /usr/bin/env python
 """ 
-macrodensity.tools contains functions to read and manipulate the electronic density data from a material.
+macrodensity.tools contains functions to read and manipulate the electronic 
+density data from a material.
 """
 
 from __future__ import division
 
-import matplotlib.pyplot as plt
 import numpy as np
-import pandas as pd
 from scipy.interpolate import interp1d
 
-from macrodensity.density import (
-    density_2_grid,
-    travelling_volume_average,
-    volume_average,
-)
+from macrodensity.averages import volume_average
 from macrodensity.io import get_band_extrema, read_vasp_density
-from macrodensity.utils import matrix_2_abc, vector_2_abscissa
+from macrodensity.utils import matrix_2_abc, density_2_grid
 
 
 def bulk_interstitial_alignment(
@@ -33,18 +28,28 @@ def bulk_interstitial_alignment(
     by considering the effect of interstitial sites on the electronic structure of the bulk material.
 
     Parameters:
-        interstices (:obj:`list` of tuples): A list of tuples representing the coordinates of the interstitial sites for which the aligned band energies will be calculated.
+        interstices (:obj:`list` of tuples): A list of tuples representing the
+        coordinates of the interstitial sites for which the aligned band energies
+        will be calculated.
 
-        outcar (:obj:`str`, optional): The filename of the OUTCAR file containing electronic band structure information. Default is "OUTCAR".
+        outcar (:obj:`str`, optional): The filename of the OUTCAR file containing
+        electronic band structure information. Default is "OUTCAR".
 
-        locpot (:obj:`str`, optional): The filename of the LOCPOT file containing the electronic density information. Default is "LOCPOT".
+        locpot (:obj:`str`, optional): The filename of the LOCPOT file containing the
+        electronic density information. Default is "LOCPOT".
 
-        cube_size (:obj:`list` of int, optional): The size of the cube (in grid points) around each interstitial site used to calculate the local potential. Default is [2, 2, 2].
+        cube_size (:obj:`list` of int, optional): The size of the cube (in grid points)
+        around each interstitial site used to calculate the local potential.
+        Default is [2, 2, 2].
 
-        print_output (:obj:`bool`, optional): Whether to print the intermediate and final results. Default is True.
+        print_output (:obj:`bool`, optional): Whether to print the intermediate and final results.
+        Default is True.
 
     Returns:
-        :obj:`tuple`: A tuple containing the aligned VB energy, aligned CB energy, and a list of interstitial variances. The variances represent the deviation of the potential from the reference state at each interstitial site.
+        :obj:`tuple`: A tuple containing the aligned VB energy, aligned CB energy,
+        and a list of interstitial variances.
+        The variances represent the deviation of the potential from the
+        reference state at each interstitial site.
 
     Output:
         Aligned Valence Band, Aligned Conduction Band, Interstitial variances
@@ -54,7 +59,7 @@ def bulk_interstitial_alignment(
     vasp_pot, NGX, NGY, NGZ, lattice = read_vasp_density(locpot, quiet=True)
     vector_a, vector_b, vector_c, av, bv, cv = matrix_2_abc(lattice)
     grid_pot, electrons = density_2_grid(
-        vasp_pot, NGX, NGY, NGZ, Format="VASP"
+        vasp_pot, NGX, NGY, NGZ, config="VASP"
     )
 
     ## GETTING BAND EDGES
@@ -110,27 +115,34 @@ def _find_active_space(
     """
     Plot the active space (vacuum and non-vacuum regions) based on potential variations.
 
-    This function analyzes the potential variations within the specified cubes of the given size
-    and determines whether each cube belongs to the vacuum or non-vacuum region based on the provided tolerance.
+    This function analyzes the potential variations within the specified cubes of the
+    given size and determines whether each cube belongs to the vacuum or non-vacuum
+    region based on the provided tolerance.
     This function also plots the cube potentials of vacuum and non vacuum cubes.
 
     Parameters:
-        cube_size (list of int): The size of the cubes in units of mesh points (NGX/Y/Z) for analysis.
+        cube_size (list of int): The size of the cubes in units of mesh points (NGX/Y/Z)
+        for analysis.
 
-        cube_origin (list of float): The starting point (origin) of the cubes in fractional coordinates (range [0, 1]).
+        cube_origin (list of float): The starting point (origin) of the cubes in
+        fractional coordinates (range [0, 1]).
 
-        tolerance (float, optional): The cutoff variance value to distinguish vacuum from non-vacuum cubes. Default is 1E-4.
+        tolerance (float, optional): The cutoff variance value to
+        distinguish vacuum from non-vacuum cubes. Default is 1E-4.
 
-        input_file (str, optional): The file with VASP output for potential. Default is 'LOCPOT'.
+        input_file (str, optional): The file with VASP output for potential.
+        Default is 'LOCPOT'.
 
-        print_output (bool, optional): Whether to print the analysis results. Default is True.
+        print_output (bool, optional): Whether to print the analysis results.
+        Default is True.
 
     Returns:
         dict: A dictionary containing the potentials for the vacuum and non-vacuum regions.
 
     Note:
-        The function calculates the potential variation within each cube and compares it to the tolerance value.
-        Cubes with potential variations below the tolerance are considered vacuum regions, while others are non-vacuum regions.
+        The function calculates the potential variation within each cube and
+        compares it to the tolerance value. Cubes with potential variations below the
+        tolerance are considered vacuum regions, while others are non-vacuum regions.
 
     Example:
         >>> cube_size = [2, 2, 2]
@@ -142,7 +154,7 @@ def _find_active_space(
     vasp_pot, NGX, NGY, NGZ, lattice = read_vasp_density(input_file)
     vector_a, vector_b, vector_c, av, bv, cv = matrix_2_abc(lattice)
     grid_pot, electrons = density_2_grid(
-        vasp_pot, NGX, NGY, NGZ, Format="VASP"
+        vasp_pot, NGX, NGY, NGZ, config="VASP"
     )
     cutoff_variance = tolerance
 
@@ -522,14 +534,17 @@ def subs_potentials(A: np.ndarray, B: np.ndarray, tol: float) -> np.ndarray:
     Subtract potentials between two datasets based on a tolerance value.
 
     Parameters:
-        A (:obj:`numpy.ndarray`): The first dataset containing potential values in the format (x, potential).
+        A (:obj:`numpy.ndarray`): The first dataset containing potential
+        values in the format (x, potential).
 
-        B (:obj:`numpy.ndarray`): The second dataset containing potential values in the format (x, potential).
+        B (:obj:`numpy.ndarray`): The second dataset containing potential
+        values in the format (x, potential).
 
         tol (:obj:`float`): The tolerance value for potential subtraction.
 
     Returns:
-        C (:obj:`numpy.ndarray`): The resulting dataset containing the subtracted potentials in the format (x, potential).
+        C (:obj:`numpy.ndarray`): The resulting dataset containing the subtracted
+        potentials in the format (x, potential).
 
     Example:
         >>> A = np.array([[0, 1], [1, 2], [2, 3], [3, 4]])
@@ -557,18 +572,24 @@ def translate_grid(
     boundary_shift: float = 0.0,
 ) -> np.ndarray:
     """
-    Translates the grid points of a given potential by a specified translation along the vector direction.
+    Translates the grid points of a given potential by a specified translation
+    along the vector direction.
 
     Parameters:
-        potential (numpy.ndarray): Array containing potential data with shape (N, 2), where N is the number of grid points.
+        potential (numpy.ndarray): Array containing potential data with shape (N, 2),
+        where N is the number of grid points.
 
-        translation (float): The amount of translation to apply to the grid points along the specified vector direction.
+        translation (float): The amount of translation to apply to the grid points
+        along the specified vector direction.
 
-        periodic (bool, optional): Whether to apply periodic boundary conditions. Default is False.
+        periodic (bool, optional): Whether to apply periodic boundary conditions.
+        Default is False.
 
-        vector (list, optional): The direction vector for translation. Default is [0, 0, 0].
+        vector (list, optional): The direction vector for translation.
+        Default is [0, 0, 0].
 
-        boundary_shift (float, optional): The amount of shift to consider when applying periodic boundary conditions. Default is 0.0.
+        boundary_shift (float, optional): The amount of shift to consider when
+        applying periodic boundary conditions. Default is 0.0.
 
     Returns:
         numpy.ndarray: An array containing the translated potential data with shape (N, 2).
@@ -620,7 +641,8 @@ def create_plotting_mesh(
         grad (numpy.ndarray): Array containing gradient data with shape (NGX, NGY, NGZ).
 
     Returns:
-        numpy.ndarray: A 2D array representing the plotting mesh with shape (a, b), where 'a' and 'b' depend on the plane direction.
+        numpy.ndarray: A 2D array representing the plotting mesh with shape (a, b),
+        where 'a' and 'b' depend on the plane direction.
 
     Example:
         >>> # Sample grid data and plane coefficients

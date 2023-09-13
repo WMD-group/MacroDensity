@@ -58,11 +58,12 @@ Literature
 ========================
 For more information on the theory behind the package, please see the following references:
 
-- General Approach: Butler, K. T., Hendon, C. H., & Walsh, A. `Electronic chemical potentials of porous Metal–Organic frameworks.`_ *Journal of the American Chemical Society*, 136(7), 2703–2706, **2014**
-- Theoretical Background: Politzer, P., & Murray, J. S. `The fundamental nature and role of the electrostatic potential in atoms and molecules.`_ *Theoretical Chemistry Accounts*, 108(3), 134–142, **2002**
-
-.. _Electronic chemical potentials of porous Metal–Organic frameworks.: https://doi.org/10.1021/ja4110073
-.. _The fundamental nature and role of the electrostatic potential in atoms and molecules.: https://doi.org/10.1007/s00214-002-0360-0
+- General Approach: Butler, K. T., Hendon, C. H., & Walsh, A. `Electronic chemical potentials of porous Metal–Organic frameworks. <https://doi.org/10.1021/ja4110073>`_ *Journal of the American Chemical Society*, 136(7), 2703–2706, **2014**
+- Theoretical Background: 
+   * Politzer, P., & Murray, J. S. `The fundamental nature and role of the electrostatic potential in atoms and molecules. <https://link.springer.com/article/10.1007/s00214-002-0363-9>`_ *Theoretical Chemistry Accounts*, 108(3), 134–142, **2002**
+   * Peressi, M., Binggeli, N. & Baldereschi, A. `Band engineering at interfaces: theory and numerical experiments. <https://iopscience.iop.org/article/10.1088/0022-3727/31/11/002/meta>`_ *Journal of Physics D: Applied Physics*,31(11), 1273, **1998**
+- Application to MOFs:
+   * Butler, K. T., Hendon, C. H. & Aron Walsh, A. `Electronic Chemical Potentials of Porous Metal–Organic Frameworks. <https://doi.org/10.1021/ja4110073>`_ *Journal of the American Chemical Society*, 136(7), 2703–2706, **2014**
 
 
 Contributing
