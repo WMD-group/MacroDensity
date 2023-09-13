@@ -1,5 +1,4 @@
-Welcome to MacroDensity
-=======================
+# Welcome to MacroDensity
 
 ``MacroDensity`` is a Python package to post-process electrostatic potential and
 electron density files from electronic structure calculations and plot in a number of ways, including:
@@ -8,8 +7,8 @@ electron density files from electronic structure calculations and plot in a numb
 2. Spherical average
 3. Atom centred average
 
-Statement of Need
------------------
+# Statement of Need
+
 To assess the potential utility of novel semiconducting devices (like p-n junctions, heterostructures, surface terminations),
 it is key to understand how the electrostatic potential and electron density change across the system.
 However, extraction and useful presentation of this data from the raw output of the simulation can prove cumbersome and often requires the use of visualisation software followed by manual data extraction.
@@ -20,14 +19,7 @@ The package contains functions that enable the user to format the data from the 
 and ``GULP`` ``*.out`` file into physically meaningful quantities, which can then be plotted for user interpretation.
 
 
-Installation
-================
-
-User installation:
-------------------
-``MacroDensity`` can be installed using ``pip``:
-
-.. code:: bash
+# Installation
 
 ## User installation
 
@@ -38,6 +30,7 @@ pip install macrodensity
 ```
 
 ## Developer installation
+
 For development of MacroDensity, you can install a copy of the package from the source directory:
 
 ```
@@ -47,8 +40,8 @@ pip install -e .
 ```
 
 
-Literature
-========================
+# Literature
+
 For more information on the theory behind the package, please see the following references:
 
 - General Approach: Butler, K. T., Hendon, C. H., & Walsh, A. [Electronic chemical potentials of porous Metal–Organic frameworks](https://doi.org/10.1021/ja4110073). *Journal of the American Chemical Society*, 136(7), 2703–2706, 2014
