@@ -3,12 +3,12 @@ name: MacroDensity CI
 on:
   pull_request:
     branches:
+      - master
       - development(calysta)
-      - main
   push:
     branches:
+      - master
       - development(calysta)
-      - main
 
 jobs:
 
