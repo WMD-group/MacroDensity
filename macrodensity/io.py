@@ -63,12 +63,12 @@ def read_gulp_potential(gulpfile: str = "gulp.out") -> tuple:
     return np.asarray(potential), NGX, NGY, NGZ, lattice
 
 
-def read_cube_density(FILE: str) -> np.ndarray:
+def read_cube_density(file: str) -> np.ndarray:
     """
     Reads a cube density file and extracts relevant information.
 
     Parameters:
-        FILE (str): The path to the cube density file.
+        file (str): The path to the cube density file.
 
     Returns:
         numpy.ndarray: A 3x3 numpy array representing the lattice.
@@ -79,10 +79,9 @@ def read_cube_density(FILE: str) -> np.ndarray:
         >>> lattice = read_cube_density(file_path)
         >>> print(lattice)
     """
-    f = open(FILE, "r")
-    lines = f.readlines()
-    f.close()
     lattice = np.zeros(shape=(3, 3))
+    with open(file, "r") as f:
+        lines = f.readlines()
     for line in lines:
         inp = line.split()
         if inp == []:

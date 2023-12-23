@@ -743,7 +743,10 @@ def plot_field_at_point(
 
 
 def plot_plane_field(
-    a_point: list, b_point: list, c_point: list, input_file: str = "LOCPOT"
+    a_point: list,
+    b_point: list,
+    c_point: list,
+    input_file: str = "LOCPOT"
 ) -> plt.figure:
     """Plot the electric field on a user-defined plane and display it as a contour plot.
 

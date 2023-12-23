@@ -35,8 +35,8 @@ extensions = [
     'sphinx.ext.intersphinx',
     'sphinx.ext.mathjax',  # to show equations in html output
     'sphinx.ext.githubpages',
-    'sphinx.ext.doctest', 
-    'sphinx_autodoc_annotation', 
+    'sphinx.ext.doctest',
+    'sphinx_autodoc_annotation',
     'myst_nb',  # for jupyter notebooks
 ]
 
@@ -50,7 +50,7 @@ source_suffix = {
 }
 
 myst_enable_extensions = [
-    "html_admonition", 
+    "html_admonition",
     "amsmath",
     "dollarmath", # to recognize latex $$ syntax
 ]
