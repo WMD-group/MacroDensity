@@ -15,6 +15,6 @@ Submodules
    macrodensity.tools
    macrodensity.averages
    macrodensity.density
-   macrodensity.plotting 
+   macrodensity.plotting
    macrodensity.io
    macrodensity.utils

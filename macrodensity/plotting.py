@@ -470,10 +470,14 @@ def plot_planar_average(
     fileconfigs like gulp, cube, and vasp.
 
     Args:
-        lattice_vector (float): The lattice vector value.
+        lattice_vector (float): Size (in A) of the repeating unit which is
+            used to calculate the macroscopic average. Typically, this would
+            be the lattice vector of the bulk material in the direction for which
+            the planar average is being calculated.
         input_file (str): Path to the input potential file.
         axis (str, Optional): Axis along which to calculate the
-            average ('x', 'y', or 'z'). Default is "z".
+            planar and macroscopic averages ('x', 'y', or 'z').
+            Default is "z".
         output_file (str): Path to save the output CSV file.
         img_file (str): Path to save the output image file.
         new_resolution (int): New resolution for interpolation.
@@ -538,7 +542,9 @@ def plot_planar_average(
             "z": resolution_z,
         }
         macro = macroscopic_average(
-            planar, lattice_vector, axis_to_resolution[axis]
+            planar,
+            lattice_vector,
+            axis_to_resolution[axis]
         )
 
         ## PLOTTING
@@ -743,7 +749,10 @@ def plot_field_at_point(
 
 
 def plot_plane_field(
-    a_point: list, b_point: list, c_point: list, input_file: str = "LOCPOT"
+    a_point: list,
+    b_point: list,
+    c_point: list,
+    input_file: str = "LOCPOT"
 ) -> plt.figure:
     """Plot the electric field on a user-defined plane and display it as a contour plot.
 

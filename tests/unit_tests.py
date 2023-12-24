@@ -133,6 +133,7 @@ class TestDensityReadingFunctionsNoPandas(TestDensityReadingFunctions):
 
 
 class TestOtherReadingFunctions(unittest.TestCase):
+
     def test_read_vasp_classic(self):
         """Test the function for reading CHGCAR/LOCPOT"""
         chgcar = pkg_resources.resource_filename(
@@ -300,6 +301,7 @@ class TestGeometryFunctions(unittest.TestCase):
 
 
 class TestConvenienceFunctions(unittest.TestCase):
+
     def test_bulk_interstitial_alignment(self):
         """Tests the bulk_interstitial_alignment function"""
         Locpot = pkg_resources.resource_filename(

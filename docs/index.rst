@@ -6,26 +6,25 @@
 Welcome to MacroDensity
 =======================
 
-``MacroDensity`` is a Python package to post-process electrostatic potential and 
-electron density files from electronic structure calculations and plot in a number of ways, including:
-
-1. Planar average
-2. Spherical average
-3. Atom centred average
+``MacroDensity`` is a Python package to post-process electrostatic potential and
+electron density files from electronic structure calculations and plot them a number of ways, including
+planar, sperical and atom centred averages.
 
 Statement of Need
 -----------------
-To assess the potential utility of novel semiconducting devices (like p-n junctions, heterostructures, surface terminations), 
-it is key to understand how the electrostatic potential and electron density change across the system. 
-However, extraction and useful presentation of this data from the raw output of the simulation can prove cumbersome and often requires the use of visualisation software followed by manual data extraction. 
-This can result in bottlenecks in high throughput screening projects, where the same data extraction procedure is repeatedly applied to large databases of candidate structures.
+To assess the potential utility of novel semiconducting devices (like p-n junctions, heterostructures,
+surface terminations), it is key to understand how the electrostatic potential and electron density
+change across the system. However, extraction and post-proccessing of this data from the raw output
+of the simulation can prove cumbersome and often requires the use of visualisation software followed
+by manual data extraction. This can result in bottlenecks in high throughput screening projects,
+where the same data extraction procedure is repeatedly applied to large databases of candidate structures.
 
-To address this, the Macrodensity package has been developed to post-process the output of ab-initio codes like ``VASP``, ``FHI-AIMS`` and ``GULP``. 
-The package contains functions that enable the user to format the data from the ``VASP`` ``LOCPOT`` and ``CHGCAR`` files, the ``FHI-AIMS`` ``*.cube`` file, 
+To address this, the Macrodensity package has been developed to post-process the output of ab-initio codes like ``VASP``, ``FHI-AIMS`` and ``GULP``.
+The package contains functions to format the data from the ``VASP`` ``LOCPOT`` and ``CHGCAR`` files, the ``FHI-AIMS`` ``*.cube`` file,
 and ``GULP`` ``*.out`` file into physically meaningful quantities, which can then be plotted for user interpretation.
 
 
-Installation 
+Installation
 ================
 
 User installation:
@@ -59,7 +58,7 @@ Literature
 For more information on the theory behind the package, please see the following references:
 
 - General Approach: Butler, K. T., Hendon, C. H., & Walsh, A. `Electronic chemical potentials of porous Metal–Organic frameworks. <https://doi.org/10.1021/ja4110073>`_ *Journal of the American Chemical Society*, 136(7), 2703–2706, **2014**
-- Theoretical Background: 
+- Theoretical Background:
    * Politzer, P., & Murray, J. S. `The fundamental nature and role of the electrostatic potential in atoms and molecules. <https://link.springer.com/article/10.1007/s00214-002-0363-9>`_ *Theoretical Chemistry Accounts*, 108(3), 134–142, **2002**
    * Peressi, M., Binggeli, N. & Baldereschi, A. `Band engineering at interfaces: theory and numerical experiments. <https://iopscience.iop.org/article/10.1088/0022-3727/31/11/002/meta>`_ *Journal of Physics D: Applied Physics*,31(11), 1273, **1998**
 - Application to MOFs:

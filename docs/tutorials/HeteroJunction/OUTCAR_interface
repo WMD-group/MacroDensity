@@ -1,5 +1,5 @@
- vasp.5.4.1 24Jun15 (build Nov 25 2015 16:01:35) complex                        
-  
+ vasp.5.4.1 24Jun15 (build Nov 25 2015 16:01:35) complex
+
  executed on         CrayXC-Intel date 2017.08.21  13:34:07
  running on   96 total cores
  distrk:  each k-point on   24 cores,    4 groups
@@ -10,11 +10,11 @@
 
 
  INCAR:
- POTCAR:    PAW_PBE Zn 06Sep2000                  
- POTCAR:    PAW_PBE O 08Apr2002                   
- POTCAR:    PAW_PBE S 06Sep2000                   
+ POTCAR:    PAW_PBE Zn 06Sep2000
+ POTCAR:    PAW_PBE O 08Apr2002
+ POTCAR:    PAW_PBE S 06Sep2000
 
- ----------------------------------------------------------------------------- 
+ -----------------------------------------------------------------------------
 |                                                                             |
 |           W    W    AA    RRRRR   N    N  II  N    N   GGGG   !!!           |
 |           W    W   A  A   R    R  NN   N  II  NN   N  G    G  !!!           |
@@ -31,51 +31,51 @@
 |      Carefully verify results versus KPAR=1.                                |
 |      Report problems to Paul Kent and Vienna.                               |
 |                                                                             |
- ----------------------------------------------------------------------------- 
+ -----------------------------------------------------------------------------
 
- POTCAR:    PAW_PBE Zn 06Sep2000                  
-   VRHFIN =Zn: d10 p2                                                           
-   LEXCH  = PE                                                                  
-   EATOM  =  1748.8345 eV,  128.5357 Ry                                         
-                                                                                
-   TITEL  = PAW_PBE Zn 06Sep2000                                                
-   LULTRA =        F    use ultrasoft PP ?                                      
-   IUNSCR =        1    unscreen: 0-lin 1-nonlin 2-no                           
-   RPACOR =    2.000    partial core radius                                     
-   POMASS =   65.390; ZVAL   =   12.000    mass and valenz                      
-   RCORE  =    2.300    outmost cutoff radius                                   
-   RWIGS  =    2.400; RWIGS  =    1.270    wigner-seitz radius (au A)           
-   ENMAX  =  276.723; ENMIN  =  207.542 eV                                      
-   RCLOC  =    1.828    cutoff for local pot                                    
-   LCOR   =        T    correct aug charges                                     
-   LPAW   =        T    paw PP                                                  
-   EAUG   =  575.892                                                            
-   DEXC   =    0.000                                                            
-   RMAX   =    2.347    core radius for proj-oper                               
-   RAUG   =    1.300    factor for augmentation sphere                          
-   RDEP   =    2.324    radius for radial grids                                 
-   RDEPT  =    1.788    core radius for aug-charge                              
-                                                                                
-   Atomic configuration                                                         
-    9 entries                                                                   
-     n  l   j            E        occ.                                          
-     1  0  0.50     -9524.6913   2.0000                                         
-     2  0  0.50     -1158.1882   2.0000                                         
-     2  1  1.50     -1003.8506   6.0000                                         
-     3  0  0.50      -129.2194   2.0000                                         
-     3  1  1.50       -83.3890   6.0000                                         
-     3  2  2.50       -10.1410  10.0000                                         
-     4  0  0.50        -5.9785   2.0000                                         
-     4  1  0.50        -4.0817   0.0000                                         
-     4  3  2.50        -1.3606   0.0000                                         
-   Description                                                                  
-     l       E           TYP  RCUT    TYP  RCUT                                 
-     2    -10.1410010     23  2.300                                             
-     2    -11.5015836     23  2.300                                             
-     0     -5.9785163     23  2.300                                             
-     0      1.1858015     23  2.300                                             
-     1     -2.7211652     23  2.300                                             
-     1     13.2444212     23  2.300                                             
+ POTCAR:    PAW_PBE Zn 06Sep2000
+   VRHFIN =Zn: d10 p2
+   LEXCH  = PE
+   EATOM  =  1748.8345 eV,  128.5357 Ry
+
+   TITEL  = PAW_PBE Zn 06Sep2000
+   LULTRA =        F    use ultrasoft PP ?
+   IUNSCR =        1    unscreen: 0-lin 1-nonlin 2-no
+   RPACOR =    2.000    partial core radius
+   POMASS =   65.390; ZVAL   =   12.000    mass and valenz
+   RCORE  =    2.300    outmost cutoff radius
+   RWIGS  =    2.400; RWIGS  =    1.270    wigner-seitz radius (au A)
+   ENMAX  =  276.723; ENMIN  =  207.542 eV
+   RCLOC  =    1.828    cutoff for local pot
+   LCOR   =        T    correct aug charges
+   LPAW   =        T    paw PP
+   EAUG   =  575.892
+   DEXC   =    0.000
+   RMAX   =    2.347    core radius for proj-oper
+   RAUG   =    1.300    factor for augmentation sphere
+   RDEP   =    2.324    radius for radial grids
+   RDEPT  =    1.788    core radius for aug-charge
+
+   Atomic configuration
+    9 entries
+     n  l   j            E        occ.
+     1  0  0.50     -9524.6913   2.0000
+     2  0  0.50     -1158.1882   2.0000
+     2  1  1.50     -1003.8506   6.0000
+     3  0  0.50      -129.2194   2.0000
+     3  1  1.50       -83.3890   6.0000
+     3  2  2.50       -10.1410  10.0000
+     4  0  0.50        -5.9785   2.0000
+     4  1  0.50        -4.0817   0.0000
+     4  3  2.50        -1.3606   0.0000
+   Description
+     l       E           TYP  RCUT    TYP  RCUT
+     2    -10.1410010     23  2.300
+     2    -11.5015836     23  2.300
+     0     -5.9785163     23  2.300
+     0      1.1858015     23  2.300
+     1     -2.7211652     23  2.300
+     1     13.2444212     23  2.300
   local pseudopotential read in
   partial core-charges read in
   partial kinetic energy density read in
@@ -93,47 +93,47 @@
   non local Contribution for L=           1  read in
     real space projection operators read in
     PAW grid and wavefunctions read in
- 
+
    number of l-projection  operators is LMAX  =           6
    number of lm-projection operators is LMMAX =          18
- 
- POTCAR:    PAW_PBE O 08Apr2002                   
-   VRHFIN =O: s2p4                                                              
-   LEXCH  = PE                                                                  
-   EATOM  =   432.3788 eV,   31.7789 Ry                                         
-                                                                                
-   TITEL  = PAW_PBE O 08Apr2002                                                 
-   LULTRA =        F    use ultrasoft PP ?                                      
-   IUNSCR =        1    unscreen: 0-lin 1-nonlin 2-no                           
-   RPACOR =    1.200    partial core radius                                     
-   POMASS =   16.000; ZVAL   =    6.000    mass and valenz                      
-   RCORE  =    1.520    outmost cutoff radius                                   
-   RWIGS  =    1.550; RWIGS  =    0.820    wigner-seitz radius (au A)           
-   ENMAX  =  400.000; ENMIN  =  300.000 eV                                      
-   ICORE  =        2    local potential                                         
-   LCOR   =        T    correct aug charges                                     
-   LPAW   =        T    paw PP                                                  
-   EAUG   =  605.392                                                            
-   DEXC   =    0.000                                                            
-   RMAX   =    1.553    core radius for proj-oper                               
-   RAUG   =    1.300    factor for augmentation sphere                          
-   RDEP   =    1.550    radius for radial grids                                 
-   RDEPT  =    1.329    core radius for aug-charge                              
-                                                                                
-   Atomic configuration                                                         
-    4 entries                                                                   
-     n  l   j            E        occ.                                          
-     1  0  0.50      -514.6923   2.0000                                         
-     2  0  0.50       -23.9615   2.0000                                         
-     2  1  0.50        -9.0305   4.0000                                         
-     3  2  1.50        -9.5241   0.0000                                         
-   Description                                                                  
-     l       E           TYP  RCUT    TYP  RCUT                                 
-     0    -23.9615318     23  1.200                                             
-     0     -9.5240782     23  1.200                                             
-     1     -9.0304911     23  1.520                                             
-     1      8.1634956     23  1.520                                             
-     2     -9.5240782      7  1.500                                             
+
+ POTCAR:    PAW_PBE O 08Apr2002
+   VRHFIN =O: s2p4
+   LEXCH  = PE
+   EATOM  =   432.3788 eV,   31.7789 Ry
+
+   TITEL  = PAW_PBE O 08Apr2002
+   LULTRA =        F    use ultrasoft PP ?
+   IUNSCR =        1    unscreen: 0-lin 1-nonlin 2-no
+   RPACOR =    1.200    partial core radius
+   POMASS =   16.000; ZVAL   =    6.000    mass and valenz
+   RCORE  =    1.520    outmost cutoff radius
+   RWIGS  =    1.550; RWIGS  =    0.820    wigner-seitz radius (au A)
+   ENMAX  =  400.000; ENMIN  =  300.000 eV
+   ICORE  =        2    local potential
+   LCOR   =        T    correct aug charges
+   LPAW   =        T    paw PP
+   EAUG   =  605.392
+   DEXC   =    0.000
+   RMAX   =    1.553    core radius for proj-oper
+   RAUG   =    1.300    factor for augmentation sphere
+   RDEP   =    1.550    radius for radial grids
+   RDEPT  =    1.329    core radius for aug-charge
+
+   Atomic configuration
+    4 entries
+     n  l   j            E        occ.
+     1  0  0.50      -514.6923   2.0000
+     2  0  0.50       -23.9615   2.0000
+     2  1  0.50        -9.0305   4.0000
+     3  2  1.50        -9.5241   0.0000
+   Description
+     l       E           TYP  RCUT    TYP  RCUT
+     0    -23.9615318     23  1.200
+     0     -9.5240782     23  1.200
+     1     -9.0304911     23  1.520
+     1      8.1634956     23  1.520
+     2     -9.5240782      7  1.500
   local pseudopotential read in
   partial core-charges read in
   partial kinetic energy density read in
@@ -148,49 +148,49 @@
   non local Contribution for L=           1  read in
     real space projection operators read in
     PAW grid and wavefunctions read in
- 
+
    number of l-projection  operators is LMAX  =           4
    number of lm-projection operators is LMMAX =           8
- 
- POTCAR:    PAW_PBE S 06Sep2000                   
-   VRHFIN =S : s2p4                                                             
-   LEXCH  = PE                                                                  
-   EATOM  =   276.8230 eV,   20.3459 Ry                                         
-                                                                                
-   TITEL  = PAW_PBE S 06Sep2000                                                 
-   LULTRA =        F    use ultrasoft PP ?                                      
-   IUNSCR =        1    unscreen: 0-lin 1-nonlin 2-no                           
-   RPACOR =    1.500    partial core radius                                     
-   POMASS =   32.066; ZVAL   =    6.000    mass and valenz                      
-   RCORE  =    1.900    outmost cutoff radius                                   
-   RWIGS  =    2.200; RWIGS  =    1.164    wigner-seitz radius (au A)           
-   ENMAX  =  258.689; ENMIN  =  194.016 eV                                      
-   ICORE  =        2    local potential                                         
-   LCOR   =        T    correct aug charges                                     
-   LPAW   =        T    paw PP                                                  
-   EAUG   =  335.092                                                            
-   DEXC   =    0.000                                                            
-   RMAX   =    1.942    core radius for proj-oper                               
-   RAUG   =    1.300    factor for augmentation sphere                          
-   RDEP   =    1.954    radius for radial grids                                 
-   RDEPT  =    1.744    core radius for aug-charge                              
-                                                                                
-   Atomic configuration                                                         
-    6 entries                                                                   
-     n  l   j            E        occ.                                          
-     1  0  0.50     -2405.8406   2.0000                                         
-     2  0  0.50      -211.7007   2.0000                                         
-     2  1  1.50      -156.4958   6.0000                                         
-     3  0  0.50       -17.2562   2.0000                                         
-     3  1  0.50        -7.0085   4.0000                                         
-     3  2  1.50        -6.8029   0.0000                                         
-   Description                                                                  
-     l       E           TYP  RCUT    TYP  RCUT                                 
-     0    -17.2561641     23  1.900                                             
-     0    -15.8743224     23  1.900                                             
-     1     -7.0085400     23  1.900                                             
-     1     -2.7779785     23  1.900                                             
-     2     -6.8029130     23  1.900                                             
+
+ POTCAR:    PAW_PBE S 06Sep2000
+   VRHFIN =S : s2p4
+   LEXCH  = PE
+   EATOM  =   276.8230 eV,   20.3459 Ry
+
+   TITEL  = PAW_PBE S 06Sep2000
+   LULTRA =        F    use ultrasoft PP ?
+   IUNSCR =        1    unscreen: 0-lin 1-nonlin 2-no
+   RPACOR =    1.500    partial core radius
+   POMASS =   32.066; ZVAL   =    6.000    mass and valenz
+   RCORE  =    1.900    outmost cutoff radius
+   RWIGS  =    2.200; RWIGS  =    1.164    wigner-seitz radius (au A)
+   ENMAX  =  258.689; ENMIN  =  194.016 eV
+   ICORE  =        2    local potential
+   LCOR   =        T    correct aug charges
+   LPAW   =        T    paw PP
+   EAUG   =  335.092
+   DEXC   =    0.000
+   RMAX   =    1.942    core radius for proj-oper
+   RAUG   =    1.300    factor for augmentation sphere
+   RDEP   =    1.954    radius for radial grids
+   RDEPT  =    1.744    core radius for aug-charge
+
+   Atomic configuration
+    6 entries
+     n  l   j            E        occ.
+     1  0  0.50     -2405.8406   2.0000
+     2  0  0.50      -211.7007   2.0000
+     2  1  1.50      -156.4958   6.0000
+     3  0  0.50       -17.2562   2.0000
+     3  1  0.50        -7.0085   4.0000
+     3  2  1.50        -6.8029   0.0000
+   Description
+     l       E           TYP  RCUT    TYP  RCUT
+     0    -17.2561641     23  1.900
+     0    -15.8743224     23  1.900
+     1     -7.0085400     23  1.900
+     1     -2.7779785     23  1.900
+     2     -6.8029130     23  1.900
   local pseudopotential read in
   partial core-charges read in
   partial kinetic energy density read in
@@ -204,17 +204,17 @@
   non local Contribution for L=           1  read in
     real space projection operators read in
     PAW grid and wavefunctions read in
- 
+
    number of l-projection  operators is LMAX  =           4
    number of lm-projection operators is LMMAX =           8
- 
+
  Optimization of the real space projectors (new method)
 
  maximal supplied QI-value         = 16.25
- optimisation between [QCUT,QGAM] = [ 11.38, 22.75] = [ 36.24,144.96] Ry 
+ optimisation between [QCUT,QGAM] = [ 11.38, 22.75] = [ 36.24,144.96] Ry
  Optimized for a Real-space Cutoff    1.39 Angstroem
 
-   l    n(q)    QCUT    max X(q) W(low)/X(q) W(high)/X(q)  e(spline) 
+   l    n(q)    QCUT    max X(q) W(low)/X(q) W(high)/X(q)  e(spline)
    2      8    11.376    46.356    0.27E-03    0.53E-04    0.10E-06
    2      8    11.376    41.843    0.28E-03    0.56E-04    0.10E-06
    0      9    11.376    48.958    0.76E-04    0.12E-03    0.19E-06
@@ -224,10 +224,10 @@
  Optimization of the real space projectors (new method)
 
  maximal supplied QI-value         = 24.76
- optimisation between [QCUT,QGAM] = [ 11.39, 22.77] = [ 36.31,145.25] Ry 
+ optimisation between [QCUT,QGAM] = [ 11.39, 22.77] = [ 36.31,145.25] Ry
  Optimized for a Real-space Cutoff    1.00 Angstroem
 
-   l    n(q)    QCUT    max X(q) W(low)/X(q) W(high)/X(q)  e(spline) 
+   l    n(q)    QCUT    max X(q) W(low)/X(q) W(high)/X(q)  e(spline)
    0      7    11.387    20.381    0.39E-03    0.13E-02    0.15E-06
    0      7    11.387    15.268    0.42E-03    0.14E-02    0.17E-06
    1      6    11.387     5.964    0.41E-03    0.11E-02    0.17E-06
@@ -235,16 +235,16 @@
  Optimization of the real space projectors (new method)
 
  maximal supplied QI-value         = 19.84
- optimisation between [QCUT,QGAM] = [ 11.31, 22.82] = [ 35.82,145.81] Ry 
+ optimisation between [QCUT,QGAM] = [ 11.31, 22.82] = [ 35.82,145.81] Ry
  Optimized for a Real-space Cutoff    1.16 Angstroem
 
-   l    n(q)    QCUT    max X(q) W(low)/X(q) W(high)/X(q)  e(spline) 
+   l    n(q)    QCUT    max X(q) W(low)/X(q) W(high)/X(q)  e(spline)
    0      8    11.310   187.594    0.35E-03    0.37E-03    0.44E-07
    0      8    11.310   164.243    0.34E-03    0.37E-03    0.44E-07
    1      7    11.310    67.533    0.33E-03    0.37E-03    0.88E-07
    1      7    11.310    50.729    0.32E-03    0.36E-03    0.86E-07
 
- ----------------------------------------------------------------------------- 
+ -----------------------------------------------------------------------------
 |                                                                             |
 |  ADVICE TO THIS USER RUNNING 'VASP/VAMP'   (HEAR YOUR MASTER'S VOICE ...):  |
 |                                                                             |
@@ -252,7 +252,7 @@
 |      a different type was found on the POTCAR file                          |
 |          I HOPE YOU KNOW, WHAT YOU ARE  DOING                               |
 |                                                                             |
- ----------------------------------------------------------------------------- 
+ -----------------------------------------------------------------------------
 
   PAW_PBE Zn 06Sep2000                  :
  energy of atom  1       EATOM=-1748.8345
@@ -263,15 +263,15 @@
   PAW_PBE S 06Sep2000                   :
  energy of atom  3       EATOM= -276.8230
  kinetic energy error for atom=    0.0020 (will be added to EATOM!!)
- 
- 
- POSCAR:  Zn O                                   
+
+
+ POSCAR:  Zn O
   positions in direct lattice
   No initial velocities read in
  exchange correlation table for  LEXCH =       14
    RHO(1)=    0.500       N(1)  =     2000
    RHO(2)=  100.500       N(2)  =     4000
- 
+
 
 
 --------------------------------------------------------------------------------------------------------
@@ -342,14 +342,14 @@
   62  0.750  0.000  0.906-   8 2.15   8 2.15  10 2.15   7 2.15
   63  0.750  0.000  0.656-  29 2.15  29 2.15  31 2.15  28 2.15
   64  0.750  0.000  0.969-  11 2.15  11 2.15  32 2.15  10 2.15
- 
+
   LATTYP: Found a simple orthorhombic cell.
  ALAT       =     3.5065124364
  B/A-ratio  =     1.4158315706
  C/A-ratio  =    16.0000000001
-  
+
   Lattice vectors:
-  
+
  A1 = (   0.0000000000,  -3.5065124364,   0.0000000000)
  A2 = (  -4.9646310102,   0.0000000000,   0.0000000000)
  A3 = (   0.0000000000,   0.0000000000, -56.1041989827)
@@ -359,9 +359,9 @@ Analysis of symmetry for initial positions (statically):
 =====================================================================
  Subroutine PRICEL returns:
  Original cell was already a primitive cell.
- 
 
- Routine SETGRP: Setting up the symmetry group for a 
+
+ Routine SETGRP: Setting up the symmetry group for a
  simple orthorhombic supercell.
 
 
@@ -378,9 +378,9 @@ Analysis of symmetry for dynamics (positions and initial velocities):
 =====================================================================
  Subroutine PRICEL returns:
  Original cell was already a primitive cell.
- 
 
- Routine SETGRP: Setting up the symmetry group for a 
+
+ Routine SETGRP: Setting up the symmetry group for a
  simple orthorhombic supercell.
 
 
@@ -397,9 +397,9 @@ The dynamic configuration has the point symmetry C_1h.
  (whereof  2 operations are pure point group operations),
  and found     1 'primitive' translations
 
- 
- 
- KPOINTS: Automatically generated k-point mesh    
+
+
+ KPOINTS: Automatically generated k-point mesh
 
 Automatic generation of k-mesh.
 Space group operators:
@@ -408,12 +408,12 @@ Space group operators:
     2    -1.000000   180.000000     0.000000     1.000000     0.000000     0.000000     0.000000     0.000000
     3    -1.000000   180.000000     0.000000     0.000000     1.000000    -0.500000    -0.500000    -0.531250
     4     1.000000   180.000000     1.000000     0.000000     0.000000    -0.500000    -0.500000    -0.531250
- 
+
  Subroutine IBZKPT returns following result:
  ===========================================
- 
+
  Found     16 irreducible k-points:
- 
+
  Following reciprocal coordinates:
             Coordinates               Weight
   0.000000  0.000000  0.000000      1.000000
@@ -432,7 +432,7 @@ Space group operators:
   0.166667  0.500000  0.000000      2.000000
   0.333333  0.500000  0.000000      2.000000
   0.500000  0.500000  0.000000      1.000000
- 
+
  Following cartesian coordinates:
             Coordinates               Weight
   0.000000  0.000000  0.000000      1.000000
@@ -451,7 +451,7 @@ Space group operators:
   0.033571  0.142592  0.000000      2.000000
   0.067142  0.142592  0.000000      2.000000
   0.100712  0.142592  0.000000      1.000000
- 
+
 
 
 --------------------------------------------------------------------------------------------------------
@@ -475,8 +475,8 @@ Space group operators:
 
  I would recommend the setting:
    dimension x,y,z NGX =    27 NGY =   19 NGZ =  307
- SYSTEM =  Name                                    
- POSCAR =   Zn O                                   
+ SYSTEM =  Name
+ POSCAR =   Zn O
 
  Startparameter for this run:
    NWRITE =      2    write-flag & timer
@@ -494,7 +494,7 @@ Space group operators:
    ENCUT  =  500.0 eV  36.75 Ry    6.06 a.u.   9.05  6.39102.29*2*pi/ulx,y,z
    ENINI  =  500.0     initial cutoff
    ENAUG  =  605.4 eV  augmentation charge cutoff
-   NELM   =     60;   NELMIN=  2; NELMDL= -5     # of ELM steps 
+   NELM   =     60;   NELMIN=  2; NELMDL= -5     # of ELM steps
    EDIFF  = 0.1E-05   stopping-criterion for ELM
    LREAL  =      T    real-space projection
    NLSPLINE    = F    spline interpolate recip. space projectors
@@ -507,7 +507,7 @@ Space group operators:
  Ionic relaxation
    EDIFFG = 0.1E-02   stopping-criterion for IOM
    NSW    =      0    number of steps for IOM
-   NBLOCK =      1;   KBLOCK =      1    inner block; outer block 
+   NBLOCK =      1;   KBLOCK =      1    inner block; outer block
    IBRION =     -1    ionic relax: 0-MD 1-quasi-New 2-CG
    NFREE  =      0    steps in history (QN), initial steepest desc. (CG)
    ISIF   =      3    stress and relaxation
@@ -530,7 +530,7 @@ Space group operators:
    ZVAL   =  12.00  6.00  6.00
   Atomic Wigner-Seitz radii
    RWIGS  =  -1.00 -1.00 -1.00
-  virtual crystal weights 
+  virtual crystal weights
    VCA    =   1.00  1.00  1.00
    NELECT =     576.0000    total number of electrons
    NUPDOWN=      -1.0000    fix difference up-down
@@ -558,14 +558,14 @@ Space group operators:
  Intra band minimization:
    WEIMIN = 0.0000     energy-eigenvalue tresh-hold
    EBREAK =  0.72E-09  absolut break condition
-   DEPER  =   0.30     relativ break condition  
+   DEPER  =   0.30     relativ break condition
 
    TIME   =   0.40     timestep for ELM
 
   volume/ion in A,a.u.               =      15.26       102.99
   Fermi-wavevector in a.u.,A,eV,Ry     =   1.372871  2.594350 25.643920  1.884775
   Thomas-Fermi vector in A             =   2.498439
- 
+
  Write flags
    LWAVE  =      F    write WAVECAR
    LCHARG =      T    write CHGCAR
@@ -578,7 +578,7 @@ Space group operators:
  Dipole corrections
    LMONO  =      F    monopole corrections only (constant potential shift)
    LDIPOL =      F    correct potential (dipole corrections)
-   IDIPOL =      0    1-x, 2-y, 3-z, 4-all directions 
+   IDIPOL =      0    1-x, 2-y, 3-z, 4-all directions
    EPSILON=  1.0000000 bulk dielectric constant
 
  Core level calculations are selected ICORELEVEL =  1
@@ -625,9 +625,9 @@ Space group operators:
  using additional bands           60
  real space projection scheme for non local part
  use partial core corrections
- calculate Harris-corrections to forces 
+ calculate Harris-corrections to forces
    (improved forces if not selfconsistent)
- use gradient corrections 
+ use gradient corrections
  use of overlap-Matrix (Vanderbilt PP)
  Gauss-broadening in eV      SIGMA  =   0.10
 
@@ -646,8 +646,8 @@ Space group operators:
      4.964631010  3.506512436 56.104198983     0.201424839  0.285183646  0.017823978
 
 
- 
- k-points in units of 2pi/SCALE and weight: Automatically generated k-point mesh    
+
+ k-points in units of 2pi/SCALE and weight: Automatically generated k-point mesh
    0.00000000  0.00000000  0.00000000       0.028
    0.03357081  0.00000000  0.00000000       0.056
    0.06714161  0.00000000  0.00000000       0.056
@@ -664,8 +664,8 @@ Space group operators:
    0.03357081  0.14259182  0.00000000       0.056
    0.06714161  0.14259182  0.00000000       0.056
    0.10071242  0.14259182  0.00000000       0.028
- 
- k-points in reciprocal lattice and weights: Automatically generated k-point mesh    
+
+ k-points in reciprocal lattice and weights: Automatically generated k-point mesh
    0.00000000  0.00000000  0.00000000       0.028
    0.16666667  0.00000000  0.00000000       0.056
    0.33333333  0.00000000  0.00000000       0.056
@@ -682,8 +682,8 @@ Space group operators:
    0.16666667  0.50000000  0.00000000       0.056
    0.33333333  0.50000000  0.00000000       0.056
    0.50000000  0.50000000  0.00000000       0.028
- 
- position of ions in fractional coordinates (direct lattice) 
+
+ position of ions in fractional coordinates (direct lattice)
    0.00000000  0.00000000  0.75000000
    0.50000000  0.50000000  0.78125000
    0.50000000  0.50000000  0.09375000
@@ -748,7 +748,7 @@ Space group operators:
    0.75000000  0.00000000  0.90625000
    0.75000000  0.00000000  0.65625000
    0.75000000  0.00000000  0.96875000
- 
+
  position of ions in cartesian coordinates  (Angst):
    0.00000000  0.00000000 42.07814924
    2.48231551  1.75325622 43.83140546
@@ -814,7 +814,7 @@ Space group operators:
    3.72347326  0.00000000 50.84443033
    3.72347326  0.00000000 36.81838058
    3.72347326  0.00000000 54.35094276
- 
+
 
 
 --------------------------------------------------------------------------------------------------------
@@ -840,7 +840,7 @@ Space group operators:
  maximum and minimum number of plane-waves per node :      4190     4075
 
  maximum number of plane-waves:     24954
- maximum index in each direction: 
+ maximum index in each direction:
    IXMAX=    9   IYMAX=    6   IZMAX=  102
    IXMIN=   -9   IYMIN=   -6   IZMIN= -102
 
@@ -870,7 +870,7 @@ Space group operators:
    grid      :       5043. kBytes
    one-center:        171. kBytes
    wavefun   :      96304. kBytes
- 
+
      INWAV:  cpu time    0.0000: real time    0.0000
  Broyden mixing: mesh for mixing (old mesh)
    NGX = 19   NGY = 13   NGZ =205
@@ -879,7 +879,7 @@ Space group operators:
 
  initial charge density was supplied:
  charge density of overlapping atoms calculated
- number of electron     576.0000000 magnetization 
+ number of electron     576.0000000 magnetization
  keeping initial charge density in first step
 
 
@@ -913,8 +913,8 @@ Space group operators:
 
  eigenvalue-minimisations  : 11144
  total energy-change (2. order) : 0.6923379E+04  (-0.2395607E+05)
- number of electron     576.0000000 magnetization 
- augmentation part      576.0000000 magnetization 
+ number of electron     576.0000000 magnetization
+ augmentation part      576.0000000 magnetization
 
  Free energy of the ion-electron system (eV)
   ---------------------------------------------------
@@ -949,8 +949,8 @@ Space group operators:
 
  eigenvalue-minimisations  : 11136
  total energy-change (2. order) :-0.5582162E+04  (-0.5349898E+04)
- number of electron     576.0000000 magnetization 
- augmentation part      576.0000000 magnetization 
+ number of electron     576.0000000 magnetization
+ augmentation part      576.0000000 magnetization
 
  Free energy of the ion-electron system (eV)
   ---------------------------------------------------
@@ -985,8 +985,8 @@ Space group operators:
 
  eigenvalue-minimisations  : 11496
  total energy-change (2. order) :-0.1440199E+04  (-0.1352281E+04)
- number of electron     576.0000000 magnetization 
- augmentation part      576.0000000 magnetization 
+ number of electron     576.0000000 magnetization
+ augmentation part      576.0000000 magnetization
 
  Free energy of the ion-electron system (eV)
   ---------------------------------------------------
@@ -1021,8 +1021,8 @@ Space group operators:
 
  eigenvalue-minimisations  : 12672
  total energy-change (2. order) :-0.1854288E+03  (-0.1816451E+03)
- number of electron     576.0000000 magnetization 
- augmentation part      576.0000000 magnetization 
+ number of electron     576.0000000 magnetization
+ augmentation part      576.0000000 magnetization
 
  Free energy of the ion-electron system (eV)
   ---------------------------------------------------
@@ -1059,8 +1059,8 @@ Space group operators:
 
  eigenvalue-minimisations  : 12568
  total energy-change (2. order) :-0.6268410E+01  (-0.6221101E+01)
- number of electron     576.0050257 magnetization 
- augmentation part      253.6259841 magnetization 
+ number of electron     576.0050257 magnetization
+ augmentation part      253.6259841 magnetization
 
  Broyden mixing:
   rms(total) = 0.55025E+01    rms(broyden)= 0.55020E+01
@@ -1104,8 +1104,8 @@ Space group operators:
 
  eigenvalue-minimisations  : 17280
  total energy-change (2. order) : 0.3464137E+02  (-0.1030377E+02)
- number of electron     576.0049226 magnetization 
- augmentation part      254.1228374 magnetization 
+ number of electron     576.0049226 magnetization
+ augmentation part      254.1228374 magnetization
 
  Broyden mixing:
   rms(total) = 0.36232E+01    rms(broyden)= 0.36230E+01
@@ -1153,8 +1153,8 @@ Space group operators:
 
  eigenvalue-minimisations  : 12152
  total energy-change (2. order) :-0.2921167E+01  (-0.5592352E+01)
- number of electron     576.0048759 magnetization 
- augmentation part      253.2035063 magnetization 
+ number of electron     576.0048759 magnetization
+ augmentation part      253.2035063 magnetization
 
  Broyden mixing:
   rms(total) = 0.21590E+01    rms(broyden)= 0.21589E+01
@@ -1202,8 +1202,8 @@ Space group operators:
 
  eigenvalue-minimisations  : 15096
  total energy-change (2. order) :-0.6498668E+00  (-0.1846725E+01)
- number of electron     576.0049381 magnetization 
- augmentation part      254.1433296 magnetization 
+ number of electron     576.0049381 magnetization
+ augmentation part      254.1433296 magnetization
 
  Broyden mixing:
   rms(total) = 0.87489E+00    rms(broyden)= 0.87461E+00
@@ -1251,8 +1251,8 @@ Space group operators:
 
  eigenvalue-minimisations  : 15096
  total energy-change (2. order) : 0.1543136E+01  (-0.6111035E+00)
- number of electron     576.0049044 magnetization 
- augmentation part      253.6318321 magnetization 
+ number of electron     576.0049044 magnetization
+ augmentation part      253.6318321 magnetization
 
  Broyden mixing:
   rms(total) = 0.18296E+00    rms(broyden)= 0.18274E+00
@@ -1300,8 +1300,8 @@ Space group operators:
 
  eigenvalue-minimisations  : 13280
  total energy-change (2. order) :-0.1434655E+00  (-0.1825683E+00)
- number of electron     576.0048956 magnetization 
- augmentation part      253.4799850 magnetization 
+ number of electron     576.0048956 magnetization
+ augmentation part      253.4799850 magnetization
 
  Broyden mixing:
   rms(total) = 0.13267E+00    rms(broyden)= 0.13254E+00
@@ -1349,8 +1349,8 @@ Space group operators:
 
  eigenvalue-minimisations  : 15192
  total energy-change (2. order) : 0.3238212E-01  (-0.1258887E-01)
- number of electron     576.0048999 magnetization 
- augmentation part      253.5512594 magnetization 
+ number of electron     576.0048999 magnetization
+ augmentation part      253.5512594 magnetization
 
  Broyden mixing:
   rms(total) = 0.44383E-01    rms(broyden)= 0.44374E-01
@@ -1398,8 +1398,8 @@ Space group operators:
 
  eigenvalue-minimisations  : 13968
  total energy-change (2. order) :-0.9034111E-04  (-0.4504156E-02)
- number of electron     576.0049020 magnetization 
- augmentation part      253.5946053 magnetization 
+ number of electron     576.0049020 magnetization
+ augmentation part      253.5946053 magnetization
 
  Broyden mixing:
   rms(total) = 0.39928E-01    rms(broyden)= 0.39922E-01
@@ -1447,8 +1447,8 @@ Space group operators:
 
  eigenvalue-minimisations  : 17760
  total energy-change (2. order) : 0.2155922E-02  (-0.6314680E-03)
- number of electron     576.0049028 magnetization 
- augmentation part      253.6109509 magnetization 
+ number of electron     576.0049028 magnetization
+ augmentation part      253.6109509 magnetization
 
  Broyden mixing:
   rms(total) = 0.31276E-01    rms(broyden)= 0.31275E-01
@@ -1496,8 +1496,8 @@ Space group operators:
 
  eigenvalue-minimisations  : 16384
  total energy-change (2. order) : 0.3620832E-02  (-0.5458209E-03)
- number of electron     576.0049021 magnetization 
- augmentation part      253.5946579 magnetization 
+ number of electron     576.0049021 magnetization
+ augmentation part      253.5946579 magnetization
 
  Broyden mixing:
   rms(total) = 0.14959E-01    rms(broyden)= 0.14958E-01
@@ -1545,8 +1545,8 @@ Space group operators:
 
  eigenvalue-minimisations  : 17496
  total energy-change (2. order) : 0.1054776E-02  (-0.5376614E-03)
- number of electron     576.0049015 magnetization 
- augmentation part      253.5828284 magnetization 
+ number of electron     576.0049015 magnetization
+ augmentation part      253.5828284 magnetization
 
  Broyden mixing:
   rms(total) = 0.55268E-02    rms(broyden)= 0.55204E-02
@@ -1594,8 +1594,8 @@ Space group operators:
 
  eigenvalue-minimisations  : 13792
  total energy-change (2. order) :-0.1868234E-03  (-0.6210465E-03)
- number of electron     576.0049013 magnetization 
- augmentation part      253.5797441 magnetization 
+ number of electron     576.0049013 magnetization
+ augmentation part      253.5797441 magnetization
 
  Broyden mixing:
   rms(total) = 0.12314E-01    rms(broyden)= 0.12313E-01
@@ -1644,8 +1644,8 @@ Space group operators:
 
  eigenvalue-minimisations  : 12072
  total energy-change (2. order) :-0.2240318E-03  (-0.2671752E-03)
- number of electron     576.0049013 magnetization 
- augmentation part      253.5782180 magnetization 
+ number of electron     576.0049013 magnetization
+ augmentation part      253.5782180 magnetization
 
  Broyden mixing:
   rms(total) = 0.15945E-01    rms(broyden)= 0.15944E-01
@@ -1694,8 +1694,8 @@ Space group operators:
 
  eigenvalue-minimisations  : 14856
  total energy-change (2. order) : 0.1639483E-04  (-0.4187598E-05)
- number of electron     576.0049012 magnetization 
- augmentation part      253.5774112 magnetization 
+ number of electron     576.0049012 magnetization
+ augmentation part      253.5774112 magnetization
 
  Broyden mixing:
   rms(total) = 0.17221E-01    rms(broyden)= 0.17221E-01
@@ -1744,8 +1744,8 @@ Space group operators:
 
  eigenvalue-minimisations  : 12008
  total energy-change (2. order) :-0.2908811E-05  (-0.3256918E-05)
- number of electron     576.0049012 magnetization 
- augmentation part      253.5769004 magnetization 
+ number of electron     576.0049012 magnetization
+ augmentation part      253.5769004 magnetization
 
  Broyden mixing:
   rms(total) = 0.17904E-01    rms(broyden)= 0.17904E-01
@@ -1794,8 +1794,8 @@ Space group operators:
 
  eigenvalue-minimisations  : 10952
  total energy-change (2. order) : 0.2473727E-04  (-0.5737450E-06)
- number of electron     576.0049012 magnetization 
- augmentation part      253.5762323 magnetization 
+ number of electron     576.0049012 magnetization
+ augmentation part      253.5762323 magnetization
 
  Broyden mixing:
   rms(total) = 0.18821E-01    rms(broyden)= 0.18821E-01
@@ -1844,8 +1844,8 @@ Space group operators:
 
  eigenvalue-minimisations  : 17312
  total energy-change (2. order) :-0.8699929E-04  (-0.3993073E-04)
- number of electron     576.0049011 magnetization 
- augmentation part      253.5726067 magnetization 
+ number of electron     576.0049011 magnetization
+ augmentation part      253.5726067 magnetization
 
  Broyden mixing:
   rms(total) = 0.29370E-01    rms(broyden)= 0.29370E-01
@@ -1894,8 +1894,8 @@ Space group operators:
 
  eigenvalue-minimisations  : 18544
  total energy-change (2. order) :-0.1850575E-03  (-0.4656152E-04)
- number of electron     576.0049010 magnetization 
- augmentation part      253.5663160 magnetization 
+ number of electron     576.0049010 magnetization
+ augmentation part      253.5663160 magnetization
 
  Broyden mixing:
   rms(total) = 0.43577E-01    rms(broyden)= 0.43577E-01
@@ -1944,8 +1944,8 @@ Space group operators:
 
  eigenvalue-minimisations  : 15136
  total energy-change (2. order) :-0.4198246E-03  (-0.1377314E-03)
- number of electron     576.0049009 magnetization 
- augmentation part      253.5622263 magnetization 
+ number of electron     576.0049009 magnetization
+ augmentation part      253.5622263 magnetization
 
  Broyden mixing:
   rms(total) = 0.55767E-01    rms(broyden)= 0.55767E-01
@@ -1994,8 +1994,8 @@ Space group operators:
 
  eigenvalue-minimisations  : 12152
  total energy-change (2. order) :-0.1239489E-03  (-0.3198819E-04)
- number of electron     576.0049009 magnetization 
- augmentation part      253.5605801 magnetization 
+ number of electron     576.0049009 magnetization
+ augmentation part      253.5605801 magnetization
 
  Broyden mixing:
   rms(total) = 0.61323E-01    rms(broyden)= 0.61323E-01
@@ -2044,8 +2044,8 @@ Space group operators:
 
  eigenvalue-minimisations  : 15936
  total energy-change (2. order) :-0.1033462E-03  (-0.1735078E-05)
- number of electron     576.0049008 magnetization 
- augmentation part      253.5597703 magnetization 
+ number of electron     576.0049008 magnetization
+ augmentation part      253.5597703 magnetization
 
  Broyden mixing:
   rms(total) = 0.63949E-01    rms(broyden)= 0.63949E-01
@@ -2094,8 +2094,8 @@ Space group operators:
 
  eigenvalue-minimisations  : 15232
  total energy-change (2. order) : 0.8224657E-03  (-0.5376417E-04)
- number of electron     576.0049010 magnetization 
- augmentation part      253.5660733 magnetization 
+ number of electron     576.0049010 magnetization
+ augmentation part      253.5660733 magnetization
 
  Broyden mixing:
   rms(total) = 0.44400E-01    rms(broyden)= 0.44400E-01
@@ -2145,8 +2145,8 @@ Space group operators:
 
  eigenvalue-minimisations  : 16192
  total energy-change (2. order) : 0.3141314E-03  (-0.5612199E-04)
- number of electron     576.0049011 magnetization 
- augmentation part      253.5715815 magnetization 
+ number of electron     576.0049011 magnetization
+ augmentation part      253.5715815 magnetization
 
  Broyden mixing:
   rms(total) = 0.31249E-01    rms(broyden)= 0.31249E-01
@@ -2196,8 +2196,8 @@ Space group operators:
 
  eigenvalue-minimisations  : 14104
  total energy-change (2. order) :-0.1612853E-03  (-0.1479789E-04)
- number of electron     576.0049011 magnetization 
- augmentation part      253.5699150 magnetization 
+ number of electron     576.0049011 magnetization
+ augmentation part      253.5699150 magnetization
 
  Broyden mixing:
   rms(total) = 0.35023E-01    rms(broyden)= 0.35023E-01
@@ -2247,8 +2247,8 @@ Space group operators:
 
  eigenvalue-minimisations  : 15904
  total energy-change (2. order) : 0.3214709E-03  (-0.1862812E-04)
- number of electron     576.0049012 magnetization 
- augmentation part      253.5739051 magnetization 
+ number of electron     576.0049012 magnetization
+ augmentation part      253.5739051 magnetization
 
  Broyden mixing:
   rms(total) = 0.20517E-01    rms(broyden)= 0.20517E-01
@@ -2298,8 +2298,8 @@ Space group operators:
 
  eigenvalue-minimisations  : 15560
  total energy-change (2. order) : 0.2003892E-03  (-0.6421669E-04)
- number of electron     576.0049014 magnetization 
- augmentation part      253.5810911 magnetization 
+ number of electron     576.0049014 magnetization
+ augmentation part      253.5810911 magnetization
 
  Broyden mixing:
   rms(total) = 0.63046E-02    rms(broyden)= 0.63039E-02
@@ -2349,8 +2349,8 @@ Space group operators:
 
  eigenvalue-minimisations  : 15152
  total energy-change (2. order) :-0.3245263E-04  (-0.2055240E-04)
- number of electron     576.0049014 magnetization 
- augmentation part      253.5809583 magnetization 
+ number of electron     576.0049014 magnetization
+ augmentation part      253.5809583 magnetization
 
  Broyden mixing:
   rms(total) = 0.82609E-02    rms(broyden)= 0.82609E-02
@@ -2400,8 +2400,8 @@ Space group operators:
 
  eigenvalue-minimisations  : 17312
  total energy-change (2. order) :-0.5433554E-05  (-0.2453006E-05)
- number of electron     576.0049014 magnetization 
- augmentation part      253.5808991 magnetization 
+ number of electron     576.0049014 magnetization
+ augmentation part      253.5808991 magnetization
 
  Broyden mixing:
   rms(total) = 0.11441E-01    rms(broyden)= 0.11441E-01
@@ -2451,8 +2451,8 @@ Space group operators:
 
  eigenvalue-minimisations  : 14224
  total energy-change (2. order) : 0.7707422E-06  (-0.6950781E-05)
- number of electron     576.0049014 magnetization 
- augmentation part      253.5811443 magnetization 
+ number of electron     576.0049014 magnetization
+ augmentation part      253.5811443 magnetization
 
  Broyden mixing:
   rms(total) = 0.11673E-01    rms(broyden)= 0.11673E-01
@@ -2502,8 +2502,8 @@ Space group operators:
 
  eigenvalue-minimisations  : 12024
  total energy-change (2. order) : 0.3012537E-06  (-0.1943409E-05)
- number of electron     576.0049014 magnetization 
- augmentation part      253.5812873 magnetization 
+ number of electron     576.0049014 magnetization
+ augmentation part      253.5812873 magnetization
 
  Broyden mixing:
   rms(total) = 0.11837E-01    rms(broyden)= 0.11837E-01
@@ -2553,8 +2553,8 @@ Space group operators:
 
  eigenvalue-minimisations  : 10088
  total energy-change (2. order) : 0.1593544E-04  (-0.4397936E-06)
- number of electron     576.0049014 magnetization 
- augmentation part      253.5818590 magnetization 
+ number of electron     576.0049014 magnetization
+ augmentation part      253.5818590 magnetization
 
  Broyden mixing:
   rms(total) = 0.94638E-02    rms(broyden)= 0.94638E-02
@@ -2604,8 +2604,8 @@ Space group operators:
 
  eigenvalue-minimisations  : 15368
  total energy-change (2. order) : 0.1911908E-04  (-0.4627225E-05)
- number of electron     576.0049015 magnetization 
- augmentation part      253.5836014 magnetization 
+ number of electron     576.0049015 magnetization
+ augmentation part      253.5836014 magnetization
 
  Broyden mixing:
   rms(total) = 0.50222E-02    rms(broyden)= 0.50222E-02
@@ -2656,8 +2656,8 @@ Space group operators:
 
  eigenvalue-minimisations  : 13920
  total energy-change (2. order) : 0.1404871E-05  (-0.1510468E-05)
- number of electron     576.0049015 magnetization 
- augmentation part      253.5842958 magnetization 
+ number of electron     576.0049015 magnetization
+ augmentation part      253.5842958 magnetization
 
  Broyden mixing:
   rms(total) = 0.45938E-02    rms(broyden)= 0.45938E-02
@@ -2708,8 +2708,8 @@ Space group operators:
 
  eigenvalue-minimisations  : 12136
  total energy-change (2. order) : 0.2286135E-05  (-0.5972861E-06)
- number of electron     576.0049015 magnetization 
- augmentation part      253.5848629 magnetization 
+ number of electron     576.0049015 magnetization
+ augmentation part      253.5848629 magnetization
 
  Broyden mixing:
   rms(total) = 0.33335E-02    rms(broyden)= 0.33335E-02
@@ -2758,8 +2758,8 @@ Space group operators:
 
  eigenvalue-minimisations  :  8080
  total energy-change (2. order) :-0.3449386E-06  (-0.2694230E-06)
- number of electron     576.0049015 magnetization 
- augmentation part      253.5848629 magnetization 
+ number of electron     576.0049015 magnetization
+ augmentation part      253.5848629 magnetization
 
  Free energy of the ion-electron system (eV)
   ---------------------------------------------------
@@ -2786,69 +2786,69 @@ Space group operators:
 
  the core state eigenenergies are
    1-  1s  -9519.1945  2s  -1152.8890  2p   -998.5265  3s   -123.8283  3p    -77.9870
-     
+
    2-  1s  -9519.1935  2s  -1152.8879  2p   -998.5255  3s   -123.8273  3p    -77.9860
-     
+
    3-  1s  -9516.7918  2s  -1150.2041  2p   -995.8627  3s   -121.5553  3p    -75.7379
-     
+
    4-  1s  -9519.1898  2s  -1152.8843  2p   -998.5218  3s   -123.8241  3p    -77.9828
-     
+
    5-  1s  -9516.8185  2s  -1150.2311  2p   -995.8897  3s   -121.5828  3p    -75.7654
-     
+
    6-  1s  -9516.7726  2s  -1150.1848  2p   -995.8434  3s   -121.5358  3p    -75.7184
-     
+
    7-  1s  -9519.1745  2s  -1152.8691  2p   -998.5066  3s   -123.8097  3p    -77.9684
-     
+
    8-  1s  -9519.1649  2s  -1152.8592  2p   -998.4968  3s   -123.7996  3p    -77.9583
-     
+
    9-  1s  -9516.8829  2s  -1150.2961  2p   -995.9547  3s   -121.6459  3p    -75.8285
-     
+
   10-  1s  -9519.1297  2s  -1152.8229  2p   -998.4605  3s   -123.7638  3p    -77.9225
-     
+
   11-  1s  -9518.6356  2s  -1152.2551  2p   -997.8988  3s   -123.2751  3p    -77.4382
-     
+
   12-  1s  -9519.1856  2s  -1152.8801  2p   -998.5176  3s   -123.8201  3p    -77.9788
-     
+
   13-  1s  -9519.1945  2s  -1152.8890  2p   -998.5265  3s   -123.8283  3p    -77.9870
-     
+
   14-  1s  -9516.7609  2s  -1150.1731  2p   -995.8318  3s   -121.5241  3p    -75.7067
-     
+
   15-  1s  -9516.7609  2s  -1150.1731  2p   -995.8318  3s   -121.5241  3p    -75.7067
-     
+
   16-  1s  -9516.7918  2s  -1150.2041  2p   -995.8627  3s   -121.5553  3p    -75.7379
-     
+
   17-  1s  -9516.8185  2s  -1150.2311  2p   -995.8897  3s   -121.5828  3p    -75.7654
-     
+
   18-  1s  -9516.7536  2s  -1150.1658  2p   -995.8244  3s   -121.5166  3p    -75.6992
-     
+
   19-  1s  -9516.8829  2s  -1150.2961  2p   -995.9547  3s   -121.6459  3p    -75.8285
-     
+
   20-  1s  -9517.5752  2s  -1151.0548  2p   -996.7091  3s   -122.2747  3p    -76.4494
-     
+
   21-  1s  -9516.7504  2s  -1150.1626  2p   -995.8212  3s   -121.5132  3p    -75.6958
-     
+
   22-  1s  -9518.6356  2s  -1152.2551  2p   -997.8988  3s   -123.2751  3p    -77.4382
-     
+
   23-  1s  -9519.1297  2s  -1152.8229  2p   -998.4605  3s   -123.7638  3p    -77.9225
-     
+
   24-  1s  -9516.7504  2s  -1150.1626  2p   -995.8212  3s   -121.5132  3p    -75.6958
-     
+
   25-  1s  -9519.1649  2s  -1152.8592  2p   -998.4968  3s   -123.7996  3p    -77.9583
-     
+
   26-  1s  -9519.1745  2s  -1152.8691  2p   -998.5066  3s   -123.8097  3p    -77.9684
-     
+
   27-  1s  -9516.7536  2s  -1150.1658  2p   -995.8244  3s   -121.5166  3p    -75.6992
-     
+
   28-  1s  -9519.1856  2s  -1152.8801  2p   -998.5176  3s   -123.8201  3p    -77.9788
-     
+
   29-  1s  -9519.1898  2s  -1152.8843  2p   -998.5218  3s   -123.8241  3p    -77.9828
-     
+
   30-  1s  -9516.7726  2s  -1150.1848  2p   -995.8434  3s   -121.5358  3p    -75.7184
-     
+
   31-  1s  -9519.1935  2s  -1152.8879  2p   -998.5255  3s   -123.8273  3p    -77.9860
-     
+
   32-  1s  -9517.5752  2s  -1151.0548  2p   -996.7091  3s   -122.2747  3p    -76.4494
-     
+
   33-  1s   -503.2763
   34-  1s   -503.2018
   35-  1s   -503.2341
@@ -2881,12 +2881,12 @@ Space group operators:
   62-  1s  -2396.8103  2s   -203.1656  2p   -147.9109
   63-  1s  -2396.8406  2s   -203.1964  2p   -147.9417
   64-  1s  -2396.8051  2s   -203.1292  2p   -147.8775
- 
+
  E-fermi :   2.2714     XC(G=0): -10.5130     alpha+bet : -8.2887
 
 
  k-point     1 :       0.0000    0.0000    0.0000
-  band No.  band energies     occupation 
+  band No.  band energies     occupation
       1     -14.6039      2.00000
       2     -14.6034      2.00000
       3     -14.5248      2.00000
@@ -3237,7 +3237,7 @@ Space group operators:
     348       9.1535      0.00000
 
  k-point     2 :       0.1667    0.0000    0.0000
-  band No.  band energies     occupation 
+  band No.  band energies     occupation
       1     -14.5742      2.00000
       2     -14.5738      2.00000
       3     -14.4934      2.00000
@@ -3588,7 +3588,7 @@ Space group operators:
     348       8.9911      0.00000
 
  k-point     3 :       0.3333    0.0000    0.0000
-  band No.  band energies     occupation 
+  band No.  band energies     occupation
       1     -14.4982      2.00000
       2     -14.4981      2.00000
       3     -14.4084      2.00000
@@ -3939,7 +3939,7 @@ Space group operators:
     348       9.2694      0.00000
 
  k-point     4 :       0.5000    0.0000    0.0000
-  band No.  band energies     occupation 
+  band No.  band energies     occupation
       1     -14.4382      2.00000
       2     -14.4382      2.00000
       3     -14.3450      2.00000
@@ -4290,7 +4290,7 @@ Space group operators:
     348       9.2658      0.00000
 
  k-point     5 :       0.0000    0.1667    0.0000
-  band No.  band energies     occupation 
+  band No.  band energies     occupation
       1     -14.5412      2.00000
       2     -14.5408      2.00000
       3     -14.4608      2.00000
@@ -4641,7 +4641,7 @@ Space group operators:
     348       9.0857      0.00000
 
  k-point     6 :       0.1667    0.1667    0.0000
-  band No.  band energies     occupation 
+  band No.  band energies     occupation
       1     -14.5156      2.00000
       2     -14.5153      2.00000
       3     -14.4331      2.00000
@@ -4992,7 +4992,7 @@ Space group operators:
     348       9.2952      0.00000
 
  k-point     7 :       0.3333    0.1667    0.0000
-  band No.  band energies     occupation 
+  band No.  band energies     occupation
       1     -14.4513      2.00000
       2     -14.4512      2.00000
       3     -14.3596      2.00000
@@ -5343,7 +5343,7 @@ Space group operators:
     348       9.2776      0.00000
 
  k-point     8 :       0.5000    0.1667    0.0000
-  band No.  band energies     occupation 
+  band No.  band energies     occupation
       1     -14.4030      2.00000
       2     -14.4030      2.00000
       3     -14.3109      2.00000
@@ -5694,7 +5694,7 @@ Space group operators:
     348       9.3236      0.00000
 
  k-point     9 :       0.0000    0.3333    0.0000
-  band No.  band energies     occupation 
+  band No.  band energies     occupation
       1     -14.3969      2.00000
       2     -14.3968      2.00000
       3     -14.3084      2.00000
@@ -6045,7 +6045,7 @@ Space group operators:
     348       9.3796      0.00000
 
  k-point    10 :       0.1667    0.3333    0.0000
-  band No.  band energies     occupation 
+  band No.  band energies     occupation
       1     -14.3832      2.00000
       2     -14.3832      2.00000
       3     -14.2924      2.00000
@@ -6396,7 +6396,7 @@ Space group operators:
     348       9.5245      0.00000
 
  k-point    11 :       0.3333    0.3333    0.0000
-  band No.  band energies     occupation 
+  band No.  band energies     occupation
       1     -14.3513      2.00000
       2     -14.3513      2.00000
       3     -14.2559      2.00000
@@ -6747,7 +6747,7 @@ Space group operators:
     348       9.3291      0.00000
 
  k-point    12 :       0.5000    0.3333    0.0000
-  band No.  band energies     occupation 
+  band No.  band energies     occupation
       1     -14.3313      2.00000
       2     -14.3313      2.00000
       3     -14.2415      2.00000
@@ -7098,7 +7098,7 @@ Space group operators:
     348       9.3835      0.00000
 
  k-point    13 :       0.0000    0.5000    0.0000
-  band No.  band energies     occupation 
+  band No.  band energies     occupation
       1     -14.3008      2.00000
       2     -14.3008      2.00000
       3     -14.2114      2.00000
@@ -7449,7 +7449,7 @@ Space group operators:
     348       9.1168      0.00000
 
  k-point    14 :       0.1667    0.5000    0.0000
-  band No.  band energies     occupation 
+  band No.  band energies     occupation
       1     -14.2993      2.00000
       2     -14.2993      2.00000
       3     -14.2101      2.00000
@@ -7800,7 +7800,7 @@ Space group operators:
     348       9.3029      0.00000
 
  k-point    15 :       0.3333    0.5000    0.0000
-  band No.  band energies     occupation 
+  band No.  band energies     occupation
       1     -14.2963      2.00000
       2     -14.2963      2.00000
       3     -14.2074      2.00000
@@ -8151,7 +8151,7 @@ Space group operators:
     348       8.9990      0.00000
 
  k-point    16 :       0.5000    0.5000    0.0000
-  band No.  band energies     occupation 
+  band No.  band energies     occupation
       1     -14.2947      2.00000
       2     -14.2947      2.00000
       3     -14.2061      2.00000
@@ -8508,7 +8508,7 @@ Space group operators:
  soft charge-density along one line, spin component           1
          0         1         2         3         4         5         6         7         8         9
  total charge-density along one line
- 
+
  pseudopotential strength for first ion, spin component:           1
 -10.592  -0.000   0.000   0.000  -0.000 -10.912  -0.000   0.000
  -0.000 -10.584   0.000  -0.000  -0.000  -0.000 -10.904   0.000
@@ -8552,11 +8552,11 @@ Space group operators:
 ------------------------ aborting loop because EDIFF is reached ----------------------------------------
 
 
- 
 
 
- total charge     
- 
+
+ total charge
+
 # of ion     s       p       d       tot
 ----------------------------------------
   1        0.619   0.757   9.846  11.223
@@ -8625,7 +8625,7 @@ Space group operators:
  64        1.306   2.543   0.000   3.849
 ------------------------------------------------
 tot       62.325 111.067 314.911 488.302
- 
+
     CHARGE:  cpu time    0.3960: real time    0.3936
     FORLOC:  cpu time    0.0040: real time    0.0058
     FORNL :  cpu time    2.4122: real time    2.4133
@@ -8735,8 +8735,8 @@ tot       62.325 111.067 314.911 488.302
    -.133E+00 -.196E-12 0.568E-01   0.227E-08 0.109E-13 0.369E-12   0.108E+00 0.000E+00 0.643E+00   0.959E-03 0.354E-13 0.277E-02
  -----------------------------------------------------------------------------------------------
    -.165E+01 -.508E-11 0.331E-09   -.209E-13 0.180E-12 -.367E-11   0.156E+01 0.000E+00 0.222E-15   0.222E-02 0.813E-13 -.122E-10
- 
- 
+
+
  POSITION                                       TOTAL-FORCE (eV/Angst)
  -----------------------------------------------------------------------------------
       0.00000      0.00000     42.07815         0.001874      0.000000      0.000496
@@ -8816,7 +8816,7 @@ tot       62.325 111.067 314.911 488.302
   free  energy   TOTEN  =      -258.16943374 eV
 
   energy  without entropy=     -258.16798137  energy(sigma->0) =     -258.16870755
- 
+
 
 
 --------------------------------------------------------------------------------------------------------
@@ -8830,11 +8830,11 @@ tot       62.325 111.067 314.911 488.302
 
      LOOP+:  cpu time  572.4838: real time  605.0881
     4ORBIT:  cpu time    0.0000: real time    0.0000
- 
 
 
- total charge     
- 
+
+ total charge
+
 # of ion     s       p       d       tot
 ----------------------------------------
   1        0.619   0.757   9.846  11.223
@@ -8903,7 +8903,7 @@ tot       62.325 111.067 314.911 488.302
  64        1.306   2.543   0.000   3.849
 ------------------------------------------------
 tot       62.325 111.067 314.911 488.302
- 
+
 
  total amount of memory used by VASP on root node   146148. kBytes
 ========================================================================
@@ -8914,20 +8914,20 @@ tot       62.325 111.067 314.911 488.302
    grid      :       5043. kBytes
    one-center:        171. kBytes
    wavefun   :      96304. kBytes
- 
-  
-  
+
+
+
  General timing and accounting informations for this job:
  ========================================================
-  
+
                   Total CPU time used (sec):      598.149
                             User time (sec):      583.900
                           System time (sec):       14.249
                          Elapsed time (sec):      653.820
-  
+
                    Maximum memory used (kb):      152156.
                    Average memory used (kb):           0.
-  
+
                           Minor page faults:        81395
                           Major page faults:            0
                  Voluntary context switches:         1264

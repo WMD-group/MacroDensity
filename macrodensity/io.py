@@ -62,37 +62,8 @@ def read_gulp_potential(gulpfile: str = "gulp.out") -> tuple:
 
     return np.asarray(potential), NGX, NGY, NGZ, lattice
 
-
-def read_cube_density(FILE: str) -> np.ndarray:
-    """
-    Reads a cube density file and extracts relevant information.
-
-    Parameters:
-        FILE (str): The path to the cube density file.
-
-    Returns:
-        numpy.ndarray: A 3x3 numpy array representing the lattice.
-
-    Example:
-        >>> file_path = 'path/to/your/cube_density_file.cube'
-        >>> # Read the cube density file and get the lattice
-        >>> lattice = read_cube_density(file_path)
-        >>> print(lattice)
-    """
-    f = open(FILE, "r")
-    lines = f.readlines()
-    f.close()
-    lattice = np.zeros(shape=(3, 3))
-    for line in lines:
-        inp = line.split()
-        if inp == []:
-            continue
-        if len(inp) == 4:
-            natms = inp[0]
-
-
 def _read_partial_density(
-    FILE: str,
+    file: str,
     use_pandas: bool,
     num_atoms: int,
     NGX: int,
@@ -105,11 +76,11 @@ def _read_partial_density(
     reading partial density data from a VASP-PARCHG file.
 
     Parameters:
-        FILE (str): Path to the CHGCAR-like file.
+        file (str): Path to the CHGCAR-like file.
 
         use_pandas (bool or None, optional): If True, use Pandas to read 3D data
-        (recommended for large files). If False, use np.
-        If None, automatically use Pandas if available. Default is None.
+            (recommended for large files). If False, use np.
+            If None, automatically use Pandas if available. Default is None.
 
         num_atoms (int): Total number of atoms in the system.
 
@@ -131,12 +102,11 @@ def _read_partial_density(
     elif use_pandas is None:
         try:
             from pandas import read_table as pandas_read_table
-
             use_pandas = True
         except ImportError:
             use_pandas = False
 
-    with open(FILE, "r") as f:
+    with open(file, "r") as f:
         _ = f.readline()
         scale_factor = float(f.readline())
 
@@ -167,7 +137,7 @@ def _read_partial_density(
             readrows = int(math.ceil(NGX * NGY * NGZ / 10))
 
             dat = pandas_read_table(
-                FILE,
+                file,
                 delim_whitespace=True,
                 skiprows=skiprows,
                 header=None,
@@ -285,7 +255,10 @@ def read_vasp_density_classic(FILE: str) -> tuple:
 
 
 def read_vasp_parchg(
-    FILE: str, use_pandas: bool = None, quiet: bool = False, spin: bool = False
+    FILE: str,
+    use_pandas: bool = None,
+    quiet: bool = False,
+    spin: bool = False
 ) -> tuple:
     """
     Read density data or spin-polarized partial density data from a VASP PARCHG-like file.
@@ -376,7 +349,9 @@ def read_vasp_parchg(
 
 
 def read_vasp_density(
-    FILE: str, use_pandas: bool = None, quiet: bool = False
+    FILE: str,
+    use_pandas: bool = None,
+    quiet: bool = False
 ) -> tuple:
     """
     Read density data from a VASP CHGCAR-like file.
