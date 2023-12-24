@@ -6,5 +6,5 @@ Tutorials
 
    tutorials/Slab/SlabCalculation.ipynb
    tutorials/Porous/Porous.ipynb
-   tutotials/HeteroJunction/HeteroJunction.ipynb
+   tutorials/HeteroJunction/HeteroJunction.ipynb
    tutorials/Band_Alignment/Band_Alignment.ipynb
