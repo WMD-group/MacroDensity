@@ -1,18 +1,17 @@
-#! /usr/bin/env python
 """
-macrodensity.tools contains functions to read and manipulate the electronic
-density data from a material.
+module containing utility functions to manipulate and process the
+electronic density data from a material.
 """
 
 from __future__ import division
 
 import numpy as np
 from scipy.interpolate import interp1d
+from pymatgen.core.structure import Structure
 
 from macrodensity.averages import volume_average
 from macrodensity.io import get_band_extrema, read_vasp_density
 from macrodensity.utils import density_2_grid, matrix_2_abc
-
 
 def bulk_interstitial_alignment(
     interstices: list,
@@ -623,6 +622,7 @@ def translate_grid(
     return sorted_potential_trans
 
 
+# TODO: This is limited to only certain planes
 def create_plotting_mesh(
     NGX: int, NGY: int, NGZ: int, pc: np.ndarray, grad: np.ndarray
 ) -> np.ndarray:
@@ -683,3 +683,30 @@ def create_plotting_mesh(
                 pass
 
     return plane
+
+
+def get_layer_sites(
+    structure: Structure,
+    epsilon: float=1.5,
+):
+    """
+    Returns sites in top and bottom layer of slab. These are selected as those whose
+    z coordinate lies between the top/bottom of slab and top-epsilon/bottom+epsilon.
+
+    Args:
+        structure (pymatgen.core.structure.Structure):
+            pymatgen Structure object of slab
+        epsilon (float):
+            Length from top/bottom of slab to select the sites that lie within
+            (i.e. sites within top/bottom surface of slab +- epsilon).
+            Defaults to 1.5 A.
+
+    Returns:
+        [dict]: dict with top_layer and bottom_layer sites
+    """
+    max_z = max(site.coords[2] for site in structure)
+    min_z = min(site.coords[2] for site in structure)
+    top_layer = [site for site in structure if site.coords[2] >= max_z - epsilon]
+    bottom_layer = [site for site in structure if site.coords[2] <= min_z + epsilon]
+    # print(f"Number of sites in top layer: {len(top_layer)}")
+    return {"top_layer": top_layer, "bottom_layer": bottom_layer}
