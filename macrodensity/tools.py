@@ -263,8 +263,8 @@ def match_resolution(A: np.ndarray, B: np.ndarray) -> tuple:
         >>> print(result_A)
         >>> print(result_B)
     """
-    np.append(A, A[0, :])
-    np.append(B, B[0, :])
+    A = np.vstack([A, A[0, :]])
+    B = np.vstack([B, B[0, :]])
     resolution_a = (max(A[:, 0]) - min(A[:, 0])) / len(A)
     resolution_b = (max(B[:, 0]) - min(B[:, 0])) / len(B)
     new_resolution = min(resolution_a, resolution_b) / 3
@@ -371,10 +371,10 @@ def matched_spline_generate(
     res_a = length_A / float(len(A_new))
     res_b = length_B / float(len(B_new))
     for i in range(len(A_new)):
-        TD_A[i, 1] = A[i]
+        TD_A[i, 1] = A_new[i]
         TD_A[i, 0] = i * res_a
     for i in range(len(B_new)):
-        TD_B[i, 1] = B[i]
+        TD_B[i, 1] = B_new[i]
         TD_B[i, 0] = i * res_b
     return TD_A, TD_B
 
@@ -516,17 +516,16 @@ def diff_potentials(
         >>> print(result)
 
     """
-    resolution = potential_a[0, 0] - potential_b[0, 1]
-    new_potential = np.zeros(shape=((start - end) / resolution, 2))
+    results = []
 
     for i in range(len(potential_a)):
         if potential_a[i, 0] >= start and potential_a[i, 0] <= end:
             for j in range(len(potential_b)):
                 if abs(potential_b[j, 0] - potential_a[i, 0]) <= tol:
-                    new_potential[i, 1] = potential_a[i, 1] - potential_b[i, 1]
-                    new_potential[i, 0] = potential_a[i, 0]
+                    results.append([potential_a[i, 0], potential_a[i, 1] - potential_b[j, 1]])
+                    break
 
-    return new_potential
+    return np.array(results) if results else np.zeros((0, 2))
 
 
 def subs_potentials(A: np.ndarray, B: np.ndarray, tol: float) -> np.ndarray:
@@ -679,7 +678,9 @@ def create_plotting_mesh(
         for y in range(b):
             if p == "zzo":
                 plane[x, y] = grad[x, y, c]
-            else:
-                pass
+            elif p == "zoz":
+                plane[x, y] = grad[x, c, y]
+            elif p == "ozz":
+                plane[x, y] = grad[c, x, y]
 
     return plane

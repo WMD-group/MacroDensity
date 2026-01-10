@@ -57,7 +57,7 @@ def read_gulp_potential(gulpfile: str = "gulp.out") -> tuple:
 
     for n, line in enumerate(lines):
         if line.rfind("Electrostatic potential on a grid") > -1:
-            for k in reversed(range(9, NGX * NGY * NGZ + 9)):
+            for k in range(9, NGX * NGY * NGZ + 9):
                 potential.append(float(lines[n + k].split()[3]))
 
     return np.asarray(potential), NGX, NGY, NGZ, lattice

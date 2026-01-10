@@ -392,7 +392,7 @@ def plot_on_site_potential(
         )
     elif "cube" in potential_file:
         grid_pot, atoms = cube.read_cube_data(potential_file)
-        vector_a = np.linalg.norm(atoms.cell[1])
+        vector_a = np.linalg.norm(atoms.cell[0])
         vector_b = np.linalg.norm(atoms.cell[1])
         vector_c = np.linalg.norm(atoms.cell[2])
         NGX = len(grid_pot)
@@ -523,7 +523,7 @@ def plot_planar_average(
 
     if "cube" in input_file:
         potential, atoms = cube.read_cube_data(input_file)
-        vector_a = np.linalg.norm(atoms.cell[1])
+        vector_a = np.linalg.norm(atoms.cell[0])
         vector_b = np.linalg.norm(atoms.cell[1])
         vector_c = np.linalg.norm(atoms.cell[2])
         NGX = len(potential)
@@ -677,6 +677,7 @@ def plot_field_at_point(
         grad_x, grad_y, grad_z = np.gradient(
             grid_pot[:, :, :], resolution_x, resolution_y, resolution_z
         )
+        grad_x, grad_y, grad_z = -grad_x, -grad_y, -grad_z
     # ------------------------------------------------------------------
     ## Get the equation for the plane
     ## This is the section for plotting on a user defined plane;
@@ -786,6 +787,7 @@ def plot_plane_field(
     grad_x, grad_y, grad_z = np.gradient(
         grid_pot[:, :, :], resolution_x, resolution_y, resolution_z
     )
+    grad_x, grad_y, grad_z = -grad_x, -grad_y, -grad_z
     # ------------------------------------------------------------------
     ## Get the equation for the plane
     ## This is the section for plotting on a user defined plane;
@@ -796,9 +798,8 @@ def plot_plane_field(
     b = numbers_2_grid(b_point, NGX, NGY, NGZ)
     c = numbers_2_grid(c_point, NGX, NGY, NGZ)
     plane_coeff = points_2_plane(a, b, c)
-    ## Get the gradients
-    XY = np.multiply(grad_x, grad_y)
-    grad_mag = np.multiply(XY, grad_z)
+    ## Get the gradient magnitude
+    grad_mag = np.sqrt(grad_x**2 + grad_y**2 + grad_z**2)
     ## Create the plane
     # print(NGX,NGY,NGZ,plane_coeff,grad_mag)
     xx, yy, grd = create_plotting_mesh(NGX, NGY, NGZ, plane_coeff, grad_mag)
@@ -885,6 +886,7 @@ def plot_active_plane(
             grad_x, grad_y, grad_z = np.gradient(
                 grid_pot[:, :, :], resolution_x, resolution_y, resolution_z
             )
+            grad_x, grad_y, grad_z = -grad_x, -grad_y, -grad_z
 
         ## Convert the fractional points to grid points on the density surface
         a = numbers_2_grid(a_point, NGX, NGY, NGZ)
@@ -892,9 +894,8 @@ def plot_active_plane(
         c = numbers_2_grid(c_point, NGX, NGY, NGZ)
         plane_coeff = points_2_plane(a, b, c)
 
-        ## Get the gradients
-        XY = np.multiply(grad_x, grad_y)
-        grad_mag = np.multiply(XY, grad_z)
+        ## Get the gradient magnitude
+        grad_mag = np.sqrt(grad_x**2 + grad_y**2 + grad_z**2)
 
         ## Create the plane
         xx, yy, grd = create_plotting_mesh(NGX, NGY, NGZ, plane_coeff, grad_x)

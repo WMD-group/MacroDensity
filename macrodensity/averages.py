@@ -60,9 +60,7 @@ def macroscopic_average(
             )
             macro_average[i] = macro_average[i] / period_points
         else:
-            macro_average[i] = (
-                macro_average[i] + sum(potential[start:end]) / period_points
-            )
+            macro_average[i] = sum(potential[start:end]) / period_points
 
     print("Average of the average = ", np.average(macro_average))
 
@@ -124,10 +122,10 @@ def volume_average(
                 xv = int(n_origin[0] + travelled[0] + x)
                 yv = int(n_origin[1] + travelled[1] + y)
                 zv = int(n_origin[2] + travelled[2] + z)
-                # Minimum image convention
-                zv = int(zv - nz * round(zv / nz))
-                yv = int(yv - ny * round(yv / ny))
-                xv = int(xv - nx * round(xv / nx))
+                # Periodic boundary wrapping
+                xv = xv % nx
+                yv = yv % ny
+                zv = zv % nz
                 potential_cube[x, y, z] = grid[int(xv), int(yv), int(zv)]
 
     return potential_cube.mean(), np.var(potential_cube)
