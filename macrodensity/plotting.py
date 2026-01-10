@@ -672,13 +672,11 @@ def plot_field_at_point(
     )
     ## Get the gradiens (Field), if required.
     ## Comment out if not required, due to compuational expense.
-    if grad_calc == True:
+    if grad_calc:
         print("Calculating gradients (Electic field, E=-Grad.V )...")
         grad_x, grad_y, grad_z = np.gradient(
             grid_pot[:, :, :], resolution_x, resolution_y, resolution_z
         )
-    else:
-        pass
     # ------------------------------------------------------------------
     ## Get the equation for the plane
     ## This is the section for plotting on a user defined plane;
@@ -695,8 +693,6 @@ def plot_field_at_point(
     Y2 = np.multiply(grad_y, grad_y)
     Z2 = np.multiply(grad_z, grad_z)
     grad_mag = np.linalg.norm(np.add(X2, Y2, Z2), axis=-1)
-    # This was my, non working, attempt to use the built in function.
-    # grad_mag=np.linalg.norm( [grad_y,grad_y,grad_z], axis=3)
 
     ## This function in Macrodensity averages Efield ACROSS Z for Slab calculations
     xx, yy, grd = md.create_plotting_mesh(
@@ -736,9 +732,7 @@ def plot_field_at_point(
         width=1,
         headwidth=3,
         headlength=4,
-    )  # ,
-    #        units='xy', scale=10., zorder=3, color='blue',
-    #        width=0.007, headwidth=3., headlength=4.)
+    )
 
     plt.axis(
         "equal"
@@ -886,13 +880,11 @@ def plot_active_plane(
         ## Get the gradiens (Field), if required.
         ## Comment out if not required, due to compuational expense.
 
-        if grad_calc == True:
+        if grad_calc:
             print("Calculating gradients (Electic field, E=-Grad.V )...")
             grad_x, grad_y, grad_z = np.gradient(
                 grid_pot[:, :, :], resolution_x, resolution_y, resolution_z
             )
-        else:
-            pass
 
         ## Convert the fractional points to grid points on the density surface
         a = numbers_2_grid(a_point, NGX, NGY, NGZ)

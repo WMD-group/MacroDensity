@@ -221,7 +221,7 @@ def spherical_average(
     )
 
     ## PRINTING
-    if print_output == True:
+    if print_output:
         print("Potential            Variance")
         print("--------------------------------")
         print(cube_pot, "   ", cube_var)

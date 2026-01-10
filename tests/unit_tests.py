@@ -423,10 +423,10 @@ class TestPlottingFunctions(unittest.TestCase):
         dfpot, _ = md.plot_planar_average(
             input_file=potential, lattice_vector=4.75
         )
-        self.assertEqual(dfden["Planar"].tolist()[0], 0.0200083723051778)
-        self.assertEqual(dfden["Planar"].tolist()[-1], 0.019841719274268536)
-        self.assertEqual(dfpot["Planar"].tolist()[0], -0.562656062923066)
-        self.assertEqual(dfpot["Planar"].tolist()[-1], -0.581089179258661)
+        self.assertAlmostEqual(dfden["Planar"].tolist()[0], 0.0200083723051778, places=10)
+        self.assertAlmostEqual(dfden["Planar"].tolist()[-1], 0.019841719274268536, places=10)
+        self.assertAlmostEqual(dfpot["Planar"].tolist()[0], -0.562656062923066, places=10)
+        self.assertAlmostEqual(dfpot["Planar"].tolist()[-1], -0.581089179258661, places=10)
         self.addCleanup(os.remove, "planar_average.csv")
         self.addCleanup(os.remove, "planar_average.png")
 

@@ -235,7 +235,7 @@ def bulk_vac(bulk: np.ndarray, slab: np.ndarray) -> np.ndarray:
             if s_pot[0] <= bulk[j, 0] and s_pot[0] > bulk[j - 1, 0]:
                 new_bulk[i, :] = bulk[j, :]
                 found = True
-        if found == False:
+        if not found:
             new_bulk[i, 0] = s_pot[0]
             new_bulk[i, 1] = 0
 
@@ -607,14 +607,14 @@ def translate_grid(
     for i in range(len(potential)):
         new_potential_trans[i, 0] = potential[i, 0] + translation
         new_potential_trans[i, 1] = potential[i, 1]
-        if periodic == True:
+        if periodic:
             new_potential_trans[i, 0] = new_potential_trans[
                 i, 0
             ] - length * int(
                 (new_potential_trans[i, 0] + boundary_shift) / length
             )
 
-    if periodic == True:
+    if periodic:
         # Sort the numbers out if you have done periodic wrapping
         sorted_potential_trans = sort_potential(new_potential_trans)
     else:
