@@ -33,6 +33,7 @@ from macrodensity.tools import (
     bulk_vac,
     create_plotting_mesh,
     diff_potentials,
+    dipole_correction,
     extend_potential,
     match_resolution,
     matched_spline_generate,

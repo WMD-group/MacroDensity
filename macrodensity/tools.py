@@ -684,3 +684,98 @@ def create_plotting_mesh(
                 plane[x, y] = grad[c, x, y]
 
     return plane
+
+
+def dipole_correction(
+    potential: np.ndarray,
+    lattice_vector: float,
+    gradient_threshold: float = 0.01,
+) -> tuple:
+    """
+    Apply dipole correction to remove artificial electric field in slab calculations.
+
+    Automatically detects the vacuum region by finding flat areas of the potential,
+    then fits and subtracts a linear ramp to remove the artificial field.
+
+    Parameters:
+        potential (np.ndarray): 1D planar-averaged potential array (from planar_average()).
+
+        lattice_vector (float): Length of cell in averaging direction (Angstrom).
+
+        gradient_threshold (float): Maximum gradient magnitude (eV/Angstrom) to
+            consider a region as vacuum. Default is 0.01.
+
+    Returns:
+        tuple: (corrected_potential, electric_field, vacuum_indices)
+            - corrected_potential (np.ndarray): Potential with linear field removed.
+            - electric_field (float): Measured electric field in vacuum (eV/Angstrom).
+            - vacuum_indices (np.ndarray): Boolean array marking vacuum region.
+
+    Example:
+        >>> from macrodensity import planar_average, read_vasp_density
+        >>> from macrodensity.utils import density_2_grid
+        >>> pot, NGX, NGY, NGZ, lattice = read_vasp_density('LOCPOT')
+        >>> grid, _ = density_2_grid(pot, NGX, NGY, NGZ)
+        >>> planar = planar_average(grid, NGX, NGY, NGZ, axis='z')
+        >>> corrected, field, vacuum = dipole_correction(planar, lattice[2,2])
+        >>> print(f"Electric field in vacuum: {field:.4f} eV/Angstrom")
+    """
+    n_points = len(potential)
+    resolution = lattice_vector / n_points
+    positions = np.arange(n_points) * resolution
+
+    # Calculate local gradient to identify flat (vacuum) regions
+    local_gradient = np.gradient(potential, resolution)
+
+    # Identify vacuum: regions where gradient magnitude is below threshold
+    vacuum_mask = np.abs(local_gradient) < gradient_threshold
+
+    # Find contiguous vacuum regions
+    # Look for the longest stretch of True values
+    vacuum_indices = np.where(vacuum_mask)[0]
+
+    if len(vacuum_indices) < 2:
+        raise ValueError(
+            f"Could not identify vacuum region. Try increasing gradient_threshold "
+            f"(current: {gradient_threshold}). Max gradient in data: {np.max(np.abs(local_gradient)):.4f}"
+        )
+
+    # Find the largest contiguous region
+    # Split into groups where indices are consecutive
+    gaps = np.diff(vacuum_indices)
+    split_points = np.where(gaps > 1)[0] + 1
+    regions = np.split(vacuum_indices, split_points)
+
+    # Select the largest region
+    largest_region = max(regions, key=len)
+
+    if len(largest_region) < 3:
+        raise ValueError(
+            f"Vacuum region too small for fitting ({len(largest_region)} points). "
+            f"Try increasing gradient_threshold."
+        )
+
+    # Fit a line to the potential in the vacuum region
+    vacuum_positions = positions[largest_region]
+    vacuum_potential = potential[largest_region]
+
+    # Linear fit: potential = slope * position + intercept
+    slope, intercept = np.polyfit(vacuum_positions, vacuum_potential, 1)
+
+    # The electric field is the negative of the potential slope
+    electric_field = -slope
+
+    # Create correction array (linear ramp across entire cell)
+    correction = slope * positions
+
+    # Apply correction
+    corrected_potential = potential - correction
+
+    # Shift so minimum is at zero (optional, for cleaner output)
+    corrected_potential = corrected_potential - np.min(corrected_potential)
+
+    # Create boolean mask for vacuum region
+    vacuum_mask_output = np.zeros(n_points, dtype=bool)
+    vacuum_mask_output[largest_region] = True
+
+    return corrected_potential, electric_field, vacuum_mask_output

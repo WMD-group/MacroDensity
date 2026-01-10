@@ -342,6 +342,38 @@ class TestConvenienceFunctions(unittest.TestCase):
         self.addCleanup(os.remove, "potential_variation.csv")
         self.addCleanup(os.remove, "potential_variation.png")
 
+    def test_dipole_correction(self):
+        """Tests the dipole_correction function"""
+        # Create a synthetic potential with a linear slope (artificial field)
+        n_points = 100
+        lattice_vector = 20.0  # Angstrom
+        positions = np.linspace(0, lattice_vector, n_points, endpoint=False)
+
+        # Create potential: flat in "vacuum" (first and last 20%) with a slope
+        # Simulates a slab with vacuum on both sides and artificial field
+        slope = 0.05  # eV/Angstrom (artificial field)
+        potential = slope * positions  # Linear ramp
+
+        # Add some structure in the "slab" region (middle 60%)
+        slab_start = int(0.2 * n_points)
+        slab_end = int(0.8 * n_points)
+        potential[slab_start:slab_end] += 2.0 * np.sin(
+            np.linspace(0, 2 * np.pi, slab_end - slab_start)
+        )
+
+        # Apply dipole correction
+        corrected, field, vacuum = md.dipole_correction(
+            potential, lattice_vector, gradient_threshold=0.1
+        )
+
+        # Check that the electric field is detected correctly
+        self.assertAlmostEqual(abs(field), slope, places=2)
+
+        # Check that the corrected potential in vacuum is flatter
+        vacuum_gradient_before = np.abs(np.gradient(potential[:slab_start]))
+        vacuum_gradient_after = np.abs(np.gradient(corrected[:slab_start]))
+        self.assertLess(np.mean(vacuum_gradient_after), np.mean(vacuum_gradient_before))
+
 
 class TestPlottingFunctions(unittest.TestCase):
 
