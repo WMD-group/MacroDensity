@@ -1,5 +1,7 @@
-"""macrodensity.plotting contains different configs of plotting functions such as band
-alignment diagrams and potentials at different grid points."""
+"""
+Module containing functions to plot different averages of the
+electrostatic potential, like planar average and macroscopic averages.
+"""
 
 from __future__ import division, print_function
 
@@ -449,7 +451,7 @@ def plot_on_site_potential(
     )
     ax.set_xlabel("Hartree potential (V)")
     ax.set_ylabel("% of centres")
-    plt.savefig(img_file)
+    fig.savefig(img_file)
 
     ## SAVING
     df = pd.DataFrame.from_dict({"Potential": potentials_list}, orient="index")
@@ -920,7 +922,7 @@ def plot_active_plane(
     fig, ax = plt.subplots()
     ax.plot(planar)
     ax.plot(macro)
-    plt.savefig("Planar.eps")
+    fig.savefig("Planar.eps")
     plt.show()
 
     return fig

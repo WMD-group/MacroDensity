@@ -1,7 +1,6 @@
-#! /usr/bin/env python
 """
-macrodensity.tools contains functions to read and manipulate the electronic
-density data from a material.
+Module containing utility functions to manipulate and process the
+electronic density data from a material.
 """
 
 from __future__ import division
@@ -779,3 +778,37 @@ def dipole_correction(
     vacuum_mask_output[largest_region] = True
 
     return corrected_potential, electric_field, vacuum_mask_output
+
+
+def get_layer_sites(
+    structure,
+    epsilon: float = 1.5,
+) -> dict:
+    """
+    Return sites in top and bottom layers of a slab structure.
+
+    Sites are selected based on their z coordinate relative to the
+    top/bottom of the slab within a tolerance epsilon.
+
+    Parameters:
+        structure: pymatgen Structure object of the slab.
+
+        epsilon (float): Distance from top/bottom of slab to select sites
+            within (Angstrom). Default is 1.5.
+
+    Returns:
+        dict: Dictionary with 'top_layer' and 'bottom_layer' keys,
+            each containing a list of sites.
+
+    Example:
+        >>> from pymatgen.core.structure import Structure
+        >>> structure = Structure.from_file('POSCAR')
+        >>> layers = get_layer_sites(structure, epsilon=1.5)
+        >>> print(f"Top layer sites: {len(layers['top_layer'])}")
+        >>> print(f"Bottom layer sites: {len(layers['bottom_layer'])}")
+    """
+    max_z = max(site.coords[2] for site in structure)
+    min_z = min(site.coords[2] for site in structure)
+    top_layer = [site for site in structure if site.coords[2] >= max_z - epsilon]
+    bottom_layer = [site for site in structure if site.coords[2] <= min_z + epsilon]
+    return {"top_layer": top_layer, "bottom_layer": bottom_layer}

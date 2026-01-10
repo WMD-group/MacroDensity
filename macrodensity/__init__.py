@@ -35,6 +35,7 @@ from macrodensity.tools import (
     diff_potentials,
     dipole_correction,
     extend_potential,
+    get_layer_sites,
     match_resolution,
     matched_spline_generate,
     scissors_shift,
