@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "MacroDensity"
+abstract: "A Python package for analysis of electrostatic potential and electron density from electronic structure calculations."
+type: software
+authors:
+  - family-names: "Butler"
+    given-names: "Keith T."
+    orcid: "https://orcid.org/0000-0001-5432-5597"
+  - family-names: "Walsh"
+    given-names: "Aron"
+    orcid: "https://orcid.org/0000-0001-5460-7033"
+  - family-names: "Harnett-Caulfield"
+    given-names: "Liam"
+  - family-names: "Tesiman"
+    given-names: "Calysta A."
+    orcid: "https://orcid.org/0009-0008-7784-4320"
+  - family-names: "Mosquera-Lois"
+    given-names: "Irea"
+repository-code: "https://github.com/WMD-group/MacroDensity"
+url: "https://macrodensity.readthedocs.io/"
+license: MIT
+keywords:
+  - density functional theory
+  - electrostatic potential
+  - electron density
+  - VASP
+  - materials science
