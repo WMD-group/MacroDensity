@@ -1,4 +1,9 @@
-# Welcome to MacroDensity
+# MacroDensity
+
+[![Build Status](https://github.com/WMD-group/MacroDensity/actions/workflows/ci.yaml/badge.svg)](https://github.com/WMD-group/MacroDensity/actions)
+[![PyPI version](https://badge.fury.io/py/macrodensity.svg)](https://pypi.org/project/macrodensity/)
+[![Documentation](https://readthedocs.org/projects/macrodensity/badge/?version=latest)](https://macrodensity.readthedocs.io/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ``MacroDensity`` is a Python package to post-process electrostatic potential and
 electron density files from electronic structure calculations and plot in a number of ways, including:
@@ -38,6 +43,36 @@ git clone https://github.com/WMD-group/MacroDensity.git
 cd MacroDensity
 pip install -e .
 ```
+
+
+# Quick Example
+
+Calculate and plot the planar average of an electrostatic potential from a VASP LOCPOT file:
+
+```python
+import macrodensity as md
+
+# Plot planar average along the z-axis
+df, fig = md.plot_planar_average(
+    lattice_vector=20.0,  # Length of cell in z-direction (Angstrom)
+    input_file='LOCPOT',
+    axis='z'
+)
+```
+
+Calculate the on-site potential for a specific atomic species:
+
+```python
+# Get potential at oxygen sites
+potentials, fig = md.plot_on_site_potential(
+    species='O',
+    sample_cube=[2, 2, 2],
+    potential_file='LOCPOT',
+    coordinate_file='POSCAR'
+)
+```
+
+See the [tutorials](https://macrodensity.readthedocs.io/en/latest/tutorials.html) for more detailed examples.
 
 
 # Literature

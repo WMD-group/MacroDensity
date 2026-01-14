@@ -1,7 +1,6 @@
-#! /usr/bin/env python
 """
-macrodensity.tools contains functions to read and manipulate the electronic
-density data from a material.
+Module containing utility functions to manipulate and process the
+electronic density data from a material.
 """
 
 from __future__ import division
@@ -235,7 +234,7 @@ def bulk_vac(bulk: np.ndarray, slab: np.ndarray) -> np.ndarray:
             if s_pot[0] <= bulk[j, 0] and s_pot[0] > bulk[j - 1, 0]:
                 new_bulk[i, :] = bulk[j, :]
                 found = True
-        if found == False:
+        if not found:
             new_bulk[i, 0] = s_pot[0]
             new_bulk[i, 1] = 0
 
@@ -263,8 +262,8 @@ def match_resolution(A: np.ndarray, B: np.ndarray) -> tuple:
         >>> print(result_A)
         >>> print(result_B)
     """
-    np.append(A, A[0, :])
-    np.append(B, B[0, :])
+    A = np.vstack([A, A[0, :]])
+    B = np.vstack([B, B[0, :]])
     resolution_a = (max(A[:, 0]) - min(A[:, 0])) / len(A)
     resolution_b = (max(B[:, 0]) - min(B[:, 0])) / len(B)
     new_resolution = min(resolution_a, resolution_b) / 3
@@ -371,10 +370,10 @@ def matched_spline_generate(
     res_a = length_A / float(len(A_new))
     res_b = length_B / float(len(B_new))
     for i in range(len(A_new)):
-        TD_A[i, 1] = A[i]
+        TD_A[i, 1] = A_new[i]
         TD_A[i, 0] = i * res_a
     for i in range(len(B_new)):
-        TD_B[i, 1] = B[i]
+        TD_B[i, 1] = B_new[i]
         TD_B[i, 0] = i * res_b
     return TD_A, TD_B
 
@@ -516,17 +515,16 @@ def diff_potentials(
         >>> print(result)
 
     """
-    resolution = potential_a[0, 0] - potential_b[0, 1]
-    new_potential = np.zeros(shape=((start - end) / resolution, 2))
+    results = []
 
     for i in range(len(potential_a)):
         if potential_a[i, 0] >= start and potential_a[i, 0] <= end:
             for j in range(len(potential_b)):
                 if abs(potential_b[j, 0] - potential_a[i, 0]) <= tol:
-                    new_potential[i, 1] = potential_a[i, 1] - potential_b[i, 1]
-                    new_potential[i, 0] = potential_a[i, 0]
+                    results.append([potential_a[i, 0], potential_a[i, 1] - potential_b[j, 1]])
+                    break
 
-    return new_potential
+    return np.array(results) if results else np.zeros((0, 2))
 
 
 def subs_potentials(A: np.ndarray, B: np.ndarray, tol: float) -> np.ndarray:
@@ -607,14 +605,14 @@ def translate_grid(
     for i in range(len(potential)):
         new_potential_trans[i, 0] = potential[i, 0] + translation
         new_potential_trans[i, 1] = potential[i, 1]
-        if periodic == True:
+        if periodic:
             new_potential_trans[i, 0] = new_potential_trans[
                 i, 0
             ] - length * int(
                 (new_potential_trans[i, 0] + boundary_shift) / length
             )
 
-    if periodic == True:
+    if periodic:
         # Sort the numbers out if you have done periodic wrapping
         sorted_potential_trans = sort_potential(new_potential_trans)
     else:
@@ -679,7 +677,138 @@ def create_plotting_mesh(
         for y in range(b):
             if p == "zzo":
                 plane[x, y] = grad[x, y, c]
-            else:
-                pass
+            elif p == "zoz":
+                plane[x, y] = grad[x, c, y]
+            elif p == "ozz":
+                plane[x, y] = grad[c, x, y]
 
     return plane
+
+
+def dipole_correction(
+    potential: np.ndarray,
+    lattice_vector: float,
+    gradient_threshold: float = 0.01,
+) -> tuple:
+    """
+    Apply dipole correction to remove artificial electric field in slab calculations.
+
+    Automatically detects the vacuum region by finding flat areas of the potential,
+    then fits and subtracts a linear ramp to remove the artificial field.
+
+    Parameters:
+        potential (np.ndarray): 1D planar-averaged potential array (from planar_average()).
+
+        lattice_vector (float): Length of cell in averaging direction (Angstrom).
+
+        gradient_threshold (float): Maximum gradient magnitude (eV/Angstrom) to
+            consider a region as vacuum. Default is 0.01.
+
+    Returns:
+        tuple: (corrected_potential, electric_field, vacuum_indices)
+            - corrected_potential (np.ndarray): Potential with linear field removed.
+            - electric_field (float): Measured electric field in vacuum (eV/Angstrom).
+            - vacuum_indices (np.ndarray): Boolean array marking vacuum region.
+
+    Example:
+        >>> from macrodensity import planar_average, read_vasp_density
+        >>> from macrodensity.utils import density_2_grid
+        >>> pot, NGX, NGY, NGZ, lattice = read_vasp_density('LOCPOT')
+        >>> grid, _ = density_2_grid(pot, NGX, NGY, NGZ)
+        >>> planar = planar_average(grid, NGX, NGY, NGZ, axis='z')
+        >>> corrected, field, vacuum = dipole_correction(planar, lattice[2,2])
+        >>> print(f"Electric field in vacuum: {field:.4f} eV/Angstrom")
+    """
+    n_points = len(potential)
+    resolution = lattice_vector / n_points
+    positions = np.arange(n_points) * resolution
+
+    # Calculate local gradient to identify flat (vacuum) regions
+    local_gradient = np.gradient(potential, resolution)
+
+    # Identify vacuum: regions where gradient magnitude is below threshold
+    vacuum_mask = np.abs(local_gradient) < gradient_threshold
+
+    # Find contiguous vacuum regions
+    # Look for the longest stretch of True values
+    vacuum_indices = np.where(vacuum_mask)[0]
+
+    if len(vacuum_indices) < 2:
+        raise ValueError(
+            f"Could not identify vacuum region. Try increasing gradient_threshold "
+            f"(current: {gradient_threshold}). Max gradient in data: {np.max(np.abs(local_gradient)):.4f}"
+        )
+
+    # Find the largest contiguous region
+    # Split into groups where indices are consecutive
+    gaps = np.diff(vacuum_indices)
+    split_points = np.where(gaps > 1)[0] + 1
+    regions = np.split(vacuum_indices, split_points)
+
+    # Select the largest region
+    largest_region = max(regions, key=len)
+
+    if len(largest_region) < 3:
+        raise ValueError(
+            f"Vacuum region too small for fitting ({len(largest_region)} points). "
+            f"Try increasing gradient_threshold."
+        )
+
+    # Fit a line to the potential in the vacuum region
+    vacuum_positions = positions[largest_region]
+    vacuum_potential = potential[largest_region]
+
+    # Linear fit: potential = slope * position + intercept
+    slope, intercept = np.polyfit(vacuum_positions, vacuum_potential, 1)
+
+    # The electric field is the negative of the potential slope
+    electric_field = -slope
+
+    # Create correction array (linear ramp across entire cell)
+    correction = slope * positions
+
+    # Apply correction
+    corrected_potential = potential - correction
+
+    # Shift so minimum is at zero (optional, for cleaner output)
+    corrected_potential = corrected_potential - np.min(corrected_potential)
+
+    # Create boolean mask for vacuum region
+    vacuum_mask_output = np.zeros(n_points, dtype=bool)
+    vacuum_mask_output[largest_region] = True
+
+    return corrected_potential, electric_field, vacuum_mask_output
+
+
+def get_layer_sites(
+    structure,
+    epsilon: float = 1.5,
+) -> dict:
+    """
+    Return sites in top and bottom layers of a slab structure.
+
+    Sites are selected based on their z coordinate relative to the
+    top/bottom of the slab within a tolerance epsilon.
+
+    Parameters:
+        structure: pymatgen Structure object of the slab.
+
+        epsilon (float): Distance from top/bottom of slab to select sites
+            within (Angstrom). Default is 1.5.
+
+    Returns:
+        dict: Dictionary with 'top_layer' and 'bottom_layer' keys,
+            each containing a list of sites.
+
+    Example:
+        >>> from pymatgen.core.structure import Structure
+        >>> structure = Structure.from_file('POSCAR')
+        >>> layers = get_layer_sites(structure, epsilon=1.5)
+        >>> print(f"Top layer sites: {len(layers['top_layer'])}")
+        >>> print(f"Bottom layer sites: {len(layers['bottom_layer'])}")
+    """
+    max_z = max(site.coords[2] for site in structure)
+    min_z = min(site.coords[2] for site in structure)
+    top_layer = [site for site in structure if site.coords[2] >= max_z - epsilon]
+    bottom_layer = [site for site in structure if site.coords[2] <= min_z + epsilon]
+    return {"top_layer": top_layer, "bottom_layer": bottom_layer}

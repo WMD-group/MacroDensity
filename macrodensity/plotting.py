@@ -1,5 +1,7 @@
-"""macrodensity.plotting contains different configs of plotting functions such as band
-alignment diagrams and potentials at different grid points."""
+"""
+Module containing functions to plot different averages of the
+electrostatic potential, like planar average and macroscopic averages.
+"""
 
 from __future__ import division, print_function
 
@@ -392,7 +394,7 @@ def plot_on_site_potential(
         )
     elif "cube" in potential_file:
         grid_pot, atoms = cube.read_cube_data(potential_file)
-        vector_a = np.linalg.norm(atoms.cell[1])
+        vector_a = np.linalg.norm(atoms.cell[0])
         vector_b = np.linalg.norm(atoms.cell[1])
         vector_c = np.linalg.norm(atoms.cell[2])
         NGX = len(grid_pot)
@@ -449,7 +451,7 @@ def plot_on_site_potential(
     )
     ax.set_xlabel("Hartree potential (V)")
     ax.set_ylabel("% of centres")
-    plt.savefig(img_file)
+    fig.savefig(img_file)
 
     ## SAVING
     df = pd.DataFrame.from_dict({"Potential": potentials_list}, orient="index")
@@ -523,7 +525,7 @@ def plot_planar_average(
 
     if "cube" in input_file:
         potential, atoms = cube.read_cube_data(input_file)
-        vector_a = np.linalg.norm(atoms.cell[1])
+        vector_a = np.linalg.norm(atoms.cell[0])
         vector_b = np.linalg.norm(atoms.cell[1])
         vector_c = np.linalg.norm(atoms.cell[2])
         NGX = len(potential)
@@ -672,13 +674,12 @@ def plot_field_at_point(
     )
     ## Get the gradiens (Field), if required.
     ## Comment out if not required, due to compuational expense.
-    if grad_calc == True:
+    if grad_calc:
         print("Calculating gradients (Electic field, E=-Grad.V )...")
         grad_x, grad_y, grad_z = np.gradient(
             grid_pot[:, :, :], resolution_x, resolution_y, resolution_z
         )
-    else:
-        pass
+        grad_x, grad_y, grad_z = -grad_x, -grad_y, -grad_z
     # ------------------------------------------------------------------
     ## Get the equation for the plane
     ## This is the section for plotting on a user defined plane;
@@ -695,8 +696,6 @@ def plot_field_at_point(
     Y2 = np.multiply(grad_y, grad_y)
     Z2 = np.multiply(grad_z, grad_z)
     grad_mag = np.linalg.norm(np.add(X2, Y2, Z2), axis=-1)
-    # This was my, non working, attempt to use the built in function.
-    # grad_mag=np.linalg.norm( [grad_y,grad_y,grad_z], axis=3)
 
     ## This function in Macrodensity averages Efield ACROSS Z for Slab calculations
     xx, yy, grd = md.create_plotting_mesh(
@@ -736,9 +735,7 @@ def plot_field_at_point(
         width=1,
         headwidth=3,
         headlength=4,
-    )  # ,
-    #        units='xy', scale=10., zorder=3, color='blue',
-    #        width=0.007, headwidth=3., headlength=4.)
+    )
 
     plt.axis(
         "equal"
@@ -792,6 +789,7 @@ def plot_plane_field(
     grad_x, grad_y, grad_z = np.gradient(
         grid_pot[:, :, :], resolution_x, resolution_y, resolution_z
     )
+    grad_x, grad_y, grad_z = -grad_x, -grad_y, -grad_z
     # ------------------------------------------------------------------
     ## Get the equation for the plane
     ## This is the section for plotting on a user defined plane;
@@ -802,9 +800,8 @@ def plot_plane_field(
     b = numbers_2_grid(b_point, NGX, NGY, NGZ)
     c = numbers_2_grid(c_point, NGX, NGY, NGZ)
     plane_coeff = points_2_plane(a, b, c)
-    ## Get the gradients
-    XY = np.multiply(grad_x, grad_y)
-    grad_mag = np.multiply(XY, grad_z)
+    ## Get the gradient magnitude
+    grad_mag = np.sqrt(grad_x**2 + grad_y**2 + grad_z**2)
     ## Create the plane
     # print(NGX,NGY,NGZ,plane_coeff,grad_mag)
     xx, yy, grd = create_plotting_mesh(NGX, NGY, NGZ, plane_coeff, grad_mag)
@@ -886,13 +883,12 @@ def plot_active_plane(
         ## Get the gradiens (Field), if required.
         ## Comment out if not required, due to compuational expense.
 
-        if grad_calc == True:
+        if grad_calc:
             print("Calculating gradients (Electic field, E=-Grad.V )...")
             grad_x, grad_y, grad_z = np.gradient(
                 grid_pot[:, :, :], resolution_x, resolution_y, resolution_z
             )
-        else:
-            pass
+            grad_x, grad_y, grad_z = -grad_x, -grad_y, -grad_z
 
         ## Convert the fractional points to grid points on the density surface
         a = numbers_2_grid(a_point, NGX, NGY, NGZ)
@@ -900,9 +896,8 @@ def plot_active_plane(
         c = numbers_2_grid(c_point, NGX, NGY, NGZ)
         plane_coeff = points_2_plane(a, b, c)
 
-        ## Get the gradients
-        XY = np.multiply(grad_x, grad_y)
-        grad_mag = np.multiply(XY, grad_z)
+        ## Get the gradient magnitude
+        grad_mag = np.sqrt(grad_x**2 + grad_y**2 + grad_z**2)
 
         ## Create the plane
         xx, yy, grd = create_plotting_mesh(NGX, NGY, NGZ, plane_coeff, grad_x)
@@ -927,7 +922,7 @@ def plot_active_plane(
     fig, ax = plt.subplots()
     ax.plot(planar)
     ax.plot(macro)
-    plt.savefig("Planar.eps")
+    fig.savefig("Planar.eps")
     plt.show()
 
     return fig

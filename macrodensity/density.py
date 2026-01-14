@@ -37,15 +37,7 @@ def gradient_magnitude(
         >>> print(grad_magnitude)
 
     """
-    grad_mag = gx
-    for i in range(gx.shape[0]):
-        for j in range(gy.shape[1]):
-            for k in range(gz.shape[2]):
-                grad_mag[i, j, k] = np.sqrt(
-                    gx[i, j, k] ** 2 + gy[i, j, k] ** 2 + gz[i, j, k] ** 2
-                )
-
-    return grad_mag
+    return np.sqrt(gx**2 + gy**2 + gz**2)
 
 
 def element_vol(vol: float, nx: int, ny: int, nz: int) -> float:
